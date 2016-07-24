@@ -141,7 +141,7 @@
                                 </div>
 
                                 <div class="col-sm-8">
-                                    <input type="checkbox" class="text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_type"] ; ?>" />
+                                    <input type="checkbox" class="text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_boolean_default"] ; ?>" />
                                 </div>
 
 
