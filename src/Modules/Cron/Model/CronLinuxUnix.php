@@ -28,7 +28,7 @@ class CronLinuxUnix extends BaseLinuxApp {
     public function crontabParent() {
 //        var_dump("running crontab parent") ;
         $loggingFactory = new \Model\Logging();
-        $this->params["php-log"] = true ;
+//        $this->params["php-log"] = true ;
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
         $mn = $this->getModuleName() ;
@@ -37,13 +37,13 @@ class CronLinuxUnix extends BaseLinuxApp {
             $logging->log ("Cron Enabled as scheduled task driver, running cron create command...", $this->getModuleName() ) ;
             $switch = $this->getSwitchUser() ;
             $cmd = "" ;
-            if ($switch != false) { $cmd .= 'sudo su '.$switch.' -c '."'" ; }
+            if ($switch !== null) { $cmd .= 'sudo su '.$switch.' -c '."'" ; }
             $cmd .= PTBCOMM.' Cron set-crontab --yes --guess --frequency="'.$this->params["app-settings"][$mn]["cron_frequency"].'"';
-            if ($switch != false) { $cmd .= "'" ; }
-            $rc = self::executeAndGetReturnCode($cmd, true, false) ;
+            if ($switch !== null) { $cmd .= "'" ; }
+            $rc = self::executeAndGetReturnCode($cmd, false, true) ;
             $res = ($rc["rc"] === 0) ? true : false ;
             if ($res === true) { $logging->log ("Cron job installed successfully", $this->getModuleName() ) ; }
-            else { $logging->log ("Cron job install error: {$rc["rc"]}", $this->getModuleName() ) ; }
+            else { $logging->log ("Cron job install error: {$rc["output"][0]}", $this->getModuleName() ) ; }
             return $res; }
         else {
             $logging->log ("Cron disabled, deleting current crontab...", $this->getModuleName() ) ;
