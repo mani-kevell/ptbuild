@@ -58,18 +58,18 @@ class ScheduledBuildAllOS extends Base {
         $this->params["app-settings"]["app_config"] = \Model\AppConfig::getAppVariable("app_config");
         $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
         $this->lm = $loggingFactory->getModel($this->params);
-        if ($this->checkBuildScheduleEnabled()) {
+        if ($this->checkBuildScheduleEnabledForBuild()) {
             return $this->doBuildScheduleEnabled() ; }
         else {
             return $this->doBuildScheduleDisabled() ; }
     }
 
-    private function checkBuildScheduleEnabled() {
+    private function checkBuildScheduleEnabledForBuild() {
         $mn = $this->getModuleName() ;
-        return ($this->params["build-settings"][$mn]["poll_scm_enabled"] == "on") ? true : false ;
+        return ($this->params["build-settings"][$mn]["scheduled_build_enabled"] == "on") ? true : false ;
     }
 
-    private function doBuildScheduleDisabled() {
+    private function doBuildScheduleDisabledForBuild() {
         $this->lm->log ("Time Scheduled Builds Disabled, ignoring...", $this->getModuleName() ) ;
         return true ;
     }
