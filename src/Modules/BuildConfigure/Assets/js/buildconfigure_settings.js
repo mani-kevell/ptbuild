@@ -89,6 +89,8 @@ function displayBuildConfigureSettingsFieldset(targetmod, fieldset) {
 //    console.log(current) ;
     current.append(html) ;
 
+    changePipeRunParameterType(field_hash, null) ;
+
 }
 
 
