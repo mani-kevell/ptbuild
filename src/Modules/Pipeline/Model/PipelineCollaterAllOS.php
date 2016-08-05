@@ -39,8 +39,8 @@ class PipelineCollaterAllOS extends Base {
         $successStatus = $this->getLastSuccess();
 		$failStatus = $this->getLastFail();
 		$statuses = array(
-            "last_run_build" => $lastRun["build"],
-            "last_run_start" => $lastRun["start"],
+            "last_run_build" => $lastRun["build"] ,
+            "last_run_start" => $lastRun["time"] ,
             "last_status" => $this->getLastStatus(),
 			"last_success" => $successStatus['time'],
 			"last_fail" => $failStatus['time'],
