@@ -158,11 +158,11 @@
 							else
 								$graphData[$day]['unstable']++;
                 		} else {
-							if (isset($value->status)) 
+							if (isset($value->status)) {
                 				if ($value->status == 'SUCCESS') 
 									$graphData[$day] = array( 'success' => 1, 'fail' => 0, 'unstable' => 0 ); 
 								if ($value->status == 'FAIL') 
-									$graphData[$day] = array( 'success' => 0, 'fail' => 1, 'unstable' => 0 );
+									$graphData[$day] = array( 'success' => 0, 'fail' => 1, 'unstable' => 0 ); }
 							else
 								$graphData[$day] = array( 'success' => 0, 'fail' => 0, 'unstable' => 1);
 						}
