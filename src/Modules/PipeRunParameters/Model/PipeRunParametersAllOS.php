@@ -76,9 +76,9 @@ class PipeRunParametersAllOS extends Base {
     }
 
     public function checkEnableParametersForBuild() {
-        if ( $this->params["build-settings"]["PipeRunParameters"]["piperun_parameters_enabled"] == "on") {
-//            var_dump("Build settings are enabled") ;
-            return true ; }
+        if (isset($this->params["build-settings"]["PipeRunParameters"])) {
+            if ( $this->params["build-settings"]["PipeRunParameters"]["piperun_parameters_enabled"] == "on") {
+                return true ; } }
         return false ;
     }
 
