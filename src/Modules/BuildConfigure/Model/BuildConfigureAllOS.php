@@ -23,31 +23,31 @@ class BuildConfigureAllOS extends Base {
 
     public function getData() {
 
-        file_put_contents("/tmp/mylog.txt", "before pipeline is added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "before pipeline is added: ".microtime()."\n", FILE_APPEND);
 
         if (isset($this->params["item"])) { $ret["pipeline"] = $this->getPipeline(); }
 
-        file_put_contents("/tmp/mylog.txt", "after pipeline is added: ".microtime()."\n", FILE_APPEND);
-        file_put_contents("/tmp/mylog.txt", "before builders are added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "after pipeline is added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "before builders are added: ".microtime()."\n", FILE_APPEND);
 
         $ret["builders"] = $this->getBuilders();
-
-        file_put_contents("/tmp/mylog.txt", "after builders are added: ".microtime()."\n", FILE_APPEND);
-        file_put_contents("/tmp/mylog.txt", "before builder settings are added: ".microtime()."\n", FILE_APPEND);
+//
+//        file_put_contents("/tmp/mylog.txt", "after builders are added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "before builder settings are added: ".microtime()."\n", FILE_APPEND);
 
         $ret["settings"] = $this->getBuilderSettings();
-
-        file_put_contents("/tmp/mylog.txt", "after builder settings are added: ".microtime()."\n", FILE_APPEND);
-        file_put_contents("/tmp/mylog.txt", "before builder form fields are added: ".microtime()."\n", FILE_APPEND);
+//
+//        file_put_contents("/tmp/mylog.txt", "after builder settings are added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "before builder form fields are added: ".microtime()."\n", FILE_APPEND);
 
         $ret["fields"] = $this->getBuilderFormFields();
-
-        file_put_contents("/tmp/mylog.txt", "after builder form fields are added: ".microtime()."\n", FILE_APPEND);
-        file_put_contents("/tmp/mylog.txt", "before step builder form fields are added: ".microtime()."\n", FILE_APPEND);
+//
+//        file_put_contents("/tmp/mylog.txt", "after builder form fields are added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "before step builder form fields are added: ".microtime()."\n", FILE_APPEND);
 
         $ret["stepFields"] = $this->getStepBuildersFormFields();
 
-        file_put_contents("/tmp/mylog.txt", "after step builder form fields are added: ".microtime()."\n", FILE_APPEND);
+//        file_put_contents("/tmp/mylog.txt", "after step builder form fields are added: ".microtime()."\n", FILE_APPEND);
 
         return $ret ;
     }
