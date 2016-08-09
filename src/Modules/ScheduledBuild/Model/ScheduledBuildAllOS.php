@@ -13,6 +13,8 @@ class ScheduledBuildAllOS extends Base {
 
 	// Model Group
 	public $modelGroup = array("Default");
+    private $lm ;
+    private $pipeline ;
 
     public function getSettingTypes() {
         return array_keys($this->getSettingFormFields());
@@ -69,7 +71,7 @@ class ScheduledBuildAllOS extends Base {
         return ($this->params["build-settings"][$mn]["scheduled_build_enabled"] == "on") ? true : false ;
     }
 
-    private function doBuildScheduleDisabledForBuild() {
+    private function doBuildScheduleDisabled() {
         $this->lm->log ("Time Scheduled Builds Disabled, ignoring...", $this->getModuleName() ) ;
         return true ;
     }
