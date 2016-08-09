@@ -74,16 +74,16 @@
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active">
+                        <li role="presentation" class="active allRowsTab">
                             <a onclick="showFilteredRows('all'); return false ;">All</a>
                         </li>
-                        <li role="presentation">
+                        <li role="presentation" class="successRowsTab">
                             <a onclick="showFilteredRows('success'); return false ;">All Success</a>
                         </li>
-                        <li role="presentation">
+                        <li role="presentation" class="failedRowsTab">
                             <a onclick="showFilteredRows('failure'); return false ;">All Failed</a>
                         </li>
-                        <li role="presentation">
+                        <li role="presentation"class="unstableRowsTab">
                             <a onclick="showFilteredRows('unstable'); return false ;">All Unstable</a>
                         </li>
                     </ul>
