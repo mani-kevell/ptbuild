@@ -66,21 +66,37 @@ function showFilteredRows(rowType) {
     if (rowType == "all") {
         $('.failureRow').show() ;
         $('.successRow').show() ;
-        $('.unstableRow').show() ; }
+        $('.unstableRow').show() ;
+        $('.successRowsTab').removeClass("active") ; ;
+        $('.failedRowsTab').removeClass("active") ; ;
+        $('.allRowsTab').addClass("active") ; ;
+        $('.unstableRowsTab').removeClass("active") ; }
 
     else if (rowType == "success") {
         $('.failureRow').hide() ;
         $('.successRow').show() ;
-        $('.unstableRow').hide() ; }
+        $('.unstableRow').hide() ;
+        $('.successRowsTab').addClass("active") ; ;
+        $('.failedRowsTab').removeClass("active") ; ;
+        $('.allRowsTab').removeClass("active") ; ;
+        $('.unstableRowsTab').removeClass("active") ;  }
 
     else if (rowType == "failure") {
         $('.failureRow').show() ;
         $('.successRow').hide() ;
-        $('.unstableRow').hide() ; }
+        $('.unstableRow').hide() ;
+        $('.successRowsTab').removeClass("active") ; ;
+        $('.failedRowsTab').addClass("active") ; ;
+        $('.allRowsTab').removeClass("active") ; ;
+        $('.unstableRowsTab').removeClass("active") ;  }
 
     else if (rowType == "unstable") {
         $('.failureRow').hide() ;
         $('.successRow').hide() ;
-        $('.unstableRow').show() ; }
+        $('.unstableRow').show() ;
+        $('.successRowsTab').removeClass("active") ; ;
+        $('.failedRowsTab').removeClass("active") ; ;
+        $('.allRowsTab').removeClass("active") ; ;
+        $('.unstableRowsTab').addClass("active") ;  }
 
 }
