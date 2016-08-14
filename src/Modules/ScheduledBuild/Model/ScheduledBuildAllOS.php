@@ -55,6 +55,7 @@ class ScheduledBuildAllOS extends Base {
         $loggingFactory = new \Model\Logging();
         if (!$this->isWebSapi()) { $this->params["echo-log"] = true ; }
         $this->params["php-log"] = true ;
+        $this->params["app-log"] = true ;
         $this->pipeline = $this->getPipeline($this->params["item"]);
         $this->params["build-settings"] = $this->pipeline["settings"];
         $this->params["app-settings"]["app_config"] = \Model\AppConfig::getAppVariable("app_config");
