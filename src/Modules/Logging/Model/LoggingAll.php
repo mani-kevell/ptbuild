@@ -70,12 +70,10 @@ class LoggingAll extends BaseLinuxApp {
     }
 
     private function applicationLog($fullMessage) {
-
         $date = date('d/m/Y h:i:s a', time());
         $dstring = "[Pharaoh Logging][".PHARAOH_APP."][{$date}] " ;
         str_replace("[Pharaoh Logging]", $dstring, $fullMessage) ;
         file_put_contents(APPLICATION_LOG, $fullMessage, FILE_APPEND) ;
-
     }
 
 }
