@@ -50,25 +50,32 @@ class LoggingAll extends BaseLinuxApp {
             file_put_contents("php://stderr", $fullMessage."\n" ); }
         if ((isset($options["php-log"]) && $options["php-log"] == true) || (isset($this->params["php-log"]) && $this->params["php-log"] == true) ) {
             error_log($fullMessage) ; }
+        if ((isset($options["app-log"]) && $options["app-log"] == true) || (isset($this->params["app-log"]) && $this->params["app-log"] == true) ) {
+            $this->applicationLog($fullMessage) ; }
+        if ((isset($options["application-log"]) && $options["application-log"] == true) || (isset($this->params["application-log"]) && $this->params["application-log"] == true) ) {
+            $this->applicationLog($fullMessage) ; }
         if ((isset($options["echo-log"]) && $options["echo-log"] == true) || (isset($this->params["echo-log"]) && $this->params["echo-log"] == true) ) {
             if ($this->isWebSapi()) {
                 $registry_values = new \Model\RegistryStore();
                 $logs = $registry_values::getValue("logs") ;
                 $logs[] = $fullMessage ;
-                $registry_values::setValue("logs", $logs) ;
-
-            } else {
-                echo $fullMessage."\n" ;
-
-            }}
-
-
+                $registry_values::setValue("logs", $logs) ; }
+            else {
+                echo $fullMessage."\n" ; } }
     }
-
 
     private function isWebSapi() {
         if (!in_array(PHP_SAPI, array("cli")))  { return true ; }
         return false ;
+    }
+
+    private function applicationLog($fullMessage) {
+
+        $date = date('d/m/Y h:i:s a', time());
+        $dstring = "[Pharaoh Logging][".PHARAOH_APP."][{$date}] " ;
+        str_replace("[Pharaoh Logging]", $dstring, $fullMessage) ;
+        file_put_contents(APPLICATION_LOG, $fullMessage, FILE_APPEND) ;
+
     }
 
 }
