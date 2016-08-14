@@ -45,3 +45,6 @@ else if (in_array(PHP_OS, array("Linux", "Solaris", "FreeBSD", "OpenBSD", "Darwi
     define('BOXDIR', '/opt/ptvirtualize/boxes') ;
     define('PIPEDIR', '/opt/ptbuild/pipes') ;
     define('PLUGININS', '/opt/ptbuild/plugins/installed') ; }
+
+define('LOG_FAILURE_EXIT_CODE', 1) ;
+define('APPLICATION_LOG', '/var/log/pharaoh/'.PHARAOH_APP.'.log') ;
