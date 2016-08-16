@@ -78,19 +78,34 @@ class PipeRunnerAllOS extends Base {
             if ($this->findBuildParameters() == false) {
                 return "getParamValue"; } }
         // set build dir
+
+
+        $this -> setPipeDir();
+        // ensure build dir exists
+        $run = $this -> saveRunPlaceHolder();
+        $this->params["run-id"] = $run ;
+        $this->params["app-log"] = true ;
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("prepareBuild", true) ;
+
+        $bpl = null ;
+        if (count($ev)>0) {
+            foreach($ev as $one_ev) {
+                if (is_array($one_ev) && isset($one_ev["build-parameter-location"])) {
+                    $bpl = $one_ev["build-parameter-location"] ; } } }
+
+
+        ob_start();
+        var_dump("evx:", $ev ) ;
+        $res = ob_get_clean() ;
+
         if ($start_execution==true) {
-            $this -> setPipeDir();
-            // ensure build dir exists
-            $run = $this -> saveRunPlaceHolder();
-            $this->params["run-id"] = $run ;
-            $eventRunnerFactory = new \Model\EventRunner() ;
-            $eventRunner = $eventRunnerFactory->getModel($this->params) ;
-            $ev = $eventRunner->eventRunner("prepareBuild", true) ;
-            $bpl = null ;
-            if (count($ev)>0) {
-                foreach($ev as $one_ev) {
-                    if (is_array($one_ev) && isset($one_ev["build-parameter-location"])) {
-                        $bpl = $one_ev["build-parameter-location"] ; } } }
+
+            $loggingFactory = new \Model\Logging();
+            $logging = $loggingFactory->getModel($this->params);
+            $logging->log("writing $res", $this->getModuleName()) ;
+
             if (in_array(false, $ev)) { return $this->failBuild() ; }
             $this -> setRunStartTime($run);
             $this -> runPipeForkCommand($run, $bpl); }
@@ -484,11 +499,16 @@ class PipeRunnerAllOS extends Base {
         $file = $this->params["pipe-dir"].DS.$this->params["item"].DS.'history'.DS.$run ;
         $buildOut = $this->getExecutionOutput() ;
         $top = "THIS IS A PLACEHOLDER TO SHOW A STARTED OUTPUT FILE\n\n" ;
-		file_put_contents($file, "$top.$buildOut");
+        file_put_contents($file, "$top.$buildOut");
 //        chmod($file, 0777) ;
-		if (file_exists($file)) { return $run; }
-		return false;
-	}
+        if (file_exists($file)) { return $run; }
+        return false;
+    }
+
+    public function dropRunPlaceHolder($run) {
+        $file = $this->params["pipe-dir"].DS.$this->params["item"].DS.'history'.DS.$run ;
+        return unlink($file);
+    }
 
 	public function saveRunLog() {
 		$loggingFactory = new \Model\Logging();
