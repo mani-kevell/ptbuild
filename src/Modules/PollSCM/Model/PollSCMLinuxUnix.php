@@ -80,11 +80,20 @@ class PollSCMLinuxUnix extends Base {
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
         $this->params["php-log"] = true ;
+        $this->params["app-log"] = true ;
         $this->pipeline = $this->getPipeline();
         $this->params["build-settings"] = $this->pipeline["settings"];
         $this->params["app-settings"]["app_config"] = \Model\AppConfig::getAppVariable("app_config");
         $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
         $this->lm = $loggingFactory->getModel($this->params);
+
+        ob_start();
+        var_dump("abrfg: ", $this->checkBuildSCMPollingEnabled()) ;
+        $res = ob_get_clean() ;
+
+
+        $this->lm->log ("rs is: $res", $this->getModuleName() ) ;
+
         if ($this->checkBuildSCMPollingEnabled()) {
             return $this->doBuildSCMPollingEnabled() ; }
         else {
@@ -119,6 +128,7 @@ class PollSCMLinuxUnix extends Base {
         else {
             return $enoughTime ; }
     }
+
     protected function isWebAndSetAllowed() {
         $mn = $this->getModuleName() ;
         if ($this->isWebSapi() &&
