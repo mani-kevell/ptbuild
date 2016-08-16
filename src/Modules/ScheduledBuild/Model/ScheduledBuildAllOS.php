@@ -117,27 +117,34 @@ class ScheduledBuildAllOS extends Base {
     public function getPipelinesRequiringExecution() {
         $psts = $this->getPipelinesWithScheduledTasks() ;
         $psrxs = array() ;
-        foreach ($psts as $pst) {
-            $prx = $this->pipeRequiresExecution($pst) ;
-            if ($prx == true) {
-                $psrxs[] = $pst ; } }
+        $sch_task_mods = array("ScheduledBuild") ;
+        foreach ($sch_task_mods as $sch_task_mod) {
+            foreach ($psts as $pst) {
+                $prx = $this->pipeRequiresExecution($pst, $sch_task_mod) ;
+                if ($prx == true) {
+                    $psrxs[] = $pst ; } } }
         return $psrxs;
     }
 
     // @todo we need to check multiple modules and return true if any are true, we should also
     // @todo say which one of the mods is tru
     public function pipeRequiresExecution($pst, $mod="ScheduledBuild") {
-        $cronString = $pst["settings"][$mod]["cron_string"] ;
-        $cronString = rtrim($cronString) ;
-        $cronString = ltrim($cronString) ;
-        $lastRun = (isset($pst["settings"][$mod]["last_scheduled"]))
-            ? $pst["settings"][$mod]["last_scheduled"]
-            : 0 ;
-        $cronParts = explode(" ", $cronString) ;
-        $slots = array("minute", "hour", "dow", "dom", "month");
         $prx = array();
-        for ($i=0; $i<count($cronParts); $i++) {
-            $prx[$slots[$i]] = $this->slotShouldRun($slots[$i], $cronParts[$i], $lastRun) ; }
+        if ( $mod=="ScheduledBuild" && $pst["settings"][$mod]["enabled"] == "on" ) {
+            $loggingFactory = new \Model\Logging();
+            $params["app-log"] = true ;
+            $logging = $loggingFactory->getModel($params);
+            $logging->log("Pipeline Requires Execution by schedule: {$pst["defaults"]["project_name"]}") ;
+            $cronString = $pst["settings"][$mod]["cron_string"] ;
+            $cronString = rtrim($cronString) ;
+            $cronString = ltrim($cronString) ;
+            $lastRun = (isset($pst["settings"][$mod]["last_scheduled"]))
+                ? $pst["settings"][$mod]["last_scheduled"]
+                : 0 ;
+            $cronParts = explode(" ", $cronString) ;
+            $slots = array("minute", "hour", "dow", "dom", "month");
+            for ($i=0; $i<count($cronParts); $i++) {
+                $prx[$slots[$i]] = $this->slotShouldRun($slots[$i], $cronParts[$i], $lastRun) ; } }
         return !in_array(false, $prx);
     }
 
@@ -175,15 +182,23 @@ class ScheduledBuildAllOS extends Base {
 
     public function getPipelinesWithScheduledTasks() {
         $allPipelines = $this->getPipelines() ;
+
+        $loggingFactory = new \Model\Logging();
+        $params["app-log"] = true ;
+        $logging = $loggingFactory->getModel($params);
+
         $pst = array() ;
         foreach ($allPipelines as $onePipeline) {
             //@todo this should not be tied to only poll scm, so that we can cron/etc builds without polling
             if (isset($onePipeline["settings"]["PollSCM"]["poll_scm_enabled"]) &&
                 $onePipeline["settings"]["PollSCM"]["poll_scm_enabled"] == "on") {
+                $logging->log("Pipeline '{$onePipeline["project-name"]}' requires polling of SCM now.") ;
                 $pst[] = $onePipeline ; }
-            if (isset($onePipeline["settings"]["ScheduledBuild"]["scheduled_build_enabled"]) &&
+            else if (isset($onePipeline["settings"]["ScheduledBuild"]["scheduled_build_enabled"]) &&
                 $onePipeline["settings"]["ScheduledBuild"]["scheduled_build_enabled"] == "on") {
+                $logging->log("Pipeline '{$onePipeline["project-name"]}' requires execution by schedule now") ;
                 $pst[] = $onePipeline ; } }
+
         return $pst;
     }
 
