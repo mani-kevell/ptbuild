@@ -6,7 +6,7 @@ class DisableExecutionInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "DisableExecution Virtual Desktop Integration";
+    public $name = "Disable Execution - Stop Some or All Builds from executing";
 
     public function _construct() {
         parent::__construct();
@@ -26,8 +26,12 @@ class DisableExecutionInfo extends PTConfigureBase {
 
     public function configuration() {
         return array(
-            "disable_build_execution"=> array("type" => "boolean", "default" => false, "label" => "Disable Build Execution?", ),
+            "enabled"=> array("type" => "boolean", "default" => false, "label" => "Disable Build Execution?", ),
         );
+    }
+
+    public function buildSettings() {
+        return array("DisableBuildExecution");
     }
 
     public function helpDefinition() {
