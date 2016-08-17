@@ -124,7 +124,8 @@ class PipeRunParametersAllOS extends Base {
         $logging = $loggingFactory->getModel($this->params);
         $tmpfile = PIPEDIR . DS . $this -> params["item"] . DS .'tmp'.DS. 'tmpparams_'.$this -> params["run-id"] ;
         $logging->log ("Writing build params to location {$tmpfile}", $this->getModuleName() ) ;
-        $data = json_encode($this->params["build-parameters"]) ;
+        $bprm = (isset($this->params["build-parameters"])) ? $this->params["build-parameters"] : array() ;
+        $data = json_encode($bprm) ;
         $chars = file_put_contents($tmpfile, $data) ;
         $logging->log ("Written {$chars} characters", $this->getModuleName() ) ;
         return array("build-parameter-location" => $tmpfile) ;
