@@ -20,7 +20,7 @@ class DisableExecutionLinuxUnix extends Base {
 
     public function getSettingFormFields() {
         $ff = array(
-            "disable_build_execution" =>
+            "enabled" =>
                 array(
                     "type" => "boolean",
                     "optional" => true,
@@ -44,20 +44,23 @@ class DisableExecutionLinuxUnix extends Base {
         $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
+        $this->params["app-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
-        if (isset($this->params["app-settings"]["mod_config"]["DisableExecution"]) &&
-            $this->params["app-settings"]["mod_config"]["DisableExecution"]["disable_build_execution"] == "on") {
-            $logging->log ("Build execution of all builds disabled through DisableExecution module a application level, aborting...", $this->getModuleName() ) ;
+
+        if (isset($this->params["app-settings"]["mod_config"]["DisableExecution"]["enabled"]) &&
+            $this->params["app-settings"]["mod_config"]["DisableExecution"]["enabled"] == "on") {
+            $logging->log ("Build execution of all builds disabled through DisableExecution module at application level, aborting...", $this->getModuleName() ) ;
             $logging->log ("ABORTED EXECUTION", $this->getModuleName() ) ;
             return false ; }
-        $mn = $this->getModuleName() ;
-        if (isset($this->params["build-settings"][$mn]["DisableExecution"]) &&
-            $this->params["build-settings"][$mn]["DisableExecution"]["disable_build_execution"] == "on") {
+
+        if (isset($this->params["build-settings"]["DisableExecution"]["enabled"]) &&
+            $this->params["build-settings"]["DisableExecution"]["enabled"] == "on") {
             $logging->log ("Build execution of this build disabled through DisableExecution module at build level, aborting...", $this->getModuleName() ) ;
             $logging->log ("ABORTED EXECUTION", $this->getModuleName() ) ;
             return false ; }
-        else {
-            return true ; }
+
+        return true ;
+
     }
 
 }
