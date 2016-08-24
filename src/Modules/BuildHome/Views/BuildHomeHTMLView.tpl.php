@@ -64,13 +64,21 @@
             <div class="well well-lg ">
            
             <div class="row clearfix no-margin">
-            	 <h3 class="text-uppercase text-light ">Pipeline</h3>
-                <!--
-                <h3><a class="lg-anchor text-light" href="">PTBuild - Pharaoh Tools <i style="font-size: 18px;" class="fa fa-chevron-right"></i></a></h3>
-                -->
-                <p> Project Name: <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></p>
-                <p> Project Slug: <?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?></p>
-                <p> Project Desc: <?php echo $pageVars["data"]["pipeline"]["project-description"] ; ?></p>
+                <div class="leftCell">
+                    <h3 class="text-uppercase text-light ">Pipeline</h3>
+                    <p> Project Name: <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></p>
+                    <p> Project Slug: <?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?></p>
+                    <p> Project Desc: <?php echo $pageVars["data"]["pipeline"]["project-description"] ; ?></p>
+                </div>
+                <?php
+                if ($pageVars["data"]["pipeline"]["last_status"]===true) { $sclass = "good" ;}
+                else if ($pageVars["data"]["pipeline"]["last_status"]===false) { $sclass =  "bad" ; }
+                else { $sclass = "unknown" ; } ?>
+                <div class="rightCell">
+                    <a class="buildNowLarge current_status_good" href="index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
+                        Build Now
+                    </a>
+                </div>
             </div>
             <hr>
             <div class="row clearfix no-margin build-home-properties">
@@ -79,10 +87,6 @@
 
                 <div class="pipe-now-status-block pipe-block">
                     <h4 class="propertyTitle">Build Status Currently:</h4>
-                    <?php
-                    if ($pageVars["data"]["pipeline"]["last_status"]===true) { $sclass = "good" ;}
-                    else if ($pageVars["data"]["pipeline"]["last_status"]===false) { $sclass =  "bad" ; }
-                    else { $sclass = "unknown" ; } ?>
                     </h3>
 
                     <div class="current_status current_status_<?php echo $sclass ; ?>">
