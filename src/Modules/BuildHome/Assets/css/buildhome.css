@@ -55,3 +55,23 @@
 .current_status_unknown {
     background-color: darkgray;
 }
+
+.buildNowLarge {
+    width:90% ;
+    min-height: 150px;
+    color: white;
+    display: block;
+    margin: 0 auto;
+}
+
+.leftCell, .rightCell {
+    width: 50%;
+    display: block;
+    float: left;
+}
+
+.rightCell a {
+    font-size: 24pt;
+    text-align: center;
+    margin: 0 auto;;
+}
