@@ -27,6 +27,7 @@ function submit_login() {
         dataType: "json",
         success: function(result) {
             if(result.status == true){
+                $('#login_success_msg').html('&nbsp;&nbsp;'+"Success! Logging you in...");
                 window.location.assign($('#base_url').val() + '/index.php?control=Index&action=show'); }
             else{
                 $('#login_error_msg').html('&nbsp;&nbsp;'+result.msg);
