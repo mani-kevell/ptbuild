@@ -21,7 +21,8 @@
 					
 					<div class="row clearfix no-margin">
 						<h5 class="text-uppercase text-light" style="margin-top: 15px;">  </h5>
-						<p style="color: #ff6312; margin-left: 46px;" id="login_error_msg"></p>
+                        <p style="" id="login_error_msg"></p>
+                        <p style="color: #ff6312; margin-left: 46px;" id="login_success_msg"></p>
 						<form class="form-horizontal custom-form">
 							<div class="form-group" >
 								
@@ -90,4 +91,5 @@
     </div>
 </div>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Palatino+Linotype">
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/Signup/css/signup.css">
 <script type="text/javascript" src="/Assets/Modules/Signup/js/signup.js"></script>
