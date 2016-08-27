@@ -111,7 +111,16 @@
                     <div class="form-group">
                         <label for="project-slug" class="col-sm-2 control-label text-left">Project Slug</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
+                            <?php
+
+                            if ($pageVars["route"]["action"] !== "new") {
+                                ?>
+                                <input type="text" readonly="readonly" class="form-control" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
+                            <?php
+                            } else {
+                                ?>
+                                <input type="text" class="form-control" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
+                            <?php }  ?>
                         </div>
                     </div>
 
