@@ -157,8 +157,6 @@ class ScheduledBuildAllOS extends Base {
             $lastRun = (isset($pst["settings"][$mod]["last_scheduled"]))
                 ? $pst["settings"][$mod]["last_scheduled"]
                 : 0 ;
-
-
             $res = $this->slotShouldRun($cronString, $lastRun) ;
             if ($res == true) {
                 $logging->log("Pipeline '{$pst["project-name"]}' does require Execution by schedule now") ; }
@@ -172,20 +170,15 @@ class ScheduledBuildAllOS extends Base {
             $cronString = $pst["settings"][$mod]["cron_string"] ;
             $cronString = rtrim($cronString) ;
             $cronString = ltrim($cronString) ;
-
 //            ob_start();
 //            var_dump($pst["settings"][$mod]) ;
 //            $pst_string = ob_get_clean() ;
 //            $logging->log("this mod, $pst_string") ;
-
             $lastRun = (isset($pst["settings"][$mod]["last_poll_timestamp"]))
                 ? $pst["settings"][$mod]["last_poll_timestamp"]
                 : 0 ;
             $res = $this->slotShouldRun($cronString, $lastRun) ;
-
-
 //            $logging->log("this mod 2, $res") ;
-
             if ($res == true) {
                 $logging->log("Pipeline '{$pst["project-name"]}' does require Polling SCM by schedule now") ; }
             else {
