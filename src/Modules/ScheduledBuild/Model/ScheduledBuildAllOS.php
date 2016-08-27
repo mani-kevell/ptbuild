@@ -205,18 +205,19 @@ class ScheduledBuildAllOS extends Base {
         if ($isValid !== true) {
             $logging->log("Invalid Cron Value Specified: {$value}") ;
             return false ; }
+//      @todo the below log calls as log level of verbose
         $lastRunDate = new \DateTime() ;
-        $logging->log("lastRunDate DateTime created") ;
+//        $logging->log("lastRunDate DateTime created") ;
         $lastRunDate->setTimestamp($lastRun) ;
-        $logging->log("lastRunDate object timestamp of {$lastRun} has been set") ;
+//        $logging->log("lastRunDate object timestamp of {$lastRun} has been set") ;
         $realNextRun = $cron->getNextRunDate($lastRunDate, 0, false) ;
-        $logging->log("Real Next from the object is {$realNextRun->format('d/m/Y H:i:00')}") ;
+//        $logging->log("Real Next from the object is {$realNextRun->format('d/m/Y H:i:00')}") ;
         $prevRun = $cron->getPreviousRunDate($lastRunDate, 0, true) ;
-        $logging->log("Previous from the object is {$prevRun->format('d/m/Y H:i:00')}") ;
+//        $logging->log("Previous from the object is {$prevRun->format('d/m/Y H:i:00')}") ;
         $isDue = $this->scheduleIsDue($lastRunDate, $prevRun, $realNextRun) ;
-        $logging->log("Is this schedule due is: {$isDue}") ;
+//        $logging->log("Is this schedule due is: {$isDue}") ;
         $sr = ($isDue==true) ? "yes" : "no" ;
-        $logging->log("Should this run is {$sr}") ;
+//        $logging->log("Should this run is {$sr}") ;
         if ($isDue) { return true ; }
         return false ;
     }
@@ -227,19 +228,21 @@ class ScheduledBuildAllOS extends Base {
         $logging = $loggingFactory->getModel($params);
         $nowDate = new \DateTime() ;
         $nowDate->setTimestamp(time()) ;
-        $logging->log("Checking due date. For it to be due, the last run of {$lastRunDate->format('d/m/Y H:i:00')}") ;
-        $logging->log("compared to right now {$nowDate->format('d/m/Y H:i:00')}") ;
-        $logging->log("Must be equal to or greater than the amount of time between") ;
-        $logging->log("The previous scheduled run of {$prevRun->format('d/m/Y H:i:00')}") ;
-        $logging->log("compared to the next scheduled run {$nextRun->format('d/m/Y H:i:00')}") ;
+//        @todo the below log calls as log level of verbose
+//        $logging->log("Checking due date. For it to be due, the last run of {$lastRunDate->format('d/m/Y H:i:00')}") ;
+//        $logging->log("compared to right now {$nowDate->format('d/m/Y H:i:00')}") ;
+//        $logging->log("Must be equal to or greater than the amount of time between") ;
+//        $logging->log("The previous scheduled run of {$prevRun->format('d/m/Y H:i:00')}") ;
+//        $logging->log("compared to the next scheduled run {$nextRun->format('d/m/Y H:i:00')}") ;
         $prevt = $prevRun->getTimestamp() ;
         $nextt = $nextRun->getTimestamp() ;
         $diff_cron = $nextt - $prevt ;
         $lrt = $lastRunDate->getTimestamp() ;
         $nowt = $nowDate->getTimestamp() ;
         $diff_exec = $nowt - $lrt ;
-        $logging->log("Difference is {$diff_cron} seconds from cron") ;
-        $logging->log("Difference is {$diff_exec} seconds from real example") ;
+//        @todo the below log calls as log level of verbose
+//        $logging->log("Difference is {$diff_cron} seconds from cron") ;
+//        $logging->log("Difference is {$diff_exec} seconds from real example") ;
         return $diff_exec > $diff_cron ;
     }
 
