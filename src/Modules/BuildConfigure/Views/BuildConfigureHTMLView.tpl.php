@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <?php
-                if ($pageVars["route"]["action"] !== "new") {
+                if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
                 ?>
                 <li>
                     <a href="/index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
@@ -30,6 +30,7 @@
                     </a>
                 </li>
                 <?php
+
                 }
                 ?>
                 <li>
@@ -38,7 +39,7 @@
                     </a>
                 </li>
                 <?php
-                if ($pageVars["route"]["action"] !== "new") {
+                if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
                 ?>
                 <li>
                     <a href="/index.php?control=Workspace&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
@@ -113,7 +114,7 @@
                         <div class="col-sm-10">
                             <?php
 
-                            if ($pageVars["route"]["action"] !== "new") {
+                            if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
                                 ?>
                                 <input type="text" readonly="readonly" class="form-control" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
                             <?php
