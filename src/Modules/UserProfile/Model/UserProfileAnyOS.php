@@ -28,6 +28,7 @@ class UserProfileAnyOS extends BasePHPApp {
     //check login
     public function saveData() {
         $user = new \stdClass() ;
+        // @todo sanitize these request vars. Use Params?
         $user->username = $_REQUEST['update_username'];
         $user->email = $_REQUEST['update_email'];
         if (isset($_REQUEST['update_password']) &&
@@ -55,6 +56,13 @@ class UserProfileAnyOS extends BasePHPApp {
     }
 
     private function saveUser($user) {
+        $signupFactory = new \Model\Signup();
+        $signup = $signupFactory->getModel($this->params);
+        $oldData=$signup->updateUser($user);
+        return $oldData;
+    }
+
+    private function createUser($user) {
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
         $oldData=$signup->updateUser($user);
