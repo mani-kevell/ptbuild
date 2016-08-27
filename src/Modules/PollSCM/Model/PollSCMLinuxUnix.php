@@ -23,7 +23,7 @@ class PollSCMLinuxUnix extends Base {
 
     public function getSettingFormFields() {
         $ff = array(
-            "poll_scm_enabled" =>
+            "enabled" =>
             array(
                 "type" => "boolean",
                 "optional" => true,
@@ -87,26 +87,33 @@ class PollSCMLinuxUnix extends Base {
         $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
         $this->lm = $loggingFactory->getModel($this->params);
 
-        ob_start();
-        var_dump("abrfg: ", $this->checkBuildSCMPollingEnabled()) ;
-        $res = ob_get_clean() ;
+//        ob_start();
+//        var_dump($this->pipeline) ;
+//        $res = ob_get_clean() ;
+//        $this->lm->log ("pipe: $res", $this->getModuleName() ) ;
 
+        $cbs = $this->checkBuildSCMPollingEnabled() ;
 
-        $this->lm->log ("rs is: $res", $this->getModuleName() ) ;
+        if ($cbs) {
+            $res = $this->doBuildSCMPollingEnabled() ;
 
-        if ($this->checkBuildSCMPollingEnabled()) {
-            return $this->doBuildSCMPollingEnabled() ; }
+            return $res ; }
         else {
             return $this->doBuildSCMPollingDisabled() ; }
     }
 
     private function checkBuildSCMPollingEnabled() {
         $mn = $this->getModuleName() ;
-        return ($this->params["build-settings"][$mn]["poll_scm_enabled"] == "on") ? true : false ;
+//        ob_start();
+//        var_dump($this->params) ;
+//        $res = ob_get_clean() ;
+//        $this->lm->log ("pollSCMChanges: $res", $this->getModuleName() ) ;
+
+        return (isset($this->params["build-settings"][$mn]["enabled"]) && $this->params["build-settings"][$mn]["enabled"] == "on") ? true : false ;
     }
 
     private function doBuildSCMPollingDisabled() {
-//        $this->lm->log ("SCM Polling Disabled, ignoring...", $this->getModuleName() ) ;
+        $this->lm->log ("SCM Polling Disabled, ignoring...", $this->getModuleName() ) ;
         return true ;
     }
 
@@ -214,7 +221,7 @@ class PollSCMLinuxUnix extends Base {
         $all = self::executeAndLoad($lsCommand) ;
 
         $curSha = substr($all, 0, strpos($all, "refs")-1);
-        $this->lm->log("dump $all, $lsCommand, $curSha", $this->getModuleName()) ;
+        // $this->lm->log("dump $all, $lsCommand, $curSha", $this->getModuleName()) ;
         $this->savePollSHAAndTimestamp($curSha);
         $result = true ;
         return $result ;
@@ -222,13 +229,10 @@ class PollSCMLinuxUnix extends Base {
 
     private function savePollSHAAndTimestamp($curSha) {
         if ($curSha !== "") {
-
             $this->lm->log ("Storing current remote commit ID $curSha", $this->getModuleName() ) ;
-            $this->params["build-settings"]["PollSCM"]["last_sha"] = $curSha ;
-        } else {
-            $this->lm->log ("Incorrect SHA not storing : $curSha", $this->getModuleName() ) ;
-
-        }
+            $this->params["build-settings"]["PollSCM"]["last_sha"] = $curSha ; }
+        else {
+            $this->lm->log ("Incorrect SHA not storing : $curSha", $this->getModuleName() ) ; }
         $time = time();
         $this->lm->log ("Storing last poll timestamp $time", $this->getModuleName() ) ;
         $pipelineFactory = new \Model\Pipeline() ;
