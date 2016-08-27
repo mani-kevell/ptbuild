@@ -81,35 +81,46 @@ class PipeRunnerAllOS extends Base {
 
 
         $this -> setPipeDir();
+
+        // @todo we should use a retiuurn value from this and fail the buid if it doesnt work
+        // ie if we cant find a pipe dir from the above method call
         // ensure build dir exists
-        $run = $this -> saveRunPlaceHolder();
-        $this->params["run-id"] = $run ;
-        $this->params["app-log"] = true ;
-        $eventRunnerFactory = new \Model\EventRunner() ;
-        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
-        $ev = $eventRunner->eventRunner("prepareBuild", true) ;
-
-        $bpl = null ;
-        if (count($ev)>0) {
-            foreach($ev as $one_ev) {
-                if (is_array($one_ev) && isset($one_ev["build-parameter-location"])) {
-                    $bpl = $one_ev["build-parameter-location"] ; } } }
 
 
-        ob_start();
-        var_dump("evx:", $ev ) ;
-        $res = ob_get_clean() ;
 
         if ($start_execution==true) {
 
-            $loggingFactory = new \Model\Logging();
-            $logging = $loggingFactory->getModel($this->params);
-            $logging->log("writing $res", $this->getModuleName()) ;
+            $run = $this -> saveRunPlaceHolder();
+            $this->params["run-id"] = $run ;
+            $this->params["app-log"] = true ;
+            $eventRunnerFactory = new \Model\EventRunner() ;
+            $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+            $ev = $eventRunner->eventRunner("prepareBuild", true) ;
 
-            if (in_array(false, $ev)) { return $this->failBuild() ; }
+//            ob_start();
+//            var_dump("evx:", $ev ) ;
+//            $res = ob_get_clean() ;
+//            $loggingFactory = new \Model\Logging();
+//            $this -> params["echo-log"] = true;
+//            $this -> params["app-log"] = true;
+//            $logging = $loggingFactory -> getModel($this -> params);
+//            $logging -> log("Result $res" ) ;
+
+            if (in_array(false, $ev)) {
+                $this->dropRunPlaceHolder($run) ;
+                return false ; }
+
+            $bpl = null ;
+            if (count($ev)>0) {
+                foreach($ev as $one_ev) {
+                    if (is_array($one_ev) && isset($one_ev["build-parameter-location"])) {
+                        $bpl = $one_ev["build-parameter-location"] ; } } }
+
             $this -> setRunStartTime($run);
             $this -> runPipeForkCommand($run, $bpl); }
+
         else {
+            // @todo what does this do, the above runs a build, i don't know what this does here...
             $run = (isset($this->params["run-id"])) ?
                 $this->params["run-id"] :
                 $this->getBuildNumber("last") ; }
@@ -433,10 +444,14 @@ class PipeRunnerAllOS extends Base {
         return false ;
     }
 
-    private function getExecutionOutput() {
-        $ofile = PIPEDIR.DS.$this->params["item"].DS.'tmp'.DS.'tmpfile_'.$this->params["run-id"];
-        $o = file_get_contents($ofile) ;
-        return $o ;
+    private function getExecutionOutput($run = null) {
+        $param_run = (isset($this->params["run-id"])) ? $this->params["run-id"] : null ;
+        $runstr = ($run == null) ? $param_run : $run ;
+        $ofile = PIPEDIR.DS.$this->params["item"].DS.'tmp'.DS.'tmpfile_'.$runstr;
+        if (file_exists($ofile)) {
+            $o = file_get_contents($ofile) ;
+            return $o ; }
+        return null ;
     }
 
     private function getExecutionStatus() {
@@ -497,7 +512,7 @@ class PipeRunnerAllOS extends Base {
     public function saveRunPlaceHolder() {
         $run = $this->getBuildNumber("next") ;
         $file = $this->params["pipe-dir"].DS.$this->params["item"].DS.'history'.DS.$run ;
-        $buildOut = $this->getExecutionOutput() ;
+        $buildOut = $this->getExecutionOutput($run) ;
         $top = "THIS IS A PLACEHOLDER TO SHOW A STARTED OUTPUT FILE\n\n" ;
         file_put_contents($file, "$top.$buildOut");
 //        chmod($file, 0777) ;
@@ -506,8 +521,14 @@ class PipeRunnerAllOS extends Base {
     }
 
     public function dropRunPlaceHolder($run) {
+        $loggingFactory = new \Model\Logging();
+        $this -> params["echo-log"] = true;
+        $this -> params["app-log"] = true;
+        $logging = $loggingFactory -> getModel($this -> params);
         $file = $this->params["pipe-dir"].DS.$this->params["item"].DS.'history'.DS.$run ;
-        return unlink($file);
+        $logging -> log("Removing placeholder file", $file ) ;
+        $res = unlink($file);
+        return ($res !== false);
     }
 
 	public function saveRunLog() {
