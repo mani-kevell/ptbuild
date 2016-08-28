@@ -75,3 +75,17 @@
     text-align: center;
     margin: 0 auto;;
 }
+
+h3 {
+    font-size: 18pt;
+}
+
+h4 {
+    font-size: 14pt;
+}
+
+.fullRow {
+    float:left;
+    display: block;
+    width: 100%;
+}
