@@ -21,9 +21,12 @@
 						<li>
 							<a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-curl-bottom-right">Application</a>
 						</li>
-						<li>
-							<a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">Users</a>
-						</li>
+                        <li>
+                            <a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">User Manager</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">User Profile</a>
+                        </li>
 						<li>
 							<a href="/index.php?control=ModuleManager&action=show" class=" hvr-curl-bottom-right">Modules</a>
 						</li>
