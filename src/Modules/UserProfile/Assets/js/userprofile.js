@@ -127,7 +127,7 @@ function createUser() {
 }
 
 
-function refreshUserDetails() {
+function refreshUserDetails(username) {
     rurl = $('#base_url').val() + '/index.php?control=UserProfile&action=get-user&output-format=JSON' ;
     console.log(rurl) ;
 
@@ -135,7 +135,7 @@ function refreshUserDetails() {
         type: 'POST',
         url: rurl,
         data: {
-            username:$('#update_username').val()
+            username: username
         },
         dataType: "json",
         success: function(result) {
