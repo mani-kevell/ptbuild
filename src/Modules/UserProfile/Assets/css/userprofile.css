@@ -39,3 +39,15 @@ p.moduleListText { margin: 0; }
 .errorMessage {
     color: red ;
 }
+
+.fullRow {
+    width: 100%;
+    display: block;
+    float: left;
+}
+
+.rightAlignButton {
+    float: right;
+    display: block;
+    margin-right: 10%;
+}
