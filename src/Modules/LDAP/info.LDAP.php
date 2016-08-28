@@ -20,9 +20,17 @@ class LDAPInfo extends PTConfigureBase {
         return array("ldap"=>"LDAP");
     }
 
+    public function configuration() {
+
+        return array(
+            "ldap_enabled" => array("type" => "boolean", "default" => "", "label" => "Enable Login by LDAP", ),
+        );
+    }
+
+
     public function helpDefinition() {
        $help = <<<"HELPDATA"
-    This extension provides integration with LDAP.
+    This extension provides integration with LDAP as a Login Provider.
 
     LDAP
 
