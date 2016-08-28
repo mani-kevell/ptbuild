@@ -31,3 +31,11 @@ p.moduleListText { margin: 0; }
 .list-group-submenu {
   margin-left:20px;
 }
+
+.successMessage {
+    color: green ;
+}
+
+.errorMessage {
+    color: red ;
+}
