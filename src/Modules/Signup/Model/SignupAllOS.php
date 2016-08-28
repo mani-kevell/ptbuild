@@ -221,7 +221,11 @@ class SignupAllOS extends Base {
                 fwrite($myfile, json_encode(array($newUser))); }
             else {
                 //@todo change the format of saved data.
-                fwrite($myfile, json_encode(array_merge($oldData, array($newUser)))) ; }  }
+                fwrite($myfile, json_encode(array_merge($oldData, array($newUser)))) ; }
+            return true ; }
+        else {
+            return false ;
+        }
     }
 
     public function updateUser($user) {
