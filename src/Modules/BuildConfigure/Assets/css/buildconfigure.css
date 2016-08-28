@@ -81,3 +81,9 @@
 .buildStepTextArea {
     min-height: 100px;
 }
+
+.slideysWrapper .title {
+    font-family: "Roboto Condensed",Helvetica,Arial,sans-serif;
+    color: #555;
+    font-size: 14px;
+}
