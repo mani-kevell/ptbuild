@@ -73,7 +73,7 @@
                 <div class="form-group" id="userprofile-loading-holder">
                 </div>
                 <div class="fullRow">
-                    <a href="/index.php?control=UserProfile&action=new" class="btn btn-info hvr-grow-shadow">
+                    <a href="/index.php?control=UserProfile&action=new" class="btn btn-info hvr-grow-shadow rightAlignButton">
                         Create New User
                     </a>
                 </div>
@@ -102,7 +102,7 @@
 
                                     <div class="dropdown">
                                         <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                            Select User
+                                            Select Current User
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
