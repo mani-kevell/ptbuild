@@ -17,9 +17,9 @@ class OAuthLinuxUnix extends Base {
 
 		$mn = $this -> getModuleName();
 		$this -> params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
-		$git_client_id = $this -> params["app-settings"]["mod_config"][$mn]["git_client_id"];
-		$git_client_secret = $this -> params["app-settings"]["mod_config"][$mn]["git_client_secret"];
-		$git_redirect_uri = $this -> params["app-settings"]["mod_config"][$mn]["git_redirect_uri"];
+		$github_client_id = $this -> params["app-settings"]["mod_config"][$mn]["github_client_id"];
+		$github_client_secret = $this -> params["app-settings"]["mod_config"][$mn]["github_client_secret"];
+		$github_redirect_uri = $this -> params["app-settings"]["mod_config"][$mn]["github_redirect_uri"];
 
 		require_once dirname(dirname(__FILE__)) . DS . 'Libraries' . DS . 'http.php';
 		require_once dirname(dirname(__FILE__)) . DS . 'Libraries' . DS . 'oauth_client.php';
@@ -28,13 +28,13 @@ class OAuthLinuxUnix extends Base {
 		$client -> debug_http = true;
 		$client -> server = 'github';
 		//github redirect uri
-		$client -> redirect_uri = $git_redirect_uri;
+		$client -> redirect_uri = $github_redirect_uri;
 		/*'http://'.$_SERVER['HTTP_HOST'].
 		 dirname(strtok($_SERVER['REQUEST_URI'],'?')).'index.php?control=OAuth&action=githublogin';*/
 		//client id
-		$client -> client_id = $git_client_id;
+		$client -> client_id = $github_client_id;
 		//client secret
-		$client -> client_secret = $git_client_secret;
+		$client -> client_secret = $github_client_secret;
 		if (strlen($client -> client_id) == 0 || strlen($client -> client_secret) == 0)
 			die('Please go to github applications page ' . 'https://github.com/settings/applications/new in the API access tab, ' . 'create a new client ID, and ' . ' set the client_id to Client ID and client_secret with Client Secret. ' . 'The Callback URL must be ' . $client -> redirect_uri);
 		/* API permissions */
@@ -50,8 +50,8 @@ class OAuthLinuxUnix extends Base {
 			}
 			$success = $client -> Finalize($success);
 		}
-		if ($client -> exit)
-			exit ;
+		if ($client->exit) {
+            exit ; }
 		if ($success) {
 			$signupFactory = new \Model\Signup();
 			$signup = $signupFactory -> getModel($this -> params);
@@ -101,7 +101,7 @@ class OAuthLinuxUnix extends Base {
 			}
 			$success = $client -> Finalize($success);
 		}
-		if ($client -> exit)
+		if ($client->exit)
 			exit ;
 		if ($success) {
 			print_r("entered");
@@ -148,7 +148,7 @@ class OAuthLinuxUnix extends Base {
 			}
 			$success = $client -> Finalize($success);
 		}
-		if ($client -> exit)
+		if ($client->exit)
 			exit ;
 		if ($success) {
 			$signupFactory = new \Model\Signup();
@@ -205,7 +205,7 @@ class OAuthLinuxUnix extends Base {
 			}
 			$success = $client -> Finalize($success);
 		}
-		if ($client -> exit)
+		if ($client->exit)
 			exit ;
 		if (strlen($client -> authorization_error)) {
 			$client -> error = $client -> authorization_error;
