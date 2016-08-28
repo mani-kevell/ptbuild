@@ -101,9 +101,9 @@
                                 <h3>Available Modules: <i style="font-size: 18px;" class="fa fa-chevron-down"></i> <a class="text-center" href="/index.php?control=ModuleManager&action=webcacheupdate">Update Cache</a></h3>
                             </div>
 
-                            <div class="col-sm-12" style="height: 150px; overflow-y: scroll; resize:both;">
+                            <div class="col-sm-12 moduleList">
 
-                                <div class="form-group ui-sortable moduleList" id="sortableSteps">
+                                <div class="form-group ui-sortable" id="sortableSteps">
 
                                     <?php
 
@@ -154,7 +154,7 @@
                                 <?php
 
                                 if (count($pageVars["data"]["installed_modules"]) > 0) {
-                                    echo '<div class="col-sm-12" style="height: 150px; overflow-y: scroll; resize:both;">' ;
+                                    echo '<div class="col-sm-12 moduleList">' ;
                                     $oddeven = "Odd" ;
                                     foreach ($pageVars["data"]["installed_modules"] as $instModuleInfo) {
                                         $oddeven = ($oddeven == "Odd") ? "Even" : "Odd" ;
@@ -184,7 +184,7 @@
                                 <?php
 
                                 if (count($pageVars["data"]["disabled_modules"]) > 0) {
-                                    echo '<div class="col-sm-12" style="height: 150px; overflow-y: scroll; resize:both;">' ;
+                                    echo '<div class="col-sm-12 moduleList">' ;
                                     $oddeven = "Odd" ;
                                     foreach ($pageVars["data"]["disabled_modules"] as $instModuleInfo) {
                                         $oddeven = ($oddeven == "Odd") ? "Even" : "Odd" ;
