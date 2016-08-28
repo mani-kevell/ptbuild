@@ -13,6 +13,13 @@ class UserProfile extends Base {
 		}
 
 
+        if (in_array($pageVars["route"]["action"], array("new"))) {
+            if($thisModel->checkLoginSession() == TRUE){
+                $this->content["data"] = $thisModel->getData();
+//                $this->content["userdata"] = $thisModel->getUserDetails();
+                return array ("type"=>"view", "view"=>"UserProfile", "pageVars"=>$this->content); }
+            return array ("type"=>"view", "view"=>"UserProfileAlert", "pageVars"=>$this->content); }
+
         if (in_array($pageVars["route"]["action"], array("show"))) {
             if($thisModel->checkLoginSession() == TRUE){
                 $this->content["data"] = $thisModel->getData();
