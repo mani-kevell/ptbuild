@@ -65,10 +65,21 @@
            
             <div class="row clearfix no-margin">
                 <div class="leftCell">
-                    <h3 class="text-uppercase text-light ">Pipeline</h3>
-                    <p> Project Name: <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></p>
-                    <p> Project Slug: <?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?></p>
-                    <p> Project Desc: <?php echo $pageVars["data"]["pipeline"]["project-description"] ; ?></p>
+                    <div class="fullRow">
+                        <h3 class="text-uppercase text-light "><strong>Pipeline: </strong><?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></h3>
+                    </div>
+                    <div class="fullRow">
+                        <span>
+                            <strong>Slug:</strong>
+                            <?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>
+                        </span>
+                    </div>
+                    <div class="fullRow">
+                        <span>
+                            <strong>Description:</strong>
+                            <?php echo $pageVars["data"]["pipeline"]["project-description"] ; ?>
+                        </span>
+                    </div>
                 </div>
                 <?php
                 if ($pageVars["data"]["pipeline"]["last_status"]===true) { $sclass = "good" ;}
@@ -134,12 +145,10 @@
                 <div class="pipe-history-block pipe-block">
                     <h4 class="propertyTitle">Build History:</h4>
                     <?php
-                        if (isset($pageVars["data"]["pipeline"]["build_history"]) &&
-                            count($pageVars["data"]["pipeline"]["build_history"])>0 ) {
-                            foreach ($pageVars["data"]["pipeline"]["build_history"] as $build_history) {
-                                if ($moduleInfo["hidden"] != true) {
-                                    echo '<p><a href="/index.php?control=BuildConfigure&action=show&item=">'.$build_history["count"].
-                                        ' - '.$build_history["status"].' - '.$build_history["message"]."</p>"; } } }
+                        if (isset($pageVars["data"]["historic_builds"]) &&
+                            count($pageVars["data"]["historic_builds"])>0 ) {
+                                foreach ($pageVars["data"]["historic_builds"] as $hb) {
+                                    echo 'Build ID: <a href="/index.php?control=PipeRunner&action=summary&item='.$pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb.'">'.$hb.'</a><br />' ; } }
                     ?>
                 </div>
 
