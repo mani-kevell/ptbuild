@@ -73,9 +73,15 @@
                 <div class="form-group" id="userprofile-loading-holder">
                 </div>
                 <div class="fullRow">
-                    <a href="/index.php?control=UserProfile&action=new" class="btn btn-info hvr-grow-shadow rightAlignButton">
-                        Create New User
-                    </a>
+                    <?php if ($pageVars["route"]["action"] !== "new") { ?>
+                        <a href="/index.php?control=UserProfile&action=new" class="btn btn-info hvr-grow-shadow rightAlignButton">
+                            Create New User
+                        </a>
+                    <?php } else { ?>
+                        <a href="/index.php?control=UserProfile&action=show" class="btn btn-info hvr-grow-shadow rightAlignButton">
+                            Edit Current User
+                        </a>
+                    <?php } ?>
                 </div>
                 <div class="form-group" id="userprofile-fields">
                     <form class="form-horizontal custom-form" action="/index.php?control=UserProfile&action=create" method="POST">
@@ -100,7 +106,7 @@
 
                                     ?>
 
-                                    <div class="dropdown">
+                                    <div class="dropdownUsers">
                                         <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                                             Select Current User
                                             <span class="caret"></span>
@@ -119,6 +125,9 @@
                                             ?>
                                         </ul>
                                         <input type="hidden" class="form-control" id="update_username" name="update_username" value="<?php echo $pageVars["data"]["user"]->username ; ?>">
+                                    </div>
+                                    <div class="userShow">
+                                        <input type="text" readonly="readonly" class="form-control" id="update_username_text" name="update_username_text" value="<?php echo $pageVars["data"]["user"]->username ; ?>">
                                     </div>
 
                                 <?php
@@ -176,7 +185,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="update_password_match" class="col-sm-4 control-label text-left" style="color:#757575;" >Retype Password</label>
+                            <label for="update_password_match" class="col-sm-4 control-label text-left" style="color:#757575;" >Confirm Password</label>
                             <div class="col-sm-7">
                                 <input type="password" class="form-control" id="update_password_match" name="update_password_match" placeholder="Retype Password">
                                 <span style="color:#FF0000;" id="update_password_match_alert"></span>
@@ -184,20 +193,20 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-3">
+                            <div class="col-sm-offset-4 col-sm-3 actionButtonWrap">
 
                                 <?php
 
                                 if ($pageVars["route"]["action"] !== "new") {
                                     ?>
-                                    <button class="btn btn-success hvr-grow-shadow">
+                                    <button onclick="updateUser(); return false;" class="btn btn-success hvr-grow-shadow actionButton">
                                         Update Details
                                     </button>
                                 <?php }
                                 else {
                                     ?>
-                                    <button onclick="createUser(); return false;" class="btn btn-success hvr-grow-shadow">
-                                        Create User
+                                    <button onclick="createUser(); return false;" class="btn btn-success hvr-grow-shadow actionButton">
+                                        Create New User
                                     </button>
                                     <?php }
 
