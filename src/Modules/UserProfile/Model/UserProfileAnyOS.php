@@ -18,14 +18,12 @@ class UserProfileAnyOS extends BasePHPApp {
         parent::__construct($params);
 	}
 
-    //check login
     public function getData() {
         $ret['user'] = $this->getUserDetails();
         $ret['allusers'] = $this->getAllUserDetails();
         return $ret ;
     }
 
-    //check login
     public function saveData() {
         $user = new \stdClass() ;
         // @todo sanitize these request vars. Use Params?
