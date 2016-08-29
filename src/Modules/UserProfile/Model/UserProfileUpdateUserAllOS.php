@@ -15,7 +15,7 @@ class UserProfileUpdateUserAllOS extends Base {
     public $modelGroup = array("UpdateUser") ;
 
     public function getData() {
-        $ret["data"] = $this->createUser();
+        $ret["data"] = $this->updateUser();
         return $ret ;
     }
 
@@ -32,17 +32,17 @@ class UserProfileUpdateUserAllOS extends Base {
 
         $return = array(
             "status" => true ,
-            "message" => "User Updated",
+            "message" => "User Password Updated",
             "user" => $this->getOneUserDetails($this->params["create_username"]) );
         return $return ;
 
     }
 
     public function validateUserDetails() {
-        if ($this->userAlreadyExists()) {
+        if ($this->userAlreadyExists() == false) {
             $return = array(
                 "status" => false ,
-                "message" => "This username already exists" );
+                "message" => "This username does not exist" );
             return $return ; }
         $presult = $this->passwordInvalid() ;
         if ($presult !== true) {
@@ -97,14 +97,15 @@ class UserProfileUpdateUserAllOS extends Base {
 
     private function updateTheUser() {
 
-        $user = new \StdClass() ;
-        $user->password = $this->params["update_password"] ;
+        $userMod = new \StdClass() ;
+        $userMod->username = $this->params["create_username"] ;
+        $userMod->password = $this->params["update_password"] ;
 
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
-        $cu = $signup->updateUser($user);
+        $cu = $signup->updateUser($userMod);
 
-        if ($cu == false) {
+        if ($cu !== true) {
             $return = array(
                 "status" => false ,
                 "message" => "Unable to update this user password" );
