@@ -129,7 +129,7 @@ function deleteUser() {
         $('#update_username_text').val("Loading...") ;
 //        $('#update_username_text').val("Loading...") ;
         uname = $('#update_username').val() ;
-
+        my_uname = $('#my_uname').val() ; ;
         rurl = $('#base_url').val() + '/index.php?control=UserProfile&action=delete&output-format=JSON' ;
         console.log(rurl) ;
 
@@ -149,7 +149,9 @@ function deleteUser() {
                 else {
                     $('#form_alert').addClass('errorMessage');
                     $('#form_alert').html(result.data.message);
-                    $('#form_alert').focus(); } },
+                    $('#form_alert').focus(); }
+                refreshUserDetails(my_uname) ;
+            },
             error: function(result, textStatus, errorThrown) { console.log(result);
                 $('#password_error_msg').html(''+textStatus+' '+errorThrown+' '+result.msg);
                 $('#password_error_msg').focus(); }
