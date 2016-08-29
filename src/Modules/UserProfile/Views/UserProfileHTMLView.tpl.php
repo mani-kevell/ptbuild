@@ -201,7 +201,7 @@
                                 if ($pageVars["route"]["action"] !== "new") {
                                     ?>
                                     <button onclick="updateUser(); return false;" class="btn btn-success hvr-grow-shadow actionButton">
-                                        Update Details
+                                        Update Password
                                     </button>
                                     <button onclick="deleteUser(); return false;" class="btn btn-warning hvr-grow-shadow actionButton">
                                         Delete User
