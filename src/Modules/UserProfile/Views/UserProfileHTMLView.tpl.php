@@ -68,11 +68,11 @@
 
                 <div class="row clearfix no-margin">
                 <h5 class="text-uppercase text-light" style="margin-top: 15px;margin-left: 51px;">  </h5>
-                <p style="color: #7CFC00; margin-left: 100px;" id="registration_error_msg"></p>
-                <span style="color:#FF0000;" id="form_alert"></span>
                 <div class="form-group" id="userprofile-loading-holder">
                 </div>
                 <div class="fullRow">
+                    <span style="color:#FF0000;" id="form_alert"></span>
+<!--                    <p style="color: #7CFC00; margin-left: 100px;" id="registration_error_msg"></p>-->
                     <?php if ($pageVars["route"]["action"] !== "new") { ?>
                         <a href="/index.php?control=UserProfile&action=new" class="btn btn-info hvr-grow-shadow rightAlignButton">
                             Create New User
@@ -135,6 +135,7 @@
                                 ?>
 
                                 <span style="color:#FF0000;" id="update_username_alert"></span>
+                                <input type="hidden" class="form-control my_uname" id="my_uname" name="my_uname" value="<?php echo $pageVars["data"]["user"]->username ; ?>" >
                             </div>
                         </div>
 
