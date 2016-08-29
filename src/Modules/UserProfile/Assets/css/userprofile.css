@@ -46,6 +46,12 @@ p.moduleListText { margin: 0; }
     float: left;
 }
 
+#form_alert {
+    float: left;
+    display: block;
+    margin-left: 10%;
+}
+
 .rightAlignButton {
     float: right;
     display: block;
