@@ -91,7 +91,10 @@ class UserProfileCreateUserAllOS extends Base {
         $au =$signup->getUsersData();
         foreach ($au as $oneuser) {
             if ($oneuser->username == $this->params["create_username"]) {
-                return $oneuser ; } }
+                $return = new \StdClass();
+                $return->username = $oneuser->username ;
+                $return->email = $oneuser->email ;
+                return $return ; } }
         return array() ;
     }
 

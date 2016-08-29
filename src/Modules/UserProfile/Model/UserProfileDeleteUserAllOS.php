@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class UserProfileCreateUserAllOS extends Base {
+class UserProfileDeleteUserAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -12,14 +12,14 @@ class UserProfileCreateUserAllOS extends Base {
     public $architectures = array("any") ;
 
     // Model Group
-    public $modelGroup = array("CreateUser") ;
+    public $modelGroup = array("DeleteUser") ;
 
     public function getData() {
-        $ret["data"] = $this->createUser();
+        $ret["data"] = $this->deleteUser();
         return $ret ;
     }
 
-    public function createUser() {
+    public function deleteUser() {
 
 //        $create_perms = $this->checkCreationPermissions() ;
 //        if ($create_perms !== true) { return $create_perms ; }
@@ -27,28 +27,22 @@ class UserProfileCreateUserAllOS extends Base {
         $valid = $this->validateUserDetails() ;
         if ($valid !== true) { return $valid ; }
 
-        $createdUser = $this->makeTheUser() ;
-        if ($createdUser !== true) { return $createdUser ; }
+        $deletedUser = $this->deleteTheUser() ;
+        if ($deletedUser !== true) { return $deletedUser ; }
 
         $return = array(
             "status" => true ,
-            "message" => "User Created",
+            "message" => "User Deleted",
             "user" => $this->getOneUserDetails($this->params["create_username"]) );
         return $return ;
 
     }
 
     public function validateUserDetails() {
-        if ($this->userAlreadyExists()) {
+        if ($this->userAlreadyExists() == false) {
             $return = array(
                 "status" => false ,
-                "message" => "This username already exists" );
-            return $return ; }
-        $presult = $this->passwordInvalid() ;
-        if ($presult !== true) {
-            $return = array(
-                "status" => false ,
-                "message" => $presult );
+                "message" => "This user does not exist" );
             return $return ; }
         return true ;
     }
@@ -61,28 +55,14 @@ class UserProfileCreateUserAllOS extends Base {
         return false ;
     }
 
-    private function passwordInvalid() {
-
-        if ($this->params["update_password"] !== $this->params["update_password_match"]) {
-            $return =  "Passwords must match" ;
-            return $return ; }
-
-        if (strlen($this->params["update_password"]) <3 ) {
-            $return = "Password must be longer than three characters" ;
-            return $return ; }
-
-        return true ;
-    }
-
     private function getAllUserDetails() {
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
-        $me = $signup->getLoggedInUserData() ;
-        $rid = $signup->getUserRole($me->email);
-        if ($rid == 1) {
-            $au =$signup->getUsersData();
-            return $au; }
-        return array() ;
+        $au =$signup->getUsersData();
+
+        var_dump($this->params) ;
+
+        return $au;
     }
 
     private function getOneUserDetails($username) {
@@ -90,29 +70,20 @@ class UserProfileCreateUserAllOS extends Base {
         $signup = $signupFactory->getModel($this->params);
         $au =$signup->getUsersData();
         foreach ($au as $oneuser) {
-            if ($oneuser->username == $this->params["create_username"]) {
+            if ($oneuser->username == $username) {
                 return $oneuser ; } }
         return array() ;
     }
 
-    private function makeTheUser() {
-
-        $newUser["username"] = $this->params["create_username"] ;
-        $newUser["password"] = $this->params["update_password"] ;
-        $newUser["email"] = $this->params["create_email"] ;
-        $newUser["status"] = 1 ;
-        $newUser["role"] = 1 ;
-
+    private function deleteTheUser() {
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
-        $cu = $signup->createNewUser($newUser);
-
+        $cu = $signup->deleteUser($this->params["create_username"]);
         if ($cu == false) {
             $return = array(
                 "status" => false ,
-                "message" => "Unable to create this user" );
+                "message" => "Unable to delete this user" );
             return $return ; }
-
         return true ;
     }
 

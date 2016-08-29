@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class UserProfileCreateUserAllOS extends Base {
+class UserProfileUpdateUserAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -12,14 +12,14 @@ class UserProfileCreateUserAllOS extends Base {
     public $architectures = array("any") ;
 
     // Model Group
-    public $modelGroup = array("CreateUser") ;
+    public $modelGroup = array("UpdateUser") ;
 
     public function getData() {
         $ret["data"] = $this->createUser();
         return $ret ;
     }
 
-    public function createUser() {
+    public function updateUser() {
 
 //        $create_perms = $this->checkCreationPermissions() ;
 //        if ($create_perms !== true) { return $create_perms ; }
@@ -27,12 +27,12 @@ class UserProfileCreateUserAllOS extends Base {
         $valid = $this->validateUserDetails() ;
         if ($valid !== true) { return $valid ; }
 
-        $createdUser = $this->makeTheUser() ;
+        $createdUser = $this->updateTheUser() ;
         if ($createdUser !== true) { return $createdUser ; }
 
         $return = array(
             "status" => true ,
-            "message" => "User Created",
+            "message" => "User Updated",
             "user" => $this->getOneUserDetails($this->params["create_username"]) );
         return $return ;
 
@@ -95,22 +95,19 @@ class UserProfileCreateUserAllOS extends Base {
         return array() ;
     }
 
-    private function makeTheUser() {
+    private function updateTheUser() {
 
-        $newUser["username"] = $this->params["create_username"] ;
-        $newUser["password"] = $this->params["update_password"] ;
-        $newUser["email"] = $this->params["create_email"] ;
-        $newUser["status"] = 1 ;
-        $newUser["role"] = 1 ;
+        $user = new \StdClass() ;
+        $user->password = $this->params["update_password"] ;
 
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
-        $cu = $signup->createNewUser($newUser);
+        $cu = $signup->updateUser($user);
 
         if ($cu == false) {
             $return = array(
                 "status" => false ,
-                "message" => "Unable to create this user" );
+                "message" => "Unable to update this user password" );
             return $return ; }
 
         return true ;
