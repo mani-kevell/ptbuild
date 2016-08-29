@@ -262,6 +262,21 @@ class SignupAllOS extends Base {
             fwrite($myfile, json_encode($nray)); }
     }
 
+    public function deleteUser($username) {
+        $oldData = $this->getUsersData();
+        if ($myfile = fopen($this->getUserFileLocation(), "w")) { }
+        else {
+            echo json_encode(array("status" => false,
+                "id"=>"registration_error_msg",
+                "msg" => "Unable to write to users datastore. Contact Administrator.")); }
+        $nray = array();
+        foreach ($oldData as $one) {
+            if ($username !== $one->username) {
+                $nray[] = $one ; } }
+        //@todo change the format of saved data.
+        fwrite($myfile, json_encode($nray));
+    }
+
     public function getSaltWord($word) {
         return md5($this->getSalt().$word) ;
     }
