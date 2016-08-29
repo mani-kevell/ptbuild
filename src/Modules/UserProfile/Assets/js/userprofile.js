@@ -204,16 +204,16 @@ function updateUser() {
             dataType: "json",
             success: function(result) {
                 console.log(result);
-                if (result.status == true) {
+                if (result.data.status == true) {
                     $('#form_alert').addClass('successMessage');
-                    $('#form_alert').html(result.message);
+                    $('#form_alert').html(result.data.message);
                     $('#form_alert').focus(); }
                 else {
                     $('#form_alert').addClass('errorMessage');
-                    $('#form_alert').html(result.message);
+                    $('#form_alert').html(result.data.message);
                     $('#form_alert').focus(); } },
             error: function(result, textStatus, errorThrown) { console.log(result);
-                $('#password_error_msg').html(''+textStatus+' '+errorThrown+' '+result.msg);
+                $('#password_error_msg').html(''+textStatus+' '+errorThrown+' '+result.data.message);
                 $('#password_error_msg').focus(); }
 
         });
