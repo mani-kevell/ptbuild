@@ -275,6 +275,7 @@ class SignupAllOS extends Base {
                 $nray[] = $one ; } }
         //@todo change the format of saved data.
         fwrite($myfile, json_encode($nray));
+        return true ;
     }
 
     public function getSaltWord($word) {
