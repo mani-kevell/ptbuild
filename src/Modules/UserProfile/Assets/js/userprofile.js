@@ -190,14 +190,16 @@ function updateUser() {
             $('#update_password_match').focus();
             return; }
 
-        rurl = $('#base_url').val() + '/index.php?control=UserProfile&action=changepassword&output-format=JSON' ;
+        rurl = $('#base_url').val() + '/index.php?control=UserProfile&action=update&output-format=JSON' ;
         console.log(rurl) ;
 
         $.ajax({
             type: 'POST',
             url: rurl,
             data: {
-                create_username: uname
+                create_username: uname,
+                update_password: $('#update_password').val(),
+                update_password_match: $('#update_password_match').val()
             },
             dataType: "json",
             success: function(result) {
