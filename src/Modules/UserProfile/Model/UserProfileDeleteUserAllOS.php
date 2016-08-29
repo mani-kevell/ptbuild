@@ -59,9 +59,6 @@ class UserProfileDeleteUserAllOS extends Base {
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
         $au =$signup->getUsersData();
-
-        var_dump($this->params) ;
-
         return $au;
     }
 
@@ -78,6 +75,12 @@ class UserProfileDeleteUserAllOS extends Base {
     private function deleteTheUser() {
         $signupFactory = new \Model\Signup();
         $signup = $signupFactory->getModel($this->params);
+        $liu = $signup->getLoggedInUserData();
+        if ($liu->username == $this->params["create_username"]) {
+            $return = array(
+                "status" => false ,
+                "message" => "You cannot delete your own user" );
+            return $return ; }
         $cu = $signup->deleteUser($this->params["create_username"]);
         if ($cu == false) {
             $return = array(
