@@ -32,7 +32,7 @@ class UserProfileUpdateUserAllOS extends Base {
 
         $return = array(
             "status" => true ,
-            "message" => "User Password Updated",
+            "message" => "User Password Updated for {$this->params["create_username"]}",
             "user" => $this->getOneUserDetails($this->params["create_username"]) );
         return $return ;
 
