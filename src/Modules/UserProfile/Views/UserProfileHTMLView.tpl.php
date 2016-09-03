@@ -159,7 +159,7 @@
                         if ($pageVars["data"]["allusers"] === false) {
                             ?>
 
-                            <input type="text" readonly="readonly" class="form-control" id="update_username" name="update_username" placeholder="User Name" value="<?php echo $pageVars["data"]["user"]->username ; ?>">
+<!--                            <input type="text" readonly="readonly" class="form-control" id="update_username" name="update_username" placeholder="User Name" value="--><?php //echo $pageVars["data"]["user"]->username ; ?><!--">-->
                         <?php  }  ?>
 
                         <?php
@@ -212,7 +212,12 @@
                                     <button onclick="createUser(); return false;" class="btn btn-success hvr-grow-shadow actionButton">
                                         Create New User
                                     </button>
-                                    <?php }
+                                    <?php
+
+
+
+
+                                }
 
                                 ?>
 
