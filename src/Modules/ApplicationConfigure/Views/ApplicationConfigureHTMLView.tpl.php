@@ -18,23 +18,19 @@
                         <i class="fa fa-dashboard fa-fw hvr-bounce-in"></i> Dashboard
                     </a>
                 </li>
+               <li>
+                    <a href="/index.php?control=ApplicationConfigure&action=show"class=" active hvr-bounce-in">
+                        <i class="fa fa-cogs fa-fw hvr-bounce-in"></i> Configure PTBuild</a>
+                </li>
                 <li>
-                    <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in"> <i class="fa fa-cogs fa-fw"></i> Configure PTBuild<span class="fa arrow"></span> </a>
-                    <ul class="nav nav-second-level collapse">
-                        <li>
-                            <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-curl-bottom-right">Application</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">User Manager</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">User Profile</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=ModuleManager&action=show" class=" hvr-curl-bottom-right">Modules</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
+                    <a href="/index.php?control=UserManager&action=show"class=" hvr-bounce-in">
+                        <i class="fa fa-group hvr-bounce-in"></i> User Manager
+                    </a>
+                </li>
+                <li>
+                    <a href="/index.php?control=ModuleManager&action=show"class=" hvr-bounce-in">
+                        <i class="fa fa-suitcase hvr-bounce-in"></i> Module Manager
+                    </a>
                 </li>
             </ul>
         </div>
@@ -42,7 +38,7 @@
 
     <div class="col-lg-9">
                     <div class="well well-lg">         
-<!--                    	<h2 class="text-uppercase text-light"><a href="/">PTBuild - Pharaoh Tools</a></h2>-->
+                    	<h2 class="text-uppercase text-light"><a href="/">PTBuild - Pharaoh Tools</a></h2>
 
                         <?php echo $this->renderLogs() ; ?>
 
@@ -95,6 +91,14 @@
                                             if ($val == "" || is_null($val)) {
                                                 $placeholder = ' placeholder="'.$one_conf_tails["default"].'" ' ; }
                                             echo '<input name="mod_config['.$module_name.']['.$one_config_slug.']" id="mod_config['.$module_name.']['.$one_config_slug.']" type="text" class="form-control" '.$val.' '.$placeholder.' ></input>' ;
+                                            break ;
+                                        case "textarea" :
+                                            if (isset($pageVars["data"]["current_configs"]["mod_config"][$module_name][$one_config_slug]) &&
+                                                strlen($pageVars["data"]["current_configs"]["mod_config"][$module_name][$one_config_slug])>0) {
+                                                $val = $pageVars["data"]["current_configs"]["mod_config"][$module_name][$one_config_slug] ;  }
+                                            else {
+                                                $val = "" ; }
+                                            echo '<textarea name="mod_config['.$module_name.']['.$one_config_slug.']" id="mod_config['.$module_name.']['.$one_config_slug.']" class="form-control" >'.$val.'</textarea>' ;
                                             break ; }
                                     echo '  </div>';
                                     echo '</div>'; } } }
