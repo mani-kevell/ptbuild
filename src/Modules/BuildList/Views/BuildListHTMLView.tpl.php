@@ -213,24 +213,8 @@
 							}
 							?>
 							</div>
-							<!--
-							<div>
-							<?php
-							if ($pipelineDetails["has_parents"] === true) {
-							echo '<img class="listImage" src="/Assets/Modules/BuildList/image/tick.png" />' ; }
-							else {
-							echo '<img class="listImage" src="/Assets/Modules/BuildList/image/cross.png" />' ; }
-							?>
-							</div>
-							<div>
-							<?php
-							if ($pipelineDetails["has_children"] === true) {
-							echo '<img class="listImage" src="/Assets/Modules/BuildList/image/tick.png" />' ; }
-							else {
-							echo '<img class="listImage" src="/Assets/Modules/BuildList/image/cross.png" />' ; }
-							?>
-							</div>
-							-->
+
+                                <hr class="buildRowSpace" />
 							</div>
 							<?php
 							$i++;
