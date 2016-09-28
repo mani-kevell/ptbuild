@@ -57,11 +57,29 @@
 }
 
 .buildNowLarge {
-    width:90% ;
-    min-height: 150px;
+    /*width:90% ;*/
+    /*min-height: 150px;*/
+    height: 150px ;
+    width:150px ;
     color: white;
     display: block;
     margin: 0 auto;
+    background-image: url('/Assets/Modules/BuildHome/images/play-large.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat ;
+    font-size: 90% ;
+}
+
+.buildNowLarge:hover {
+    background-image: url('/Assets/Modules/BuildHome/images/play-btn.png');
+    /*font-size: 100% ;*/
+}
+
+.buildNowLarge span {
+    position: relative;
+    top: 35% ;
+    color: black;
+    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff;
 }
 
 .leftCell, .rightCell {

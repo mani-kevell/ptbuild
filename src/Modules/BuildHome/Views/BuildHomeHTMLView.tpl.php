@@ -86,8 +86,10 @@
                 else if ($pageVars["data"]["pipeline"]["last_status"]===false) { $sclass =  "bad" ; }
                 else { $sclass = "unknown" ; } ?>
                 <div class="rightCell">
-                    <a class="buildNowLarge current_status_good" href="index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
-                        Build Now
+                    <a class="buildNowLarge" href="index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
+                        <span>
+                            Build Now
+                        </span>
                     </a>
                 </div>
             </div>
