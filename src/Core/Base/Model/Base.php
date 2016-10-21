@@ -133,14 +133,16 @@ COMPLETION;
             stream_set_blocking($pipes[1], true);
             stream_set_blocking($pipes[2], true);
             $data = "";
-            while ( ($buf = fread($pipes[1], 32768)) || ( $buf2 = fread($pipes[2], 32768))) {
+            while ( ($buf = fread($pipes[1], 131072)) || ( $buf2 = fread($pipes[2], 131072))) {
                 if (isset($buf) && $buf !== false) {
                     $data .= $buf;
                     echo $buf ; }
-                if ( (isset($buf2) && $buf2 !== false) || $buf2 = fread($pipes[2], 32768) ) {
+                if ( (isset($buf2) && $buf2 !== false) || $buf2 = fread($pipes[2], 131072) ) {
 //                    $buf2 = "ERR: ".$buf2;
-                    $data .= "ERR: ".$buf2;
-                    echo "ERR: ".$buf2 ;
+//                    echo "ERR: ".$buf2 ;
+                    $data .= $buf2;
+//                    echo "ERR: " ;
+                    echo $buf2 ;
                     unset($buf2) ;} } }
 
         $stdout = stream_get_contents($pipes[1]);
