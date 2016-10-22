@@ -24,7 +24,7 @@ class Base {
     protected $extraBootStrap;
     protected $programExecutorFolder;
     protected $programExecutorTargetPath;
-    protected $tempDir;
+    protected static $tempDir;
     protected $defaultStatusCommandPrefix ;
     protected $statusCommand;
     protected $statusCommandExpects;
@@ -33,14 +33,18 @@ class Base {
     protected $versionLatestCommand;
 
     public function __construct($params) {
-        if (PHP_OS =="Windows") {
-            $this->tempDir =  'C:\tmp'; }
-        else {
-            $this->tempDir =  '/tmp'; }
         $this->autopilotDefiner = $this->getModuleName() ;
+        $this->setTempDir();
         $this->setCmdLineParams($params);
         $this->setRequestParams();
         $this->salt='QlkjfpoiZfsdluyvposdfMszZi';
+    }
+
+    protected static function setTempDir() {
+        if (in_array(PHP_OS, array("Windows", "WINNT"))) {
+            self::$tempDir =  getenv('TEMP'); }
+        else {
+            self::$tempDir =  '/tmp'; }
     }
 
     protected function populateTitle() {
@@ -81,7 +85,7 @@ COMPLETION;
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
-        $tempFile = $this->tempDir.DS."ptconfigure-temp-script-".mt_rand(100, 99999999999).".sh";
+        $tempFile = self::$tempDir.DS."ptconfigure-temp-script-".mt_rand(100, 99999999999).".sh";
 //        $logging->log("Creating $tempFile", $this->getModuleName());
         $fileVar = "";
         $multiLineCommand = str_replace("\r", "", $multiLineCommand) ;
@@ -106,6 +110,45 @@ COMPLETION;
         return $rc["rc"] ;
     }
 
+    protected function tempfileFromCommand($multiLineCommand) {
+        $loggingFactory = new \Model\Logging();
+        $params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+        $tempFile = self::$tempDir.DS."ptconfigure-temp-script-".mt_rand(100, 99999999999).".sh";
+//        $logging->log("Creating $tempFile", $this->getModuleName());
+        $fileVar = "";
+        $multiLineCommand = $this->multilineToArray($multiLineCommand) ;
+        foreach ($multiLineCommand as $command) { $fileVar .= $command."\n" ; }
+        file_put_contents($tempFile, $fileVar) ;
+        return $tempFile ;
+    }
+
+    protected static function multilineToArray($multiLineCommand) {
+        if (!is_array($multiLineCommand)) {
+            $multiLineCommand = explode("\n", $multiLineCommand) ;  }
+        $newRay = array() ;
+        foreach ($multiLineCommand as $singleCommand) {
+            $entry = str_replace(PHP_EOL, "", $singleCommand) ;
+            $entry = str_replace("\n", "", $entry) ;
+            $entry = str_replace("\r\n", "", $entry) ;
+            $newRay[] = $entry ; }
+        return $multiLineCommand ;
+    }
+
+    protected static function tempfileStaticFromCommand($multiLineCommand) {
+        $loggingFactory = new \Model\Logging();
+        $params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($params);
+        self::setTempDir();
+        $tempFile = self::$tempDir.DS."ptconfigure-temp-script-".mt_rand(100, 999999999).".sh";
+//        $logging->log("Creating $tempFile");
+        $fileVar = "";
+        $multiLineCommand = self::multilineToArray($multiLineCommand) ;
+        foreach ($multiLineCommand as $command) { $fileVar .= $command."\n" ; }
+        file_put_contents($tempFile, $fileVar) ;
+        return $tempFile ;
+    }
+
     protected function executeAndOutput($command, $message=null) {
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
@@ -124,7 +167,16 @@ COMPLETION;
     }
 
     public static function executeAndGetReturnCode($command, $show_output = null, $get_output = null) {
-        $proc = proc_open($command, array(
+        $tempFile = self::tempfileStaticFromCommand($command) ;
+        $loggingFactory = new \Model\Logging();
+        $params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($params);
+        if (!is_executable($tempFile)) {
+            // @todo this wont work on windows
+            shell_exec("chmod 755 $tempFile 2>/dev/null");
+            shell_exec("chmod +x $tempFile 2>/dev/null"); }
+
+        $proc = proc_open("bash -ex $tempFile", array(
             0 => array("pipe","r"),
             1 => array("pipe",'w'),
             2 => array("pipe",'w'),
@@ -145,7 +197,6 @@ COMPLETION;
 //                    echo "ERR: " ;
                     unset($buf2) ;} }
             echo $data2 ; }
-
 
 //        while ( ($buf = fread($pipes[1], 131072)) || ( $buf2 = fread($pipes[2], 131072))) {
 //            if (isset($buf) && $buf !== false) {
