@@ -143,9 +143,9 @@ COMPLETION;
 //                    echo "ERR: ".$buf2 ;
                     $data2 .= $buf2;
 //                    echo "ERR: " ;
-                    unset($buf2) ;} } }
+                    unset($buf2) ;} }
+            echo $data2 ; }
 
-        echo $buf2 ;
 
 //        while ( ($buf = fread($pipes[1], 131072)) || ( $buf2 = fread($pipes[2], 131072))) {
 //            if (isset($buf) && $buf !== false) {
