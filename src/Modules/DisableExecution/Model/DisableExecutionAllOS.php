@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class DisableExecutionLinuxUnix extends Base {
+class DisableExecutionAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
