@@ -403,6 +403,10 @@ function displaySingleField($one_config_slug, $one_conf_tails, $fieldSlug, $fiel
             else if ( (isset($settings[$one_config_slug][$fieldSlug])) &&
                 $settings[$one_config_slug][$fieldSlug] != "on" ) {
                 $onoff = "off" ; }
+            else if ( (isset($val)) && $val == "on" ) {
+                $onoff = "on" ; }
+            else if ( (isset($val)) && $val != "on" ) {
+                $onoff = "off" ; }
             else {
                 if ($val==null) {
                 $onoff = (!isset($onoff))
@@ -525,10 +529,7 @@ function displaySingleFieldSet( $one_config_slug, $one_conf_tails, $fieldSlug, $
                     $settings,
                     $settings[$one_config_slug][$fieldSetSlug][$field_hash][$singleFieldSlug],
                     $field_hash,
-                    $fieldSetSlug ) ;}
-//            echo '    <script type="text/javascript">'."\n" ;
-//            echo '      changePipeRunParameterType("'.$field_hash.'", "'.$fieldSetSlug.'") ;'."\n" ;
-//            echo '    </script>'."\n" ;
+                    $fieldSetSlug ) ; }
             echo '    <div class="col-sm-12">' ;
             echo '        <a class="btn btn-warning" onclick="deleteFieldsetField(\''.$one_config_slug.'\', \''.$fieldSetSlug.'\', \''.$field_hash.'\')">Delete Fieldset</a>' ;
             echo '    </div>' ;
