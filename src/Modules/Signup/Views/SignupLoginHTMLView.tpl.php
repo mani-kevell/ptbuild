@@ -1,8 +1,12 @@
 <div class="container " id="wapper">
 	<div class="row">
-		
-		<div class=" col-md-7 col-md-offset-2 ">
+
+        <form class="form-horizontal custom-form" method="POST" action="javascript:submit_login();">
+
+        <div class=" col-md-7 col-md-offset-2 ">
+
 			<div class="login-panel panel panel-default">
+
 				<div class="col-md-12">
 					<h3 class="hero-unit"><strong>Log in</strong> </h3>
 
@@ -14,27 +18,23 @@
                     </div> -->
 					<hr>
 				</div>
-				
-				
-				
-            <div class="panel-body">
+
+                <div class="panel-body">
 					
 					<div class="row clearfix no-margin">
 						<h5 class="text-uppercase text-light" style="margin-top: 15px;">  </h5>
-                        <p id="login_error_msg">
+                        <div id="login_error_msg">
 
                             <?php
 
-                            if(isset($pageVars["registration_disabled"]) && $pageVars["registration_disabled"]==true) {
-                                echo "Registration has disabled by your administrator." ;
-                            }
+                                if(isset($pageVars["registration_disabled"]) && $pageVars["registration_disabled"]==true) {
+                                    echo "Registration has disabled by your administrator." ;
+                                }
 
                             ?>
 
-
-                        </p>
-                        <p id="login_success_msg"></p>
-						<form class="form-horizontal custom-form">
+                        </div>
+                        <div id="login_success_msg"></div>
 							<div class="form-group" >
 								
 								<label for="inputEmail3" class="col-sm-3 control-label text-left" style="color:#757575;">User Name</label>
@@ -67,20 +67,12 @@
 									<br />	
 									<div>
 
-
                                         <?php
-
-                                        if (isset($pageVars["data"]["settings"]["Signup"]["registration_enabled"]) && $pageVars["data"]["settings"]["Signup"]["registration_enabled"]=="on") {
-
+                                            if (isset($pageVars["data"]["settings"]["Signup"]["registration_enabled"]) && $pageVars["data"]["settings"]["Signup"]["registration_enabled"]=="on") {
                                         ?>
-
-                                        <a href="/index.php?control=Signup&action=registration">  <b> Need an account ? Sign Up  </b> </a>
-
-
+                                            <a href="/index.php?control=Signup&action=registration">  <b> Need an account ? Sign Up  </b> </a>
                                         <?php
-
-                                        }
-
+                                            }
                                         ?>
 
                                     </div>
@@ -142,9 +134,23 @@
                                     ?>
 
                                 </div>
-                                
-							</div>
-						</form>
+
+
+                                <?php
+                                    if (isset($pageVars["data"]["settings"]["PublicScope"]["enable_public"]) &&
+                                        $pageVars["data"]["settings"]["PublicScope"]["enable_public"] == "on") {
+                                ?>
+                                    <div id="public_links" class="public_links">
+                                        <?php
+                                            $pl = \Model\RegistryStore::getValue('public_links') ;
+                                            echo $pl ;
+                                        ?>
+                                    </div>
+                                <?php
+                                    }
+                                ?>
+
+                    </div>
 					</div>
 					
 					<p class="text-center" style="color:#337ab7">
@@ -156,7 +162,7 @@
 				</div>
 
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/Signup/css/signup.css">
