@@ -10,11 +10,21 @@ class BuildHome extends Base {
         $this->content = $pageVars ;
         if (is_array($thisModel)) {
             return $this->failDependencies($pageVars, $this->content, $thisModel) ; }
+
+        if ($thisModel->userIsAllowedAccess() !== true) {
+            $override = $this->getIndexControllerForOverride() ;
+            return $override->execute() ; }
+
         if ($pageVars["route"]["action"] == "show") {
             $this->content["data"] = $thisModel->getData(); }
         if ($pageVars["route"]["action"] == "delete") {
             $this->content["data"] = $thisModel->deleteData(); }
         return array ("type"=>"view", "view"=>"buildHome", "pageVars"=>$this->content);
     }
+
+    protected function getIndexControllerForOverride() {
+        return \Core\AutoLoader::getController("Signup")  ;
+    }
+
 
 }
