@@ -75,10 +75,12 @@ class PublicScopeAllOS extends Base {
         $public_pipelines = array() ;
         foreach ($pipelines as $pipeline_slug => $pipeline) {
             if ($pipeline["settings"]["PublicScope"]["enabled"] == "on") {
-                if ($pipeline["settings"]["PublicScope"]["public_pages"] == "on") {
+                if ($pipeline["settings"]["PublicScope"]["build_public_home"] == "on") {
                     $public_pipelines[] = $pipeline ; } } }
         $public_pipelines_html = $this->getHTMLFromPipelines($public_pipelines) ;
         \Model\RegistryStore::setValue('public_links', $public_pipelines_html) ;
+//        var_dump($public_pipelines_html) ;
+//        die() ;
         return $public_pipelines ;
     }
 
