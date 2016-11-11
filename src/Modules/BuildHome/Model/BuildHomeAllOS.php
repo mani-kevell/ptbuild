@@ -16,9 +16,34 @@ class BuildHomeAllOS extends Base {
 
     public function getData() {
         $ret["pipeline"] = $this->getPipeline();
+        $ret["settings"] = $this->getSettings();
+        $ret["login_enabled"] = $this->isLoginEnabled();
         $ret["features"] = $this->getPipelineFeatures();
         $ret["historic_builds"] = $this->getOldBuilds();
+        $ret["current_user"] = $this->getCurrentUser() ;
+        $ret["current_user_role"] = $this->getCurrentUserRole($ret["current_user_data"]);
         return $ret ;
+    }
+
+    protected function getCurrentUser() {
+        $signupFactory = new \Model\Signup() ;
+        $signup = $signupFactory->getModel($this->params);
+        $user = $signup->getLoggedInUserData();
+        return $user ;
+    }
+
+    public function getCurrentUserRole($user = null) {
+        if ($user == null) { $user = $this->getCurrentUser(); }
+        if ($user == false) { return false ; }
+        return $user->role ;
+    }
+
+    public function isLoginEnabled() {
+        $settings = $this->getSettings();
+        if ( (isset($settings["Signup"]["signup_enabled"]) && $settings["Signup"]["signup_enabled"] !== "on")
+              || !isset($settings["Signup"]["signup_enabled"])) {
+            return false ; }
+        return true ;
     }
 
     public function deleteData() {
@@ -57,6 +82,48 @@ class BuildHomeAllOS extends Base {
         $pipelineFactory = new \Model\Pipeline() ;
         $pipeline = $pipelineFactory->getModel($this->params);
         return $pipeline->deletePipeline($this->params["item"]);
+    }
+
+    public function userIsAllowedAccess() {
+        $user = $this->getCurrentUser() ;
+        $pipeline = $this->getPipeline() ;
+        $settings = $this->getSettings() ;
+        if (!isset($settings["PublicScope"]["enable_public"]) ||
+            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] != "on" )) {
+            // if enable public is set to off
+            if ($user == false) {
+                var_dump("1") ; die() ;
+                // and the user is not logged in
+                return false ; }
+            // if they are logged in continue on
+            var_dump("2") ; die() ;
+            return true ; }
+        else {
+            // if enable public is set to on
+            if ($user == false) {
+                var_dump("3") ; die() ;
+                // and the user is not logged in
+                if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
+                    $pipeline["settings"]["PublicScope"]["build_public_home"] == "on") {
+                    // if public pages are on
+                    var_dump("4") ; die() ;
+                    return true ; }
+                else {
+                    // if no public pages are on
+                    var_dump("5") ; die() ;
+                    return false ; } }
+            else {
+                // and the user is logged in
+                // @todo this is where repo specific perms go when ready
+                var_dump("6") ; die() ;
+                return true ;
+            }
+        }
+    }
+
+    protected function getSettings() {
+        $settings = \Model\AppConfig::getAppVariable("mod_config");
+        return $settings ;
     }
 
 }
