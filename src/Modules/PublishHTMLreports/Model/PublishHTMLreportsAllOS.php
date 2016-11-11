@@ -40,7 +40,11 @@ class PublishHTMLreportsAllOS extends Base {
                     "Report_Title" =>
                     array("type" => "text",
                         "name" => "Report Title",
-                        "slug" => "reporttitle"))))
+                        "slug" => "reporttitle"),
+                    "allow_public" =>
+                    array("type" => "text",
+                        "name" => "Allow Public Report Access?",
+                        "slug" => "allow_public"))))
 		    ;
           return $ff ;}
    
