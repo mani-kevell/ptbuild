@@ -20,6 +20,10 @@ class BuildHomeInfo extends PTConfigureBase {
       return array("buildHome"=>"BuildHome");
     }
 
+    public function ignoredAuthenticationRoutes() {
+        return array( "BuildHome" => array("show") );
+    }
+
     public function helpDefinition() {
       $help = <<<"HELPDATA"
   This is the Build Home page module for a single build...
