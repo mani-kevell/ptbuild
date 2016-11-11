@@ -40,7 +40,7 @@
                 ?>
                 <?php
 
-                if ($pageVars["data"]["login_enabled"] == false || in_array($pageVars["data"]["current_user_role"], array("1", "2", "3"))) {
+                //if ($pageVars["data"]["login_enabled"] == false || in_array($pageVars["data"]["current_user_role"], array("1", "2", "3"))) {
 
                 ?>
                     <li>
@@ -56,7 +56,7 @@
 
                 <?php
 
-                }
+                //}
 
                 if ($pageVars["data"]["login_enabled"] == false || in_array($pageVars["data"]["current_user_role"], array("1", "2"))) {
 
@@ -98,7 +98,23 @@
             <div class="well well-lg ">
            
             <div class="row clearfix no-margin">
-                <div class="leftCell">
+                <?php
+
+                if ($pageVars["data"]["login_enabled"] == false ||
+                    in_array($pageVars["data"]["current_user_role"], array("1", "2"))) {
+                    $show_build_button = true ;
+                    $row_class = "leftCell" ;
+                } else {
+                    $show_build_button = false ;
+                    $row_class = "fullRow" ;
+                }
+
+                if ($pageVars["data"]["pipeline"]["last_status"]===true) { $sclass = "good" ;}
+                else if ($pageVars["data"]["pipeline"]["last_status"]===false) { $sclass =  "bad" ; }
+                else { $sclass = "unknown" ; }
+
+                ?>
+                <div class="<?php echo $row_class ; ?>">
                     <div class="fullRow">
                         <h3 class="text-uppercase text-light "><strong>Pipeline: </strong><?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></h3>
                     </div>
@@ -116,21 +132,24 @@
                     </div>
                 </div>
                 <?php
-                if ($pageVars["data"]["pipeline"]["last_status"]===true) { $sclass = "good" ;}
-                else if ($pageVars["data"]["pipeline"]["last_status"]===false) { $sclass =  "bad" ; }
-                else { $sclass = "unknown" ; } ?>
-                <div class="rightCell">
-                    <a class="buildNowLarge" href="index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
+
+                if ($show_build_button == true) { ?>
+
+                    <div class="rightCell">
+                        <a class="buildNowLarge" href="index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
                         <span>
                             Build Now
                         </span>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+
+                <?php
+                }
+                ?>
+
             </div>
             <hr>
             <div class="row clearfix no-margin build-home-properties">
-<!--                <h3><a class="lg-anchor text-light" href="/index.php?control=BuildConfigure&action=show&item=--><?php //echo $pageVars["data"]["pipeline"]["project-slug"] ; ?><!--">-->
-<!--                    Configure Pipeline: --><?php //echo $pageVars["data"]["pipeline"]["project-name"] ; ?><!--- <i style="font-size: 18px;" class="fa fa-chevron-right"></i></a></h3>-->
 
                 <div class="pipe-now-status-block pipe-block">
                     <h4 class="propertyTitle">Build Status Currently:</h4>
@@ -146,16 +165,30 @@
 
                 </div>
 
-                <div class="alert alert-info">
-                    <h4>Running Builds </h4>
-                    <div id="runningBuilds">
-                        <p>
-                            No builds of this pipeline currently being executed
-                        </p>
-                    </div>
-                </div>
+                <?php
 
-                <?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>
+                if ($show_build_button == true) { ?>
+
+                    <div class="alert alert-info">
+                        <h4>Running Builds </h4>
+                        <div id="runningBuilds">
+                            <p>
+                                No builds of this pipeline currently being executed
+                            </p>
+                        </div>
+                    </div>
+
+                <?php
+                }
+                ?>
+
+                <?php
+                if ($pageVars["data"]["login_enabled"] == false ||
+                    in_array($pageVars["data"]["current_user_role"], array("1", "2", "3")) ||
+                    (
+                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["enabled"] == "on" &&
+                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["build_public_features"] == "on"
+                    )) {                ?>
 
                 <div class="pipe-features-block pipe-block">
                     <h4 class="propertyTitle">Build Features:</h4>
@@ -176,6 +209,18 @@
                     ?>
                     </div>
                 </div>
+
+                <?php
+                }
+
+                if ($pageVars["data"]["login_enabled"] == false ||
+                    in_array($pageVars["data"]["current_user_role"], array("1", "2", "3")) ||
+                    (
+                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["enabled"] == "on" &&
+                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["build_public_history"] == "on"
+                    )) {
+                ?>
+
                 <div class="pipe-history-block pipe-block">
                     <h4 class="propertyTitle">Build History:</h4>
                     <?php
@@ -185,6 +230,10 @@
                                     echo 'Build ID: <a href="/index.php?control=PipeRunner&action=summary&item='.$pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb.'">'.$hb.'</a><br />' ; } }
                     ?>
                 </div>
+
+                <?php
+                }
+                ?>
 
                <hr>
                 <p class="text-center">
