@@ -42,7 +42,7 @@ class PublishHTMLreportsAllOS extends Base {
                         "name" => "Report Title",
                         "slug" => "reporttitle"),
                     "allow_public" =>
-                    array("type" => "text",
+                    array("type" => "boolean",
                         "name" => "Allow Public Report Access?",
                         "slug" => "allow_public"))))
 		    ;
@@ -53,9 +53,17 @@ class PublishHTMLreportsAllOS extends Base {
 
 	public function getEvents() {
 		$ff = array("afterBuildComplete" => array("PublishHTMLreports"));
-		return $ff ; }
+		return $ff ;
+    }
 
-	public function getReportListData() {
+    public function getPipeline() {
+        $pipelineFactory = new \Model\Pipeline() ;
+        $pipeline = $pipelineFactory->getModel($this->params);
+        $r = $pipeline->getPipeline($this->params["item"]);
+        return $r ;
+    }
+
+    public function getReportListData() {
 		$pipeFactory = new \Model\Pipeline();
 		$pipeline = $pipeFactory->getModel($this->params);
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
@@ -97,68 +105,75 @@ class PublishHTMLreportsAllOS extends Base {
                 "report_data" => $report_data,
             )
         );
-		return $ff ; }
+        $ff["pipeline"] = $this->getPipeline() ;
+        $ff["current_user"] = $this->getCurrentUser() ;
+        $ff["current_user_role"] = $this->getCurrentUserRole($ff["current_user"]);
+        return $ff ;
+    }
 
-	public function PublishHTMLreports() {
-        $loggingFactory = new \Model\Logging();
-        $this->params["echo-log"] = true ;
-        $logging = $loggingFactory->getModel($this->params);
-        
-        $run = $this->params["run-id"];
-            $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
-            $steps = file_get_contents($file) ;
-            $steps = json_decode($steps, true);
+    protected function getCurrentUser() {
+        $signupFactory = new \Model\Signup() ;
+        $signup = $signupFactory->getModel($this->params);
+        $user = $signup->getLoggedInUserData();
+        return $user ;
+    }
 
-        $mn = $this->getModuleName() ;
-        if (isset($steps[$mn]["enabled"]) && $steps[$mn]["enabled"] == "on") {
+    public function getCurrentUserRole($user = null) {
+        if ($user == null) { $user = $this->getCurrentUser(); }
+        if ($user == false) { return false ; }
+        return $user->role ;
+    }
 
-            foreach ($steps[$mn]["reports"] as $reportHash => $reportDetail) {
+    public function isLoginEnabled() {
+        $settings = $this->getSettings();
+        if ( (isset($settings["Signup"]["signup_enabled"]) && $settings["Signup"]["signup_enabled"] !== "on")
+            || !isset($settings["Signup"]["signup_enabled"])) {
+            return false ; }
+        return true ;
+    }
 
-                $dir = $reportDetail["Report_Directory"];
-                if (substr($dir, -1) != DS) { $dir = $dir . DS ;}
 
-                $indexFile = $reportDetail["Index_Page"];
-                $ReportTitle = $reportDetail["Report_Title"];
-                $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-                $raw = file_get_contents($tmpfile);
-                if (!$raw) {
-                    $logging->log("Report not generated", $this->getModuleName());	}
+
+    public function userIsAllowedAccess() {
+        $user = $this->getCurrentUser() ;
+        $pipeline = $this->getPipeline() ;
+        $settings = $this->getSettings() ;
+        if (!isset($settings["PublicScope"]["enable_public"]) ||
+            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] != "on" )) {
+            // if enable public is set to off
+            if ($user == false) {
+                // and the user is not logged in
+                return false ; }
+            // if they are logged in continue on
+            return true ; }
+        else {
+            // if enable public is set to on
+            if ($user == false) {
+                // and the user is not logged in
+                if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
+                    $pipeline["settings"]["PublicScope"]["build_public_reports"] == "on") {
+                    // if public pages are on
+                    if ($pipeline["settings"]["PublishHTMLreports"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
+                        // if this report has public access enabled
+                        return true ; }
+                    else {
+                        // if this report has public access disabled
+                        return false ; } }
                 else {
-                    $slug = "Report of Pipeline ".$this->params["item"]." for run-id ".$this->params["run-id"];
-                    $byline = PHARAOH_APP_FRIENDLY." - Pharaoh Build HTML Report. ";
-                    $html = nl2br(htmlspecialchars($raw));
-                    $html = str_replace("&lt;br /&gt;","<br />",$html);
-                    $html = preg_replace('/\s\s+/', ' ', $html);
-                    $html = preg_replace('/\s(\w+:\/\/)(\S+)/', ' <a href="\\1\\2" target="_blank">\\1\\2</a>', $html);
+                    // if no public pages are on
+                    return false ; } }
+            else {
+                // and the user is logged in
+                // @todo this is where repo specific perms go when ready
+                return true ;
+            }
+        }
+    }
 
-                $output =<<< HEADER
-        <html>
-            <head><title>"$ReportTitle"</title>
-                <style>
-                    .slug {font-size: 15pt; font-weight: bold; font-style: italic}
-                    .byline { font-style: italic }
-                </style>
-            </head>
-            <body>
-HEADER;
-                $output .= "        <div class='slug'>$slug</div>";
-                $output .= "            <div class='byline'>By $byline</div>";
-                $output .= "        <div>$html</div>";
-                $output .=<<< FOOTER
-            </body>
-        </html>
-FOOTER;
-                    //save reference
-                    $reportRef = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.'HTMLreports'.DS;
-                    if (!file_exists($reportRef)) { mkdir($reportRef, 0777); }
-                    file_put_contents($reportRef.$indexFile . '-' . date("l jS \of F Y h:i:s A"), $output);
-                    $source=$dir.$indexFile;
-                    if(file_put_contents($source,$output)) {	return true;	}
-                    else { return false; } } } }
-       else {
-    //$logging->log ("Publish HTML reports ignoring...", $this->getModuleName() ) ;
-    //            	return true ;
-       }
-}
+    protected function getSettings() {
+        $settings = \Model\AppConfig::getAppVariable("mod_config");
+        return $settings ;
+    }
+
 
 }

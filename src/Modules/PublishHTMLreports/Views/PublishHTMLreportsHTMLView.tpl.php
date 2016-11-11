@@ -5,6 +5,14 @@
                 echo $pageVars["data"]["current_report"]["feature_data"]["Report_Title"] ;
             ?>
         </h2>
+        <h4>
+            <a href="index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
+                Return To Build Home :
+                <strong>
+                    <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
+                </strong>
+            </a>
+        </h4>
     </div>
     <div class="fullRow">
         <hr />

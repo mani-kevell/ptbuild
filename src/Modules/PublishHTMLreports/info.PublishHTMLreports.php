@@ -32,6 +32,10 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
         return array("htmlReports");
     }
 
+    public function ignoredAuthenticationRoutes() {
+        return array( "PublishHTMLreports" => array("report", "report-list") );
+    }
+
     public function helpDefinition() {
        $help = <<<"HELPDATA"
     This extension publish HTML reports of a build. It provides code
