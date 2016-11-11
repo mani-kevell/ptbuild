@@ -51,31 +51,45 @@ class PHPScriptLinuxUnix extends Base {
     }
 
     private function executeAsPHPData($data) {
+        $loggingFactory = new \Model\Logging();
+        $logging = $loggingFactory->getModel($this->params);
+        $phpc = $data  ;
         if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
             $loggingFactory = new \Model\Logging();
             $logging = $loggingFactory->getModel($this->params);
             $logging->log("PHP Extracting Environment Variables...", $this->getModuleName()) ;
-            $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
-            $count = extract($this->params["env-vars"]) ;
-            $logging->log("PHP Successfully Extracted {$count} Environment Variables into PHP Variables {$ext_vars}...", $this->getModuleName()) ; }
-        $ressy = eval($data) ;
-//        var_dump('ressy', $ressy) ;
-        // @todo need to return actual status
-        return true ;
+            $ext_vars = json_encode($this->params["env-vars"], JSON_PRETTY_PRINT) ;
+            $phpc .= '<?'.'php'."\n" ;
+            $phpc .= '  '."\n" ;
+            $phpc .= '  $extract_vars = "'.$ext_vars.'";'."\n" ;
+            $phpc .= '  $extract_vars_array = json_decode($extract_vars);'."\n" ;
+            $phpc .= '  $extract_vars_keys = array_keys($extract_vars_array);'."\n" ;
+            $phpc .= '  $extract_vars_keys_string = implode(",", $extract_vars_array);'."\n" ;
+            $phpc .= '  $count = extract($extract_vars_array); '."\n" ;
+            $phpc .= '  "PHP Successfully Extracted {$count} Environment Variables into PHP Variables {$extract_vars_keys_string}..." ; '."\n" ;
+            $phpc .= ' '."\n" ; }
+        $phpc .= $data  ;
+//        echo $phpc ;
+        $tempFile = getcwd().DS.PHARAOH_APP."-temp-script-".mt_rand(100, 99999999999).".php";
+        $stored = file_put_contents($tempFile, $phpc) ;
+        if ($stored == false) {
+            $logging->log("File not found, error...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            return false ; }
+        $res = $this->executeAsPHPScript($tempFile) ;
+        unlink($tempFile);
+        return $res ;
     }
 
     private function executeAsPHPScript($scr_loc) {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         if (file_exists($scr_loc)) {
-            $logging->log("File found, loading...", $this->getModuleName()) ;
-            $data = file_get_contents($scr_loc) ;
-            if (!$data) {
-                $logging->log("Unable to load file...", $this->getModuleName()) ;
-                return false ; }
-            return $this->executeAsPHPData($data) ; }
+            $logging->log("File found, executing...", $this->getModuleName()) ;
+            $comm = "php {$scr_loc} || exit 1" ;
+            $res = $this->executeAndGetReturnCode($comm, true, true) ;
+            return ($res["rc"] == 0) ? true : false ; }
         else {
-            $logging->log("File not found, ignoring...", $this->getModuleName()) ;
+            $logging->log("File not found, error...", $this->getModuleName()) ;
             \Core\BootStrap::setExitCode(1);
             return false ;}
     }
