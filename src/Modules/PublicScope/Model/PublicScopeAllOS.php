@@ -26,24 +26,30 @@ class PublicScopeAllOS extends Base {
                 "optional" => true,
                 "name" => "Enable Public Scope for Builds?"
             ),
-            "public_pages" =>
+            "build_public_home" =>
             array(
                 "type" => "boolean",
                 "optional" => true,
-                "name" => "Make Build Pages Public?"
+                "name" => "Make Build Home Page Public?"
             ),
-            "public_read" =>
+            "build_public_features" =>
             array(
                 "type" => "boolean",
                 "optional" => true,
-                "name" => "Allow Public Code Reads?"
+                "name" => "Make Build Features Public?"
             ),
-//            "public_write" =>
-//            array(
-//                "type" => "boolean",
-//                "optional" => true,
-//                "name" => "Allow Public Code Writes?"
-//            ),
+            "build_public_history" =>
+            array(
+                "type" => "boolean",
+                "optional" => true,
+                "name" => "Make Build History Public?"
+            ),
+            "build_public_reports" =>
+            array(
+                "type" => "boolean",
+                "optional" => true,
+                "name" => "Allow Making Individual Reports Public?"
+            ),
         );
         return $ff ;
     }
@@ -56,43 +62,41 @@ class PublicScopeAllOS extends Base {
     public function getEvents() {
         $ff = array(
             "getPublicLinks" => array(
-                "getPublicRepositories",
+                "getPublicPipelines",
             ),
         );
         return $ff ;
     }
 
-    public function getPublicRepositories() {
+    public function getPublicPipelines() {
         $this->params["echo-log"] = true ;
         $this->params["php-log"] = true ;
-        $repositories = $this->getRepositories() ;
-        $public_repositories = array() ;
-//        var_dump("<pre>","reps:", $repositories, "</pre>") ;
-//        die() ;
-        foreach ($repositories as $repository_slug => $repository) {
-            if ($repository["settings"]["PublicScope"]["enabled"] == "on") {
-                if ($repository["settings"]["PublicScope"]["public_pages"] == "on") {
-                    $public_repositories[] = $repository ; } } }
-        $public_repositories_html = $this->getHTMLFromRepositories($public_repositories) ;
-        \Model\RegistryStore::setValue('public_links', $public_repositories_html) ;
-        return $public_repositories ;
+        $pipelines = $this->getPipelines() ;
+        $public_pipelines = array() ;
+        foreach ($pipelines as $pipeline_slug => $pipeline) {
+            if ($pipeline["settings"]["PublicScope"]["enabled"] == "on") {
+                if ($pipeline["settings"]["PublicScope"]["public_pages"] == "on") {
+                    $public_pipelines[] = $pipeline ; } } }
+        $public_pipelines_html = $this->getHTMLFromPipelines($public_pipelines) ;
+        \Model\RegistryStore::setValue('public_links', $public_pipelines_html) ;
+        return $public_pipelines ;
     }
 
-    public function getRepositories() {
-        $repositoryFactory = new \Model\Repository() ;
-        $repository = $repositoryFactory->getModel($this->params);
-        $repos = $repository->getRepositories();
-        return $repos ;
+    public function getPipelines() {
+        $pipelineFactory = new \Model\Pipeline() ;
+        $pipeline = $pipelineFactory->getModel($this->params);
+        $pipelines = $pipeline->getPipelines();
+        return $pipelines ;
     }
 
-    public function getHTMLFromRepositories($public_repositories) {
+    public function getHTMLFromPipelines($public_pipelines) {
         $html = "" ;
-        if (count($public_repositories)>0) {
-            $html .= "<h3><strong>Public Repositories:</strong></h3>" ;
-            foreach ($public_repositories as $public_repository) {
+        if (count($public_pipelines)>0) {
+            $html .= "<h3><strong>Public Builds:</strong></h3>" ;
+            foreach ($public_pipelines as $public_pipeline) {
                 $html .= "<div>" ;
-                $html .= "    <a target='_blank' href='index.php?control=RepositoryHome&action=show&item={$public_repository["project-slug"]}' > " ;
-                $html .= "        {$public_repository["project-name"]} " ;
+                $html .= "    <a target='_blank' href='index.php?control=BuildHome&action=show&item={$public_pipeline["project-slug"]}' > " ;
+                $html .= "        {$public_pipeline["project-name"]} " ;
                 $html .= "    </a>" ;
                 $html .= "</div>" ; } }
         return $html ;
