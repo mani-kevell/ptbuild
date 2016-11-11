@@ -16,6 +16,14 @@ class SignupAllOS extends Base {
 
     public function getlogin() {
         $ret["settings"] = $this->getSettings() ;
+
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ret["events"] = $eventRunner->eventRunner("getPublicLinks") ;
+        if ($ret["events"] == false) {
+         // should probably do something here
+        }
+
         return $ret ;
     }
 
@@ -31,10 +39,10 @@ class SignupAllOS extends Base {
     }
 
     //check login
-    public function checkLogin() {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $res = $this->checkLoginInfo($username, $password);
+    public function checkLogin($user = null, $pass = null) {
+        $user = (is_null($user)) ? $_POST['username'] : $user ;
+        $pass = (is_null($pass)) ? $_POST['password'] : $pass ;
+        $res = $this->checkLoginInfo($user, $pass);
         return $res ;
     }
 
@@ -46,7 +54,7 @@ class SignupAllOS extends Base {
 
 
     // @todo need to check login credential from datastore or PAM/LDAP
-    public function checkLoginInfo($usr, $pass) {
+    public function checkLoginInfo($usr, $pass, $start_session=true) {
         $file = $this->getUserFileLocation();
         $accountsJson = file_get_contents($file);
         $accounts = json_decode($accountsJson);
@@ -57,6 +65,9 @@ class SignupAllOS extends Base {
                 $account->password == $this->getSaltWord($pass) &&
                 $account->status == 1) {
                 $verified = true; } }
+        if (($verified== true) && ($start_session == false)) {
+            return array("status" => true) ;
+        }
         if ($verified === true) {
             session_start() ;
             $_SESSION["login-status"]=true;
