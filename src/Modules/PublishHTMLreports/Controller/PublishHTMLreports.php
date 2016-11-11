@@ -11,9 +11,13 @@ class PublishHTMLreports extends Base {
 
         $action = $pageVars["route"]["action"];
 
-         if (in_array($pageVars["route"]["action"], array("report"))) {
-             $this->content["data"] = $thisModel->getReportData();
-             return array ("type"=>"view", "view"=>"publishHTMLreports", "pageVars"=>$this->content); }
+        if (in_array($pageVars["route"]["action"], array("report"))) {
+            $this->content["data"] = $thisModel->getReportData() ;
+            return array ("type"=>"view", "view"=>"publishHTMLreports", "pageVars"=>$this->content) ; }
+
+        if (in_array($pageVars["route"]["action"], array("report-list"))) {
+            $this->content["data"] = $thisModel->getReportListData() ;
+            return array ("type"=>"view", "view"=>"publishHTMLreportsList", "pageVars"=>$this->content) ; }
 
         if ($action=="help") {
             $helpModel = new \Model\Help();
