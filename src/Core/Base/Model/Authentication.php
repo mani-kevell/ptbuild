@@ -15,7 +15,7 @@ class Authentication {
         $handled = array() ;
         $handled["control"] = $control ;
         $handled["pageVars"] = $pageVars ;
-        if (!isset($mod_config["Signup"]["signup_enabled"]) || $mod_config["Signup"]["signup_enabled"]=="off") {
+        if (!isset($mod_config["Signup"]["signup_enabled"]) || $mod_config["Signup"]["signup_enabled"] !== "on") {
 //            error_log("signup not enabled  ") ;
             return $handled  ; }
 
@@ -29,7 +29,7 @@ class Authentication {
 
         foreach ($infos as $info) {
             if (method_exists($info, "ignoredAuthenticationRoutes")) {
-                $ignoredAuthRoutes[$info->getModuleName()] = $info->ignoredAuthenticationRoutes() ; } }
+                $ignoredAuthRoutes = array_merge($ignoredAuthRoutes, $info->ignoredAuthenticationRoutes()) ; } }
         if (array_key_exists($handled["control"], $ignoredAuthRoutes) &&
             in_array($pageVars["route"]["action"], $ignoredAuthRoutes[$handled["control"]])) {
             // if we are requesting something with ignored auth, just return it
