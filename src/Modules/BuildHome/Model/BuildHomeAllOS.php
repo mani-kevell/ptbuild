@@ -21,7 +21,7 @@ class BuildHomeAllOS extends Base {
         $ret["features"] = $this->getPipelineFeatures();
         $ret["historic_builds"] = $this->getOldBuilds();
         $ret["current_user"] = $this->getCurrentUser() ;
-        $ret["current_user_role"] = $this->getCurrentUserRole($ret["current_user_data"]);
+        $ret["current_user_role"] = $this->getCurrentUserRole($ret["current_user"]);
         return $ret ;
     }
 
@@ -92,30 +92,24 @@ class BuildHomeAllOS extends Base {
             ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] != "on" )) {
             // if enable public is set to off
             if ($user == false) {
-                var_dump("1") ; die() ;
                 // and the user is not logged in
                 return false ; }
             // if they are logged in continue on
-            var_dump("2") ; die() ;
             return true ; }
         else {
             // if enable public is set to on
             if ($user == false) {
-                var_dump("3") ; die() ;
                 // and the user is not logged in
                 if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
                     $pipeline["settings"]["PublicScope"]["build_public_home"] == "on") {
                     // if public pages are on
-                    var_dump("4") ; die() ;
                     return true ; }
                 else {
                     // if no public pages are on
-                    var_dump("5") ; die() ;
                     return false ; } }
             else {
                 // and the user is logged in
                 // @todo this is where repo specific perms go when ready
-                var_dump("6") ; die() ;
                 return true ;
             }
         }
