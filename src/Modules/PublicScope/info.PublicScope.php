@@ -24,8 +24,8 @@ class PublicScopeInfo extends PTConfigureBase {
         return array("getPublicLinks");
     }
 
-    public function repositorySettings() {
-        return array("enabled", "public_pages", "public_read", "public_write");
+    public function buildSettings() {
+        return array("PublicScope");
     }
 
     public function configuration() {
