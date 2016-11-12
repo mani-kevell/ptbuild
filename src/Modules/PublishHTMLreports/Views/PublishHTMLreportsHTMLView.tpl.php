@@ -16,7 +16,6 @@
     </div>
     <div class="fullRow">
         <hr />
-        <h4> Report: </h4>
         <?php
             echo $pageVars["data"]["current_report"]["report_data"] ;
         ?>
