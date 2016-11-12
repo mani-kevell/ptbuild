@@ -27,3 +27,4 @@
         </p>
     </div>
 </div>
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/PublishHTMLreports/css/publishhtmlreports.css">
