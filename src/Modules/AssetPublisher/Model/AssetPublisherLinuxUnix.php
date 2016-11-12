@@ -26,10 +26,10 @@ class AssetPublisherLinuxUnix extends Base {
     }
 
     public function publishAssets() {
-        $r1 = $this->generatePHPToJS() ;
-        if ($r1 == false) { return false ; }
         $r2 = $this->copyToPublicDirectory() ;
         if ($r2 == false) { return false ; }
+        $r1 = $this->generatePHPToJS() ;
+        if ($r1 == false) { return false ; }
         return true ;
     }
 
