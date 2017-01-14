@@ -81,7 +81,9 @@ class AssetPublisherLinuxUnix extends Base {
                 $logging->log("Copying Assets to Web server readable directory", $this->getModuleName()) ;
                 $comm = "cp -r $modAssets".DS."* $modPublicAssetDir" ;
                 $statuses[] = $this->executeAndGetReturnCode($comm); } }
-        if (in_array(false, $statuses)) { return false; }
+//        var_dump($statuses) ;
+        if (count(array_unique($statuses)) === 1 && in_array(0, $statuses) === 'true') {
+            return true ; }
         return true ;
     }
 
