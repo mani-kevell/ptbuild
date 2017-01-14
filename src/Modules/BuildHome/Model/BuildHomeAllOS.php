@@ -40,8 +40,8 @@ class BuildHomeAllOS extends Base {
 
     public function isLoginEnabled() {
         $settings = $this->getSettings();
-        if ( (isset($settings["Signup"]["signup_enabled"]) && $settings["Signup"]["signup_enabled"] !== "on")
-              || !isset($settings["Signup"]["signup_enabled"])) {
+        if ( (isset($settings['Signup']['signup_enabled']) && $settings['Signup']['signup_enabled'] !== "on")
+              || !isset($settings['Signup']['signup_enabled'])) {
             return false ; }
         return true ;
     }
@@ -88,8 +88,13 @@ class BuildHomeAllOS extends Base {
         $user = $this->getCurrentUser() ;
         $pipeline = $this->getPipeline() ;
         $settings = $this->getSettings() ;
-        if (!isset($settings["PublicScope"]["enable_public"]) ||
-            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] != "on" )) {
+        if (isset($settings['Signup']['signup_enabled']) ||
+            ( isset($settings['Signup']['signup_enabled']) && $settings['Signup']['signup_enabled'] !== "on" )) {
+            // if signups arent enabled neither are permissions
+            return true ;
+        }
+        else if (!isset($settings["PublicScope"]["enable_public"]) ||
+            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] !== "on" )) {
             // if enable public is set to off
             if ($user == false) {
                 // and the user is not logged in
