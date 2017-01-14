@@ -1,17 +1,12 @@
 <div class="container" id="wrapper">
-    <div class="navbar-default col-sm-2 sidebar" role="navigation">
+    <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
 		<div class="sidebar-nav ">
 			<ul class="nav in" id="side-menu">
-				<li class="sidebar-search">
-					<div class="input-group custom-search-form  hvr-bounce-in">
-						<input type="text" class="form-control" placeholder="Search...">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button">
-								<i class="fa fa-search"></i>
-							</button> </span>
-                        
-					</div>
-					</li>
+                <li class="sidebar-search">
+                    <button class="btn btn-info" id="hide_menu_button" type="button">
+                        Hide Menu
+                    </button>
+                </li>
                 <li>
                     <a href="/index.php?control=Index&amp;action=show" class="hvr-bounce-in">
                         <i class="fa fa-dashboard fa-fw hvr-bounce-in"></i> Dashboard
@@ -51,8 +46,7 @@
         </div>
        </div>
 
-         <div class="col-lg-9">
-                    <div class="well well-lg">
+         <div id="page_content" class="col-lg-9 well well-lg">
 <!--            <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools </a></h2>-->
 
                         <?php echo $this->renderLogs() ; ?>
@@ -74,6 +68,12 @@
                             break ; }
                 ?>
                 <h3><?= $stat; ?> Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
+
+                <div class="form-group col-lg-3 thin_padding" id="show_menu_wrapper">
+                    <button class="btn btn-success" id="show_menu_button" type="button">
+                        Show Menu
+                    </button>
+                </div>
 
                     <?php
                     if ($pageVars["route"]["action"] == "summary") {
@@ -183,8 +183,6 @@
                 <p class="text-center">
                 Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
             </p>
-
-        </div>
-
+             
     </div>
 </div><!-- /.container -->
