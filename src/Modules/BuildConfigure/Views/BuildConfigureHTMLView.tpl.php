@@ -85,7 +85,12 @@
                 <form class="form-horizontal custom-form" action="<?= $act ; ?>" method="POST">
 
                     <div class="form-group">
-                        <div class="col-sm-10">
+                        <div class="col-sm-3 thin_padding" id="show_menu_wrapper">
+                            <button class="btn btn-success" id="show_menu_button" type="button">
+                                Show Menu
+                            </button>
+                        </div>
+                        <div class="col-sm-9">
                             <h3>Build Settings</h3>
                         </div>
                     </div>
