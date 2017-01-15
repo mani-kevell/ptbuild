@@ -2,19 +2,13 @@
 <script type="text/javascript" src="/Assets/Modules/BuildConfigure/js/buildconfigure.js"></script>
 <script type="text/javascript" src="/Assets/Modules/BuildConfigure/js/buildconfigure_settings.js"></script>
 <div class="container" id="wrapper">
-    <div class="navbar-default col-sm-2 sidebar" role="navigation">
+    <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
         <div class="sidebar-nav ">
             <ul class="nav in" id="side-menu">
                 <li class="sidebar-search">
-                    <div class="input-group custom-search-form hvr-bounce-in">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <!-- /input-group -->
+                    <button class="btn btn-info" id="hide_menu_button" type="button">
+                        Hide Menu
+                    </button>
                 </li>
                 <li>
                     <a href="/index.php?control=Index&action=show" class=" hvr-bounce-in">
@@ -72,8 +66,8 @@
             </ul>
         </div>
     </div>
-<div class="col-lg-9">
-                    <div class="well well-lg">
+
+    <div id="page_content" class="col-lg-9 well well-lg">
 
         <?php
         $act = '/index.php?control=BuildConfigure&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=save' ;
@@ -361,9 +355,7 @@
             </p>
 
         </div>
-
-    </div>
-</div><!-- container -->
+    </div><!-- container -->
 
 
 
