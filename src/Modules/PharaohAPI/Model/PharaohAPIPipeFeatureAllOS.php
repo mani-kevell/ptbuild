@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishHTMLreportsPipeFeatureAllOS extends Base {
+class PharaohAPIPipeFeatureAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -34,7 +34,7 @@ class PublishHTMLreportsPipeFeatureAllOS extends Base {
 	}
 
 	public function getLink() {
-		$link  = 'index.php?control=PublishHTMLreports&action=report&item='.$this->pipeline["project-slug"];
+		$link  = 'index.php?control=PharaohAPI&action=report&item='.$this->pipeline["project-slug"];
 		$link .= '&hash='.$this->pipeFeatureValues["hash"];
 		$ff = array("link" => "$link");
 		return $ff ;

@@ -11,7 +11,7 @@
                     $indexFile = $reportDetail["Index_Page"];
                     $reportTitle = $reportDetail["Report_Title"];
 
-                    echo '<a href="index.php?control=PublishHTMLreports&action=report&item=' ;
+                    echo '<a href="index.php?control=PharaohAPI&action=report&item=' ;
                     echo $pageVars["data"]["pipe"]["project-slug"].'">' ;
                     echo '  '.$reportTitle ;
                     echo '</a>' ;

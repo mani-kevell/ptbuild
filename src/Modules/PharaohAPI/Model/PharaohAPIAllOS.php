@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishHTMLreportsAllOS extends Base {
+class PharaohAPIAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -44,7 +44,8 @@ class PublishHTMLreportsAllOS extends Base {
                     "allow_public" =>
                     array("type" => "boolean",
                         "name" => "Allow Public Report Access?",
-                        "slug" => "allow_public"))))
+                        "slug" => "allow_public")))
+            )
 		    ;
           return $ff ;}
    
@@ -52,7 +53,7 @@ class PublishHTMLreportsAllOS extends Base {
         return array_keys($this->getEvents());   }
 
 	public function getEvents() {
-		$ff = array("afterBuildComplete" => array("PublishHTMLreports"));
+		$ff = array("afterBuildComplete" => array("PharaohAPI"));
 		return $ff ;
     }
 
@@ -132,7 +133,41 @@ class PublishHTMLreportsAllOS extends Base {
         return true ;
     }
 
-
+    public function keyIsAllowedAccess() {
+        $user = $this->getCurrentUser() ;
+        $pipeline = $this->getPipeline() ;
+        $settings = $this->getSettings() ;
+        if (!isset($settings["PublicScope"]["enable_public"]) ||
+            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] != "on" )) {
+            // if enable public is set to off
+            if ($user == false) {
+                // and the user is not logged in
+                return false ; }
+            // if they are logged in continue on
+            return true ; }
+        else {
+            // if enable public is set to on
+            if ($user == false) {
+                // and the user is not logged in
+                if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
+                    $pipeline["settings"]["PublicScope"]["build_public_reports"] == "on") {
+                    // if public pages are on
+                    if ($pipeline["settings"]["PharaohAPI"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
+                        // if this report has public access enabled
+                        return true ; }
+                    else {
+                        // if this report has public access disabled
+                        return false ; } }
+                else {
+                    // if no public pages are on
+                    return false ; } }
+            else {
+                // and the user is logged in
+                // @todo this is where repo specific perms go when ready
+                return true ;
+            }
+        }
+    }
 
     public function userIsAllowedAccess() {
         $user = $this->getCurrentUser() ;
@@ -153,7 +188,7 @@ class PublishHTMLreportsAllOS extends Base {
                 if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
                     $pipeline["settings"]["PublicScope"]["build_public_reports"] == "on") {
                     // if public pages are on
-                    if ($pipeline["settings"]["PublishHTMLreports"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
+                    if ($pipeline["settings"]["PharaohAPI"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
                         // if this report has public access enabled
                         return true ; }
                     else {

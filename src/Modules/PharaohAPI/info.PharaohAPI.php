@@ -2,7 +2,7 @@
 
 Namespace Info;
 
-class PublishHTMLreportsInfo extends PTConfigureBase {
+class PharaohAPIInfo extends PTConfigureBase {
 
     public $hidden = false;
 
@@ -13,11 +13,11 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "PublishHTMLreports" => array_merge(parent::routesAvailable(), array("help", "report", "report-list") ) );
+        return array( "PharaohAPI" => array_merge(parent::routesAvailable(), array("help", "report", "report-list") ) );
     }
 
     public function routeAliases() {
-        return array("publishhtmlreports"=>"PublishHTMLreports","PublishHTMLreports"=>"PublishHTMLreports");
+        return array("pharaohapi"=>"PharaohAPI","PharaohAPI"=>"PharaohAPI");
     }
 
     public function events() {
@@ -33,7 +33,7 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     }
 
     public function ignoredAuthenticationRoutes() {
-        return array( "PublishHTMLreports" => array("report", "report-list") );
+        return array( "PharaohAPI" => array("report", "report-list") );
     }
 
     public function helpDefinition() {
@@ -41,7 +41,7 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     This extension publish HTML reports of a build. It provides code
     functionality, but no extra CLI commands.
 
-    publishhtmlreports
+    pharaohapi
 
 HELPDATA;
       return $help ;
