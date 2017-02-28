@@ -23,12 +23,12 @@ class PublishHTMLreports extends Base {
              $this->content["data"] = $thisModel->getReportListData() ;
              return array ("type"=>"view", "view"=>"publishHTMLreportsList", "pageVars"=>$this->content) ; }
 
-         if ($action=="help") {
+         if ($action === 'help') {
              $helpModel = new \Model\Help();
-             $this->content["helpData"] = $helpModel->getHelpData($pageVars["route"]["control"]);
+             $this->content["helpData"] = $helpModel->getHelpData($pageVars['route']['control']);
              return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
 
-         $this->content["messages"][] = "Help is the only valid HTML reports Action";
+         $this->content["messages"][] = "Invalid HTML reports Action";
          return array ("type"=>"control", "control"=>"index", "pageVars"=>$this->content);
 
      }
