@@ -20,7 +20,7 @@
                 </li>
                 <li>
                     <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in">
-                        <i class="fa fa-cogs fa-fw hvr-bounce-in"></i> Configure PTSource
+                        <i class="fa fa-cogs fa-fw hvr-bounce-in"></i> Configure PTBuild
                     </a>
                 </li>
                 <li>
