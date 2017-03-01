@@ -16,16 +16,9 @@ class PharaohAPI extends Base {
 
          $action = $pageVars["route"]["action"];
 
-
-
-
-//         if (in_array($pageVars["route"]["action"], array("report"))) {
-//             $this->content["data"] = $thisModel->getReportData() ;
-//             return array ("type"=>"view", "view"=>"pharaohAPI", "pageVars" => $this->content) ; }
-//
-//         if (in_array($pageVars["route"]["action"], array("report-list"))) {
-//             $this->content["data"] = $thisModel->getReportListData() ;
-//             return array ("type"=>"view", "view"=>"pharaohAPIList", "pageVars" => $this->content) ; }
+         if ($pageVars["route"]["action"] === "call") {
+             $this->content["data"] = $thisModel->getReportData() ;
+             return array ("type"=>"view", "view"=>"pharaohAPI", "pageVars" => $this->content) ; }
 
          if ($action === 'help') {
              $helpModel = new \Model\Help();
