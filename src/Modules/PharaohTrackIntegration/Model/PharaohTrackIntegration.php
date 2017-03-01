@@ -2,6 +2,6 @@
 
 Namespace Model;
 
-class PharaohBuildIntegration extends BaseModelFactory {
+class PharaohTrackIntegration extends BaseModelFactory {
 
 }

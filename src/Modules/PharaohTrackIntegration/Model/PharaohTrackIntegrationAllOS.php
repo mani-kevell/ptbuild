@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PharaohBuildIntegrationAllOS extends Base {
+class PharaohTrackIntegrationAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -24,15 +24,15 @@ class PharaohBuildIntegrationAllOS extends Base {
             array(
                 "type" => "boolean",
                 "optional" => true,
-                "name" => "Enable Integrating with Pharaoh Build job/s?"
+                "name" => "Enable Integrating with Pharaoh Track job/s?"
             ),
 
             "fieldsets" => array(
-                "build_jobs" => array(
+                "track_jobs" => array(
                     "url" =>
                         array(
                             "type" => "text",
-                            "name" => "Build Job URL",
+                            "name" => "Track Job URL",
                             "slug" => "joburl"),
                     "title" =>
                         array(

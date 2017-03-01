@@ -2,22 +2,22 @@
 
 Namespace Info;
 
-class PharaohBuildIntegrationInfo extends PTConfigureBase {
+class PharaohTrackIntegrationInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "Provides Functionality to integrate Pharaoh Build Reports with a Repository";
+    public $name = "Provides Functionality to integrate Pharaoh Track Reports with a Repository";
 
     public function _construct() {
         parent::__construct();
     }
 
     public function routesAvailable() {
-        return array( "PharaohBuildIntegration" => array_merge(parent::routesAvailable(), array("help") ) );
+        return array( "PharaohTrackIntegration" => array_merge(parent::routesAvailable(), array("help") ) );
     }
 
     public function routeAliases() {
-        return array("pharaohbuildintegration"=>"PharaohBuildIntegration");
+        return array("pharaohtrackintegration"=>"PharaohTrackIntegration");
     }
 
     public function repositorySettings() {
@@ -29,7 +29,7 @@ class PharaohBuildIntegrationInfo extends PTConfigureBase {
     }
 
     public function repositoryFeatures() {
-        return array("pharaohBuildIntegration");
+        return array("pharaohTrackIntegration");
     }
 
     public function configuration() {
@@ -37,32 +37,32 @@ class PharaohBuildIntegrationInfo extends PTConfigureBase {
             "enabled"=> array(
                 "type" => "boolean",
                 "default" => "",
-                "label" => "Enable Pharaoh Build Integration?", ),
-            "build_instance_url_0"=> array(
+                "label" => "Enable Pharaoh Track Integration?", ),
+            "track_instance_url_0"=> array(
                 "type" => "text",
                 "default" => "",
-                "label" => "Home page of Build Instance 0?", ),
-            "build_instance_key_0"=> array(
+                "label" => "Home page of Track Instance 0?", ),
+            "track_instance_key_0"=> array(
                 "type" => "text",
                 "default" => "",
-                "label" => "API Key of Build Instance 0?", ),
-            "build_instance_url_1"=> array(
+                "label" => "API Key of Track Instance 0?", ),
+            "track_instance_url_1"=> array(
                 "type" => "text",
                 "default" => "",
-                "label" => "Home page of Build Instance 1?", ),
-            "build_instance_key_1"=> array(
+                "label" => "Home page of Track Instance 1?", ),
+            "track_instance_key_1"=> array(
                 "type" => "text",
                 "default" => "",
-                "label" => "API Key of Build Instance 1?", ),
+                "label" => "API Key of Track Instance 1?", ),
         );
     }
 
     public function helpDefinition() {
        $help = <<<"HELPDATA"
-    This extension provides integration with Pharaoh Build Reports for a Repository ,
+    This extension provides integration with Pharaoh Track Reports for a Repository ,
     but no extra CLI commands.
 
-    PharaohBuildIntegration
+    PharaohTrackIntegration
 
 HELPDATA;
       return $help ;

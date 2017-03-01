@@ -2,7 +2,7 @@
 
 Namespace Controller ;
 
-class PharaohBuildIntegration extends Base {
+class PharaohTrackIntegration extends Base {
 
     public function execute($pageVars) {
 
@@ -16,7 +16,7 @@ class PharaohBuildIntegration extends Base {
             $this->content["helpData"] = $helpModel->getHelpData($pageVars["route"]["control"]);
             return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
 
-        $this->content["messages"][] = "Help is the only valid PharaohBuildIntegration Action";
+        $this->content["messages"][] = "Help is the only valid PharaohTrackIntegration Action";
         return array ("type"=>"control", "control"=>"index", "pageVars"=>$this->content);
 
     }
