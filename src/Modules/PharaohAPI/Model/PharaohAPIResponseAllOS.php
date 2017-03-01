@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PharaohAPIRequestAllOS extends Base {
+class PharaohAPIResponseAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -12,18 +12,43 @@ class PharaohAPIRequestAllOS extends Base {
     public $architectures = array("any") ;
 
     // Model Group
-    public $modelGroup = array("Request") ;
+    public $modelGroup = array("Response") ;
 
-	public function collate() {
-		$collated = array() ;
-		$collated = array_merge($collated, $this->getLink()) ;
-		$collated = array_merge($collated, $this->getTitle()) ;
-		$collated = array_merge($collated, $this->getImage()) ;
-		return $collated ;
-	}
+    public function handleAPIResponse() {
+        $apif = new \Model\PharaohAPI();
+        $api_default = $apif->getModel($this->params) ;
+        // if api is enabled
+        if ($api_default->isAPIEnabled() === false) {
+            $message = 'API Disabled' ;
+            return $api_default->apiErrorRay($message) ;
+        }
+        // if the key exists
+        if ($api_default->isKeyCorrect() === false) {
+            $message = 'Unauthorized' ;
+            return $api_default->apiErrorRay($message) ;
+        }
+        // run the event for this api call
+        $api_result = $this->executeAPI() ;
+        // return arrays of data as json
+        return $api_result ;
+    }
 
-	public function setValues($vals) {
-		$this->pipeFeatureValues = $vals ;
-	}
+    public function executeAPI() {
+        $apif = new \Model\PharaohAPI();
+        $api_default = $apif->getModel($this->params) ;
+        $api_result = array(
+            'result' => 'success' ,
+            'module' => $api_default->findAPIModule() ,
+            'function' => $api_default->findAPIFunction() ,
+            'data' => 'Something to respond with'
+        );
+        // Find API Model of requested module
+        // if apimodel->availableFunctions includes our function
+        //   run the function
+        //   return the result
+        // else
+        //   return some no function error message
+        return $api_result ;
+    }
 
 }

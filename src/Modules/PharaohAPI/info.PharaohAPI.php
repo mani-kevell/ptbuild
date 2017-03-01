@@ -13,7 +13,7 @@ class PharaohAPIInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "PharaohAPI" => array_merge(parent::routesAvailable(), array("help", "call") ) );
+        return array( "PharaohAPI" => array_merge(parent::routesAvailable(), array("help", "call", "request") ) );
     }
 
     public function routeAliases() {
@@ -41,7 +41,7 @@ class PharaohAPIInfo extends PTConfigureBase {
             "enabled"=> array(
                 "type" => "boolean",
                 "default" => "",
-                "label" => "Enable Pharaoh API?", ),
+                "label" => "Enable Inbound Pharaoh API?", ),
             "api_key_0"=> array(
                 "type" => "text",
                 "default" => "",

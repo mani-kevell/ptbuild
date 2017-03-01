@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PharaohAPIPipeFeatureAllOS extends Base {
+class PharaohAPIRequestAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -12,43 +12,24 @@ class PharaohAPIPipeFeatureAllOS extends Base {
     public $architectures = array("any") ;
 
     // Model Group
-    public $modelGroup = array("PipeFeature") ;
+    public $modelGroup = array("Request") ;
 
-	public $pipeFeatureValues;
-	public $pipeline;
+    public function performAPIRequest() {
+        // if api is enabled - nah dont need to enable api to make outbound requests
+        // get the instance url for the request
+        // get the key for the request
+        // get the API function call for the request
+        // get the API function parameters for the request
+        // make the request to the API of target
+        // either return an error or a PHP array from the JSON data
+        return $api_request_result ;
+    }
 
-	public function collate() {
-		$collated = array() ;
-		$collated = array_merge($collated, $this->getLink()) ;
-		$collated = array_merge($collated, $this->getTitle()) ;
-		$collated = array_merge($collated, $this->getImage()) ;
-		return $collated ;
-	}
-
-	public function setValues($vals) {
-		$this->pipeFeatureValues = $vals ;
-	}
-
-	public function setPipeline($pipe) {
-		$this->pipeline = $pipe ;
-	}
-
-	public function getLink() {
-		$link  = 'index.php?control=PharaohAPI&action=report&item='.$this->pipeline["project-slug"];
-		$link .= '&hash='.$this->pipeFeatureValues["hash"];
-		$ff = array("link" => "$link");
-		return $ff ;
-	}
-
-	public function getTitle() {
-		$ff = array("title" => $this->pipeFeatureValues["Report_Title"]);
-		return $ff ;
-	}
-
-	public function getImage() {
-		$this->pipeFeatureValues["pipeline"] ;
-		$ff = array("image" => 'http://www.pharaohtools.com/images/logo-pharaoh.png');
-		return $ff ;
-	}
+    protected function findInstanceURL($message) {
+        return array (
+            'status' => 'error',
+            'message' => $message,
+        ) ;
+    }
 
 }

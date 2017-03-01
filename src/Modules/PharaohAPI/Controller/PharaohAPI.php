@@ -10,15 +10,19 @@ class PharaohAPI extends Base {
          if (is_array($thisModel)) {
              return $this->failDependencies($pageVars, $this->content, $thisModel) ; }
 
-         if ($thisModel->keyIsAllowedAccess() !== true) {
-             $override = $this->getIndexControllerForOverride() ;
-             return $override->execute() ; }
-
          $action = $pageVars["route"]["action"];
-
          if ($pageVars["route"]["action"] === "call") {
-             $this->content["data"] = $thisModel->getReportData() ;
+             if ($thisModel->keyIsAllowedAccess() !== true) {
+                 $override = $this->getIndexControllerForOverride() ;
+                 return $override->execute() ; }
+             $responseModel= $this->getModelAndCheckDependencies(substr(get_class($this), 11), $pageVars, "Response") ;
+             $this->content["data"] = $responseModel->handleAPIResponse() ;
              return array ("type"=>"view", "view"=>"pharaohAPI", "pageVars" => $this->content) ; }
+
+         if ($pageVars["route"]["action"] === "request") {
+             $this->content["data"] = $thisModel->performAPIRequest() ;
+             return array ("type"=>"view", "view"=>"pharaohAPI", "pageVars" => $this->content) ; }
+
 
          if ($action === 'help') {
              $helpModel = new \Model\Help();
