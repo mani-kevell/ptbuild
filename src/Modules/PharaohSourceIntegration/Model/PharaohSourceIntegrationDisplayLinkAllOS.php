@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PharaohTrackIntegrationDisplayLinkAllOS extends Base {
+class PharaohSourceIntegrationDisplayLinkAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -33,13 +33,13 @@ class PharaohTrackIntegrationDisplayLinkAllOS extends Base {
 		$this->repository = $repository ;
 	}
 
-    protected function getAllPharaohTrackIntegration() {
-        $sf = array( "track_job" ) ;
+    protected function getAllPharaohSourceIntegration() {
+        $sf = array( "source_job" ) ;
         return $sf ;
     }
 
     public function getLink() {
-        $ff = array("link" =>$this->repositoryFeatureValues["track_job_url"]);
+        $ff = array("link" =>$this->repositoryFeatureValues["source_job_url"]);
         return $ff ;
     }
 
@@ -50,7 +50,7 @@ class PharaohTrackIntegrationDisplayLinkAllOS extends Base {
 
 	public function getImage() {
         $prefix = '/Assets/Modules/DefaultSkin/image/' ;
-        $ff = array("image" => "{$prefix}track-logo.png");
+        $ff = array("image" => "{$prefix}source-logo.png");
 		return $ff ;
 	}
 
