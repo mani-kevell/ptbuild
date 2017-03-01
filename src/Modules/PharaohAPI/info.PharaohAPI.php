@@ -6,14 +6,14 @@ class PharaohAPIInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "Publish HTML reports for build";
+    public $name = "Publish functionality through the API";
 
     public function _construct() {
         parent::__construct();
     }
 
     public function routesAvailable() {
-        return array( "PharaohAPI" => array_merge(parent::routesAvailable(), array("help", "report", "report-list") ) );
+        return array( "PharaohAPI" => array_merge(parent::routesAvailable(), array("help", "call") ) );
     }
 
     public function routeAliases() {
@@ -25,20 +25,45 @@ class PharaohAPIInfo extends PTConfigureBase {
     }
 
     public function pipeFeatures() {
-        return array("htmlReports");
+        return array("pharaohAPI");
     }
 
     public function buildSettings() {
-        return array("htmlReports");
+        return array("pharaohAPI");
     }
 
     public function ignoredAuthenticationRoutes() {
-        return array( "PharaohAPI" => array("report", "report-list") );
+        return array( "PharaohAPI" => array("call") );
+    }
+
+    public function configuration() {
+        return array(
+            "enabled"=> array(
+                "type" => "boolean",
+                "default" => "",
+                "label" => "Enable Pharaoh API?", ),
+            "api_key_0"=> array(
+                "type" => "text",
+                "default" => "",
+                "label" => "API Key 0?", ),
+            "api_key_1"=> array(
+                "type" => "text",
+                "default" => "",
+                "label" => "API Key 1?", ),
+            "api_key_2"=> array(
+                "type" => "text",
+                "default" => "",
+                "label" => "API Key 2?", ),
+            "api_key_3"=> array(
+                "type" => "text",
+                "default" => "",
+                "label" => "API Key 3?", ),
+        );
     }
 
     public function helpDefinition() {
        $help = <<<"HELPDATA"
-    This extension publish HTML reports of a build. It provides code
+    This extension provides API Publishing functionality. It provides code
     functionality, but no extra CLI commands.
 
     pharaohapi
