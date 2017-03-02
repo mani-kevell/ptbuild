@@ -2,7 +2,7 @@
 
 Namespace Controller ;
 
-class PublishHTMLreports extends Base {
+class PublishStatus extends Base {
 
      public function execute($pageVars) {
 
@@ -28,7 +28,7 @@ class PublishHTMLreports extends Base {
              $this->content["helpData"] = $helpModel->getHelpData($pageVars['route']['control']);
              return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
 
-         $this->content["messages"][] = "Invalid HTML reports Action";
+         $this->content["messages"][] = "Invalid Publish Status Action";
          return array ("type"=>"control", "control"=>"index", "pageVars"=>$this->content);
 
      }

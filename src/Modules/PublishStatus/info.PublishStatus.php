@@ -2,7 +2,7 @@
 
 Namespace Info;
 
-class PublishHTMLreportsInfo extends PTConfigureBase {
+class PublishStatusInfo extends PTConfigureBase {
 
     public $hidden = false;
 
@@ -13,11 +13,11 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "PublishHTMLreports" => array_merge(parent::routesAvailable(), array("help", "report", "report-list") ) );
+        return array( "PublishStatus" => array_merge(parent::routesAvailable(), array("help", "report", "report-list") ) );
     }
 
     public function routeAliases() {
-        return array("publishhtmlreports"=>"PublishHTMLreports","PublishHTMLreports"=>"PublishHTMLreports");
+        return array("publishhtmlreports"=>"PublishStatus","PublishStatus"=>"PublishStatus");
     }
 
     public function events() {
@@ -25,15 +25,15 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     }
 
     public function pipeFeatures() {
-        return array("htmlReports");
+        return array("publishStatus");
     }
 
     public function buildSettings() {
-        return array("htmlReports");
+        return array("publishStatus");
     }
 
     public function ignoredAuthenticationRoutes() {
-        return array( "PublishHTMLreports" => array("report", "report-list") );
+        return array( "PublishStatus" => array("report", "report-list") );
     }
 
     public function helpDefinition() {

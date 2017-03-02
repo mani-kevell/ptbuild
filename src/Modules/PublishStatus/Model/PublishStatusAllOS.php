@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishHTMLreportsAllOS extends Base {
+class PublishStatusAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -24,35 +24,22 @@ class PublishHTMLreportsAllOS extends Base {
             	array(
                 	"type" => "boolean",
                 	"optional" => true,
-                	"name" => "Publish HTML reports on Build Completion?"
+                	"name" => "Publish Status on Build Completion?"
             ),
-            "fieldsets" => array(
-                "reports" => array(
-                    "Report_Directory" =>
-                    array(
-                        "type" => "text",
-                        "name" => "HTML Directory to archive",
-                        "slug" => "htmlreportdirectory"),
-                    "Index_Page" =>
-                    array("type" => "text",
-                        "name" => "Index Page",
-                        "slug" => "indexpage"),
-                    "Report_Title" =>
-                    array("type" => "text",
-                        "name" => "Report Title",
-                        "slug" => "reporttitle"),
-                    "allow_public" =>
-                    array("type" => "boolean",
-                        "name" => "Allow Public Report Access?",
-                        "slug" => "allow_public"))))
-		    ;
-          return $ff ;}
+            "allow_public" =>
+                array("type" => "boolean",
+                    "name" => "Allow Public Status Access?",
+                    "slug" => "allow_public")
+            ) ;
+          return $ff ;
+    }
    
     public function getEventNames() {
-        return array_keys($this->getEvents());   }
+        return array_keys($this->getEvents());
+    }
 
 	public function getEvents() {
-		$ff = array("afterBuildComplete" => array("PublishHTMLreports"));
+		$ff = array("afterBuildComplete" => array("PublishStatus"));
 		return $ff ;
     }
 
@@ -153,7 +140,7 @@ class PublishHTMLreportsAllOS extends Base {
                 if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
                     $pipeline["settings"]["PublicScope"]["build_public_reports"] == "on") {
                     // if public pages are on
-                    if ($pipeline["settings"]["PublishHTMLreports"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
+                    if ($pipeline["settings"]["PublishStatus"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
                         // if this report has public access enabled
                         return true ; }
                     else {

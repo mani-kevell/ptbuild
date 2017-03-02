@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishStatusPipeFeatureAllOS extends Base {
+class PublishStatusAPIAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -12,43 +12,45 @@ class PublishStatusPipeFeatureAllOS extends Base {
     public $architectures = array("any") ;
 
     // Model Group
-    public $modelGroup = array("PipeFeature") ;
+    public $modelGroup = array("API") ;
 
-	public $pipeFeatureValues;
-	public $pipeline;
+    public function allowedFunctions() {
+        return array('get_status') ;
+    }
 
-	public function collate() {
-		$collated = array() ;
-		$collated = array_merge($collated, $this->getLink()) ;
-		$collated = array_merge($collated, $this->getTitle()) ;
-		$collated = array_merge($collated, $this->getImage()) ;
-		return $collated ;
-	}
+    public function get_status() {
 
-	public function setValues($vals) {
-		$this->pipeFeatureValues = $vals ;
-	}
+        // load repo
+        $this->params['item'] = $this->params['slug'] ;
+        $pbsf = new \Model\PublishStatus() ;
+        $pbs = $pbsf->getModel($this->params) ;
+        $pipeline = $pbs->getPipeline() ;
+        // if repo settings include
 
-	public function setPipeline($pipe) {
-		$this->pipeline = $pipe ;
-	}
+        if ($pipeline['last_status'] == true) {
+            $status_string = 'success' ;
+            $run_id = $pipeline['last_success_build'] ;
+            $run_time = $pipeline['last_success'] ;
+        } else if ($pipeline['last_status'] == false) {
+            $status_string = 'failure' ;
+            $run_id = $pipeline['last_fail_build'] ;
+            $run_time = $pipeline['last_fail'] ;
+        } else if ($pipeline['last_status'] == null) {
+            $status_string = 'unknown' ;
+            $run_id = $pipeline['last_run_build'] ;
+            $run_time = $pipeline['last_run_start'] ;
+        }
 
-	public function getLink() {
-		$link  = 'index.php?control=PublishStatus&action=report&item='.$this->pipeline["project-slug"];
-		$link .= '&hash='.$this->pipeFeatureValues["hash"];
-		$ff = array("link" => "$link");
-		return $ff ;
-	}
+        return array(
+            'status' => $status_string,
+            'build_id' => $run_id,
+            'build_job_title' => $pipeline['project-name'],
+            'build_job_link' => 'http://'.$_SERVER["SERVER_NAME"].'/index.php?control=BuildHome&action=show&item='.$this->params['slug'],
+            'build_run_link' => 'http://'.$_SERVER["SERVER_NAME"].'/index.php?control=PipeRunner&action=summary&item=script_testing&run-id='.$run_id,
+            'build_run_time' => $run_time,
+        ) ;
 
-	public function getTitle() {
-		$ff = array("title" => $this->pipeFeatureValues["Report_Title"]);
-		return $ff ;
-	}
 
-	public function getImage() {
-		$this->pipeFeatureValues["pipeline"] ;
-		$ff = array("image" => 'http://www.pharaohtools.com/images/logo-pharaoh.png');
-		return $ff ;
-	}
+    }
 
 }
