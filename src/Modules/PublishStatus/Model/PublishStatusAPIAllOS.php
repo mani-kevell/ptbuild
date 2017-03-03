@@ -43,7 +43,7 @@ class PublishStatusAPIAllOS extends Base {
 
         return array(
             'status' => $status_string,
-            'build_id' => $run_id,
+            'run_id' => $run_id,
             'build_job_title' => $pipeline['project-name'],
             'build_job_link' => 'http://'.$_SERVER["SERVER_NAME"].'/index.php?control=BuildHome&action=show&item='.$this->params['slug'],
             'build_run_link' => 'http://'.$_SERVER["SERVER_NAME"].'/index.php?control=PipeRunner&action=summary&item=script_testing&run-id='.$run_id,
