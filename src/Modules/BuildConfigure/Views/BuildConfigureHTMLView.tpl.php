@@ -213,17 +213,16 @@
 
                             foreach ($pageVars["data"]["pipeline"]["steps"] as $hash => $one_build_step) {
                                 echo '<li class="form-group  bg-primary singleBuildStep" id="step'.$hash.'">'."\n" ;
-                                echo '  <h3>'.$one_build_step["module"].'</h3>'."\n" ;
-//                                echo '  <div class="col-sm-12">'."\n" ;
                                 echo '  <div class="form-group col-sm-12">'."\n" ;
-//                                echo '    <label for="steps['.$hash.'][data]" class="control-label step_subtitle">'.$one_build_step["title"].'</label>'."\n" ;
-//                                echo '  	<div>'."\n" ;
-
-                                echo '       <p><strong>Hash: </strong>'.$hash.'</p>';
-//                                echo '      <p><strong>Module: </strong>'.$one_build_step["module"].'</p>';
+                                echo '    <div class="form-group col-sm-6">'."\n" ;
+                                echo '      <h3>'.$one_build_step["module"].'</h3>'."\n" ;
+                                echo '    </div>'."\n" ;
+                                echo '    <div class="form-group col-sm-6">'."\n" ;
+                                echo '      <p><strong>Hash: </strong>'.$hash.'</p>';
                                 echo '      <p><strong>Step Type: </strong>'.$one_build_step["steptype"].'</p>';
                                 echo '      <input type="hidden" id="steps['.$hash.'][module]" name="steps['.$hash.'][module]" value="'.$one_build_step["module"].'" />';
                                 echo '      <input type="hidden" id="steps['.$hash.'][steptype]" name="steps['.$hash.'][steptype]" value="'.$one_build_step["steptype"].'" />';
+                                echo '    </div>'."\n" ;
                                 echo '  <div>'."\n" ;
 //                                echo ' 		<label for="'.$one_build_step["steptype"].'" class="col-sm-2 control-label text-left">'.$one_build_step["steptype"].'</label>';
                                 echo '		<div class="col-sm-14">';
