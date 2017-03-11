@@ -118,10 +118,10 @@
                                     <a href="/index.php?control=UserProfile&action=show" class=" hvr-grow-shadow">
                                         <i class="fa fa-user fa-fw"></i> Edit Profile</a>
                                 </li>
-                                <li>
-                                    <a href="/index.php?control=UserProfilePublic&action=show" class=" hvr-grow-shadow">
-                                        <i class="fa fa-user fa-fw"></i> Public Profile</a>
-                                </li>
+<!--                                <li>-->
+<!--                                    <a href="/index.php?control=UserProfilePublic&action=show" class=" hvr-grow-shadow">-->
+<!--                                        <i class="fa fa-user fa-fw"></i> Public Profile</a>-->
+<!--                                </li>-->
                                 <li><a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-grow-shadow"><i class="fa fa-gear fa-fw"></i> Settings</a>
                                 </li>
                                 <li><a href="/index.php?control=About&action=show" class=" hvr-grow-shadow"><i class="fa fa-help fa-fw"></i> About</a>
