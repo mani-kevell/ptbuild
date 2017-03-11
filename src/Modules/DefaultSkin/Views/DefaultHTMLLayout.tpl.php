@@ -11,56 +11,60 @@
 		<title><?php echo ucfirst(PHARAOH_APP_FRIENDLY) ; ?> - Pharaoh Tools</title>
 
 
-        <script src="/Assets/Modules/DefaultSkin/js/jquery-full.js"></script>
-        <script src="/Assets/Modules/DefaultSkin/js/jquery-ui.min.js"></script>
+        <link href="/Assets/Modules/DefaultSkin/css/loader.css" rel="stylesheet">
+
+        <script src="/Assets/Modules/DefaultSkin/js/jquery-3.1.1.min.js"></script>
+        <!--        <script src="/Assets/Modules/DefaultSkin/js/jquery-ui.min.js"></script>-->
         <script src="/Assets/Modules/DefaultSkin/js/bootstrap.min.js"></script>
 
         <link href="/Assets/Modules/DefaultSkin/Hover-master/css/hover.css" rel="stylesheet" media="all">
-		<link href="/Assets/Modules/DefaultSkin/css/font-awesome.min.css" rel="stylesheet" media="all">
+        <link href="/Assets/Modules/DefaultSkin/css/font-awesome.min.css" rel="stylesheet" media="all">
 
-		<!-- Bootstrap Core CSS -->
-		<link href="/Assets/Modules/DefaultSkin/css/bootstrap.min.css" rel="stylesheet">
-		
-		
-		<!-- MetisMenu CSS -->
-		<link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+        <!-- Bootstrap Core CSS -->
+        <link href="/Assets/Modules/DefaultSkin/css/bootstrap.min.css" rel="stylesheet">
 
-		<!-- Timeline CSS -->
-		<link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/dist/css/timeline.css" rel="stylesheet">
 
-		<!-- Custom CSS -->
-		<link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/dist/css/sb-admin-2.css" rel="stylesheet">
+        <!-- MetisMenu CSS -->
+        <link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
-		<!-- Morris Charts CSS -->
-    	<link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/morrisjs/morris.css" rel="stylesheet">
-    
-		<!-- Custom Fonts -->
-		<link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Timeline CSS -->
+        <link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/dist/css/timeline.css" rel="stylesheet">
 
- 		<!-- Metis Menu Plugin JavaScript -->
-    	<script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+        <!-- Custom CSS -->
+        <link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/dist/css/sb-admin-2.css" rel="stylesheet">
 
-    	<!-- Morris Charts JavaScript -->
-    	<script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/raphael/raphael-min.js"></script>
-    	<script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/morrisjs/morris.min.js"></script>
-    	
-    	<!-- Custom Theme JavaScript -->
-	    <script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/dist/js/sb-admin-2.js"></script>
+        <!-- Morris Charts CSS -->
+        <link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/morrisjs/morris.css" rel="stylesheet">
 
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-		<script src="/Assets/Modules/DefaultSkin/js/html5shiv.min.js"></script>
-		<script src="/Assets/Modules/DefaultSkin/js/respond.min.js"></script>
+        <!-- Custom Fonts -->
+        <link href="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-		<![endif]-->
-		<!--  sign up add -->
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+        <!-- Morris Charts JavaScript -->
+        <!--    	<script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/raphael/raphael-min.js"></script>-->
+        <!--    	<script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/bower_components/morrisjs/morris.min.js"></script>-->
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/Assets/Modules/DefaultSkin/startbootstrap-sb-admin-2-1.0.5/dist/js/sb-admin-2.js"></script>
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <!--<script src="/Assets/Modules/DefaultSkin/js/html5shiv.min.js"></script>-->
+        <!--		<script src="/Assets/Modules/DefaultSkin/js/respond.min.js"></script>-->
+        <!--  sign up add -->
         <!-- Bootstrap Core CSS -->
         <link href="/Assets/Modules/DefaultSkin/css/default.css" rel="stylesheet">
         <script type="text/javascript" src="/Assets/Modules/DefaultSkin/js/pharaoh_default.js"></script>
+
     </head>
 
-	<body>
+	<body class="loader-body">
+    <div id="message_overlay"></div>
+    <div class="app-loader"></div>
+    <div class="app-wrapper">
 		<input type="hidden" id="base_url" value="">
 <?php
    // @todo this doesn't seem right
@@ -71,7 +75,7 @@
 
                     <?php
 
-                    if (isset($_SESSION) && $_SESSION["login-status"]==true) {
+                    if (isset($_SESSION["login-status"]) && $_SESSION["login-status"]==true) {
 
                     ?>
 
@@ -110,14 +114,21 @@
                                 <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user ">
-                                <li><a href="/index.php?control=UserProfile&action=show" class=" hvr-grow-shadow"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                                <li>
+                                    <a href="/index.php?control=UserProfile&action=show" class=" hvr-grow-shadow">
+                                        <i class="fa fa-user fa-fw"></i> Edit Profile</a>
+                                </li>
+                                <li>
+                                    <a href="/index.php?control=UserProfilePublic&action=show" class=" hvr-grow-shadow">
+                                        <i class="fa fa-user fa-fw"></i> Public Profile</a>
                                 </li>
                                 <li><a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-grow-shadow"><i class="fa fa-gear fa-fw"></i> Settings</a>
                                 </li>
                                 <li><a href="/index.php?control=About&action=show" class=" hvr-grow-shadow"><i class="fa fa-help fa-fw"></i> About</a>
                                 </li>
                                 <?php
-                                if($pageVars["route"]["action"] != "registration" && $pageVars["route"]["action"] != "login") { ?>
+                                if ($pageVars["route"]["action"] != "registration" &&
+                                    $pageVars["route"]["action"] != "login") { ?>
                                     <li class="divider"></li>
                                     <li><a href="/index.php?control=Signup&action=logout" class=" hvr-grow-shadow"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                                     </li><?php } ?>
@@ -155,6 +166,22 @@
                     <i class="fa fa-2x fa-arrow-circle-up"></i>
                 </span>
             </div>
-            <script type="text/javascript" src="/Assets/Modules/DefaultSkin/js/bundle.js"></script>
+
+        </div> <!-- app wrapper -->
 	</body>
+    <script type="text/javascript">
+        function downloadJSAtOnload() {
+//                var element = document.createElement("script");
+//                element.src = "/Assets/Modules/DefaultSkin/js/bundle.js";
+//                element.type = "text/javascript";
+//                document.body.appendChild(element);
+            $.getScript("/Assets/Modules/DefaultSkin/js/bundle.js");
+        }
+        if (window.addEventListener)
+            window.addEventListener("load", downloadJSAtOnload, false);
+        else if (window.attachEvent)
+            window.attachEvent("onload", downloadJSAtOnload);
+        else window.onload = downloadJSAtOnload;
+    </script>
+
 </html>
