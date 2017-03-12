@@ -22,6 +22,7 @@ class PipeRunnerAllOS extends Base {
 		$ret["pipeline"] = $this -> getPipeline();
 		$ret["item"] = $this -> params["item"];
 		$ret["history_count"] = $this -> getBuildNumber("last");
+		$ret["run_start"] = $this -> getRunStartTime($this->params["run-id"]);
 		return $ret;
 	}
 
@@ -145,6 +146,22 @@ class PipeRunnerAllOS extends Base {
 		$historyIndex[intval($run)]['status'] = $status;
 		$historyIndex = json_encode($historyIndex);
 		file_put_contents($file, $historyIndex);
+	}
+
+	public function getRunStartTime($run) {
+		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+		if ($historyIndex = file_get_contents($file))
+			$historyIndex = json_decode($historyIndex, true);
+		$start = $historyIndex[intval($run)]['start'] ;
+		return $start ;
+	}
+
+    public function getRunEndTime($run) {
+		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+		if ($historyIndex = file_get_contents($file))
+			$historyIndex = json_decode($historyIndex, true);
+        $end = $historyIndex[intval($run)]['end'] ;
+        return $end ;
 	}
 
     private function setPipeDir() {

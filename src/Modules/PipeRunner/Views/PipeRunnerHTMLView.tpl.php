@@ -98,8 +98,11 @@
                         ?>
 
                         <div class="form-group">
-                            <div class="col-sm-10">
+                            <div class="col-sm-12">
                                 Pipeline Execution started - Run # <?= $pageVars["pipex"] ;?>
+                            </div>
+                            <div class="col-sm-12">
+                                Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
                             </div>
                         </div>
 
