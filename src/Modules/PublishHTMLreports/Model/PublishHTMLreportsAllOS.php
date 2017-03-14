@@ -175,5 +175,71 @@ class PublishHTMLreportsAllOS extends Base {
         return $settings ;
     }
 
+    public function PublishHTMLreports() {
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+
+        $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
+        $steps = file_get_contents($file) ;
+        $steps = json_decode($steps, true);
+
+        $mn = $this->getModuleName() ;
+        if ($steps[$mn]["enabled"] == "on") {
+            $dir = $steps[$mn]["Report_Directory"];
+            if (substr($dir, -1) != DS) { $dir = $dir . DS ;}
+
+            $indexFile = $steps[$mn]["Index_Page"];
+            $ReportTitle = $steps[$mn]["Report_Title"];
+            $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+            $raw = file_get_contents($tmpfile);
+            if (!$raw) {
+                $logging->log("This report has not been generated", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+                return false ; }
+            else {
+                $slug = "Report of Pipeline ".$this->params["item"]." for run-id ".$this->params["run-id"];
+                $byline = "Pharaoh Build ";
+                $html = nl2br(htmlspecialchars($raw));
+                $html = str_replace("&lt;br /&gt;","<br />",$html);
+                $html = preg_replace('/\s\s+/', ' ', $html);
+                $html = preg_replace('/\s(\w+:\/\/)(\S+)/', ' <a href="\\1\\2" target="_blank">\\1\\2</a>', $html);
+
+                $output =<<< HEADER
+<html>
+<head><title>"$ReportTitle"</title>
+<style>
+.slug {font-size: 15pt; font-weight: bold; font-style: italic}
+.byline { font-style: italic }
+</style>
+</head>
+<body>
+HEADER;
+                $output .= "<div class='slug'>$slug</div>";
+                $output .= "<div class='byline'>By $byline</div><p />";
+                $output .= "<div>$html</div>";
+                $output .=<<< FOOTER
+</body>
+</html>
+FOOTER;
+                //save reference
+                $reportRef = PIPEDIR.DS.$this->params["item"].DS.'HTMLreports'.DS;
+                if (!file_exists($reportRef))
+                {
+                    mkdir($reportRef, 0777);
+                }
+                file_put_contents($reportRef.$indexFile . '-' . date("l jS \of F Y h:i:s A"), $output);
+
+                //save Html report to given directory
+                $source=$dir.$indexFile;
+                if(file_put_contents($source,$output))
+                {	return true;	}
+                else	{ 	return false;	}
+            }
+        }
+        else {
+            $logging->log ("Unable to write generated report to file...", $this->getModuleName() ) ;
+            return true ; }
+    }
+
 
 }
