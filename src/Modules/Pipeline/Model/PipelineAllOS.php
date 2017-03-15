@@ -98,6 +98,7 @@ class PipelineAllOS extends Base {
         else  {
             $logging->log("Attempting to create directory ".PIPEDIR.DS."$name ", $this->getModuleName()) ;
             // @todo cross os
+            // @todo rturn the actual result. maybe use pharaoh configure mkdir module or add it here
             $rc = self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name);
             self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name.DS.'history');
             self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name.DS.'workspace');
