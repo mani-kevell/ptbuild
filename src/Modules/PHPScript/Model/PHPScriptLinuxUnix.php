@@ -86,7 +86,7 @@ class PHPScriptLinuxUnix extends Base {
         if (file_exists($scr_loc)) {
             $logging->log("File found, executing...", $this->getModuleName()) ;
             $comm = "php {$scr_loc} || exit 1" ;
-            $res = $this->executeAndGetReturnCode($comm, true, true) ;
+            $res = $this->executeAndGetReturnCode($comm, false, true) ;
             return ($res["rc"] == 0) ? true : false ; }
         else {
             $logging->log("File not found, error...", $this->getModuleName()) ;
