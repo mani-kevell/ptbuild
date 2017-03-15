@@ -6,13 +6,36 @@
             ?>
         </h2>
         <h4>
+            Return To Build Home :
             <a href="index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">
-                Return To Build Home :
                 <strong>
                     <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
                 </strong>
             </a>
         </h4>
+    </div>
+    <div class="fullRow">
+        <hr />
+        <?php
+        # requested_run_id
+        if (isset($pageVars["data"]["current_report"]['requested_run_id'])) {
+            ?>
+                <h5> Requested Run ID for this Test Set:
+                    <strong>
+                        <?php echo $pageVars["data"]["current_report"]['requested_run_id'] ; ?>
+                    </strong>
+                </h5>
+            <?php
+        } else {
+            ?>
+            <h5> Latest Run ID for this Test Set:
+                <strong>
+                    <?php echo $pageVars["data"]["current_report"]['last_run_id'] ; ?>
+                </strong>
+            </h5>
+            <?php
+        }
+        ?>
     </div>
     <div class="fullRow">
         <hr />
