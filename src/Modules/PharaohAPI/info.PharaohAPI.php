@@ -21,7 +21,7 @@ class PharaohAPIInfo extends PTConfigureBase {
     }
 
     public function events() {
-        return array("afterBuildComplete", "getBuildFeatures");
+        return array("getBuildFeatures");
     }
 
     public function pipeFeatures() {
