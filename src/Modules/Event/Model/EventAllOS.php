@@ -19,11 +19,17 @@ class EventAllOS extends Base {
         $logging = $loggingFactory->getModel($this->params);
         $res = array();
         $modules = $this->getsModulesOfEvent($event) ;
+//        if ($event === "afterBuildComplete") {
+//            var_dump("afterBuildComplete", $modules) ;
+//        }
         foreach ($modules as $module) {
             $eventModuleFactoryClass = '\Model\\'.$module;
             $eventModuleFactory = new $eventModuleFactoryClass() ;
             $eventModel = $eventModuleFactory->getModel($this->params) ;
             $eventMethods = $eventModel->getEvents() ;
+//            if ($event === "afterBuildComplete" && $module="PublishHTMLreports") {
+//                var_dump("em: ", get_class($eventModel), $eventMethods, $module) ;
+//            }
             foreach ($eventMethods as $availableEventName => $availableEventMethods) {
                 if ($event == $availableEventName) { // if the module provides an event for this
                     foreach ($availableEventMethods as $oneMethod) {
