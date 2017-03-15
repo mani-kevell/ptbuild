@@ -81,13 +81,15 @@ class PublishHTMLreportsAllOS extends Base {
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
 		$settings = $thisPipe["settings"];
 		$mn = $this->getModuleName() ;
+        $last_run_id = $thisPipe['last_run_build'] ;
+		$run_id = (isset($this->params["run-id"])) ? $this->params["run-id"] : $last_run_id ;
 
 //		$dir = $settings[$mn]["reports"][$this->params["hash"]]["Report_Directory"] ;
 //        $dir = $this->ensureTrailingSlash($dir) ;
 		$indexFile = $settings[$mn]["reports"][$this->params["hash"]]["Index_Page"];
 
         $reportRef = PIPEDIR.DS.$this->params["item"].DS.'HTMLreports'.DS.$this->params["hash"].
-            DS.$this->params["run-id"].DS;
+            DS.$run_id.DS;
 
 //        if (file_exists($dir.$indexFile) == true) {
 //            $root = "" ; }
@@ -97,14 +99,15 @@ class PublishHTMLreportsAllOS extends Base {
 //        $report_file_path = $root.$dir.$indexFile ;
         $report_file_path = $reportRef.$indexFile ;
 
+
         if (file_exists($report_file_path))  {
             $report_data = file_get_contents($report_file_path) ; }
         else {
             $loggingFactory = new \Model\Logging();
-            $this->params["echo-log"] = true ;
+//            $this->params["echo-log"] = true ;
             $logging = $loggingFactory->getModel($this->params);
             $err = 'Unable to find a Report in the requested location' ;
-            $logging->log($err, $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            $logging->log($err, $this->getModuleName());
             $report_data = '<p>'.$err.'.</p>' ; }
         $ff = array(
             "current_report" => array(
@@ -187,24 +190,18 @@ class PublishHTMLreportsAllOS extends Base {
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
-
 //        $pipe_settings = PIPEDIR.DS.$this->params["item"].DS.'settings';
         $pipe = $this->getPipeline() ;
         $pipe_settings = $pipe['settings'];
-
         $mn = $this->getModuleName() ;
 //        var_dump('my settings: ', $pipe_settings) ;
-
         if ($pipe_settings[$mn]["enabled"] == "on") {
             $logging->log("HTML Report publishing is enabled, executing", $this->getModuleName());
-
-            var_dump($pipe_settings[$mn]) ;
-
+//            var_dump($pipe_settings[$mn]) ;
             foreach ($pipe_settings[$mn]['reports'] as $report_hash => $report_details) {
                 $results = $this->publishOneReport($report_hash, $report_details) ;
             }
             return (in_array(false, $results)) ? true : false ;
-
         }
         else {
             $logging->log ("Unable to write generated report to file...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE ) ;
@@ -222,17 +219,17 @@ class PublishHTMLreportsAllOS extends Base {
         $dir = $this->ensureTrailingSlash($dir) ;
         $dir = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.$dir ;
 
-        $logging->log("HTML Report publishing a", $this->getModuleName());
+//        $logging->log("HTML Report publishing a", $this->getModuleName());
         $indexFile = $one_report_details["Index_Page"];
         $source = $dir.$indexFile;
-        $logging->log("HTML Report publishing b", $this->getModuleName());
+//        $logging->log("HTML Report publishing b", $this->getModuleName());
         $ReportTitle = $one_report_details["Report_Title"];
 //        $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
 //            $raw = file_get_contents($tmpfile);
-        $logging->log("HTML Report publishing c", $this->getModuleName());
+//        $logging->log("HTML Report publishing c", $this->getModuleName());
         $raw = file_get_contents($source);
-        var_dump($raw, $source) ;
-        $logging->log("HTML Report publishing d", $this->getModuleName());
+//        var_dump($raw, $source) ;
+//        $logging->log("HTML Report publishing d", $this->getModuleName());
         if (!$raw) {
             $logging->log("This report {$ReportTitle} has not been generated", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
             return false ; }
