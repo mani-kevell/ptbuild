@@ -114,6 +114,8 @@ class PublishHTMLreportsAllOS extends Base {
                 "hash" => $this->params["hash"] ,
                 "feature_data" => $settings[$mn]["reports"][$this->params["hash"]],
                 "report_data" => $report_data,
+                "requested_run_id" => $this->params["run-id"],
+                "last_run_id" => $last_run_id,
             )
         );
         $ff["pipeline"] = $this->getPipeline() ;
