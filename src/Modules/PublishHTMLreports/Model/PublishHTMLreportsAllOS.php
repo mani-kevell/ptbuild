@@ -221,19 +221,20 @@ class PublishHTMLreportsAllOS extends Base {
         $dir = $this->ensureTrailingSlash($dir) ;
         $dir = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.$dir ;
 
-//        $logging->log("HTML Report publishing a", $this->getModuleName());
+        $ReportTitle = $one_report_details["Report_Title"];
+        if (!is_dir($dir)) {
+            $log_msg = "Unable to locate Report Directory {$dir} " ;
+            $log_msg .= "from report {$ReportTitle}" ;
+            $logging->log($log_msg, $this->getModuleName());
+            return false ;
+        }
+
         $indexFile = $one_report_details["Index_Page"];
         $source = $dir.$indexFile;
-//        $logging->log("HTML Report publishing b", $this->getModuleName());
-        $ReportTitle = $one_report_details["Report_Title"];
-//        $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-//            $raw = file_get_contents($tmpfile);
-//        $logging->log("HTML Report publishing c", $this->getModuleName());
         $raw = file_get_contents($source);
-//        var_dump($raw, $source) ;
-//        $logging->log("HTML Report publishing d", $this->getModuleName());
+
         if (!$raw) {
-            $logging->log("This report {$ReportTitle} has not been generated", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            $logging->log("This report {$ReportTitle} has not been generated", $this->getModuleName());
             return false ; }
         else {
 
@@ -252,7 +253,7 @@ class PublishHTMLreportsAllOS extends Base {
                 $logging->log ("Report {$ReportTitle} published to file...", $this->getModuleName() ) ;
                 return true; }
             else {
-                $logging->log ("Unable {$ReportTitle} to publish generated report to file...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE ) ;
+                $logging->log ("Unable {$ReportTitle} to publish generated report to file...", $this->getModuleName() ) ;
                 return false;	}
         }
     }
