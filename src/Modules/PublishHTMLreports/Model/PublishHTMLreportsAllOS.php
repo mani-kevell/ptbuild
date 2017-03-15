@@ -81,22 +81,30 @@ class PublishHTMLreportsAllOS extends Base {
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
 		$settings = $thisPipe["settings"];
 		$mn = $this->getModuleName() ;
-		$dir = $settings[$mn]["reports"][$this->params["hash"]]["Report_Directory"] ;
-        $dir = $this->ensureTrailingSlash($dir) ;
-		$indexFile = $settings[$mn]["reports"][$this->params["hash"]]["Index_Page"];
-        if (file_exists($dir.$indexFile) == true) { $root = "" ; }
-		else { $root = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS ; }
 
-        $report_file_path = $root.$dir.$indexFile ;
+//		$dir = $settings[$mn]["reports"][$this->params["hash"]]["Report_Directory"] ;
+//        $dir = $this->ensureTrailingSlash($dir) ;
+		$indexFile = $settings[$mn]["reports"][$this->params["hash"]]["Index_Page"];
+
+        $reportRef = PIPEDIR.DS.$this->params["item"].DS.'HTMLreports'.DS.$this->params["hash"].
+            DS.$this->params["run-id"].DS;
+
+//        if (file_exists($dir.$indexFile) == true) {
+//            $root = "" ; }
+//		else {
+//            $root = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS ; }
+
+//        $report_file_path = $root.$dir.$indexFile ;
+        $report_file_path = $reportRef.$indexFile ;
 
         if (file_exists($report_file_path))  {
-            $report_data = file_get_contents($root.$dir.$indexFile) ; }
+            $report_data = file_get_contents($report_file_path) ; }
         else {
             $loggingFactory = new \Model\Logging();
             $this->params["echo-log"] = true ;
             $logging = $loggingFactory->getModel($this->params);
             $err = 'Unable to find a Report in the requested location' ;
-            $logging->log($err, $this->getModuleName());
+            $logging->log($err, $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
             $report_data = '<p>'.$err.'.</p>' ; }
         $ff = array(
             "current_report" => array(
@@ -180,65 +188,74 @@ class PublishHTMLreportsAllOS extends Base {
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
 
-        $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
-        $steps = file_get_contents($file) ;
-        $steps = json_decode($steps, true);
+//        $pipe_settings = PIPEDIR.DS.$this->params["item"].DS.'settings';
+        $pipe = $this->getPipeline() ;
+        $pipe_settings = $pipe['settings'];
 
         $mn = $this->getModuleName() ;
-        if ($steps[$mn]["enabled"] == "on") {
-            $dir = $steps[$mn]["Report_Directory"];
-            if (substr($dir, -1) != DS) { $dir = $dir . DS ;}
+//        var_dump('my settings: ', $pipe_settings) ;
 
-            $indexFile = $steps[$mn]["Index_Page"];
-            $ReportTitle = $steps[$mn]["Report_Title"];
-            $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-            $raw = file_get_contents($tmpfile);
-            if (!$raw) {
-                $logging->log("This report has not been generated", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
-                return false ; }
-            else {
-                $slug = "Report of Pipeline ".$this->params["item"]." for run-id ".$this->params["run-id"];
-                $byline = "Pharaoh Build ";
-                $html = nl2br(htmlspecialchars($raw));
-                $html = str_replace("&lt;br /&gt;","<br />",$html);
-                $html = preg_replace('/\s\s+/', ' ', $html);
-                $html = preg_replace('/\s(\w+:\/\/)(\S+)/', ' <a href="\\1\\2" target="_blank">\\1\\2</a>', $html);
+        if ($pipe_settings[$mn]["enabled"] == "on") {
+            $logging->log("HTML Report publishing is enabled, executing", $this->getModuleName());
 
-                $output =<<< HEADER
-<html>
-<head><title>"$ReportTitle"</title>
-<style>
-.slug {font-size: 15pt; font-weight: bold; font-style: italic}
-.byline { font-style: italic }
-</style>
-</head>
-<body>
-HEADER;
-                $output .= "<div class='slug'>$slug</div>";
-                $output .= "<div class='byline'>By $byline</div><p />";
-                $output .= "<div>$html</div>";
-                $output .=<<< FOOTER
-</body>
-</html>
-FOOTER;
-                //save reference
-                $reportRef = PIPEDIR.DS.$this->params["item"].DS.'HTMLreports'.DS;
-                if (!file_exists($reportRef))
-                {
-                    mkdir($reportRef, 0777);
-                }
-                file_put_contents($reportRef.$indexFile . '-' . date("l jS \of F Y h:i:s A"), $output);
+            var_dump($pipe_settings[$mn]) ;
 
-                //save Html report to given directory
-                $source=$dir.$indexFile;
-                if(file_put_contents($source,$output))
-                {	return true;	}
-                else	{ 	return false;	}
+            foreach ($pipe_settings[$mn]['reports'] as $report_hash => $report_details) {
+                $results = $this->publishOneReport($report_hash, $report_details) ;
             }
+            return (in_array(false, $results)) ? true : false ;
+
         }
         else {
-            $logging->log ("Unable to write generated report to file...", $this->getModuleName() ) ;
-            return true ; }
+            $logging->log ("Unable to write generated report to file...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE ) ;
+            return true ;
+        }
+    }
+
+    protected function publishOneReport($one_report_hash, $one_report_details) {
+
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+
+        $dir = $one_report_details["Report_Directory"];
+        $dir = $this->ensureTrailingSlash($dir) ;
+        $dir = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.$dir ;
+
+        $logging->log("HTML Report publishing a", $this->getModuleName());
+        $indexFile = $one_report_details["Index_Page"];
+        $source = $dir.$indexFile;
+        $logging->log("HTML Report publishing b", $this->getModuleName());
+        $ReportTitle = $one_report_details["Report_Title"];
+//        $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+//            $raw = file_get_contents($tmpfile);
+        $logging->log("HTML Report publishing c", $this->getModuleName());
+        $raw = file_get_contents($source);
+        var_dump($raw, $source) ;
+        $logging->log("HTML Report publishing d", $this->getModuleName());
+        if (!$raw) {
+            $logging->log("This report {$ReportTitle} has not been generated", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            return false ; }
+        else {
+
+            $reportRef = PIPEDIR.DS.$this->params["item"].DS.'HTMLreports'.DS.$one_report_hash.DS.$this->params["run-id"].DS;
+            $logging->log ("Publishing to report directory {$reportRef}", $this->getModuleName() ) ;
+            if (!is_dir($reportRef))
+            {
+                $logging->log ("Attempting to create report directory {$reportRef}", $this->getModuleName() ) ;
+                mkdir($reportRef, 0777, true);
+            }
+//                file_put_contents($reportRef.$indexFile . '-' . date("l jS \of F Y h:i:s A"), $output);
+
+            //save Html report to given directory
+//                if ( file_put_contents($source,$output) ) {
+            if ( file_put_contents($reportRef.$indexFile, $raw) ) {
+                $logging->log ("Report {$ReportTitle} published to file...", $this->getModuleName() ) ;
+                return true; }
+            else {
+                $logging->log ("Unable {$ReportTitle} to publish generated report to file...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE ) ;
+                return false;	}
+        }
     }
 
 
