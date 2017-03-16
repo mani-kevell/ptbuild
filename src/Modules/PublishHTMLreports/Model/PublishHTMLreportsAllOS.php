@@ -206,8 +206,8 @@ class PublishHTMLreportsAllOS extends Base {
             return (in_array(false, $results)) ? true : false ;
         }
         else {
-            $logging->log ("Unable to write generated report to file...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE ) ;
-            return true ;
+            $logging->log ("Unable to write generated report to file...", $this->getModuleName() ) ;
+            return false ;
         }
     }
 
