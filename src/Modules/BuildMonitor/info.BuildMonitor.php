@@ -6,7 +6,7 @@ class BuildMonitorInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "BuildMonitor/Home Page";
+    public $name = "BuildMonitor Module";
 
     public function _construct() {
       parent::__construct();
