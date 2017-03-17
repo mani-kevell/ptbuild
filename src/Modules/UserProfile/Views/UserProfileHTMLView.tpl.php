@@ -20,7 +20,7 @@
                 </li>
                 <li>
                     <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in">
-                        <i class="fa fa-cogs fa-fw"></i> Configure PTBuild<span class="fa arrow"></span>
+                        <i class="fa fa-cogs fa-fw"></i> Configure PT<?php echo ucfirst(PHARAOH_APP)  ; ?><span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level collapse">
                         <li>
@@ -30,24 +30,43 @@
                             <a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">User Manager</a>
                         </li>
                         <li>
-                            <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">User Profile</a>
-                        </li>
-                        <li>
                             <a href="/index.php?control=ModuleManager&action=show" class=" hvr-curl-bottom-right">Modules</a>
                         </li>
                         <li>
                             <a href="/index.php?control=Integrations&action=show" class=" hvr-curl-bottom-right">Integrations</a>
+                        </li>s
+                    </ul>
+                </li>
+                <li>
+                    <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in">
+                        <i class="fa fa-user fa-fw"></i> User Menu <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">Edit Profile</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?control=UserProfilePublic&action=show" class=" hvr-curl-bottom-right">Public Profile</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?control=UserSSHKey&action=show" class=" hvr-curl-bottom-right">SSH Keys</a>
+                        </li>
+                        <li>
+                            <a href="/index.php?control=UserOAuthKey&action=show" class=" hvr-curl-bottom-right">OAuth Keys</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
             </ul>
+
+
+
         </div>
     </div>
 
   <div class="col-lg-9">
                     <div class="well well-lg">
-<!--        <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools</a></h2>-->
+<!--        <h2 class="text-uppercase text-light"><a href="/"> PT<?php echo ucfirst(PHARAOH_APP)  ; ?> - Pharaoh Tools</a></h2>-->
 
                         <?php echo $this->renderLogs() ; ?>
 
@@ -103,7 +122,7 @@
                                     ?>
 
 
-                                    <input type="text" readonly="readonly" class="form-control" id="update_username" name="update_username" placeholder="User Name" value="<?php echo $pageVars["data"]["user"]->username ; ?>">
+                                    <input type="text" readonly="readonly" class="form-control" id="update_username" name="update_username" placeholder="User Name" value="<?php echo $pageVars["data"]["user"]['username'] ; ?>">
                                 <?php
                                 } else {
 
@@ -119,18 +138,18 @@
                                             foreach($pageVars["data"]["allusers"] as $oneUser) {
                                                 ?>
                                                 <li role="presentation">
-                                                    <a role="menuitem" tabindex="-1" onclick="refreshUserDetails('<?php echo $oneUser->username ; ?>');">
-                                                        <?= $oneUser->username ; ?>
+                                                    <a role="menuitem" tabindex="-1" onclick="refreshUserDetails('<?php echo $oneUser['username'] ; ?>');">
+                                                        <?= $oneUser['username'] ; ?>
                                                     </a>
                                                 </li>
                                             <?php
                                             }
                                             ?>
                                         </ul>
-                                        <input type="hidden" class="form-control" id="update_username" name="update_username" value="<?php echo $pageVars["data"]["user"]->username ; ?>">
+                                        <input type="hidden" class="form-control" id="update_username" name="update_username" value="<?php echo $pageVars["data"]["user"]['username'] ; ?>">
                                     </div>
                                     <div class="userShow">
-                                        <input type="text" readonly="readonly" class="form-control" id="update_username_text" name="update_username_text" value="<?php echo $pageVars["data"]["user"]->username ; ?>">
+                                        <input type="text" readonly="readonly" class="form-control" id="update_username_text" name="update_username_text" value="<?php echo $pageVars["data"]["user"]['username'] ; ?>">
                                     </div>
 
                                 <?php
@@ -138,7 +157,7 @@
                                 ?>
 
                                 <span style="color:#FF0000;" id="update_username_alert"></span>
-                                <input type="hidden" class="form-control my_uname" id="my_uname" name="my_uname" value="<?php echo $pageVars["data"]["user"]->username ; ?>" >
+                                <input type="hidden" class="form-control my_uname" id="my_uname" name="my_uname" value="<?php echo $pageVars["data"]["user"]['username'] ; ?>" >
                             </div>
                         </div>
 
@@ -159,16 +178,9 @@
                         <?php
                         }
 
-                        if ($pageVars["data"]["allusers"] === false) {
-                            ?>
-
-<!--                            <input type="text" readonly="readonly" class="form-control" id="update_username" name="update_username" placeholder="User Name" value="--><?php //echo $pageVars["data"]["user"]->username ; ?><!--">-->
-                        <?php  }  ?>
-
-                        <?php
-
-                        if ($pageVars["route"]["action"] !== "new") { $email_string = $pageVars["data"]["user"]->email ; }
-                        else { $email_string = "" ; }
+                        $email_string = '' ;
+                        if ($pageVars["route"]["action"] !== "new") {
+                            $email_string = $pageVars["data"]["user"]['email'] ; }
 
                         ?>
 
@@ -217,15 +229,79 @@
                                     </button>
                                     <?php
 
-
-
-
                                 }
 
                                 ?>
 
                             </div>
                         </div>
+
+                        <div class="fieldsets_wrap form-group col-sm-12">
+                            <?php
+
+                            foreach ($pageVars['data']['extra_fieldsets'] as $extra_fieldset) {
+                                ?>
+
+                                <div class="form-group extra_field">
+                                    <label for="update_<?php echo $extra_fieldset['slug'] ; ?>"
+                                           class="col-sm-4 control-label text-left"
+                                           style="color:#757575">
+                                        <?php echo $extra_fieldset['title'] ; ?>
+                                    </label>
+                                    <?php if ( $extra_fieldset['type'] === 'text') { ?>
+                                        <div class="col-sm-7">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="update_<?php echo $extra_fieldset['slug'] ; ?>"
+                                                   name="update_<?php echo $extra_fieldset['slug'] ; ?>"
+                                                   placeholder="<?php echo $extra_fieldset['title'] ; ?>"
+                                                   value="<?php
+                                                    if (isset($pageVars["data"]["user"][$extra_fieldset['slug']])) {
+                                                        echo $pageVars["data"]["user"][$extra_fieldset['slug']] ;
+                                                    }
+                                                    ?>" />
+                                            <span style="color:#FF0000;" id="update_<?php echo $extra_fieldset['slug'] ; ?>_alert"></span>
+                                        </div>
+                                    <?php } else if ( $extra_fieldset['type'] === 'textarea') { ?>
+                                        <div class="col-sm-7">
+                                            <span style="color:#FF0000;" id="update_<?php echo $extra_fieldset['slug'] ; ?>_alert"></span>
+                                            <textarea class="form-control"
+                                                      id="update_<?php echo $extra_fieldset['slug'] ; ?>"
+                                                      name="update_<?php echo $extra_fieldset['slug'] ; ?>" ><?php
+                                                if (isset($pageVars["data"]["user"][$extra_fieldset['slug']])) {
+                                                    echo $pageVars["data"]["user"][$extra_fieldset['slug']] ;
+                                                }
+                                                ?></textarea>
+                                        </div>
+                                    <?php } else if ( $extra_fieldset['type'] === 'boolean') { ?>
+                                        <div class="col-sm-7">
+                                            <input type="checkbox" class="form-control"
+                                                   id="update_<?php echo $extra_fieldset['slug'] ; ?>"
+                                                   name="update_<?php echo $extra_fieldset['slug'] ; ?>" <?php
+                                            if (isset($pageVars["data"]["user"][$extra_fieldset['slug']]) &&
+                                                $pageVars["data"]["user"][$extra_fieldset['slug']] === 'on') {
+                                                echo ' checked="checked" ' ; }?>
+                                                   placeholder="<?php echo $extra_fieldset['title'] ; ?>" />
+                                            <span style="color:#FF0000;" id="update_<?php echo $extra_fieldset['slug'] ; ?>_alert"></span>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+
+                                <?php } ?>
+
+                            <div class="extra_fields_loader hidden" id="extra_fields_loader">
+                                <img src="/Assets/Modules/DefaultSkin/image/loader.gif" alt="Updating User" />
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-3 actionButtonWrap">
+                                <a id="update_extra_fields" class="btn btn-success hvr-grow-shadow actionButton">
+                                    Update Extra Fields
+                                </a>
+                            </div>
+                        </div>
+
 
                     </form>
 
