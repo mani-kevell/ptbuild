@@ -44,6 +44,16 @@ class UserProfileCreateUserAllOS extends Base {
                 "status" => false ,
                 "message" => "This username already exists" );
             return $return ; }
+        if ($this->emailAlreadyExists()) {
+            $return = array(
+                "status" => false ,
+                "message" => "This email address is already in use" );
+            return $return ; }
+        if ($this->emailInvalid()) {
+            $return = array(
+                "status" => false ,
+                "message" => "This email address is invalid" );
+            return $return ; }
         $presult = $this->passwordInvalid() ;
         if ($presult !== true) {
             $return = array(
@@ -54,11 +64,15 @@ class UserProfileCreateUserAllOS extends Base {
     }
 
     private function userAlreadyExists() {
-        $allusers = $this->getAllUserDetails() ;
-        foreach ($allusers as $oneuser) {
-            if ($oneuser->username == $this->params["create_username"]) {
-                return true ; } }
-        return false ;
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        return $userAccount->userNameExist($this->params["create_username"]) ;
+    }
+
+    private function emailAlreadyExists() {
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        return $userAccount->userExist($this->params["create_email"]) ;
     }
 
     private function passwordInvalid() {
@@ -74,28 +88,22 @@ class UserProfileCreateUserAllOS extends Base {
         return true ;
     }
 
-    private function getAllUserDetails() {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $me = $signup->getLoggedInUserData() ;
-        $rid = $signup->getUserRole($me->email);
-        if ($rid == 1) {
-            $au =$signup->getUsersData();
-            return $au; }
-        return array() ;
+    private function emailInvalid() {
+        $is_invalid = !filter_var($this->params["create_email"], FILTER_VALIDATE_EMAIL) ;
+        if ($is_invalid === true) {
+            return true ;
+        }
+        return false ;
     }
 
     private function getOneUserDetails($username) {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $au =$signup->getUsersData();
-        foreach ($au as $oneuser) {
-            if ($oneuser->username == $this->params["create_username"]) {
-                $return = new \StdClass();
-                $return->username = $oneuser->username ;
-                $return->email = $oneuser->email ;
-                return $return ; } }
-        return array() ;
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        $au = $userAccount->getUserDataByUsername($username);
+        if (isset($au['user_id'])) {
+            unset($au['user_id']) ;
+        }
+        return $au ;
     }
 
     private function makeTheUser() {
@@ -106,9 +114,9 @@ class UserProfileCreateUserAllOS extends Base {
         $newUser["status"] = 1 ;
         $newUser["role"] = 1 ;
 
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $cu = $signup->createNewUser($newUser);
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        $cu = $userAccount->createNewUser($newUser);
 
         if ($cu == false) {
             $return = array(

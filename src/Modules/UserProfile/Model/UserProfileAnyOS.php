@@ -36,46 +36,21 @@ class UserProfileAnyOS extends BasePHPApp {
         $this->saveUser($user);
     }
 
-    public function getUserDetails() {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $oldData=$signup->getLoggedInUserData();
-        return $oldData;
-    }
-
-    public function getEnabledStatus() {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $me = $signup->getLoggedInUserData() ;
-        $rid = $signup->getUserRole($me->email);
-        if ($rid == 1) {
-            $au =$signup->getUsersData();
-            return $au;  }
-        return false ;
-    }
-
     public function getAllUserDetails() {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $me = $signup->getLoggedInUserData() ;
-        $rid = $signup->getUserRole($me->email);
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        $me = $userAccount->getLoggedInUserData() ;
+        $rid = $userAccount->getUserRole($me['email']);
         if ($rid == 1) {
-            $au =$signup->getUsersData();
+            $au = $userAccount->getUsersData();
             return $au;  }
         return false ;
     }
 
     private function saveUser($user) {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $oldData=$signup->updateUser($user);
-        return $oldData;
-    }
-
-    private function createUser($user) {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $oldData=$signup->updateUser($user);
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        $oldData = $userAccount->updateUser($user);
         return $oldData;
     }
 
