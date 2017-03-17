@@ -166,7 +166,7 @@ COMPLETION;
         return $outputText;
     }
 
-    public static function executeAndGetReturnCode($command, $show_output = null, $get_output = null) {
+    public static function executeAndGetReturnCode($command, $show_output = null, $get_output = null, $hide_commands = null) {
         $tempFile = self::tempfileStaticFromCommand($command) ;
         $loggingFactory = new \Model\Logging();
         $params["echo-log"] = true ;
@@ -176,7 +176,13 @@ COMPLETION;
             shell_exec("chmod 755 $tempFile 2>/dev/null");
             shell_exec("chmod +x $tempFile 2>/dev/null"); }
 
-        $proc = proc_open("bash -ex $tempFile", array(
+            if ($hide_commands == true) {
+                $bstr = 'x' ;
+            } else {
+                $bstr = 'ex' ;
+            }
+
+        $proc = proc_open("bash -{$bstr} $tempFile", array(
             0 => array("pipe","r"),
             1 => array("pipe",'w'),
             2 => array("pipe",'w'),
