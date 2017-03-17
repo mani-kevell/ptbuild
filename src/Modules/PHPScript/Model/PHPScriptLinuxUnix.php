@@ -66,7 +66,7 @@ class PHPScriptLinuxUnix extends Base {
             $phpc .= '  $extract_vars_keys = array_keys($extract_vars_array);'."\n" ;
             $phpc .= '  $extract_vars_keys_string = implode(",", $extract_vars_array);'."\n" ;
             $phpc .= '  $count = extract($extract_vars_array); '."\n" ;
-            $phpc .= '  "PHP Successfully Extracted {$count} Environment Variables into PHP Variables {$extract_vars_keys_string}..." ; '."\n" ;
+            $phpc .= '  echo "PHP Successfully Extracted {$count} Environment Variables into PHP Variables {$extract_vars_keys_string}..." ; '."\n" ;
             $phpc .= ' '."\n" ; }
         $phpc .= $data  ;
 //        echo $phpc ;
@@ -85,8 +85,8 @@ class PHPScriptLinuxUnix extends Base {
         $logging = $loggingFactory->getModel($this->params);
         if (file_exists($scr_loc)) {
             $logging->log("File found, executing...", $this->getModuleName()) ;
-            $comm = "php {$scr_loc} || exit 1" ;
-            $res = $this->executeAndGetReturnCode($comm, true, true, true) ;
+            $comm = "{$scr_loc}" ;
+            $res = $this->executeAndGetReturnCode($comm, true, true, 'php ') ;
             return ($res["rc"] == 0) ? true : false ; }
         else {
             $logging->log("File not found, error...", $this->getModuleName()) ;
