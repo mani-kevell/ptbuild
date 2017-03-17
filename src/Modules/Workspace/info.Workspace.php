@@ -6,7 +6,7 @@ class WorkspaceInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "Workspace/Home Page";
+    public $name = "Workspace Module";
 
     public function _construct() {
       parent::__construct();
