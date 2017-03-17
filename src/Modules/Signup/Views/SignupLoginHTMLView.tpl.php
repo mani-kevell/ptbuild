@@ -35,7 +35,10 @@
 
                         </div>
                         <div id="login_success_msg"></div>
-							<div class="form-group" >
+							<div class="form-group load_pending" >
+                                <img src="/Assets/Modules/DefaultSkin/image/loader.gif">
+                            </div>
+							<div class="form-group load_hidden" >
 								
 								<label for="inputEmail3" class="col-sm-3 control-label text-left" style="color:#757575;">User Name</label>
 								<div class="col-sm-8">
@@ -56,7 +59,7 @@
 									<div >
 									<label for="Signed in"><input name="Signed in" id="Signed in"  type="checkbox" style="color:#A2A1A1;"> Keep Me Signed in</label>
 									</div>	
-									<button type="button" onclick="submit_login();" class="btn  btn-primary  btn-1 btn-1a hvr-grow-shadow" >
+									<button type="submit" onclick="submit_login(); false;" class="load_hidden btn  btn-primary  btn-1 btn-1a hvr-grow-shadow" >
 										Log in
 									</button>
 									
@@ -137,8 +140,9 @@
 
 
                                 <?php
-                                    if (isset($pageVars["data"]["settings"]["PublicScope"]["enable_public"]) &&
-                                        $pageVars["data"]["settings"]["PublicScope"]["enable_public"] == "on") {
+                                    if (!isset($pageVars["data"]["settings"]["PublicScope"]["disable_public"]) ||
+                                        (isset($pageVars["data"]["settings"]["PublicScope"]["disable_public"]) &&
+                                        $pageVars["data"]["settings"]["PublicScope"]["disable_public"] != "on")) {
                                 ?>
                                     <div id="public_links" class="public_links">
                                         <?php
