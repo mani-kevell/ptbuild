@@ -6,7 +6,7 @@ class BuildListInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "BuildList/Home Page";
+    public $name = "BuildList Module";
 
     public function _construct() {
       parent::__construct();
@@ -18,6 +18,16 @@ class BuildListInfo extends PTConfigureBase {
 
     public function routeAliases() {
       return array("buildList"=>"BuildList");
+    }
+
+    public function configuration() {
+        return array(
+            "index_override"=> array(
+                "type" => "boolean",
+                "default" => true,
+                "label" => "Override your default Index Module with Build Listing as a Home Page?",
+            ),
+        );
     }
 
     public function helpDefinition() {
