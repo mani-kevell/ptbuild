@@ -24,9 +24,9 @@ class UserManagerAnyOS extends BasePHPApp {
     }
 
     public function getUserDetails() {
-        $signupFactory = new \Model\Signup();
-        $signup = $signupFactory->getModel($this->params);
-        $oldData=$signup->getUsersData();
+        $uaFactory = new \Model\UserAccount();
+        $ua = $uaFactory->getModel($this->params);
+        $oldData = $ua->getUsersData();
         return $oldData;
     }
 
