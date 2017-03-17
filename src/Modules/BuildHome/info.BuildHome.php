@@ -6,7 +6,7 @@ class BuildHomeInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "BuildHome/Home Page";
+    public $name = "BuildHome Module";
 
     public function _construct() {
       parent::__construct();
