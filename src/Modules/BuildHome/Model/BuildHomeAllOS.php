@@ -26,9 +26,9 @@ class BuildHomeAllOS extends Base {
     }
 
     protected function getCurrentUser() {
-        $signupFactory = new \Model\Signup() ;
-        $signup = $signupFactory->getModel($this->params);
-        $user = $signup->getLoggedInUserData();
+        $uaFactory = new \Model\UserAccount() ;
+        $ua = $uaFactory->getModel($this->params);
+        $user = $ua->getLoggedInUserData();
         return $user ;
     }
 
