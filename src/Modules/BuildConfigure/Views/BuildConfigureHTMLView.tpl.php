@@ -362,7 +362,7 @@
     </div><!-- container -->
 
 
-
+<script src="/Assets/Modules/BuildConfigure/js/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildConfigure/css/buildconfigure.css">
 <script type="text/javascript">
@@ -371,8 +371,8 @@
 </script>
 <script type="text/javascript">
 
-    $(function() {
-        $( "#sortableSteps" ).sortable();
+    jQuery(function() {
+        jQuery( "#sortableSteps" ).sortable();
        // $( "#sortableSteps" ).disableSelection();
     });
 </script>
