@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PipeRunParametersAllOS extends Base {
+class BuildQueueAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -20,43 +20,21 @@ class PipeRunParametersAllOS extends Base {
 
     public function getSettingFormFields() {
         $ff = array(
-            "piperun_parameters_enabled" => array(
+            "enabled" => array(
                 "type" => "boolean",
                 "optional" => true,
-                "name" => "Enable Run-time Parameters for this pipeline?" ),
-            "fieldsets" => array(
-                "parameters" => array(
-                    "param_type" => array(
-                        "type" => "options",
-                        "options" => array("text", "boolean", "textarea", "options"),
-                        "optional" => false,
-                        "name" => "Parameter Type",
-                        "js_change_function" => "changePipeRunParameterType"),
-                    "param_name" => array(
-                        "type" => "text",
-                        "optional" => false,
-                        "name" => "Parameter Name (Alphanumeric)?" ),
-                    "param_default" => array(
-                        "type" => "text",
-                        "optional" => true,
-                        "name" => "Default Value?" ),
-                    "param_textarea_default" => array(
-                        "type" => "textarea",
-                        "optional" => true,
-                        "name" => "Default for Parameter Text Area (Multi Line Parameter)" ),
-                    "param_boolean_default" => array(
-                        "type" => "boolean",
-                        "optional" => true,
-                        "name" => "Default setting for boolean value?" ),
-                    "param_options" => array(
-                        "type" => "textarea",
-                        "optional" => true,
-                        "name" => "Parameter Options (One Per Line)?" ),
-                    "param_description" => array(
-                        "type" => "textarea",
-                        "optional" => true,
-                        "name" => "Parameter Text Area (Multi Line Parameter)" ),
-                ), )
+                "name" => "Enable Queueing for this pipeline?"
+            ),
+            "build_queue_max" => array(
+                "type" => "text",
+                "optional" => true,
+                "name" => "Max amount of builds to queue?"
+            ),
+            "build_queue_delay" => array(
+                "type" => "text",
+                "optional" => true,
+                "name" => "Enter minutes to delay between builds?"
+            ),
         );
         return $ff ;
     }
@@ -67,101 +45,100 @@ class PipeRunParametersAllOS extends Base {
 
     public function getEvents() {
         $ff = array(
-            "pipeRunParameterEnable" => array("checkEnableParametersForBuild", ),
-            "pipeRunParameterLoad" => array("checkFindParametersForBuild", ),
-            "beforeBuild" => array("addParametersToEnvVars"),
-            "prepareBuild" => array("prepareBuildEnvVars")
+            "buildQueueEnable" => array("checkIfBuildRunRequiresQueue", ),
         );
         return $ff ;
     }
 
-    public function checkEnableParametersForBuild() {
-        if (isset($this->params["build-settings"]["PipeRunParameters"])) {
-            if ( $this->params["build-settings"]["PipeRunParameters"]["piperun_parameters_enabled"] == "on") {
-                return true ; } }
-        return false ;
-    }
+    public function checkIfBuildRunRequiresQueue() {
 
-    public function checkFindParametersForBuild() {
-        // implement some silent loading or default loading methods
-        // like for scheduled build or something
-        $loggingFactory = new \Model\Logging();
-        $this->params["echo-log"] = true ;
-        $logging = $loggingFactory->getModel($this->params);
-
-        if ( isset($this->params["build-parameters"])) {
-//            $logging->log ("parameters set by object parameters", $this->getModuleName() ) ;
-            return array("build-parameters"=>$this->params["build-parameters"]) ;  }
-//        if ( isset($_REQUEST["build-parameters"])) {
-//            var_dump($_REQUEST["build-parameters"]) ;
-//            $logging->log ("parameters set by request", $this->getModuleName() ) ;
-//            return array("build-parameters"=>$_REQUEST["build-parameters"]) ; }
-        return false ;
-    }
+        ob_start() ;
+        var_dump("method to check if build requires queueing") ;
+        var_dump("all params: ", $this->params) ;
+//        debug_print_backtrace() ;
+        $out = ob_get_clean() ;
+        file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
 
 
-    public function addParametersToEnvVars() {
-        $loggingFactory = new \Model\Logging();
-        $logging = $loggingFactory->getModel($this->params);
+        if (isset($this->params['build-settings']['BuildQueue']['enabled'])) {
 
-        if (isset($this->params["build-parameter-location"])) {
-            $logging->log ("overwriting build params with location", $this->getModuleName() ) ;
-            $json_data = file_get_contents($this->params["build-parameter-location"]);
-            $this->params["build-parameters"] = json_decode($json_data, true) ; }
+            // build_queue_max
+            // build_queue_delay
 
-        if ( isset($this->params["build-parameters"])) {
-            $logging->log ("adding parameters to environment variables", $this->getModuleName() ) ;
-            return array("params"=>array("env-vars"=>$this->params["build-parameters"])) ;  }
-//        if ( isset($_REQUEST["build-parameters"])) {
-//            var_dump($_REQUEST["build-parameters"]) ;
-//            $logging->log ("parameters set by request", $this->getModuleName() ) ;
-//            return array("build-parameters"=>$_REQUEST["build-parameters"]) ; }
-        return true ;
-    }
+            // is this build already running?
+            $pipeRunnerFactory = new \Model\PipeRunner() ;
+            $pipeRunnerRunning = $pipeRunnerFactory->getModel($this->params, "FindRunning") ;
+            $runningBuilds = $pipeRunnerRunning->getData() ;
 
-    public  function prepareBuildEnvVars() {
-        $loggingFactory = new \Model\Logging();
-        $logging = $loggingFactory->getModel($this->params);
-        $tmpfile = PIPEDIR . DS . $this -> params["item"] . DS .'tmp'.DS. 'tmpparams_'.$this -> params["run-id"] ;
-        $logging->log ("Writing build params to location {$tmpfile}", $this->getModuleName() ) ;
-        $bprm = (isset($this->params["build-parameters"])) ? $this->params["build-parameters"] : array() ;
-        $data = json_encode($bprm) ;
-        $chars = file_put_contents($tmpfile, $data) ;
-        $logging->log ("Written {$chars} characters", $this->getModuleName() ) ;
-        return array("build-parameter-location" => $tmpfile) ;
-    }
 
-    public function stepPrepare() {
-        //get input data
-        $parameterData = PIPEDIR.DS.$this->params["item"].DS.'defaults';
-        $defaultsFile = file_get_contents($parameterData) ;
-        $defaultsFile = new \ArrayObject(json_decode($defaultsFile));
-        $paraName = $defaultsFile["parameter-name"];
-        $paraInput = $defaultsFile["parameter-input"];
-        $paraDesc = $defaultsFile["parameter-description"];
+            ob_start() ;
+            var_dump("these are the running builds: ", $runningBuilds) ;
+            $out = ob_get_clean() ;
+            file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
 
-        //get stepfile data
-        $stepFile = PIPEDIR.DS.$this->params["item"].DS.'steps';
-        $stepFileData = file_get_contents($stepFile) ;
 
-        if ($this->params["build-settings"]["PipeRunParameters"]["piperun_parameters_enabled"] == "on") {
-
-            if (isset($run_parameters)) {
-
+            $is_running = false ;
+            foreach ($runningBuilds["running_builds"] as $runningBuild) {
+                file_put_contents('/tmp/pharaoh.log', "rbitem: {$runningBuild['item']} item param: {$this->params['item']}", FILE_APPEND) ;
+                if ($runningBuild['item'] === $this->params['item']) {
+                    $is_running = true ;
+                }
             }
 
-            return true ;
+            if ($is_running === true) {
+                $res = $this->addBuildToQueue() ;
+                file_put_contents('/tmp/pharaoh.log', "added build to queue, res is {$res}", FILE_APPEND) ;
+                return $res ;
+            }
+            else {
+                return false ;
+            }
+
+
+        }
+        else {
+            file_put_contents('/tmp/pharaoh.log', "Queing builds is not enabled", FILE_APPEND) ;
+
+            // @todo
+            // Queing builds is not enabled, it definitely does not require queueing
+            return false ;
         }
 
-        return false ;
+    }
 
-        //@todo ask karthik what this does
-//        $result = str_replace('$'.$paraName, $paraInput, $stepFileData);
-//        file_put_contents(PIPEDIR.DS.$this->params["item"].DS.'stepsHistory'.DS.$this->params["run-id"], $result);
-//        $stepFileForRun = $stepFile.'ForRun';
-//        file_put_contents($stepFileForRun, $result);
-//        return $result;
+    public function addBuildToQueue() {
+        $save_build_parameters = (isset($this->params['build-parameters'])) ?
+            json_encode($this->params['build-parameters']) : null ;
+        $queue_entry = array() ;
+        $queue_entry['pipeline_slug'] = $this->params['item'] ;
+        $queue_entry['entry_time'] = time() ;
+        $queue_entry['parameters'] = $save_build_parameters ;
+        $queue_entry['settings'] = json_encode($this->params['build-settings']) ;
+        $this->ensureDataCollection() ;
+        $datastoreFactory = new \Model\Datastore() ;
+        $datastore = $datastoreFactory->getModel($this->params) ;
+        $res = $datastore->insert('build_queue', $queue_entry) ;
+        return ($res === true) ? $queue_entry : false ;
+    }
+
+    protected function ensureDataCollection() {
+        $datastoreFactory = new \Model\Datastore() ;
+        $datastore = $datastoreFactory->getModel($this->params) ;
+        $loggingFactory = new \Model\Logging() ;
+        $logging = $loggingFactory->getModel($this->params) ;
+        if ( $datastore->collectionExists('build_queue') === true) {
+            return true ;
+        }
+        $column_defines = array(
+            'entry_id' => 'INTEGER PRIMARY KEY ASC',
+            'pipeline_slug' => 'string',
+            'entry_time' => 'string',
+            'parameters' => 'string',
+            'settings' => 'string',
+        );
+        $logging->log("Creating Build Queue Collection in Datastore", $this->getModuleName()) ;
+        $res = $datastore->createCollection('build_queue', $column_defines) ;
+        return $res ;
     }
 
 }
-   

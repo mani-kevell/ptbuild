@@ -2,30 +2,30 @@
 
 Namespace Info;
 
-class PipeRunParametersInfo extends PTConfigureBase {
+class BuildQueueInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "Functionality to provide runtime parameters to your build";
+    public $name = "Functionality to provide queueing for your builds";
 
     public function _construct() {
         parent::__construct();
     }
 
     public function routesAvailable() {
-        return array( "PipeRunParameters" => array_merge(parent::routesAvailable(), array("help") ) );
+        return array( "BuildQueue" => array_merge(parent::routesAvailable(), array("help") ) );
     }
 
     public function routeAliases() {
-        return array("piperunparameters"=>"PipeRunParameters");
+        return array("buildqueue"=>"BuildQueue");
     }
 
     public function buildSettings() {
-        return array("piperun_parameters_enabled");
+        return array("build_queue_enabled");
     }
 
     public function events() {
-        return array("pipeRunParameterEnable", "pipeRunParameterLoad", "beforeBuild", "prepareBuild");
+        return array("buildQueueEnable");
     } 
     
     public function helpDefinition() {
@@ -33,7 +33,7 @@ class PipeRunParametersInfo extends PTConfigureBase {
     This extension provides Functionality to provide runtime parameters to your build.
     It provides code functionality, but no extra commands.
 
-    PipeRunParameters
+    BuildQueue
 
 HELPDATA;
       return $help ;

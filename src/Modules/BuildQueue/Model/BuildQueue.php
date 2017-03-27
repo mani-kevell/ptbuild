@@ -2,6 +2,6 @@
 
 Namespace Model;
 
-class PipeRunParameters extends BaseModelFactory {
+class BuildQueue extends BaseModelFactory {
 
 }
