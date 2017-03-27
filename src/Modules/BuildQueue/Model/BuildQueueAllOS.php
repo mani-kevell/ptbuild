@@ -127,6 +127,9 @@ class BuildQueueAllOS extends Base {
         $datastoreFactory = new \Model\Datastore() ;
         $datastore = $datastoreFactory->getModel($this->params) ;
         $res = $datastore->findAll('build_queue', $queue_entry) ;
+        foreach ($res as &$one) {
+            $one['entry_time_format'] = date('H:i:s d/m/Y', $one['entry_time']) ;
+        }
         return $res ;
     }
 

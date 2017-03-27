@@ -40,7 +40,7 @@ function updatePageQueue() {
         $.ajax({
             url: url,
             success: function(data) {
-                setRunningBuildList(data) ;
+                setQueuedBuildList(data) ;
                 window.updateQueueRunning = false ; } ,
             complete: function(data) {
                 window.updateQueueRunning = false ; }
@@ -82,6 +82,26 @@ function setRunningBuildList(data) {
             ht += '</div>' ;}
             
         $('#runningBuilds').html(ht); }
+}
+
+function setQueuedBuildList(data) {
+    data = JSON.parse(data);
+    console.log(data);
+    if (data.length == 0) {
+        $('.queuedBuildRow' +" > td ").animate({ opacity: 100 });
+        $('.queuedBuildRow' +" > th ").animate({ opacity: 100 });
+        $('.buildRow').removeClass("queuedBuildRow");
+        ht = "<p>No builds currently queued...</p>" ;
+        $('#queuedBuilds').html(ht); }
+    else {
+        ht = "" ;
+        ht += '<div class=" well well-sm">' ;
+        for (index = 0; index < data.length; index++) {
+            console.log(data[index]) ;
+            // ht += '  <img src="Assets/startbootstrap-sb-admin-2-1.0.5/dist/image/rt.GIF" style="width:150px;">' ;
+            ht += '  <h5><strong>Queued On:</strong> '+data[index].entry_time_format+'</h5>' ;}
+        ht += '</div>' ;
+        $('#queuedBuilds').html(ht); }
 }
 
 function getQueryParam(param) {
