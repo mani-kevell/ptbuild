@@ -51,9 +51,12 @@ class PHPScriptLinuxUnix extends Base {
     }
 
     private function executeAsPHPData($data) {
+
+        $data = str_replace("\r\n", "\n", $data) ;
+
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
-        $phpc = $data  ;
+        $phpc = ''  ;
         if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
             $loggingFactory = new \Model\Logging();
             $logging = $loggingFactory->getModel($this->params);
@@ -69,10 +72,9 @@ class PHPScriptLinuxUnix extends Base {
             $phpc .= '  echo "PHP Successfully Extracted {$count} Environment Variables into PHP Variables {$extract_vars_keys_string}..." ; '."\n" ;
             $phpc .= ' '."\n" ; }
         $phpc .= $data  ;
-//        echo $phpc ;
         $tempFile = getcwd().DS.PHARAOH_APP."-temp-script-".mt_rand(100, 99999999999).".php";
         $stored = file_put_contents($tempFile, $phpc) ;
-        if ($stored == false) {
+        if ($stored === false) {
             $logging->log("File not found, error...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
             return false ; }
         $res = $this->executeAsPHPScript($tempFile) ;
@@ -84,9 +86,9 @@ class PHPScriptLinuxUnix extends Base {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         if (file_exists($scr_loc)) {
-            $logging->log("File found, executing...", $this->getModuleName()) ;
+            $logging->log("php $scr_loc", $this->getModuleName()) ;
             $comm = "{$scr_loc}" ;
-            $res = $this->executeAndGetReturnCode($comm, true, true, 'php ') ;
+            $res = $this->executePHP($comm, true, null) ;
             return ($res["rc"] == 0) ? true : false ; }
         else {
             $logging->log("File not found, error...", $this->getModuleName()) ;
