@@ -166,6 +166,26 @@ COMPLETION;
         return $outputText;
     }
 
+    protected function executePHP($command, $show_output = null, $get_output = null) {
+        $command = "php {$command}" ;
+        $proc = popen($command, 'r');
+        $all_out = "" ;
+        while (!feof($proc))
+        {
+            $data = fread($proc, 4096);
+            if (!is_null($show_output)) {
+                echo $data ;
+            }
+            if (!is_null($get_output)) {
+                $all_out .= $data ;
+            }
+        }
+        $res = pclose($proc);
+        $ret['out'] = $all_out ;
+        $ret['rc'] = $res ;
+        return $ret;
+    }
+
     public static function executeAndGetReturnCode($command, $show_output = null, $get_output = null, $custom_exe = null) {
         $tempFile = self::tempfileStaticFromCommand($command) ;
         $loggingFactory = new \Model\Logging();
@@ -178,16 +198,18 @@ COMPLETION;
 
         if ($custom_exe === null) {
             $exe_str = 'bash -ex' ;
+            $command = "{$exe_str} $tempFile" ;
         } else {
             $exe_str = $custom_exe ;
+            $command = "{$exe_str} $tempFile" ;
         }
 
-        $proc = proc_open("{$exe_str} $tempFile", array(
+        $proc = proc_open($command, array(
             0 => array("pipe","r"),
             1 => array("pipe",'w'),
             2 => array("pipe",'w'),
         ),$pipes);
-        if ($show_output==true) {
+        if ($show_output === true) {
             stream_set_blocking($pipes[1], true);
             stream_set_blocking($pipes[2], true);
             $data = "";
@@ -201,7 +223,7 @@ COMPLETION;
 //                    echo "ERR: ".$buf2 ;
                     $data2 .= $buf2;
 //                    echo "ERR: " ;
-                    unset($buf2) ;} }
+                    unset($buf2) ; } }
             echo $data2 ; }
 
 //        while ( ($buf = fread($pipes[1], 131072)) || ( $buf2 = fread($pipes[2], 131072))) {
@@ -216,7 +238,6 @@ COMPLETION;
 //                echo $buf2 ;
 //                unset($buf2) ;}
 
-
         $stdout = stream_get_contents($pipes[1]);
         fclose($pipes[1]);
         $stderr = stream_get_contents($pipes[2]);
@@ -225,14 +246,16 @@ COMPLETION;
         $output = (isset($stderr)) ? $stdout.$stderr : $stdout ;
         $output = explode("\n", $output) ;
         if ($show_output == true) {
-//            $stdout = explode("\n", $stdout) ;
-//            foreach ($stdout as $stdoutline) {
-//                echo $stdoutline."\n" ; }
+            $stdout = explode("\n", $stdout) ;
+            foreach ($stdout as $stdoutline) {
+                file_put_contents('/tmp/pharaoh.log', "show output $stdoutline\n", FILE_APPEND) ;
+                echo $stdoutline."\n" ; }
             if (strlen($stderr)>0) {
 //                echo "ERRORS:\n";
                 $stderr = explode("\n", $stderr) ;
                 foreach ($stderr as $stderrline) {
-//                    echo $stderrline."\n" ;
+                    file_put_contents('/tmp/pharaoh.log', "show err $stderrline\n", FILE_APPEND) ;
+                    echo $stderrline."\n" ;
                 }
             }
             return array("rc"=>$retVal, "output"=>$output) ; }
