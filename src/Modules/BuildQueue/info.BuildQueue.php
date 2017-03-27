@@ -13,7 +13,7 @@ class BuildQueueInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "BuildQueue" => array_merge(parent::routesAvailable(), array("help", "findqueued") ) );
+        return array( "BuildQueue" => array_merge(parent::routesAvailable(), array("help", "findqueued", "run-cycle") ) );
     }
 
     public function routeAliases() {
