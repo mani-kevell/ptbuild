@@ -33,8 +33,7 @@ function updatePageQueue() {
     console.log("running update queued builds js method");
     window.updateQueueRunning = true ;
     console.log("setting update running to true");
-    item = getQueryParam("item") ;
-    url = "/index.php?control=BuildQueue&action=findqueued&item="+item+"&output-format=JSON";
+    url = "/index.php?control=BuildQueue&action=findqueued&output-format=JSON";
     $.ajax({
         url: url,
         success: function(data) {
@@ -94,7 +93,11 @@ function setQueuedBuildList(data) {
         for (index = 0; index < data.length; index++) {
             console.log(data[index]) ;
             // ht += '  <img src="Assets/startbootstrap-sb-admin-2-1.0.5/dist/image/rt.GIF" style="width:150px;">' ;
-            ht += '  <h5><strong>Queued On:</strong> '+data[index].entry_time_format+'</h5>' ;}
+            ht += '  <div>' ;
+            ht += '    <h4><strong>'+data[index].pipeline_slug+'</strong> </h4>' ;
+            ht += '    <h5><strong>Queued On:</strong> '+data[index].entry_time_format+'</h5>' ;
+            ht += '  </div>'
+            ht += '  <hr />' ;}
         ht += '</div>' ;
         $('#queuedBuilds').html(ht); }
 }
