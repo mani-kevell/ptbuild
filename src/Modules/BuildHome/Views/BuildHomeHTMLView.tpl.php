@@ -178,6 +178,15 @@
                         </div>
                     </div>
 
+                    <div class="alert alert-info">
+                        <h4>Queued Builds </h4>
+                        <div id="queuedBuilds">
+                            <p>
+                                No builds of this pipeline currently queued
+                            </p>
+                        </div>
+                    </div>
+
                 <?php
                 }
                 ?>
