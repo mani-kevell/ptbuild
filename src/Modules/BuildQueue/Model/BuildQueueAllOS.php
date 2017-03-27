@@ -45,9 +45,28 @@ class BuildQueueAllOS extends Base {
 
     public function getEvents() {
         $ff = array(
-            "buildQueueEnable" => array("checkIfBuildRunRequiresQueue", ),
+            "buildQueueEnable" => array( "checkIfBuildRunRequiresQueue", ),
+            "prepareBuild" => array( "checkBuildQueue", ),
         );
         return $ff ;
+    }
+
+    public function checkBuildSchedule() {
+        $loggingFactory = new \Model\Logging();
+        if (!$this->isWebSapi()) { $this->params["echo-log"] = true ; }
+        $this->params["php-log"] = true ;
+        $this->params["app-log"] = true ;
+        $this->pipeline = $this->getPipeline($this->params["item"]);
+        $this->params["build-settings"] = $this->pipeline["settings"];
+        $this->params["app-settings"]["app_config"] = \Model\AppConfig::getAppVariable("app_config");
+        $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
+        $this->lm = $loggingFactory->getModel($this->params);
+        if ($this->checkBuildScheduleEnabledForBuild()) {
+            $this->lm->log ("BSE", $this->getModuleName() ) ;
+            return $this->doBuildScheduleEnabled() ; }
+        else {
+            $this->lm->log ("BSD", $this->getModuleName() ) ;
+            return $this->doBuildScheduleDisabled() ; }
     }
 
     public function checkIfBuildRunRequiresQueue() {
@@ -59,51 +78,36 @@ class BuildQueueAllOS extends Base {
         $out = ob_get_clean() ;
         file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
 
-
         if (isset($this->params['build-settings']['BuildQueue']['enabled'])) {
-
             // build_queue_max
             // build_queue_delay
-
             // is this build already running?
             $pipeRunnerFactory = new \Model\PipeRunner() ;
             $pipeRunnerRunning = $pipeRunnerFactory->getModel($this->params, "FindRunning") ;
             $runningBuilds = $pipeRunnerRunning->getData() ;
 
-
-            ob_start() ;
-            var_dump("these are the running builds: ", $runningBuilds) ;
-            $out = ob_get_clean() ;
-            file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
-
+//            ob_start() ;
+//            var_dump("these are the running builds: ", $runningBuilds) ;
+//            $out = ob_get_clean() ;
+//            file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
 
             $is_running = false ;
             foreach ($runningBuilds["running_builds"] as $runningBuild) {
                 file_put_contents('/tmp/pharaoh.log', "rbitem: {$runningBuild['item']} item param: {$this->params['item']}", FILE_APPEND) ;
                 if ($runningBuild['item'] === $this->params['item']) {
-                    $is_running = true ;
-                }
-            }
-
+                    $is_running = true ; } }
             if ($is_running === true) {
                 $res = $this->addBuildToQueue() ;
                 file_put_contents('/tmp/pharaoh.log', "added build to queue, res is {$res}", FILE_APPEND) ;
-                return $res ;
-            }
+                return $res ; }
             else {
-                return false ;
-            }
-
-
+                return false ; }
         }
         else {
-            file_put_contents('/tmp/pharaoh.log', "Queing builds is not enabled", FILE_APPEND) ;
-
-            // @todo
+            // @todo file_put_contents('/tmp/pharaoh.log', "Queing builds is not enabled", FILE_APPEND) ;
             // Queing builds is not enabled, it definitely does not require queueing
             return false ;
         }
-
     }
 
     public function addBuildToQueue() {
@@ -152,5 +156,6 @@ class BuildQueueAllOS extends Base {
         $res = $datastore->createCollection('build_queue', $column_defines) ;
         return $res ;
     }
+
 
 }
