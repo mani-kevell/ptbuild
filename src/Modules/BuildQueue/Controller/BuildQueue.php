@@ -6,13 +6,20 @@ class BuildQueue extends Base {
 
     public function execute($pageVars) {
 
-        $thisModel = $this->getModelAndCheckDependencies(substr(get_class($this), 11), $pageVars, "Base") ;
+        $thisModel = $this->getModelAndCheckDependencies(substr(get_class($this), 11), $pageVars) ;
         if (is_array($thisModel)) {
             return $this->failDependencies($pageVars, $this->content, $thisModel) ; }
 
         $action = $pageVars["route"]["action"];
 
-        if ($action=="help") {
+        if ($action === "findrunning") {
+            // @todo output format change not being implemented
+            $this->content["params"]["output-format"] = "JSON";
+            $this->content["route"]["extraParams"]["output-format"] = "JSON";
+            $this->content["data"] = $thisModel->findRunning();
+            return array ("type"=>"view", "view"=>"buildQueueFindRunning", "pageVars"=>$this->content); }
+
+        if ($action === "help") {
             $helpModel = new \Model\Help();
             $this->content["helpData"] = $helpModel->getHelpData($pageVars["route"]["control"]);
             return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
