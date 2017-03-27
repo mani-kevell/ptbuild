@@ -207,7 +207,8 @@
                         count($pageVars["data"]["features"])>0 ) {
                         foreach ($pageVars["data"]["features"] as $build_feature) {
 //                            var_dump($build_feature);
-                            if (isset($build_feature["hidden"]) && $build_feature["hidden"] != true
+                            if (
+                                (isset($build_feature["hidden"]) && $build_feature["hidden"] != true)
                                 || !isset($build_feature["hidden"]) ) {
                                 echo '<div class="build-feature">' ;
                                 echo '<a target="_blank" href="'.$build_feature["model"]["link"].'">' ;
