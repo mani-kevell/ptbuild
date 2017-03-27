@@ -12,12 +12,12 @@ class BuildQueue extends Base {
 
         $action = $pageVars["route"]["action"];
 
-        if ($action === "findrunning") {
+        if ($action === "findqueued") {
             // @todo output format change not being implemented
             $this->content["params"]["output-format"] = "JSON";
             $this->content["route"]["extraParams"]["output-format"] = "JSON";
-            $this->content["data"] = $thisModel->findRunning();
-            return array ("type"=>"view", "view"=>"buildQueueFindRunning", "pageVars"=>$this->content); }
+            $this->content["data"] = $thisModel->findQueued();
+            return array ("type"=>"view", "view"=>"buildQueueFindQueued", "pageVars"=>$this->content); }
 
         if ($action === "help") {
             $helpModel = new \Model\Help();
