@@ -62,6 +62,16 @@
 			</div>
 		</div>
 
+        <div class="alert alert-info">
+            <h4>Queued Builds</h4>
+            <div id="queuedBuilds">
+                <p>
+                    No builds currently queued
+                </p>
+
+            </div>
+        </div>
+
 	</div>
 
 	<div class="col-lg-9">
