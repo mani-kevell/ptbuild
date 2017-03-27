@@ -72,7 +72,7 @@ function setRunningBuildList(data) {
             ht += '  <h5><a href="index.php?control=PipeRunner&action=show&item='+data[index].item ;
             ht += '&run-id='+data[index].runid+'"> ' ;
             ht += '  <strong>Run ID:</strong> '+data[index].runid+'</a></h5>' ;
-            ht += '  <h5><strong>User:</strong> '+data[index].runuser+'</h5>' ;
+            // ht += '  <h5><strong>User:</strong> '+data[index].runuser+'</h5>' ;
             ht += '</div>' ;}
             
         $('#runningBuilds').html(ht); }
