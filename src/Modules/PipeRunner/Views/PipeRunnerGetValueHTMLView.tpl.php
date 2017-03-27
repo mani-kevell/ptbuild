@@ -158,8 +158,12 @@
 
 
                 <div class="form-group">
-                    <div class="col-sm-4"><br>
-                        <button type="submit" class="btn btn-success">Build</button>
+                    <div class="col-sm-12"><br>
+                        <button type="submit" class="btn btn-success col-sm-12">
+                            <h3>
+                                Build
+                            </h3>
+                        </button>
                     </div>
                 </div>
 

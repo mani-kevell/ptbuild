@@ -59,7 +59,10 @@ class PipeRunner extends Base {
 
         if (in_array($pageVars["route"]["action"], array("start"))) {
             $result=$thisModel->runPipe();
-            if ($result == "getParamValue") {
+            if (is_array($result) && $result['status'] === "queued") {
+                $this->content["data"] = $result;
+                return array ("type"=>"view", "view"=>"pipeRunnerQueued", "pageVars"=>$this->content); }
+            else if ($result === "getParamValue") {
                 $this->content["data"] = $thisModel->getData();
                 return array ("type"=>"view", "view"=>"pipeRunnerGetValue", "pageVars"=>$this->content); }
             $this->content["pipex"] = $result;

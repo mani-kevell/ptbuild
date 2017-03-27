@@ -61,105 +61,41 @@
                     <div class="row clearfix no-margin">
 
                     <h3>Project  <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></h3>
-                    <h5>This build requires parameters</h5>
+                    <h5>This run has been queued</h5>
                     <h5 class="text-uppercase text-light" style="margin-top: 15px;">
                         <a href="index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>"></a>
                     </h5>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-sm-10">
-
-                        <?php
-
-                        foreach ($pageVars["data"]["pipeline"]["settings"]["PipeRunParameters"]["parameters"] as $parameter) {
-
-//                            var_dump($parameter) ;
-
-                            if ($parameter["param_type"]=="text") {
-                                ?>
-
-                            <div class="col-sm-4">
-                                <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
-                            </div>
-
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_default"] ; ?>" />
-                            </div>
-
-                                <?php
-                            }
-
-                            else if ($parameter["param_type"]=="textarea") {
-                                ?>
-
-                                <div class="col-sm-4">
-                                    <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
-                                </div>
-
-                                <div class="col-sm-8">
-                                    <textarea class="form-control col-sm-7" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]"><?php echo $parameter["param_default"] ; ?></textarea>
-                                </div>
-
-                            <?php
-                            }
-
-                            else if ($parameter["param_type"]=="options") {
-
-//                              var_dump("parameter", $parameter) ;
-
-                                ?>
-
-                                <div class="col-sm-4">
-                                    <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
-                                </div>
-
-                                <div class="col-sm-8">
-
-                                    <select name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]">
-                                        <?php
-                                            $original_options = explode("\n", $parameter["param_options"]) ;
-                                            foreach ($original_options as $option_value) {
-                                                $option_value = rtrim($option_value) ;
-//                                                var_dump($option_value, $parameter["param_default"]) ;
-                                                if ($option_value == $parameter["param_default"]) { $selstring = " selected='selected' " ; }
-                                                else { $selstring = "" ; }
-                                                echo '<option '.$selstring.' value="'.$option_value.'">'.$option_value.'</option>' ; }
-                                        ?>
-                                    </select>
-
-                                </div>
-
-                            <?php
-                            }
-
-                            else if ($parameter["param_type"]=="boolean") {
-                                ?>
-
-                                <div class="col-sm-4">
-                                    <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-right"><?php echo $parameter["param_name"] ; ?></label>
-                                </div>
-
-                                <div class="col-sm-8">
-                                    <input type="checkbox" class="text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_boolean_default"] ; ?>" />
-                                </div>
-
-
-                            <?php
-                            }
-
-                            ?>
-                            <?php
-                        }
-
-                        ?>
-                    </div>
+                <div>
+                    <?php
+                  #  var_dump('<pre>', $pageVars, '</pre>') ;
+                    ?>
                 </div>
 
+                <div class="form-group">
+                    Name:
+                    <?php
+                    echo $pageVars['data']['pipeline']['project-name'] ;
+                    ?>
+                </div>
 
                 <div class="form-group">
-                    <div class="col-sm-4"><br>
-                        <button type="submit" class="btn btn-success">Build</button>
+                    Queued On:
+                    <?php
+                        echo date('H:i:s d/m/Y', $pageVars['data']['queued_run'][0]['entry_time']) ;
+                    ?>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-12"><br>
+                        <a href="index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>"
+                           type="submit"
+                           class="btn btn-primary col-sm-12">
+                            <h4>
+                                Pipeline Home
+                            </h4>
+                        </a>
                     </div>
                 </div>
 

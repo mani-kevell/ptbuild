@@ -22,7 +22,7 @@ class PipeRunnerAllOS extends Base {
 		$ret["pipeline"] = $this -> getPipeline();
 		$ret["item"] = $this -> params["item"];
 		$ret["history_count"] = $this -> getBuildNumber("last");
-		$ret["run_start"] = $this -> getRunStartTime($this->params["run-id"]);
+		$ret["run_start"] = $this -> getRunStartTime($run_id);
 		return $ret;
 	}
 
@@ -61,6 +61,37 @@ class PipeRunnerAllOS extends Base {
     }
 
 
+    public function enableBuildQueue() {
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $pipeline = $this->getPipeline();
+        $this->params["build-settings"] = $pipeline["settings"];
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("buildQueueEnable") ;
+        return $ev ;
+    }
+
+    public function buildShouldQueue() {
+
+
+        $loggingFactory = new \Model\Logging();
+        $logging = $loggingFactory->getModel($this->params);
+        file_put_contents('/tmp/pharaoh.log', "Checking if this build should be queued\n", FILE_APPEND) ;
+
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $pipeline = $this->getPipeline();
+        $this->params["build-settings"] = $pipeline["settings"];
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("buildQueueEnable", true) ;
+
+        ob_start() ;
+        var_dump("build q event", $ev, $this->params["build-settings"]) ;
+        $out = ob_get_clean() ;
+
+        file_put_contents('/tmp/pharaoh.log', "build queue enable event has run: $out\n", FILE_APPEND) ;
+
+        return (is_array($ev) && in_array(false, $ev)) ? false : $ev ;
+    }
+
     public function findBuildParameters() {
         $eventRunnerFactory = new \Model\EventRunner() ;
         $pipeline = $this->getPipeline();
@@ -75,11 +106,18 @@ class PipeRunnerAllOS extends Base {
 
 
 	public function runPipe($start_execution = true) {
-        if ($this->enableBuildParameters() == true) {
-            if ($this->findBuildParameters() == false) {
-                return "getParamValue"; } }
-        // set build dir
+        $bsq = $this->buildShouldQueue() ;
+        if (is_array($bsq)) {
+            $res = array() ;
+            $res['status'] = "queued" ;
+            $res['pipeline'] = $this->getPipeline();
+            $res['queued_run'] = $bsq;
+            return $res ;
+        }
 
+        if ($this->enableBuildParameters() === true) {
+            if ($this->findBuildParameters() === false) {
+                return "getParamValue"; } }
 
         $this -> setPipeDir();
 
@@ -87,9 +125,7 @@ class PipeRunnerAllOS extends Base {
         // ie if we cant find a pipe dir from the above method call
         // ensure build dir exists
 
-
-
-        if ($start_execution==true) {
+        if ( $start_execution === true ) {
 
             $run = $this -> saveRunPlaceHolder();
             $this->params["run-id"] = $run ;
@@ -235,7 +271,7 @@ class PipeRunnerAllOS extends Base {
         $cmd .= 'tmpfile_terminate_'.$this->params["run-id"] ;
         if ($switch != false) { $cmd .= "'" ; }
 
-        error_log("terminate: " . $cmd);
+//        error_log("terminate: " . $cmd);
         $descr = array(
             0 => array(
                 'pipe',
