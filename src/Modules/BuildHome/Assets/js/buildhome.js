@@ -1,6 +1,7 @@
 done = false ;
 max = 0 ;
 window.updateRunning = false ;
+window.updateQueueRunning = false ;
 
 
 
@@ -8,7 +9,8 @@ window.outUpdater = setInterval(function () {
     if (window.updateRunning==false) {
         console.log("calling update page js method, updateRunning variable is set to false");
         if (document.hasFocus()!==false) {
-            updatePage() ; }}
+            updatePage() ;
+            updatePageQueue() ; }}
     else {
         console.log("not calling update page js method, updateRunning variable is set to true"); }
 }, 4000);
@@ -26,6 +28,22 @@ function updatePage() {
                 window.updateRunning = false ; } ,
             complete: function(data) {
                 window.updateRunning = false ; }
+        });
+}
+
+function updatePageQueue() {
+    console.log("running update queued builds js method");
+        window.updateQueueRunning = true ;
+        console.log("setting update running to true");
+        item = getQueryParam("item") ;
+        url = "/index.php?control=BuildQueue&action=findqueued&item="+item+"&output-format=JSON";
+        $.ajax({
+            url: url,
+            success: function(data) {
+                setRunningBuildList(data) ;
+                window.updateQueueRunning = false ; } ,
+            complete: function(data) {
+                window.updateQueueRunning = false ; }
         });
 }
 
