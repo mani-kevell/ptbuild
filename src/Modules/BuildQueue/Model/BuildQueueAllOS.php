@@ -121,6 +121,15 @@ class BuildQueueAllOS extends Base {
         return ($res === true) ? $queue_entry : false ;
     }
 
+    public function findQueued() {
+        $queue_entry = array() ;
+        $queue_entry['pipeline_slug'] = $this->params['item'] ;
+        $datastoreFactory = new \Model\Datastore() ;
+        $datastore = $datastoreFactory->getModel($this->params) ;
+        $res = $datastore->findAll('build_queue', $queue_entry) ;
+        return $res ;
+    }
+
     protected function ensureDataCollection() {
         $datastoreFactory = new \Model\Datastore() ;
         $datastore = $datastoreFactory->getModel($this->params) ;
