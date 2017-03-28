@@ -176,8 +176,8 @@ function displayStepField() {
 }
 
 function deleteStepField(hash) {
-    res = confirm("Are you sure you want to do this?") ;
-    if (res == true) { $('#step'+hash).remove(); }
+    var res = confirm("Are you sure you want to do this?") ;
+    if (res === true) { $('#step'+hash).remove(); }
     return false ;
 }
 
