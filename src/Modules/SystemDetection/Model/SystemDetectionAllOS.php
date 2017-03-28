@@ -27,9 +27,9 @@ class SystemDetectionAllOS extends Base {
     }
 
     private function setDistro() {
-        if ($this->os == "Linux" ) {
+        if ($this->os === 'Linux' ) {
             $this->distro = $this->getLinuxDistro() ; }
-        else if ($this->os == "Darwin"  ) {
+        else if ($this->os === 'Darwin'  ) {
             $this->distro = $this->getMacDistro() ; }
         else {
             $this->distro = "None" ; }
@@ -45,28 +45,30 @@ class SystemDetectionAllOS extends Base {
     }
 
     private function getLinuxDistro() {
-        //declare Linux distros(extensible list).
-        $distros = array(
+        // Declare Linux distros(extensible list).
+        $distros = array (
             "Arch" => "arch-release",
             'CentOS' => 'centos-release',
             'Redhat' => 'redhat-release',
             "Ubuntu" => "lsb-release",
             "Debian" => "debian_version",
-            "Fedora" => "fedora-release",);
-        //Get everything from /etc directory.
+            "Fedora" => "fedora-release",
+        );
+        // Get everything from /etc directory.
         $etcList = scandir('/etc');
-        $OSDistro = "";
-        //Loop through list of distros..
+        $OSDistro = '';
+        // Loop through list of distros..
         foreach ($distros as $distroTitle => $distroReleaseFile) {
-            //Loop through /etc results...
+            // Loop through /etc results...
             foreach ($etcList as $entry) {
-                //Match was found.
+                // Match was found.
                 if ($distroReleaseFile === $entry) {
-                    //Find distros array key(i.e. Distro name) by value(i.e. distro release file)
-                    $OSDistro = $distroTitle; // array_search($distroReleaseFile, $distros);
-                    //Break inner and outer loop.
-                    break 2; } } }
-        return $OSDistro;
+                    // Find distros array key(i.e. Distro name) by value(i.e. distro release file)
+                    $OSDistro = $distroTitle ;
+                    // array_search($distroReleaseFile, $distros);
+                    // Break inner and outer loop.
+                    break 2 ; } } }
+        return $OSDistro ;
     }
 
 
@@ -119,7 +121,7 @@ class SystemDetectionAllOS extends Base {
     }
 
     private function setArchitecture() {
-        if(($this->os == "Linux" && in_array($this->distro, array("Ubuntu", "CentOS")) ||
+        if( (($this->os == "Linux" && in_array($this->distro, array("Ubuntu", "CentOS"))) ||
             $this->os == "Darwin")) {
             $output = exec("arch");
             if (strpos($output, "x86_64") !== false ) {
