@@ -59,7 +59,7 @@ class CronLinuxUnix extends BaseLinuxApp {
         $mn = $this->getModuleName() ;
         if ($this->params["app-settings"][$mn]["cron_enable"] == "on") {
             $logging->log ("Cron Enabled as scheduled task driver, creating...", $this->getModuleName() ) ;
-            $this->removeCrontab() ;
+//            $this->removeCrontab() ;
             $this->addCrontab() ;
             return true; }
         else {
@@ -69,7 +69,8 @@ class CronLinuxUnix extends BaseLinuxApp {
     }
 
     private function getSwitchUser() {
-        if ($this->params["app-settings"]["Cron"]["cron_switch"] == "on") {
+        if (isset($this->params["app-settings"]["Cron"]["cron_switch"]) &&
+            $this->params["app-settings"]["Cron"]["cron_switch"] === "on") {
             if (isset($this->params["app-settings"]["UserSwitching"]["switching_user"])) {
                 return $this->params["app-settings"]["UserSwitching"]["switching_user"] ; }
             else {
@@ -79,13 +80,13 @@ class CronLinuxUnix extends BaseLinuxApp {
     private function addCrontab() {
         $cronFactory = new \Model\Cron();
         $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
-        $cronModify->addCronjob();
+        $cronModify->addCronjob("Cron");
     }
 
     private function removeCrontab() {
         $cronFactory = new \Model\Cron();
         $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
-        $cronModify->removeCronjob();
+        $cronModify->removeCronjob("Cron");
     }
 
 }
