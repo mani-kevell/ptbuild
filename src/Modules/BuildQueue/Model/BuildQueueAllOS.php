@@ -47,26 +47,40 @@ class BuildQueueAllOS extends Base {
         $ff = array(
             "buildQueueEnable" => array( "checkIfBuildRunRequiresQueue", ),
             "prepareBuild" => array( "checkBuildQueue", ),
+            "afterBuildTriggers" => array( "consumeQueues", ),
+            "afterApplicationConfigurationSave" => array("crontabBuildQueue",),
         );
         return $ff ;
     }
 
-    public function checkBuildSchedule() {
+    public function crontabBuildQueue() {
+        var_dump("running crontab parent") ;
         $loggingFactory = new \Model\Logging();
-        if (!$this->isWebSapi()) { $this->params["echo-log"] = true ; }
         $this->params["php-log"] = true ;
-        $this->params["app-log"] = true ;
-        $this->pipeline = $this->getPipeline($this->params["item"]);
-        $this->params["build-settings"] = $this->pipeline["settings"];
-        $this->params["app-settings"]["app_config"] = \Model\AppConfig::getAppVariable("app_config");
-        $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
-        $this->lm = $loggingFactory->getModel($this->params);
-        if ($this->checkBuildScheduleEnabledForBuild()) {
-            $this->lm->log ("BSE", $this->getModuleName() ) ;
-            return $this->doBuildScheduleEnabled() ; }
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+        $mn = $this->getModuleName() ;
+        $this->params["app-settings"] = \Model\AppConfig::getAppVariable("mod_config");
+        $logging->log("Creating Build Queue Crontab", $this->getModuleName()) ;
+
+        var_dump("about to") ;
+        if ($this->params["app-settings"][$mn]["cron_enable"] === "on") {
+            var_dump("enabled") ;
+            $cronFactory = new \Model\Cron();
+            $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
+            $res = $cronModify->addCronjob("BuildQueue");
+            var_dump("enabled res :", $res) ;
+//            die() ;
+            return $res ; }
         else {
-            $this->lm->log ("BSD", $this->getModuleName() ) ;
-            return $this->doBuildScheduleDisabled() ; }
+            var_dump("disabled") ;
+            $logging->log ("Cron disabled, deleting current crontab...", $this->getModuleName() ) ;
+            $cronFactory = new \Model\Cron();
+            $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
+            $res = $cronModify->removeCronjob("BuildQueue");
+            var_dump("disabled res :", $res) ;
+//            die() ;
+            return $res ; }
     }
 
     public function checkIfBuildRunRequiresQueue() {
@@ -127,13 +141,23 @@ class BuildQueueAllOS extends Base {
 
     public function findQueued() {
         $queue_entry = array() ;
-        $queue_entry['pipeline_slug'] = $this->params['item'] ;
+        if (isset($this->params['item'])) {
+            $queue_entry['pipeline_slug'] = $this->params['item'] ;
+        }
         $datastoreFactory = new \Model\Datastore() ;
         $datastore = $datastoreFactory->getModel($this->params) ;
         $res = $datastore->findAll('build_queue', $queue_entry) ;
         foreach ($res as &$one) {
             $one['entry_time_format'] = date('H:i:s d/m/Y', $one['entry_time']) ;
         }
+        return $res ;
+    }
+
+    public function consumeQueues() {
+        $bqFactory = new \Model\BuildQueue() ;
+        $bq = $bqFactory->getModel($this->params, 'Consume');
+//        $bq->ensureDataCollection() ;
+        $res = $bq->getData() ;
         return $res ;
     }
 
