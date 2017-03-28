@@ -25,8 +25,25 @@ class BuildQueueInfo extends PTConfigureBase {
     }
 
     public function events() {
-        return array("buildQueueEnable");
-    } 
+        return array("buildQueueEnable", "afterBuildTriggers", "afterApplicationConfigurationSave");
+    }
+
+    public function configuration() {
+        return array(
+            "cron_enable"=> array(
+                "type" => "boolean",
+                "default" => "on",
+                "label" => "Queue Cron Enabled?", ),
+            "cron_command"=> array(
+                "type" => "text",
+                "default" => "/usr/bin/ptbuild BuildQueue run-cycle --yes --guess",
+                "label" => "Cron Command for Scheduled Tasks?", ),
+            "cron_frequency"=> array(
+                "type" => "text",
+                "default" => "* * * * *",
+                "label" => "Cron Execution Frequency?", ),
+        );
+    }
     
     public function helpDefinition() {
        $help = <<<"HELPDATA"
