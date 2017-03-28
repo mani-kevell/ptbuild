@@ -54,7 +54,7 @@ class BuildQueueAllOS extends Base {
     }
 
     public function crontabBuildQueue() {
-        var_dump("running crontab parent") ;
+//        var_dump("running crontab parent") ;
         $loggingFactory = new \Model\Logging();
         $this->params["php-log"] = true ;
         $this->params["echo-log"] = true ;
@@ -63,34 +63,34 @@ class BuildQueueAllOS extends Base {
         $this->params["app-settings"] = \Model\AppConfig::getAppVariable("mod_config");
         $logging->log("Creating Build Queue Crontab", $this->getModuleName()) ;
 
-        var_dump("about to") ;
+//        var_dump("about to") ;
         if ($this->params["app-settings"][$mn]["cron_enable"] === "on") {
-            var_dump("enabled") ;
+//            var_dump("enabled") ;
             $cronFactory = new \Model\Cron();
             $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
             $res = $cronModify->addCronjob("BuildQueue");
-            var_dump("enabled res :", $res) ;
+//            var_dump("enabled res :", $res) ;
 //            die() ;
             return $res ; }
         else {
-            var_dump("disabled") ;
+//            var_dump("disabled") ;
             $logging->log ("Cron disabled, deleting current crontab...", $this->getModuleName() ) ;
             $cronFactory = new \Model\Cron();
             $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
             $res = $cronModify->removeCronjob("BuildQueue");
-            var_dump("disabled res :", $res) ;
+//            var_dump("disabled res :", $res) ;
 //            die() ;
             return $res ; }
     }
 
     public function checkIfBuildRunRequiresQueue() {
 
-        ob_start() ;
-        var_dump("method to check if build requires queueing") ;
-        var_dump("all params: ", $this->params) ;
-//        debug_print_backtrace() ;
-        $out = ob_get_clean() ;
-        file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
+//        ob_start() ;
+//        var_dump("method to check if build requires queueing") ;
+//        var_dump("all params: ", $this->params) ;
+////        debug_print_backtrace() ;
+//        $out = ob_get_clean() ;
+//        file_put_contents('/tmp/pharaoh.log', "build queueAllOS->checkIfBuildRunRequiresQueue() is executing: $out", FILE_APPEND) ;
 
         if (isset($this->params['build-settings']['BuildQueue']['enabled'])) {
             // build_queue_max
@@ -107,12 +107,12 @@ class BuildQueueAllOS extends Base {
 
             $is_running = false ;
             foreach ($runningBuilds["running_builds"] as $runningBuild) {
-                file_put_contents('/tmp/pharaoh.log', "rbitem: {$runningBuild['item']} item param: {$this->params['item']}", FILE_APPEND) ;
+//                file_put_contents('/tmp/pharaoh.log', "rbitem: {$runningBuild['item']} item param: {$this->params['item']}", FILE_APPEND) ;
                 if ($runningBuild['item'] === $this->params['item']) {
                     $is_running = true ; } }
             if ($is_running === true) {
                 $res = $this->addBuildToQueue() ;
-                file_put_contents('/tmp/pharaoh.log', "added build to queue, res is {$res}", FILE_APPEND) ;
+//                file_put_contents('/tmp/pharaoh.log', "added build to queue, res is {$res}", FILE_APPEND) ;
                 return $res ; }
             else {
                 return false ; }
