@@ -21,8 +21,10 @@ class BuildQueue extends Base {
 
         if (in_array($pageVars["route"]["action"], array("run-cycle"))) {
             $this->content["route"]["extraParams"]["output-format"] = "CLI";
+
+            $thisModel = $this->getModelAndCheckDependencies(substr(get_class($this), 11), $pageVars, 'Consume') ;
             $this->content["data"] = $thisModel->getData();
-            return array ("type"=>"view", "view"=>"ScheduledBuildChild", "pageVars"=>$this->content); }
+            return array ("type"=>"view", "view"=>"buildQueueChild", "pageVars"=>$this->content); }
 
         if ($action === "help") {
             $helpModel = new \Model\Help();
