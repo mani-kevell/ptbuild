@@ -357,7 +357,8 @@ class PipeRunnerAllOS extends Base {
         $ret = "BUILD COMPLETE\n" ;
         $logging->log("", $this->getModuleName()) ;
         $logging->log($ret, $this->getModuleName()) ;
-        return $this->saveRunLog() ;
+        $srl = $this->saveRunLog() ;
+        return $srl ;
     }
 
     protected function buildWorkspace(){
