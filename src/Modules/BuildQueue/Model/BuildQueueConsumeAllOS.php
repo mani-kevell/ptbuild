@@ -15,8 +15,8 @@ class BuildQueueConsumeAllOS extends Base {
     public $modelGroup = array("Consume") ;
 
     public function getData() {
-        $ret["scheduled"] = $this->getPipelinesRequiringExecution();
-        $ret["executions"] = $this->executePipes($ret["scheduled"]);
+        $ret["queued"] = $this->getPipelinesRequiringExecution();
+        $ret["executions"] = $this->executePipes($ret["queued"]);
         return $ret ;
     }
 
@@ -26,98 +26,81 @@ class BuildQueueConsumeAllOS extends Base {
         $loggingFactory = new \Model\Logging();
         $params["app-log"] = true ;
         $logging = $loggingFactory->getModel($params);
-        for ($i = 0; $i<count($psts) ; $i++) {
-            $prx = $this->pipeRequiresExecution($psts[$i][1], $psts[$i][0]) ;
-            if ($prx === true) {
-                $psrxs[] = $psts[$i][1] ; } }
+        for ($i = 0; $i < count($psts) ; $i++) {
+            $prx = $this->pipeRequiresExecution($psts[$i]) ;
+            if ($prx !== false) {
+                $psrxs[] = array($psts[$i], $prx) ; } }
         return $psrxs;
     }
 
     public function getPipelinesWithBuildQueues() {
-        $allPipelines = $this->getPipelines() ;
+
+        $pipelineFactory = new \Model\Pipeline();
+        $pmod = $pipelineFactory->getModel($this->params, 'PipelineRepository') ;
+        $allPipelines = $pmod->getAllPipelines() ;
         $loggingFactory = new \Model\Logging();
         $params["app-log"] = true ;
         $logging = $loggingFactory->getModel($params);
         $pst = array() ;
         foreach ($allPipelines as $onePipeline) {
             //@todo this should not be tied to only poll scm, so that we can cron/etc builds without polling
-            if (isset($onePipeline["settings"]["PollSCM"]["enabled"]) &&
-                $onePipeline["settings"]["PollSCM"]["enabled"] === "on") {
+            if (isset($onePipeline["settings"]["BuildQueue"]["enabled"]) &&
+                $onePipeline["settings"]["BuildQueue"]["enabled"] === "on") {
                 $lmsg = "Pipeline '{$onePipeline["project-name"]}' includes Build Queue" ;
                 $logging->log($lmsg, $this->getModuleName()) ;
-                $pst[] = array ("PollSCM", $onePipeline) ; } }
+                $pst[] = $onePipeline ; } }
         return $pst;
     }
 
     private function executePipes($pipes) {
         $prFactory = new \Model\PipeRunner() ;
         $results = array();
-        foreach ($pipes as $pipe) {
+        foreach ($pipes as $pipe_and_queue) {
             $params = $this->params ;
-            $params["item"] = $pipe["project-slug"] ;
-            $params["build-request-source"] = "schedule" ;
-            $settings = $pipe["settings"];
-            $settings["ScheduledBuild"]["last_scheduled"] = time() ;
-            $pipelineFactory = new \Model\Pipeline() ;
-            $pipelineSaver = $pipelineFactory->getModel($params, "PipelineSaver");
-            // @todo dunno why i have to force this param
-            $pipelineSaver->params["item"] = $params["item"];
-            $pipelineSaver->savePipeline(array("type" => "Settings", "data" => $settings ));
+            $params["item"] = $pipe_and_queue[0]["project-slug"] ;
+            $params["build-settings"] = $pipe_and_queue[1]["settings"] ;
+            if (isset($pipe_and_queue[1]["settings"]) && $pipe_and_queue[1]["settings"] !== null) {
+                $params["build-parameters"] = $pipe_and_queue[1]["parameters"] ;
+            }
             $pr = $prFactory->getModel($params) ;
-            $results[$pipe["project-slug"]] =
+            $results[$pipe_and_queue[0]["project-slug"]] =
                 array(
-                    "name" => $pipe["project-name"],
+                    "name" => $pipe_and_queue[0]["project-name"],
                     "result" => $pr->runPipe()
-                ) ; }
+                ) ;
+            $this->removeBuildFromQueue($pipe_and_queue[1]["entry_id"]) ; }
         return $results ;
+    }
+
+
+    public function removeBuildFromQueue($entry_id) {
+        $queue_entry = array() ;
+        $queue_entry['entry_id'] = $entry_id ;
+//        $bqFactory = new \Model\BuildQueue() ;
+//        $bq = $bqFactory->getModel($this->params);
+//        $bq->ensureDataCollection() ;
+        $datastoreFactory = new \Model\Datastore() ;
+        $datastore = $datastoreFactory->getModel($this->params) ;
+        $res = $datastore->delete('build_queue', $queue_entry) ;
+        return ($res === true) ? $queue_entry : false ;
     }
 
     // @todo we need to check multiple modules and return true if any are true, we should also
     // @todo say which one of the mods is tru
-    public function pipeRequiresExecution($pst, $mod="ScheduledBuild") {
-        $prx = array();
+    public function pipeRequiresExecution($pst) {
         $loggingFactory = new \Model\Logging();
         $params["app-log"] = true ;
         $logging = $loggingFactory->getModel($params);
-
-        if ( $mod=="ScheduledBuild" &&
-            isset($pst["settings"][$mod]["enabled"]) &&
-            $pst["settings"][$mod]["enabled"] == "on" ) {
-            $logging->log("Checking if Pipeline '{$pst["project-name"]}' Requires Execution by schedule") ;
-            $cronString = $pst["settings"][$mod]["cron_string"] ;
-            $cronString = rtrim($cronString) ;
-            $cronString = ltrim($cronString) ;
-            $lastRun = (isset($pst["settings"][$mod]["last_scheduled"]))
-                ? $pst["settings"][$mod]["last_scheduled"]
-                : 0 ;
-            $res = $this->slotShouldRun($cronString, $lastRun) ;
-            if ($res == true) {
-                $logging->log("Pipeline '{$pst["project-name"]}' does require Execution by schedule now") ; }
-            else {
-                $logging->log("Pipeline '{$pst["project-name"]}' does not require Execution by schedule now") ; }
-            return $res ; }
-        else if ($mod=="PollSCM" &&
-            isset($pst["settings"][$mod]["enabled"]) &&
-            $pst["settings"][$mod]["enabled"] == "on") {
-            $logging->log("Checking if Pipeline '{$pst["project-name"]}' requires Polling SCM by schedule now") ;
-            $cronString = $pst["settings"][$mod]["cron_string"] ;
-            $cronString = rtrim($cronString) ;
-            $cronString = ltrim($cronString) ;
-//            ob_start();
-//            var_dump($pst["settings"][$mod]) ;
-//            $pst_string = ob_get_clean() ;
-//            $logging->log("this mod, $pst_string") ;
-            $lastRun = (isset($pst["settings"][$mod]["last_poll_timestamp"]))
-                ? $pst["settings"][$mod]["last_poll_timestamp"]
-                : 0 ;
-            $res = $this->slotShouldRun($cronString, $lastRun) ;
-//            $logging->log("this mod 2, $res") ;
-            if ($res == true) {
-                $logging->log("Pipeline '{$pst["project-name"]}' does require Polling SCM by schedule now") ; }
-            else {
-                $logging->log("Pipeline '{$pst["project-name"]}' does not require Polling SCM by schedule now") ; }
-            return $res ; }
-
+        $mod = $this->getModuleName() ;
+        if (isset($pst["settings"][$mod]["enabled"]) && $pst["settings"][$mod]["enabled"] === "on") {
+            $logging->log("Checking if Pipeline '{$pst["project-name"]}' is queued", $this->getModuleName()) ;
+            $bqFactory = new \Model\BuildQueue() ;
+            $bq = $bqFactory->getModel($params);
+            $queued = $bq->findQueued() ;
+//            var_dump($queued) ;
+            foreach ($queued as $one_entry) {
+                if ($pst["project-slug"] === $one_entry['pipeline_slug']) {
+                    return $one_entry ; } } }
         return false ;
     }
 
