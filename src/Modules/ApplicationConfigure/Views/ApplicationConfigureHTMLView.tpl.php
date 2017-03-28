@@ -75,6 +75,7 @@
                                                 $pageVars["data"]["current_configs"]["mod_config"][$module_name][$one_config_slug] != "on" ) {
                                                 $onoff = "off" ; }
                                             else {
+                                                $df = (isset($one_conf_tails["default"])) ? $one_conf_tails["default"] : "" ;
                                                 $onoff = (!isset($onoff) || is_null($onoff))
                                                     ? $one_conf_tails["default"]
                                                     : $onoff ; }
@@ -90,6 +91,8 @@
                                                 $val = "" ; }
                                             if ($val == "" || is_null($val)) {
                                                 $placeholder = ' placeholder="'.$one_conf_tails["default"].'" ' ; }
+                                            else {
+                                                $placeholder = "" ; }
                                             echo '<input name="mod_config['.$module_name.']['.$one_config_slug.']" id="mod_config['.$module_name.']['.$one_config_slug.']" type="text" class="form-control" '.$val.' '.$placeholder.' ></input>' ;
                                             break ;
                                         case "textarea" :
