@@ -106,6 +106,11 @@ class PipeRunnerAllOS extends Base {
 
 
 	public function runPipe($start_execution = true) {
+
+        if ($this->enableBuildParameters() === true) {
+            if ($this->findBuildParameters() === false) {
+                return "getParamValue"; } }
+
         $bsq = $this->buildShouldQueue() ;
         if (is_array($bsq)) {
             $res = array() ;
@@ -115,13 +120,9 @@ class PipeRunnerAllOS extends Base {
             return $res ;
         }
 
-        if ($this->enableBuildParameters() === true) {
-            if ($this->findBuildParameters() === false) {
-                return "getParamValue"; } }
+        $this->setPipeDir();
 
-        $this -> setPipeDir();
-
-        // @todo we should use a retiuurn value from this and fail the buid if it doesnt work
+        // @todo we should use a return value from this and fail the buid if it doesnt work
         // ie if we cant find a pipe dir from the above method call
         // ensure build dir exists
 
