@@ -64,7 +64,7 @@ class PHPScriptLinuxUnix extends Base {
             $ext_vars = json_encode($this->params["env-vars"], JSON_PRETTY_PRINT) ;
             $phpc .= '<?'.'php'."\n" ;
             $phpc .= '  '."\n" ;
-            $phpc .= '  $extract_vars = "'.$ext_vars.'";'."\n" ;
+            $phpc .= '  $extract_vars = \''.$ext_vars.'\';'."\n" ;
             $phpc .= '  $extract_vars_array = json_decode($extract_vars);'."\n" ;
             $phpc .= '  $extract_vars_keys = array_keys($extract_vars_array);'."\n" ;
             $phpc .= '  $extract_vars_keys_string = implode(",", $extract_vars_array);'."\n" ;
@@ -78,7 +78,7 @@ class PHPScriptLinuxUnix extends Base {
             $logging->log("File not found, error...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
             return false ; }
         $res = $this->executeAsPHPScript($tempFile) ;
-        unlink($tempFile);
+//        unlink($tempFile);
         return $res ;
     }
 
