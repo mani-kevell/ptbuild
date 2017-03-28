@@ -105,12 +105,12 @@ class PipeRunParametersAllOS extends Base {
         $logging = $loggingFactory->getModel($this->params);
 
         if (isset($this->params["build-parameter-location"])) {
-            $logging->log ("overwriting build params with location", $this->getModuleName() ) ;
+            $logging->log ("Overwriting build params with location", $this->getModuleName() ) ;
             $json_data = file_get_contents($this->params["build-parameter-location"]);
             $this->params["build-parameters"] = json_decode($json_data, true) ; }
 
         if ( isset($this->params["build-parameters"])) {
-            $logging->log ("adding parameters to environment variables", $this->getModuleName() ) ;
+            $logging->log ("Adding parameters to environment variables", $this->getModuleName() ) ;
             return array("params"=>array("env-vars"=>$this->params["build-parameters"])) ;  }
 //        if ( isset($_REQUEST["build-parameters"])) {
 //            var_dump($_REQUEST["build-parameters"]) ;
