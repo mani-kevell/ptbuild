@@ -68,7 +68,8 @@ class PHPScriptLinuxUnix extends Base {
             $phpc .= '  $extract_vars_array = json_decode($extract_vars);'."\n" ;
             $phpc .= '  $extract_vars_keys = array_keys($extract_vars_array);'."\n" ;
             $phpc .= '  $extract_vars_keys_string = implode(",", $extract_vars_keys);'."\n" ;
-            $phpc .= '  $count = extract($extract_vars_array); '."\n" ;
+            $phpc .= '  extract($extract_vars_array); '."\n" ;
+            $phpc .= '  $count = count($extract_vars_array); '."\n" ;
             $phpc .= '  echo "PHP Successfully Extracted {$count} Environment Variables into PHP Variables {$extract_vars_keys_string}..." ; '."\n" ;
             $phpc .= ' '."\n" ; }
         $phpc .= $data  ;
