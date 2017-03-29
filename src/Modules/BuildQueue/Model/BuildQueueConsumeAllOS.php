@@ -60,7 +60,8 @@ class BuildQueueConsumeAllOS extends Base {
             $params["item"] = $pipe_and_queue[0]["project-slug"] ;
             $params["build-settings"] = $pipe_and_queue[1]["settings"] ;
             if (isset($pipe_and_queue[1]["settings"]) && $pipe_and_queue[1]["settings"] !== null) {
-                $params["build-parameters"] = $pipe_and_queue[1]["parameters"] ;
+                $php_ray = json_decode( $pipe_and_queue[1]["parameters"], true ) ;
+                $params["build-parameters"] = $php_ray ;
             }
             $pr = $prFactory->getModel($params) ;
             $results[$pipe_and_queue[0]["project-slug"]] =
@@ -76,9 +77,6 @@ class BuildQueueConsumeAllOS extends Base {
     public function removeBuildFromQueue($entry_id) {
         $queue_entry = array() ;
         $queue_entry['entry_id'] = $entry_id ;
-//        $bqFactory = new \Model\BuildQueue() ;
-//        $bq = $bqFactory->getModel($this->params);
-//        $bq->ensureDataCollection() ;
         $datastoreFactory = new \Model\Datastore() ;
         $datastore = $datastoreFactory->getModel($this->params) ;
         $res = $datastore->delete('build_queue', $queue_entry) ;
