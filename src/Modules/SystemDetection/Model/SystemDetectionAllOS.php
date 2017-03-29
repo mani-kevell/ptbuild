@@ -11,15 +11,40 @@ class SystemDetectionAllOS extends Base {
     public $architecture ; // = array("any", "32", "64" ;
     public $hostName ; // = array("any", "32", "64" ;
     public $ipAddresses = array();
+    protected $defaults = null ;
 
     public function __construct() {
-        $this->setOperatingSystem();
-        $this->setDistro();
-        $this->setLinuxType();
-        $this->setVersion();
-        $this->setArchitecture();
-        $this->setHostname();
+        $this->setDefaults() ;
+        if (is_array($this->defaults)) {
+            $this->setByDefaults();
+        } else {
+            $this->setOperatingSystem();
+            $this->setDistro();
+            $this->setLinuxType();
+            $this->setVersion();
+            $this->setArchitecture();
+            $this->setHostname();
+        }
         $this->setIPAddresses();
+    }
+
+    private function setDefaults() {
+        $target_file = PFILESDIR.PHARAOH_APP.DS.PHARAOH_APP.DS."system_detection" ;
+        if (file_exists($target_file)) {
+            $json_defaults = file_get_contents($target_file) ;
+            $ray = json_decode($json_defaults) ;
+            $this->defaults = $ray ;
+        }
+    }
+
+    private function setByDefaults() {
+        $this->os = PHP_OS ;
+        $this->distro = $this->defaults['distro'] ;
+        $this->linuxType = $this->defaults['linuxType'] ;
+        $this->version = $this->defaults['version'] ;
+        $this->architecture = $this->defaults['architecture'] ;
+        $this->hostName = $this->defaults['hostName'] ;
+
     }
 
     private function setOperatingSystem() {
@@ -99,14 +124,19 @@ class SystemDetectionAllOS extends Base {
     }
 
     private function setVersion() {
-        if ($this->os == "Linux") {
+        if ($this->os === "Linux") {
             if (in_array($this->distro, array("Ubuntu")) ) {
-                exec("lsb_release -a 2> /dev/null", $output_array);
-                $this->version = substr($output_array[2], 9) ; }
+                $lsb_file = file_get_contents('/etc/lsb-release') ;
+                $lines = explode("\n", $lsb_file) ;
+                foreach ($lines as $line) {
+                    if (strpos($line, 'DISTRIB_RELEASE=')===0) {
+                        $this->version = substr($line, 16) ;
+                    }
+                } }
             if (in_array($this->distro, array("CentOS")) ) {
                 exec("cat /etc/*-release", $output_array);
                 $this->version = substr($output_array[0], 15, 3) ; } }
-        else if ($this->os == "Darwin") {
+        else if ($this->os === "Darwin") {
             exec("sw_vers | grep 'ProductVersion:' | grep -o '[0-9]*\.[0-9]*\.[0-9]*'", $output_array);
             $this->version = $output_array[0] ; }
         else if (in_array($this->os, array("Windows", "WINNT"))) {
