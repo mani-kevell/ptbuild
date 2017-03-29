@@ -83,11 +83,11 @@ class PipeRunnerAllOS extends Base {
         $eventRunner = $eventRunnerFactory->getModel($this->params) ;
         $ev = $eventRunner->eventRunner("buildQueueEnable", true) ;
 
-        ob_start() ;
-        var_dump("build q event", $ev, $this->params["build-settings"]) ;
-        $out = ob_get_clean() ;
-
-        file_put_contents('/tmp/pharaoh.log', "build queue enable event has run: $out\n", FILE_APPEND) ;
+//        ob_start() ;
+//        var_dump("build q event", $ev, $this->params["build-settings"]) ;
+//        $out = ob_get_clean() ;
+//
+//        file_put_contents('/tmp/pharaoh.log', "build queue enable event has run: $out\n", FILE_APPEND) ;
 
         return (is_array($ev) && in_array(false, $ev)) ? false : $ev ;
     }
