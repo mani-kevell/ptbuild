@@ -127,11 +127,22 @@ class BuildQueueAllOS extends Base {
     public function addBuildToQueue() {
         $save_build_parameters = (isset($this->params['build-parameters'])) ?
             $this->params['build-parameters'] : null ;
+
+        if (is_array($save_build_parameters)) {
+            $save_build_parametersx = json_encode($save_build_parameters) ;
+        } else if (is_object($save_build_parameters)) {
+            $save_build_parametersx = json_encode($save_build_parameters) ;
+        } else {
+            $save_build_parameters2 = unserialize($save_build_parameters) ;
+            $save_build_parametersx = $save_build_parameters3 = json_encode($save_build_parameters2) ;
+        }
+
         $queue_entry = array() ;
         $queue_entry['pipeline_slug'] = $this->params['item'] ;
         $queue_entry['entry_time'] = time() ;
-        $queue_entry['parameters'] = $save_build_parameters ;
+        $queue_entry['parameters'] = $save_build_parametersx ;
         $queue_entry['settings'] = json_encode($this->params['build-settings']) ;
+
         $this->ensureDataCollection() ;
         $datastoreFactory = new \Model\Datastore() ;
         $datastore = $datastoreFactory->getModel($this->params) ;
