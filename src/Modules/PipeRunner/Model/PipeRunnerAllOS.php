@@ -107,19 +107,19 @@ class PipeRunnerAllOS extends Base {
 
 	public function runPipe($start_execution = true) {
 
-        if ($this->enableBuildParameters() === true) {
-            if ($this->findBuildParameters() === false) {
-                return "getParamValue"; } }
+	    if ($start_execution === true) {
+            if ($this->enableBuildParameters() === true) {
+                if ($this->findBuildParameters() === false) {
+                    return "getParamValue"; } }
 
-        $bsq = $this->buildShouldQueue() ;
-        if (is_array($bsq)) {
-            $res = array() ;
-            $res['status'] = "queued" ;
-            $res['pipeline'] = $this->getPipeline();
-            $res['queued_run'] = $bsq;
-            return $res ;
+            $bsq = $this->buildShouldQueue() ;
+            if (is_array($bsq)) {
+                $res = array() ;
+                $res['status'] = "queued" ;
+                $res['pipeline'] = $this->getPipeline();
+                $res['queued_run'] = $bsq;
+                return $res ; }
         }
-
         $this->setPipeDir();
 
         // @todo we should use a return value from this and fail the buid if it doesnt work
