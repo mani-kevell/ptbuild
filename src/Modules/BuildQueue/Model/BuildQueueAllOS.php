@@ -126,7 +126,7 @@ class BuildQueueAllOS extends Base {
 
     public function addBuildToQueue() {
         $save_build_parameters = (isset($this->params['build-parameters'])) ?
-            json_encode($this->params['build-parameters']) : null ;
+            $this->params['build-parameters'] : null ;
         $queue_entry = array() ;
         $queue_entry['pipeline_slug'] = $this->params['item'] ;
         $queue_entry['entry_time'] = time() ;
