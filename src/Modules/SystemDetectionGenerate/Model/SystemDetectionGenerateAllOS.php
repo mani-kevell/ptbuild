@@ -4,8 +4,15 @@ Namespace Model;
 
 class SystemDetectionGenerateAllOS extends Base {
 
-    public function __construct() {
-    }
+    // Compatibility
+    public $os = array("any") ;
+    public $linuxType = array("any") ;
+    public $distros = array("any") ;
+    public $versions = array("any") ;
+    public $architectures = array("any") ;
+
+    // Model Group
+    public $modelGroup = array("Default") ;
 
     public function generate() {
 
@@ -21,7 +28,8 @@ class SystemDetectionGenerateAllOS extends Base {
             "hostName" => $sys->hostName,
         );
         $json = json_encode($ray) ;
-        file_put_contents($target_file, $json) ;
+        $fpc = file_put_contents($target_file, $json) ;
+        return ($fpc === false) ? false : true ;
     }
 
 

@@ -2,6 +2,6 @@
 
 Namespace Model;
 
-class SystemDetection extends BaseModelFactory{
+class SystemDetectionGenerate extends BaseModelFactory{
 
 }
