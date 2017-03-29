@@ -67,8 +67,10 @@
                             $stat = "Execution Summary of " ;
                             break ; }
                 ?>
-                <h3><?= $stat; ?> Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
-
+                <h3>
+                    <?php echo $stat; ?> Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
+                    <i style="font-size: 18px;" </i>
+                </h3>
                 <div class="form-group col-lg-3 thin_padding" id="show_menu_wrapper">
                     <button class="btn btn-success" id="show_menu_button" type="button">
                         Show Menu
@@ -76,16 +78,15 @@
                 </div>
 
                     <?php
-                    if ($pageVars["route"]["action"] == "summary") {
+                    if ($pageVars["route"]["action"] === "summary") {
                         echo ', Run '.$pageVars["data"]["historic_build"]["run-id"] ; }
                     ?>
 
-                    <i style="font-size: 18px;" </i></h3>
                 <h5 class="text-uppercase text-light" style="margin-top: 15px;">
                     <a href="/index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>"></a>
                 </h5>
                 <?php
-                    if ($pageVars["route"]["action"] != "summary") {
+                    if ($pageVars["route"]["action"] !== "summary") {
                         $act = '/index.php?control=PipeRunner&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=summary' ; }
                     else {
                         $act = '/index.php?control=PipeRunner&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=summary&run-id='.$pageVars["data"]["historic_build"]["run-id"]  ; }
