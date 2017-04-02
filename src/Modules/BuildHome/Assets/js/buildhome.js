@@ -47,6 +47,22 @@ function updatePageQueue() {
         });
 }
 
+function updatePageHistory() {
+    console.log("running update queued builds js method");
+        window.updateQueueRunning = true ;
+        console.log("setting update running to true");
+        item = getQueryParam("item") ;
+        url = "/index.php?control=BuildQueue&action=findqueued&item="+item+"&output-format=JSON";
+        $.ajax({
+            url: url,
+            success: function(data) {
+                setQueuedBuildList(data) ;
+                window.updateQueueRunning = false ; } ,
+            complete: function(data) {
+                window.updateQueueRunning = false ; }
+        });
+}
+
 var row;
 function setRunningBuildList(data) {
     data = JSON.parse(data);
