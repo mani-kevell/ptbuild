@@ -548,7 +548,7 @@ class PipeRunnerAllOS extends Base {
         return $ret ;
     }
 
-    private function getOldBuilds() {
+    public function getOldBuilds() {
         $builds = scandir($this->params["pipe-dir"].DS.$this->params["item"].DS.'history') ;
         $buildsRay = array();
         for ($i=0; $i<count($builds); $i++) {
