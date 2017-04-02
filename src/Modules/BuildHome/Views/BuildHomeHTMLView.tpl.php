@@ -195,8 +195,8 @@
                 if ($pageVars["data"]["login_enabled"] == false ||
                     in_array($pageVars["data"]["current_user_role"], array("1", "2", "3")) ||
                     (
-                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["enabled"] == "on" &&
-                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["build_public_features"] == "on"
+                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["enabled"] === "on" &&
+                        $pageVars["data"]["pipeline"]["settings"]["PublicScope"]["build_public_features"] === "on"
                     )) {                ?>
 
                 <div class="pipe-features-block pipe-block">
