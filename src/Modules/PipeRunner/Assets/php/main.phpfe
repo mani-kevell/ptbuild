@@ -22,35 +22,13 @@ $jQuery('#show_menu_button')->on('click', function() use ($jQuery)  {
     $path_header->addClass('col-lg-12');
 });
 
-class PipeRunnerPage {
-    public static $start_time ;
+if ($jQuery('#updatable')->length === 1) {
+    $updateTimer = function () use ($jQuery) {
+        $now = \js_core::$php->time() ;
+        $start_time = $jQuery('#timer')->attr('data-start_time') ;
+        $time_difference = $now - $start_time ;
+        $friendly_time_difference = \js_core::$php->date('H:i:s', $time_difference) ;
+        $jQuery('#timer')->html( $friendly_time_difference ) ;
+    } ;
+    \js_core::$window->outUpdater = \js_core::$window->setInterval($updateTimer, 1000);
 }
-
-\PipeRunnerPage::$start_time = $jQuery('#timer')->attr('data-start_time') ;
-\js_core::$console->log('1', \PipeRunnerPage::$start_time) ;
-\js_core::$console->log('2', $jQuery('#timer')->attr('data-start_time') ) ;
-
-\js_core::$console->log('3', \js_core::$php ) ;
-\js_core::$console->log('4', \js_core::$php->date('H:i:s', \PipeRunnerPage::$start_time) ) ;
-//\js_core::$console->log('3', \js_core::$php->date('H:i:s d/m/Y', \PipeRunnerPage::$start_time) ) ;
-
-$updateTimer = function () use ($jQuery) {
-    $now = \js_core::$php->time() ;
-
-    \js_core::$console->log('5', $now ) ;
-
-    $time_difference = $now - \PipeRunnerPage::$start_time ;
-
-    \js_core::$console->log('6', $time_difference ) ;
-
-    $friendly_time_difference = \js_core::$php->date('H:i:s', $time_difference) ;
-
-    \js_core::$console->log('7', $friendly_time_difference ) ;
-
-    $jQuery('#timer')->html( $friendly_time_difference ) ;
-
-
-} ;
-
-\js_core::$window->outUpdater = \js_core::$window->setInterval($updateTimer, 1000);
-
