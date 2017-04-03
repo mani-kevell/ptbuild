@@ -107,7 +107,7 @@
                                     Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
                                 </div>
                                 <div class="col-sm-12">
-                                    Timer: <span id="timer" data-start_time="<?= time() ; ?>"></span>
+                                    Timer: <span id="timer" data-start_time="<?= $pageVars["data"]["run_start"] ; ?>"></span>
                                 </div>
                             </div>
                         </div>
