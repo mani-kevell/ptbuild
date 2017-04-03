@@ -88,7 +88,7 @@ class BuildHomeAllOS extends Base {
         $user = $this->getCurrentUser() ;
         $pipeline = $this->getPipeline() ;
         $settings = $this->getSettings() ;
-        if (isset($settings['Signup']['signup_enabled']) ||
+        if (!isset($settings['Signup']['signup_enabled']) ||
             ( isset($settings['Signup']['signup_enabled']) && $settings['Signup']['signup_enabled'] !== "on" )) {
             // if signups arent enabled neither are permissions
             return true ;
