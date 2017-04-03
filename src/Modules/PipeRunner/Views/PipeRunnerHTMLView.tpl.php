@@ -103,7 +103,12 @@
                                 Pipeline Execution started - Run # <?= $pageVars["pipex"] ;?>
                             </div>
                             <div class="col-sm-12">
-                                Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
+                                <div class="col-sm-12">
+                                    Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
+                                </div>
+                                <div class="col-sm-12">
+                                    Timer: <span id="timer" data-start_time="<?= time() ; ?>"></span>
+                                </div>
                             </div>
                         </div>
 
