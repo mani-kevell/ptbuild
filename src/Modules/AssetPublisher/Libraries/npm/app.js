@@ -6,7 +6,7 @@
 'use strict';
 
 var $ = jQuery,
-    // php = require('phpjs'),
+    phpjs = require('phpjs'),
     mainFiles = require('../../../PostInput/Assets/Modules/DefaultSkin/js/mainFiles.js'),
     hasOwn = {}.hasOwnProperty,
     uniter = require('uniter'),
@@ -71,7 +71,7 @@ phpEngine.configure({
 
 // Expose jQuery to PHPland
 phpEngine.expose($, 'jQuery');
-// phpEngine.expose(php, 'phpjs');
+phpEngine.expose(phpjs, 'php');
 
 // Expose Window to PHPland
 var this_window = window ;
@@ -82,8 +82,12 @@ var this_console = console ;
 phpEngine.expose(this_console, 'console');
 
 // Expose Window to PHPland
-// var jsMath = Math ;
-// phpEngine.expose(jsMath, 'jsMath');
+var jsMath = Math ;
+phpEngine.expose(jsMath, 'jsMath');
+
+// Expose Window to PHPland
+var jsDate = Date ;
+phpEngine.expose(jsDate, 'Date');
 
 // Write content HTML to the DOM
 phpEngine.getStdout().on('data', function (data) {
