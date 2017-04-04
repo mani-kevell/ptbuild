@@ -17,12 +17,20 @@ class PublishStatusPipeFeatureAllOS extends Base {
 	public $pipeFeatureValues;
 	public $pipeline;
 
-	public function collate() {
+    public function collate() {
 		$collated = array() ;
 		$collated = array_merge($collated, $this->getLink()) ;
 		$collated = array_merge($collated, $this->getTitle()) ;
 		$collated = array_merge($collated, $this->getImage()) ;
-		return $collated ;
+		return array("published_status" => $collated) ;
+	}
+
+	public function getDefaults() {
+        $collated = array() ;
+        $collated = array_merge($collated, $this->getLink()) ;
+        $collated = array_merge($collated, $this->getTitle()) ;
+        $collated = array_merge($collated, $this->getImage()) ;
+        return array('123456789' => $collated) ;
 	}
 
 	public function setValues($vals) {
@@ -34,14 +42,14 @@ class PublishStatusPipeFeatureAllOS extends Base {
 	}
 
 	public function getLink() {
-		$link  = 'index.php?control=PublishStatus&action=report&item='.$this->pipeline["project-slug"];
-		$link .= '&hash='.$this->pipeFeatureValues["hash"];
+		$link  = 'index.php?control=PublishStatus&action=status-list&item='.$this->pipeline["project-slug"];
+//		$link .= '&hash='.$this->pipeFeatureValues["hash"];
 		$ff = array("link" => "$link");
 		return $ff ;
 	}
 
 	public function getTitle() {
-		$ff = array("title" => $this->pipeFeatureValues["Report_Title"]);
+		$ff = array("title" => 'Current Status');
 		return $ff ;
 	}
 
