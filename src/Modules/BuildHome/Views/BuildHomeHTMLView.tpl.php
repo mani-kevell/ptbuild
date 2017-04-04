@@ -153,7 +153,6 @@
 
                 <div class="pipe-now-status-block pipe-block">
                     <h4 class="propertyTitle">Build Status Currently:</h4>
-                    </h3>
 
                     <div class="current_status current_status_<?php echo $sclass ; ?>">
                         <h3>
