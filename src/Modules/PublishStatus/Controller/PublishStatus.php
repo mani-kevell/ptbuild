@@ -7,23 +7,28 @@ class PublishStatus extends Base {
      public function execute($pageVars) {
 
          $thisModel = $this->getModelAndCheckDependencies(substr(get_class($this), 11), $pageVars) ;
-         if (is_array($thisModel)) { return $this->failDependencies($pageVars, $this->content, $thisModel) ; }
+         if (is_array($thisModel)) {
+             return $this->failDependencies($pageVars, $this->content, $thisModel) ; }
 
          if ($thisModel->userIsAllowedAccess() !== true) {
              $override = $this->getIndexControllerForOverride() ;
              return $override->execute() ; }
 
-         $action = $pageVars["route"]["action"];
+         if ($pageVars["route"]["action"] === "image") {
+             $this->content["params"]["output-format"] = 'image';
+             $this->content["route"]["extraParams"]["output-format"] = 'image';
+             $this->content["data"] = $thisModel->getStatusData() ;
+             return array ("type"=>"view", "view"=>"publishStatus", "pageVars"=>$this->content) ; }
 
-         if (in_array($pageVars["route"]["action"], array("report"))) {
-             $this->content["data"] = $thisModel->getReportData() ;
-             return array ("type"=>"view", "view"=>"publishHTMLreports", "pageVars"=>$this->content) ; }
+         if ($pageVars["route"]["action"] === "status") {
+             $this->content["data"] = $thisModel->getStatusData() ;
+             return array ("type"=>"view", "view"=>"publishStatus", "pageVars"=>$this->content) ; }
 
-         if (in_array($pageVars["route"]["action"], array("report-list"))) {
-             $this->content["data"] = $thisModel->getReportListData() ;
-             return array ("type"=>"view", "view"=>"publishHTMLreportsList", "pageVars"=>$this->content) ; }
+         if ($pageVars["route"]["action"] === "status-list") {
+             $this->content["data"] = $thisModel->getStatusListData() ;
+             return array ("type"=>"view", "view"=>"publishStatusList", "pageVars"=>$this->content) ; }
 
-         if ($action === 'help') {
+         if ($pageVars["route"]["action"] === 'help') {
              $helpModel = new \Model\Help();
              $this->content["helpData"] = $helpModel->getHelpData($pageVars['route']['control']);
              return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
