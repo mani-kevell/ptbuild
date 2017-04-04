@@ -58,18 +58,33 @@ class PipelineAllOS extends Base {
                 $moduleFactory = new $cname();
                 $modulePipeFeature = $moduleFactory->getModel($this->params, "PipeFeature");
                 // @ todo maybe an interface check? is object something?
-                if (!is_array($values)) {
-                    $values=array("default_fieldset" =>array(0 => array($values))) ; }
+//                if (!is_array($values)) {
+//                    $values=array("default_fieldsets" =>array(0 => array($values))) ; }
+
+                if (method_exists($modulePipeFeature, 'getDefaults')) {
+                    $modulePipeFeature->setPipeline($pipeline) ;
+                    $default_fieldsets = $modulePipeFeature->getDefaults() ;
+                    foreach ($default_fieldsets as $hash => $model) {
+                        if ($hash !== 0) {
+                            $valueset["hash"] = $hash ; }
+                        $enabledFeatures[$i]["module"] = $key  ;
+                        $enabledFeatures[$i]["values"] = $pipeline["settings"][$key]  ;
+                        $enabledFeatures[$i]["model"] = $model  ;
+                        $i++;
+                    }
+                }
 
                 foreach ($values as $fieldSetTitle => $fieldSets) {
                     foreach ($fieldSets as $hash => $valueset) {
-                        if ($hash !== 0) { $valueset["hash"] = $hash ; }
+                        if ($hash !== 0) {
+                            $valueset["hash"] = $hash ; }
                         $modulePipeFeature->setValues($valueset) ;
                         $modulePipeFeature->setPipeline($pipeline) ;
                         $collated = $modulePipeFeature->collate();
                         $enabledFeatures[$i]["module"] = $key  ;
                         $enabledFeatures[$i]["values"] = $valueset  ;
                         $enabledFeatures[$i]["model"] = $collated  ;
+//                        var_dump('<pre>', $enabledFeatures[$i], '</pre>') ;
                         $i++; }
 
                 }
