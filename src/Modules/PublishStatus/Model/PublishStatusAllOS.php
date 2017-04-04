@@ -27,11 +27,42 @@ class PublishStatusAllOS extends Base {
                 	"name" => "Publish Status on Build Completion?"
             ),
             "allow_public" =>
-                array("type" => "boolean",
+                array(
+                    "type" => "boolean",
                     "name" => "Allow Public Status Access?",
-                    "slug" => "allow_public")
-            ) ;
-          return $ff ;
+                    "slug" => "allow_public"
+            ),
+            "publish_image" =>
+                array(
+                    "type" => "boolean",
+                    "name" => "Publish Image?",
+                    "slug" => "publish_image"
+            ),
+            "publish_json" =>
+                array(
+                    "type" => "boolean",
+                    "name" => "Publish JSON?",
+                    "slug" => "publish_json"
+            ),
+            "publish_html" =>
+                array(
+                    "type" => "boolean",
+                    "name" => "Publish HTML?",
+                    "slug" => "publish_html"
+            ),
+//            "fieldsets" => array(
+//                "status_image" => array(
+//                    "enable_image" =>
+//                        array("type" => "boolean",
+//                            "name" => "Enable Status Image?",
+//                            "slug" => "enable_image")),
+//                "status_json" => array(
+//                    "enable_json" =>
+//                        array("type" => "boolean",
+//                            "name" => "Enable Status JSON?",
+//                            "slug" => "enable_json")))
+        ) ;
+        return $ff ;
     }
    
     public function getEventNames() {
@@ -50,52 +81,30 @@ class PublishStatusAllOS extends Base {
         return $r ;
     }
 
-    public function getReportListData() {
+    public function getStatusListData() {
 		$pipeFactory = new \Model\Pipeline();
 		$pipeline = $pipeFactory->getModel($this->params);
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
 		$mn = $this->getModuleName() ;
 		$ff = array(
-            "report_list" => $thisPipe["settings"][$mn],
+            "status_list" => $thisPipe["settings"][$mn],
             "pipe" => $thisPipe
         );
 //        var_dump("path", $root.$dir.$indexFile, "ff", $ff) ;
 		return $ff ; }
 
-	public function getReportData() {
-		$pipeFactory = new \Model\Pipeline();
-		$pipeline = $pipeFactory->getModel($this->params);
-		$thisPipe = $pipeline->getPipeline($this->params["item"]);
-		$settings = $thisPipe["settings"];
-		$mn = $this->getModuleName() ;
-		$dir = $settings[$mn]["reports"][$this->params["hash"]]["Report_Directory"] ;
-        $dir = $this->ensureTrailingSlash($dir) ;
-		$indexFile = $settings[$mn]["reports"][$this->params["hash"]]["Index_Page"];
-        if (file_exists($dir.$indexFile) == true) { $root = "" ; }
-		else { $root = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS ; }
-
-        $report_file_path = $root.$dir.$indexFile ;
-
-        if (file_exists($report_file_path))  {
-            $report_data = file_get_contents($root.$dir.$indexFile) ; }
-        else {
-            $loggingFactory = new \Model\Logging();
-            $this->params["echo-log"] = true ;
-            $logging = $loggingFactory->getModel($this->params);
-            $err = 'Unable to find a Report in the requested location' ;
-            $logging->log($err, $this->getModuleName());
-            $report_data = '<p>'.$err.'.</p>' ; }
-        $ff = array(
-            "current_report" => array(
-                "hash" => $this->params["hash"] ,
-                "feature_data" => $settings[$mn]["reports"][$this->params["hash"]],
-                "report_data" => $report_data,
-            )
-        );
+	public function getStatusData() {
+        $ff["is_https"] = $this->isSecure();
         $ff["pipeline"] = $this->getPipeline() ;
         $ff["current_user"] = $this->getCurrentUser() ;
         $ff["current_user_role"] = $this->getCurrentUserRole($ff["current_user"]);
         return $ff ;
+    }
+
+    protected function isSecure() {
+        return
+            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || $_SERVER['SERVER_PORT'] == 443;
     }
 
     protected function getCurrentUser() {
@@ -138,13 +147,13 @@ class PublishStatusAllOS extends Base {
             if ($user == false) {
                 // and the user is not logged in
                 if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
-                    $pipeline["settings"]["PublicScope"]["build_public_reports"] == "on") {
+                    $pipeline["settings"]["PublicScope"]["build_public_statuses"] == "on") {
                     // if public pages are on
-                    if ($pipeline["settings"]["PublishStatus"]["reports"][$this->params["hash"]]["allow_public"]=="on") {
-                        // if this report has public access enabled
+                    if ($pipeline["settings"]["PublishStatus"]["statuses"][$this->params["hash"]]["allow_public"]=="on") {
+                        // if this status has public access enabled
                         return true ; }
                     else {
-                        // if this report has public access disabled
+                        // if this status has public access disabled
                         return false ; } }
                 else {
                     // if no public pages are on
