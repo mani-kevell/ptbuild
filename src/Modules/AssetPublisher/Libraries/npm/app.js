@@ -46,15 +46,18 @@ function getFileData(path) {
     // }
     // console.log("trying to load: ", path) ;
     var filedata ;
+    // $.holdReady( true );
     $.ajax({
         url: path,
         dataType: 'text',
         async: false,
         success: function (data, textStatus, jqXHR) {
             filedata = jqXHR.responseText ;
+            // $.holdReady( false );
         },
         failure: function (data, textStatus, jqXHR) {
             filedata = jqXHR.responseText ;
+            // $.holdReady( false );
         },
     });
     return filedata;
