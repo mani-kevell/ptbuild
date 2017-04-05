@@ -17,15 +17,17 @@ class PublishStatus extends Base {
          if ($pageVars["route"]["action"] === "image") {
              $this->content["params"]["output-format"] = 'image';
              $this->content["route"]["extraParams"]["output-format"] = 'image';
+             $this->content["layout"] = 'blank';
              $this->content["data"] = $thisModel->getStatusData() ;
-             return array ("type"=>"view", "view"=>"publishStatus", "pageVars"=>$this->content) ; }
+             $this->content["route"] = $pageVars["route"] ;
+             return array ("type"=>"view", "view"=>"publishStatusList", "pageVars"=>$this->content) ; }
 
          if ($pageVars["route"]["action"] === "status") {
              $this->content["data"] = $thisModel->getStatusData() ;
-             return array ("type"=>"view", "view"=>"publishStatus", "pageVars"=>$this->content) ; }
+             return array ("type"=>"view", "view"=>"publishStatusList", "pageVars"=>$this->content) ; }
 
          if ($pageVars["route"]["action"] === "status-list") {
-             $this->content["data"] = $thisModel->getStatusListData() ;
+             $this->content["data"] = $thisModel->getStatusData() ;
              return array ("type"=>"view", "view"=>"publishStatusList", "pageVars"=>$this->content) ; }
 
          if ($pageVars["route"]["action"] === 'help') {
