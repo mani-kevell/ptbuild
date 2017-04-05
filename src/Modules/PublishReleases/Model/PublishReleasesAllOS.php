@@ -33,17 +33,10 @@ class PublishReleasesAllOS extends Base {
                     "slug" => "allow_public"
             ),
             "fieldsets" => array(
-                "standard_release" => array(
-                    "enable_image" =>
-                        array("type" => "boolean",
-                            "name" => "Enable Releases Image?",
-                            "slug" => "enable_image"
-                    )
-                ),
-
                 "custom_release" => array(
                     "release_title" =>
-                        array("type" => "text",
+                        array(
+                            "type" => "text",
                             "name" => "Release Title",
                             "slug" => "releasetitle"),
                     "release_file" =>
@@ -52,15 +45,13 @@ class PublishReleasesAllOS extends Base {
                             "name" => "Relative or absolute path to file",
                             "slug" => "release_file"),
                     "image" =>
-                        array("type" => "text",
+                        array(
+                            "type" => "text",
                             "name" => "Image for Release Package",
                             "slug" => "image"),
-                    "Report_Title" =>
-                        array("type" => "text",
-                            "name" => "Report Title",
-                            "slug" => "reporttitle"),
                     "allow_public" =>
-                        array("type" => "boolean",
+                        array(
+                            "type" => "boolean",
                             "name" => "Allow Public Report Access?",
                             "slug" => "allow_public")
                 ),
@@ -74,7 +65,7 @@ class PublishReleasesAllOS extends Base {
     }
 
 	public function getEvents() {
-		$ff = array("afterBuildComplete" => array("PublishReleases"));
+		$ff = array("afterBuildComplete" => array("publishReleases"));
 		return $ff ;
     }
 
@@ -94,8 +85,8 @@ class PublishReleasesAllOS extends Base {
             "status_list" => $thisPipe["settings"][$mn],
             "pipe" => $thisPipe
         );
-//        var_dump("path", $root.$dir.$indexFile, "ff", $ff) ;
-		return $ff ; }
+		return $ff ;
+    }
 
 	public function getReleasesData() {
         $ff["is_https"] = $this->isSecure();
@@ -119,8 +110,10 @@ class PublishReleasesAllOS extends Base {
     }
 
     public function getCurrentUserRole($user = null) {
-        if ($user == null) { $user = $this->getCurrentUser(); }
-        if ($user == false) { return false ; }
+        if ($user === null) {
+            $user = $this->getCurrentUser(); }
+        if ($user === false) {
+            return false ; }
         return $user['role'] ;
     }
 
@@ -131,8 +124,6 @@ class PublishReleasesAllOS extends Base {
             return false ; }
         return true ;
     }
-
-
 
     public function userIsAllowedAccess() {
         $user = $this->getCurrentUser() ;
@@ -175,5 +166,25 @@ class PublishReleasesAllOS extends Base {
         return $settings ;
     }
 
+    public function publishReleases() {
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+        $pipe = $this->getPipeline() ;
+        $pipe_settings = $pipe['settings'];
+        $mn = $this->getModuleName() ;
+        if ($pipe_settings[$mn]["enabled"] === "on") {
+            $logging->log("Release publishing is enabled, executing", $this->getModuleName());
+            $results = array() ;
+            foreach ($pipe_settings[$mn]['reports'] as $report_hash => $report_details) {
+                $results = $this->publishOneRelease($report_hash, $report_details) ;
+            }
+            return (in_array(false, $results)) ? true : false ;
+        }
+        else {
+            $logging->log ("Release Publishing disabled...", $this->getModuleName() ) ;
+            return false ;
+        }
+    }
 
 }
