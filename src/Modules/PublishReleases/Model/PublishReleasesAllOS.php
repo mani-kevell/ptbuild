@@ -176,8 +176,8 @@ class PublishReleasesAllOS extends Base {
         if ($pipe_settings[$mn]["enabled"] === "on") {
             $logging->log("Release publishing is enabled, executing", $this->getModuleName());
             $results = array() ;
-            foreach ($pipe_settings[$mn]['reports'] as $report_hash => $report_details) {
-                $results = $this->publishOneRelease($report_hash, $report_details) ;
+            foreach ($pipe_settings[$mn]['custom_release'] as $release_hash => $release_details) {
+                $results = $this->publishOneRelease($release_hash, $release_details) ;
             }
             return (in_array(false, $results)) ? true : false ;
         }
@@ -185,6 +185,38 @@ class PublishReleasesAllOS extends Base {
             $logging->log ("Release Publishing disabled...", $this->getModuleName() ) ;
             return false ;
         }
+    }
+
+    protected function publishOneRelease($one_release_hash, $one_release_details) {
+
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+
+        $file = $one_release_details["release_file"];
+        if (!is_file($file)) {
+            $log_msg = "Unable to locate Release Directory {$dir} " ;
+            $log_msg .= "from release {$one_release_details["release_title"]}" ;
+            $logging->log($log_msg, $this->getModuleName());
+            return false ;
+        }
+
+        $releaseRef =
+            PIPEDIR.DS.$this->params["item"].DS.'ReleasePackages'.
+            DS.$one_release_hash.DS ;
+        $logging->log ("Publishing to release directory {$releaseRef}", $this->getModuleName() ) ;
+        if (!is_dir($releaseRef))
+        {
+            $logging->log ("Attempting to create release directory {$releaseRef}", $this->getModuleName() ) ;
+            mkdir($releaseRef, 0777, true);
+        }
+        if ( copy($file, $releaseRef.DS.$file) ) {
+            $logging->log ("Release {$one_release_details["release_title"]} published to file...", $this->getModuleName() ) ;
+            return true; }
+        else {
+            $logging->log ("Unable {$one_release_details["release_title"]} to publish generated release to file...", $this->getModuleName() ) ;
+            return false;	}
+
     }
 
 }
