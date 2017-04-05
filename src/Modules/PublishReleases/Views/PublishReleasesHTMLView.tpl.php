@@ -26,4 +26,4 @@
         </p>
     </div>
 </div>
-<link rel="stylesheet" type="text/css" href="/Assets/Modules/PublishStatus/css/publishstatus.css">
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/PublishReleases/css/publishstatus.css">

@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishStatusAllOS extends Base {
+class PublishReleasesAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -24,43 +24,47 @@ class PublishStatusAllOS extends Base {
             	array(
                 	"type" => "boolean",
                 	"optional" => true,
-                	"name" => "Publish Status on Build Completion?"
+                	"name" => "Publish Releases on Build Completion?"
             ),
             "allow_public" =>
                 array(
                     "type" => "boolean",
-                    "name" => "Allow Public Status Access?",
+                    "name" => "Allow Public Release Access?",
                     "slug" => "allow_public"
             ),
-            "publish_image" =>
-                array(
-                    "type" => "boolean",
-                    "name" => "Publish Image?",
-                    "slug" => "publish_image"
+            "fieldsets" => array(
+                "standard_release" => array(
+                    "enable_image" =>
+                        array("type" => "boolean",
+                            "name" => "Enable Releases Image?",
+                            "slug" => "enable_image"
+                    )
+                ),
+
+                "custom_release" => array(
+                    "release_title" =>
+                        array("type" => "text",
+                            "name" => "Release Title",
+                            "slug" => "releasetitle"),
+                    "release_file" =>
+                        array(
+                            "type" => "text",
+                            "name" => "Relative or absolute path to file",
+                            "slug" => "release_file"),
+                    "image" =>
+                        array("type" => "text",
+                            "name" => "Image for Release Package",
+                            "slug" => "image"),
+                    "Report_Title" =>
+                        array("type" => "text",
+                            "name" => "Report Title",
+                            "slug" => "reporttitle"),
+                    "allow_public" =>
+                        array("type" => "boolean",
+                            "name" => "Allow Public Report Access?",
+                            "slug" => "allow_public")
+                ),
             ),
-            "publish_json" =>
-                array(
-                    "type" => "boolean",
-                    "name" => "Publish JSON?",
-                    "slug" => "publish_json"
-            ),
-            "publish_html" =>
-                array(
-                    "type" => "boolean",
-                    "name" => "Publish HTML?",
-                    "slug" => "publish_html"
-            ),
-//            "fieldsets" => array(
-//                "status_image" => array(
-//                    "enable_image" =>
-//                        array("type" => "boolean",
-//                            "name" => "Enable Status Image?",
-//                            "slug" => "enable_image")),
-//                "status_json" => array(
-//                    "enable_json" =>
-//                        array("type" => "boolean",
-//                            "name" => "Enable Status JSON?",
-//                            "slug" => "enable_json")))
         ) ;
         return $ff ;
     }
@@ -70,7 +74,7 @@ class PublishStatusAllOS extends Base {
     }
 
 	public function getEvents() {
-		$ff = array("afterBuildComplete" => array("PublishStatus"));
+		$ff = array("afterBuildComplete" => array("PublishReleases"));
 		return $ff ;
     }
 
@@ -81,7 +85,7 @@ class PublishStatusAllOS extends Base {
         return $r ;
     }
 
-    public function getStatusListData() {
+    public function getReleasesListData() {
 		$pipeFactory = new \Model\Pipeline();
 		$pipeline = $pipeFactory->getModel($this->params);
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
@@ -93,7 +97,7 @@ class PublishStatusAllOS extends Base {
 //        var_dump("path", $root.$dir.$indexFile, "ff", $ff) ;
 		return $ff ; }
 
-	public function getStatusData() {
+	public function getReleasesData() {
         $ff["is_https"] = $this->isSecure();
         $ff["pipeline"] = $this->getPipeline() ;
         $ff["current_user"] = $this->getCurrentUser() ;
@@ -135,7 +139,7 @@ class PublishStatusAllOS extends Base {
         $pipeline = $this->getPipeline() ;
         $settings = $this->getSettings() ;
         if (!isset($settings["PublicScope"]["enable_public"]) ||
-            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] != "on" )) {
+            ( isset($settings["PublicScope"]["enable_public"]) && $settings["PublicScope"]["enable_public"] !== "on" )) {
             // if enable public is set to off
             if ($user == false) {
                 // and the user is not logged in
@@ -146,10 +150,10 @@ class PublishStatusAllOS extends Base {
             // if enable public is set to on
             if ($user == false) {
                 // and the user is not logged in
-                if ($pipeline["settings"]["PublicScope"]["enabled"] == "on" &&
-                    $pipeline["settings"]["PublicScope"]["build_public_statuses"] == "on") {
+                if ($pipeline["settings"]["PublicScope"]["enabled"] === "on" &&
+                    $pipeline["settings"]["PublicScope"]["build_public_statuses"] === "on") {
                     // if public pages are on
-                    if ($pipeline["settings"]["PublishStatus"]["statuses"][$this->params["hash"]]["allow_public"]=="on") {
+                    if ($pipeline["settings"]["PublishReleases"]["statuses"][$this->params["hash"]]["allow_public"] === "on") {
                         // if this status has public access enabled
                         return true ; }
                     else {

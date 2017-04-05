@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishStatusAPIAllOS extends Base {
+class PublishReleasesAPIAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -22,7 +22,7 @@ class PublishStatusAPIAllOS extends Base {
 
         // load repo
         $this->params['item'] = $this->params['slug'] ;
-        $pbsf = new \Model\PublishStatus() ;
+        $pbsf = new \Model\PublishReleases() ;
         $pbs = $pbsf->getModel($this->params) ;
         $pipeline = $pbs->getPipeline() ;
         // if repo settings include

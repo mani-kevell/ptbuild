@@ -2,7 +2,7 @@
 
 Namespace Controller ;
 
-class PublishStatus extends Base {
+class PublishReleases extends Base {
 
      public function execute($pageVars) {
 

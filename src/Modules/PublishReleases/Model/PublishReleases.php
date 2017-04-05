@@ -2,6 +2,6 @@
 
 Namespace Model;
 
-class PublishStatus extends BaseModelFactory {
+class PublishReleases extends BaseModelFactory {
 
 }

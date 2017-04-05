@@ -23,7 +23,7 @@ if ($pageVars["route"]["action"] === 'image') {
     header('Content-Type: image/png');
 
     $app_root = PFILESDIR.PHARAOH_APP.DS.PHARAOH_APP.DS ;
-    $relative_path = 'src/Modules/PublishStatus/Assets/images/'.$img.'.png' ;
+    $relative_path = 'src/Modules/PublishReleases/Assets/images/'.$img.'.png' ;
     $file_path = $app_root.$relative_path ;
     $file_data = file_get_contents($file_path) ;
 
@@ -63,7 +63,7 @@ if ($pageVars["route"]["action"] === 'image') {
 
         $url = $proto ;
         $url .= $_SERVER['HTTP_HOST'] ;
-        $url .= '/index.php?control=PublishStatus&action=image&item=' ;
+        $url .= '/index.php?control=PublishReleases&action=image&item=' ;
         $url .= $pageVars["data"]["pipeline"]['project-slug'] ;
 
         ?>
@@ -76,7 +76,7 @@ if ($pageVars["route"]["action"] === 'image') {
 
         <?php
 
-        $mn = 'PublishStatus' ;
+        $mn = 'PublishReleases' ;
         if (isset($steps[$mn]["enabled"]) && $steps[$mn]["enabled"] === "on") {
             foreach ($pageVars["data"]["status_list"]["statuses"] as $statusHash => $statusDetail) {
 
@@ -86,7 +86,7 @@ if ($pageVars["route"]["action"] === 'image') {
                 $indexFile = $statusDetail["Index_Page"];
                 $statusTitle = $statusDetail["Report_Title"];
 
-                echo '<a href="index.php?control=PublishStatus&action=status&item=' ;
+                echo '<a href="index.php?control=PublishReleases&action=status&item=' ;
                 echo $pageVars["data"]["pipeline"]["project-slug"].'">' ;
                 echo '  '.$statusTitle ;
                 echo '</a>' ;

@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class PublishStatusPipeFeatureAllOS extends Base {
+class PublishReleasesPipeFeatureAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;
@@ -42,7 +42,7 @@ class PublishStatusPipeFeatureAllOS extends Base {
 	}
 
 	public function getLink() {
-		$link  = 'index.php?control=PublishStatus&action=status-list&item='.$this->pipeline["project-slug"];
+		$link  = 'index.php?control=PublishReleases&action=status-list&item='.$this->pipeline["project-slug"];
 //		$link .= '&hash='.$this->pipeFeatureValues["hash"];
 		$ff = array("link" => "$link");
 		return $ff ;

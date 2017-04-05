@@ -2,7 +2,7 @@
 
 Namespace Info;
 
-class PublishStatusInfo extends PTConfigureBase {
+class PublishReleasesInfo extends PTConfigureBase {
 
     public $hidden = false;
 
@@ -13,11 +13,11 @@ class PublishStatusInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "PublishStatus" => array_merge(parent::routesAvailable(), array("help", "image", "status", "status-list") ) );
+        return array( "PublishReleases" => array_merge(parent::routesAvailable(), array("help", "image", "status", "status-list") ) );
     }
 
     public function routeAliases() {
-        return array("publishhtmlstatuses"=>"PublishStatus","PublishStatus"=>"PublishStatus");
+        return array("publishhtmlstatuses"=>"PublishReleases","PublishReleases"=>"PublishReleases");
     }
 
     public function events() {
@@ -33,7 +33,7 @@ class PublishStatusInfo extends PTConfigureBase {
     }
 
     public function ignoredAuthenticationRoutes() {
-        return array( "PublishStatus" => array("image", "status", "status-list") );
+        return array( "PublishReleases" => array("image", "status", "status-list") );
     }
 
     public function helpDefinition() {
