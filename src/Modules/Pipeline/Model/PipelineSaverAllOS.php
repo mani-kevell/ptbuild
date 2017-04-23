@@ -19,12 +19,6 @@ class PipelineSaverAllOS extends Base {
         return $r ;
     }
 
-    public function getPipelineNames() {
-        $pipelines = $this->getPipelines() ;
-        $names = array_keys($pipelines) ;
-        return (isset($names) && is_array($names)) ? $names : false ;
-    }
-
     private function saveStates($save) {
         $saveRes = array() ;
         $saveRes["statuses"] = $this->saveStatuses($save) ;
