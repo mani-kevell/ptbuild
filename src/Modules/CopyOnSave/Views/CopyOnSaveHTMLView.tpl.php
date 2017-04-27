@@ -1,5 +1,5 @@
 <div class="container" id="wrapper">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <?php echo $pageVars["data"]["report"] ; ?>
     </div>
     <hr>

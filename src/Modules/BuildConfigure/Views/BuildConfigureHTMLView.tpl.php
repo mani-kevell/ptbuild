@@ -2,72 +2,8 @@
 <script type="text/javascript" src="/Assets/Modules/BuildConfigure/js/buildconfigure.js"></script>
 <script type="text/javascript" src="/Assets/Modules/BuildConfigure/js/buildconfigure_settings.js"></script>
 <div class="container" id="wrapper">
-    <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
-        <div class="sidebar-nav ">
-            <ul class="nav in" id="side-menu">
-                <li class="sidebar-search">
-                    <button class="btn btn-info" id="hide_menu_button" type="button">
-                        Hide Menu
-                    </button>
-                </li>
-                <li>
-                    <a href="/index.php?control=Index&action=show" class=" hvr-bounce-in">
-                        <i class="fa fa-dashboard fa-fw hvr-bounce-in"></i> Dashboard
-                    </a>
-                </li>
-                <?php
-                if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
-                ?>
-                <li>
-                    <a href="/index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
-                        <i class="fa fa-home hvr-bounce-in"></i> Pipeline Home
-                    </a>
-                </li>
-                <?php
 
-                }
-                ?>
-                <li>
-                    <a href="/index.php?control=BuildList&action=show" class="hvr-bounce-in">
-                        <i class="fa fa-bars fa-fw hvr-bounce-in"></i> All Pipelines
-                    </a>
-                </li>
-                <?php
-                if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
-                ?>
-                <li>
-                    <a href="/index.php?control=Workspace&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
-                        <i class="fa fa-folder-open-o hvr-bounce-in"></i> Workspace
-                    </a>
-                </li>
-                <li>
-                    <a href="index.php?control=BuildMonitor&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
-                        <i class="fa fa-bar-chart-o hvr-bounce-in"></i> Monitors
-                    </a>
-                </li>
-                <li>
-                    <a href="/index.php?control=PipeRunner&action=history&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
-                        <i class="fa fa-history fa-fw hvr-bounce-in"></i> History <span class="badge"><?php echo $pageVars["data"]["history_count"] ; ?></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/index.php?control=BuildHome&action=delete&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
-                        <i class="fa fa-trash fa-fw hvr-bounce-in"></i> Delete
-                    </a>
-                </li>
-                <li>
-                    <a href="/index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
-                        <i class="fa fa-sign-in fa-fw hvr-bounce-in"></i> Run Now
-                    </a>
-                </li>
-                <?php
-                }
-                ?>
-            </ul>
-        </div>
-    </div>
-
-    <div id="page_content" class="col-lg-9 well well-lg">
+    <div id="page_content" class="col-lg-12 well well-lg">
 
         <?php
         $act = '/index.php?control=BuildConfigure&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=save' ;
@@ -85,13 +21,77 @@
                 <form class="form-horizontal custom-form" action="<?= $act ; ?>" method="POST">
 
                     <div class="form-group">
-                        <div class="col-sm-3 thin_padding" id="show_menu_wrapper">
-                            <button class="btn btn-success" id="show_menu_button" type="button">
-                                Show Menu
-                            </button>
-                        </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-12">
                             <h3>Build Settings</h3>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+<!--                        <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">-->
+                        <div id="page_sidebar" class="col-sm-2 sidebar" role="navigation">
+                            <div class="sidebar-nav ">
+                                <div class="sidebar-search">
+                                    <button class="btn btn-success" id="menu_visibility_label" type="button">
+                                        Show Menu
+                                    </button>
+                                    <i class="fa fa-1x fa-toggle-off hvr-grow" id="menu_visibility_switch"></i>
+                                </div>
+                                <ul class="nav in" id="side-menu">
+                                    <li>
+                                        <a href="/index.php?control=Index&action=show" class=" hvr-bounce-in">
+                                            <i class="fa fa-dashboard fa-fw hvr-bounce-in"></i> Dashboard
+                                        </a>
+                                    </li>
+                                    <?php
+                                    if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
+                                        ?>
+                                        <li>
+                                            <a href="/index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
+                                                <i class="fa fa-home hvr-bounce-in"></i> Pipeline Home
+                                            </a>
+                                        </li>
+                                        <?php
+
+                                    }
+                                    ?>
+                                    <li>
+                                        <a href="/index.php?control=BuildList&action=show" class="hvr-bounce-in">
+                                            <i class="fa fa-bars fa-fw hvr-bounce-in"></i> All Pipelines
+                                        </a>
+                                    </li>
+                                    <?php
+                                    if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
+                                        ?>
+                                        <li>
+                                            <a href="/index.php?control=Workspace&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
+                                                <i class="fa fa-folder-open-o hvr-bounce-in"></i> Workspace
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="index.php?control=BuildMonitor&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
+                                                <i class="fa fa-bar-chart-o hvr-bounce-in"></i> Monitors
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/index.php?control=PipeRunner&action=history&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
+                                                <i class="fa fa-history fa-fw hvr-bounce-in"></i> History <span class="badge"><?php echo $pageVars["data"]["history_count"] ; ?></span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/index.php?control=BuildHome&action=delete&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
+                                                <i class="fa fa-trash fa-fw hvr-bounce-in"></i> Delete
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" class="hvr-bounce-in">
+                                                <i class="fa fa-sign-in fa-fw hvr-bounce-in"></i> Run Now
+                                            </a>
+                                        </li>
+                                        <?php
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -361,9 +361,9 @@
         </div>
     </div><!-- container -->
 
-
-<script src="/Assets/Modules/BuildConfigure/js/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--<script src="/Assets/Modules/BuildConfigure/js/jquery-ui.min.js"></script>-->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildConfigure/css/buildconfigure.css">
 <script type="text/javascript">
 	savedSteps = <?php echo json_encode($pageVars["data"]["pipeline"]["steps"]) ; ?> ;
@@ -373,7 +373,7 @@
 
     jQuery(function() {
         jQuery( "#sortableSteps" ).sortable();
-       // $( "#sortableSteps" ).disableSelection();
+        jQuery( "#page_sidebar" ).draggable();
     });
 </script>
 

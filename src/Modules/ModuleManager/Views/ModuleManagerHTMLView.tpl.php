@@ -1,49 +1,6 @@
 <div class="container" id="wrapper">
-    <div class="navbar-default col-sm-2 sidebar" role="navigation">
-        <div class="sidebar-nav ">
-            <ul class="nav in" id="side-menu">
-                <li class="sidebar-search">
-                    <div class="input-group custom-search-form hvr-bounce-in">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <!-- /input-group -->
-                </li>
-                <li>
-                    <a href="/index.php?control=Index&action=show" class=" hvr-bounce-in">
-                        <i class="fa fa-dashboard"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in"> <i class="fa fa-cogs fa-fw"></i> Configure PTBuild<span class="fa arrow"></span> </a>
-                    <ul class="nav nav-second-level collapse">
-                        <li>
-                            <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-curl-bottom-right">Application</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">User Manager</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">User Profile</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=ModuleManager&action=show" class=" hvr-curl-bottom-right">Modules</a>
-                        </li>
-                        <li>
-                            <a href="/index.php?control=Integrations&action=show" class=" hvr-curl-bottom-right">Integrations</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-            </ul>
-        </div>
-    </div>
 
-    <div class="col-lg-9">
+    <div class="col-lg-12">
                     <div class="well well-lg">
 
 <!--            <h2 class="text-uppercase text-light"><a href="/">PTBuild - Pharaoh Tools </a></h2>-->
@@ -78,6 +35,56 @@
                 </div>
 
                 <h3>Module and Extension Manager</h3>
+
+                <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
+                    <div class="sidebar-nav ">
+                        <div class="sidebar-search">
+                            <button class="btn btn-success" id="menu_visibility_label" type="button">
+                                Show Menu
+                            </button>
+                            <i class="fa fa-1x fa-toggle-off hvr-grow" id="menu_visibility_switch"></i>
+                        </div>
+                        <ul class="nav in" id="side-menu">
+                            <li class="sidebar-search">
+                                <div class="input-group custom-search-form hvr-bounce-in">
+                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                                </div>
+                                <!-- /input-group -->
+                            </li>
+                            <li>
+                                <a href="/index.php?control=Index&action=show" class=" hvr-bounce-in">
+                                    <i class="fa fa-dashboard"></i> Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in"> <i class="fa fa-cogs fa-fw"></i> Configure PTBuild<span class="fa arrow"></span> </a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li>
+                                        <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-curl-bottom-right">Application</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">User Manager</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">User Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=ModuleManager&action=show" class=" hvr-curl-bottom-right">Modules</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=Integrations&action=show" class=" hvr-curl-bottom-right">Integrations</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
                 <div class="form-group">
 

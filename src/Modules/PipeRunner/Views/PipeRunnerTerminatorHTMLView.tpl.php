@@ -53,7 +53,7 @@
                 
                
 
-         <div class="col-lg-9">
+         <div class="col-lg-12">
                     <div class="well well-lg">
 <!--            <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools </a></h2>-->
 

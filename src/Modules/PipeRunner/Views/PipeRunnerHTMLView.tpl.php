@@ -4,7 +4,7 @@
 			<ul class="nav in" id="side-menu">
                 <li class="sidebar-search">
                     <button class="btn btn-info" id="hide_menu_button" type="button">
-                        Hide Menu
+                        Show Menu
                     </button>
                 </li>
                 <li>
@@ -46,7 +46,7 @@
         </div>
        </div>
 
-         <div id="page_content" class="col-lg-9 well well-lg">
+         <div id="page_content" class="col-lg-12 well well-lg">
 <!--            <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools </a></h2>-->
 
                         <?php echo $this->renderLogs() ; ?>
@@ -71,7 +71,7 @@
                     <?php echo $stat; ?> Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
                     <i style="font-size: 18px;" </i>
                 </h3>
-                <div class="form-group col-lg-3 thin_padding" id="show_menu_wrapper">
+                <div class="form-group col-sm-2 thin_padding" id="show_menu_wrapper">
                     <button class="btn btn-success" id="show_menu_button" type="button">
                         Show Menu
                     </button>
