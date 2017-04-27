@@ -19,18 +19,7 @@
                             if ($pageVars["data"]["login_enabled"] == false || in_array($pageVars["data"]["current_user_role"], array("1", "2", "3"))) {
 
                             ?>
-
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form hvr-bounce-in"">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                    </div>
-                    <!-- /input-group -->
-                    </li>
+                                
                     <li>
                         <a href="/index.php?control=Index&amp;action=show" class="hvr-bounce-in">
                             <i class="fa fa-dashboard fa-fw hvr-bounce-in"></i> Dashboard
