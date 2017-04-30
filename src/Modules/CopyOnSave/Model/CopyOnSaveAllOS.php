@@ -72,7 +72,7 @@ class CopyOnSaveAllOS extends Base {
                 return false ; }
             if (substr($dir, -1) != DS) { $dir = $dir . DS ; }
             $pipeline_path = PIPEDIR.DS.$this->params["item"].DS ;
-            $full_dir = $dir.DS.$this->params["item"].DS ;
+            $full_dir = $dir.$this->params["item"].DS ;
             if (!file_exists($full_dir)) {
                 $logging->log("Creating target directory {$full_dir}", $this->getModuleName());
                 $copy_command = "mkdir -p {$full_dir}" ;
