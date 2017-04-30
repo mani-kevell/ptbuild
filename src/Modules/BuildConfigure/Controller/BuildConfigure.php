@@ -12,9 +12,11 @@ class BuildConfigure extends Base {
         if (in_array($pageVars["route"]["action"], array("copy"))) {
             $copyres = $thisModel->saveCopiedPipeline() ;
             if ($copyres!==false) {
+                $this->content["copy_ok"] = true;
                 $this->content["route"]["action"] = "show" ;
                 $_REQUEST["item"] = $copyres ;
                 return array ("type"=>"control", "control"=>"buildConfigure", "pageVars"=>$this->content); }
+            $this->content["copy_ok"] = false;
             $this->content["data"] = $thisModel->getCopyData();
             return array ("type"=>"view", "view"=>"buildConfigureCopy", "pageVars"=>$this->content); }
         if (in_array($pageVars["route"]["action"], array("save"))) {
