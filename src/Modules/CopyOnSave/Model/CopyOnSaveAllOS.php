@@ -75,20 +75,21 @@ class CopyOnSaveAllOS extends Base {
             $full_dir = $dir.$this->params["item"].DS ;
             if (!file_exists($full_dir)) {
                 $logging->log("Creating target directory {$full_dir}", $this->getModuleName());
-                $copy_command = "mkdir -p {$full_dir}" ;
-                $rc = $this->executeAndGetReturnCode($copy_command, true, true) ;
-                if ($rc["rc"] !== 0) {
-                    $logging->log("Creating target directory {$full_dir} unsuccessful", $this->getModuleName());
-                    return false ; } }
+                $res = mkdir($full_dir,0755, true) ;
+                if ($res == false) {
+                    $logging->log("Copy unsuccessful", $this->getModuleName());
+                    return false ;
+                }
+            }
             foreach ($files_to_copy as $file_to_copy) {
                 $source = $pipeline_path.$file_to_copy ;
                 $target = $dir.$this->params["item"].DS.$file_to_copy ;
                 $logging->log("Copying {$source} to {$target}", $this->getModuleName());
-                $copy_command = "cp -r {$source} {$target}" ;
-                $rc = $this->executeAndGetReturnCode($copy_command, true, true) ;
+                $copy_command = SUDOPREFIX." cp -r {$source} {$target}" ;
+                $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
                 if ($rc["rc"] !== 0) {
-                    $logging->log("Copy unsuccessful", $this->getModuleName());
-                    return false ; } }
+                    $logging->log("Copy unsuccessful, Error: {$rc["output"]}", $this->getModuleName());
+                    return false ; }  }
             return true ; }
     }
 
