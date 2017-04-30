@@ -206,14 +206,7 @@ class BuildConfigureAllOS extends Base {
         $data = array(
             "project-name" => $pname,
             "project-slug" => $this->params["item"],
-            "project-description" => $pdesc,
-//            "default-scm-url" => $this->params["default-scm-url"],
-//            "email-id" => $this->params["email-id"],
-//            "parameter-status" => $this->params["parameter-status"],
-//            "parameter-name" => $this->params["parameter-name"],
-//            "parameter-dvalue" => $this->params["parameter-dvalue"],
-//            "parameter-input" => "",
-//            "parameter-description" => $this->params["parameter-description"]
+            "project-description" => $pdesc
         ) ;
 
         $ev = $this->runBCEvent("beforePipelineSave") ;
@@ -221,7 +214,12 @@ class BuildConfigureAllOS extends Base {
         $ev = $this->runBCEvent("beforeCopiedPipelineSave") ;
         if ($ev == false) { return false ; }
 
-        $pipelineDefault->createPipeline($this->params["item"]) ;
+        $res = $pipelineDefault->createPipeline($this->params["item"]) ;
+        if ($res === false ) {
+            return false;
+        }
+
+
         $pipelineSaver = $pipelineFactory->getModel($this->params, "PipelineSaver");
         // @todo dunno y i have to force this param
         $pipelineSaver->params["item"] = $this->params["item"];
