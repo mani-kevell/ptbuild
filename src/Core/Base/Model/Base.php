@@ -549,4 +549,24 @@ COMPLETION;
             return false; }
     }
 
+    public function recursiveCopy($src,$dst) {
+        $dir = opendir($src);
+        @mkdir($dst);
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                if ( is_dir($src . DS . $file) ) {
+                    $this->recursiveCopy($src . DS . $file,$dst . DS . $file);
+                }
+                else {
+                    $res = copy($src . DS . $file,$dst . DS . $file);
+                    if ($res === false) {
+                        return false ;
+                    }
+                }
+            }
+        }
+        closedir($dir);
+        return true ;
+    }
+
 }
