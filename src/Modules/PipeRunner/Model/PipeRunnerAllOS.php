@@ -17,6 +17,7 @@ class PipeRunnerAllOS extends Base {
 	public function getData() {
 		$this -> setPipeDir();
 		$ret["historic_builds"] = $this -> getOldBuilds();
+		$ret["history_index"] = $this -> getHistoryIndex();
         $run_id = (isset($this -> params["run-id"])) ? $this -> params["run-id"] : null ;
 		$ret["historic_build"] = $this -> getOneBuild($run_id);
 		$ret["pipeline"] = $this -> getPipeline();
@@ -200,6 +201,15 @@ class PipeRunnerAllOS extends Base {
         $end = $historyIndex[intval($run)]['end'] ;
         return $end ;
 	}
+
+	public function getHistoryIndex() {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        $historyIndex = array() ;
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+        }
+        return $historyIndex ;
+    }
 
     private function setPipeDir() {
         if (isset($this -> params["guess"]) && $this -> params["guess"] == true) {
