@@ -49,150 +49,181 @@
                  </div>
              </div>
 
-                        <?php echo $this->renderLogs() ; ?>
 
-                        <div class="row clearfix no-margin">
-                <?php
-                    switch ($pageVars["route"]["action"]) {
-                        case "start" :
-                            $stat = "Now Executing " ;
-                            break ;
-                        case "show" :
-                            $stat = "Monitoring Already Executing Build " ;
-                            break ;
-                        case "history" :
-                            $stat = "Historic Builds of " ;
-                            break ;
-                        case "summary" :
-                            $stat = "Execution Summary of " ;
-                            break ; }
-                ?>
+            <div class="row clearfix no-margin">
+
+                <?php echo $this->renderLogs() ; ?>
+
                 <h3>
-                    <?php echo $stat; ?> Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
-                    <i style="font-size: 18px;" </i>
+                    Historic Builds of Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
+                    <i style="font-size: 18px;"></i>
                 </h3>
-                <div class="form-group col-sm-2 thin_padding" id="show_menu_wrapper">
-                    <button class="btn btn-success" id="show_menu_button" type="button">
-                        Show Menu
-                    </button>
-                </div>
-
-                    <?php
-                    if ($pageVars["route"]["action"] === "summary") {
-                        echo ', Run '.$pageVars["data"]["historic_build"]["run-id"] ; }
-                    ?>
 
                 <h5 class="text-uppercase text-light" style="margin-top: 15px;">
                     <a href="/index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>"></a>
                 </h5>
-                <?php
-                    if ($pageVars["route"]["action"] !== "summary") {
-                        $act = '/index.php?control=PipeRunner&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=summary' ; }
-                    else {
-                        $act = '/index.php?control=PipeRunner&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=summary&run-id='.$pageVars["data"]["historic_build"]["run-id"]  ; }
-                ?>
 
                 <form class="form-horizontal custom-form" action="<?= $act ; ?>" method="POST">
 
-                    <?php
-                    if (isset($pageVars["pipex"])) {
-                        ?>
 
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                Pipeline Execution started - Run # <?= $pageVars["pipex"] ;?>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="col-sm-12">
-                                    Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
+                    <div role="tabpanel grid">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active allRowsTab">
+                                <a onclick="showFilteredRows('all'); return false ;">All</a>
+                            </li>
+                            <li role="presentation" class="successRowsTab">
+                                <a onclick="showFilteredRows('success'); return false ;">All Success</a>
+                            </li>
+                            <li role="presentation" class="failedRowsTab">
+                                <a onclick="showFilteredRows('failure'); return false ;">All Failed</a>
+                            </li>
+                            <li role="presentation"class="unstableRowsTab">
+                                <a onclick="showFilteredRows('unstable'); return false ;">All Unstable</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="all">
+                                <div class="table-responsive" ">
+                                <div class="table table-striped table-bordered table-condensed">
+                                    <div>
+                                        <div class="blCell cellRowIndex">#</div>
+                                        <div class="blCell cellRowStatus">Status</div>
+                                        <div class="blCell cellRowSuccess">Success</div>
+                                        <div class="blCell cellRowFailure">Failure</div>
+                                        <div class="blCell cellRowDuration">Duration</div>
+                                    </div>
+                                    <div class="allBuildRows table-hover">
+
+                                        <?php
+
+                                        $i = 1;
+                                        foreach ($pageVars["data"]["historic_builds"] as $hb_id) {
+
+
+                                            if ($pipelineDetails["last_status"] === true) {
+                                                $successFailureClass = "successRow"  ; }
+                                            else if ($pipelineDetails["last_status"] === false) {
+                                                $successFailureClass = "failureRow" ; }
+                                            else {
+                                                $successFailureClass = "unstableRow" ; }
+
+                                                $summary_link_open_tag = '<a href="/index.php?control=PipeRunner&action=summary&item='.
+                                                    $pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb_id.'">'
+                                            ?>
+
+                                            <div class="buildRow <?php echo $successFailureClass ?>"
+                                                 id="blRow_<?php echo $pipelineDetails["project-slug"]; ?>" >
+
+                                                <div class="blCell cellRowIndex" scope="row">
+
+                                                    <?php
+                                                        echo $summary_link_open_tag ;
+                                                        echo $hb_id ;
+                                                        echo '</a>';
+                                                    ?>
+                                                </div>
+                                                <div  class="blCell cellRowStatus" <?php
+
+                                                    if ($pageVars["data"]["history_index"][$hb_id]["status"] === 'SUCCESS') {
+                                                        echo ' style="background-color:rgb(13, 193, 42);" '; }
+                                                    else if ($pageVars["data"]["history_index"][$hb_id]["status"] === 'FAIL') {
+                                                        echo ' style="background-color:#D32B2B" '; }
+                                                    else {
+                                                        echo ' style="background-color:gray" '; }
+                                                    ?> >
+
+                                                    <?php
+
+                                                    if (is_null($pageVars["data"]["history_index"][$hb_id]["status"])) {
+                                                        $this_build_status = "UNKNOWN" ;
+                                                    } else {
+                                                        $this_build_status = $pageVars["data"]["history_index"][$hb_id]["status"] ;
+                                                    }
+
+                                                    echo '<p>'.$summary_link_open_tag.$this_build_status.'</a></p>' ;
+
+                                                    ?>
+
+                                                </div>
+
+                                                <div class="blCell cellRowStart">
+                                                    <?php
+
+                                                    if (is_int($pageVars["data"]["history_index"][$hb_id]["start"])) {
+                                                        $start = $pageVars["data"]["history_index"][$hb_id]["start"] ;
+                                                        echo $summary_link_open_tag ;
+                                                        echo date('d/m/Y H:i:s', $start) ;
+                                                        echo '</a>';
+                                                    } else {
+                                                        echo 'N/A';
+                                                    }
+
+                                                    ?>
+                                                </div>
+                                                <div class="blCell cellRowEnd">
+                                                    <?php
+
+                                                    if (is_int($pageVars["data"]["history_index"][$hb_id]["end"])) {
+                                                        $end = $pageVars["data"]["history_index"][$hb_id]["end"] ;
+                                                        echo $summary_link_open_tag ;
+                                                        echo date('d/m/Y H:i:s', $end) ;
+                                                        echo '</a>';
+                                                    } else {
+                                                        echo 'N/A';
+                                                    }
+
+                                                    ?>
+                                                </div>
+                                                <div class="blCell cellRowDuration">
+                                                    <?php
+
+                                                    if (is_int($pageVars["data"]["history_index"][$hb_id]["end"]) &&
+                                                        is_int($pageVars["data"]["history_index"][$hb_id]["start"])) {
+
+                                                        $duration =
+                                                            $pageVars["data"]["history_index"][$hb_id]["end"] -
+                                                            $pageVars["data"]["history_index"][$hb_id]["start"] ;
+
+                                                        $dur = date('i:s', $duration) ;
+                                                        echo $summary_link_open_tag ;
+                                                        echo $dur ;
+                                                        echo '</a>';
+                                                    } else {
+                                                        echo 'N/A';
+                                                    }
+
+                                                    ?>
+                                                </div>
+
+                                                <hr class="buildRowSpace" />
+                                            </div>
+                                            <?php
+                                            $i++;
+                                        }
+                                        ?>
+
+                                    </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    Timer: <span id="timer" data-start_time="<?= $pageVars["data"]["run_start"] ; ?>"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                    <?php
-                    }
-                    ?>
-
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <div id="updatable">
-                                Checking Pipeline Execution Output...
-                                <?php
-
-                                if ($pageVars["route"]["action"]=="history") {
-                                    echo '<p>Historic builds</p>';
-
-                                    foreach ($pageVars["data"]["historic_builds"] as $hb) {
-                                        echo '<a href="/index.php?control=PipeRunner&action=summary&item='.$pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb.'">'.$hb.'</a><br />' ; } }
-                                else if ($pageVars["route"]["action"]=="summary") {
-                                    echo '<pre>'.$pageVars["data"]["historic_build"]["out"].'</pre>'; }
-                                ?>
                             </div>
                         </div>
                     </div>
-                    <?php
-                    if ($pageVars["route"]["action"] =="start" || $pageVars["route"]["action"] =="show") {
-                        echo '
-                          <script type="text/javascript">
-                              window.pipeitem = "'.$pageVars["data"]["pipeline"]["project-slug"].'" ;
-                              window.runid = "'.$pageVars["pipex"].'" ;
-                          </script>
-                              <script type="text/javascript" src="/Assets/Modules/PipeRunner/js/piperunner.js"></script>
-                              <div class="form-group" id="loading-holder">
-                                  <div class="col-sm-offset-2 col-sm-8">
-                                      <div class="text-center  ">
-                                          
-                                      </div>
-                                 </div>
-                             </div>'; }
-                    ?>
-
-
-
-                    <?php
-                    if ($pageVars["route"]["action"] =="start" || $pageVars["route"]["action"] =="show") {
-                    ?>
-                        <div class="form-group" id="submit-holder">
-                            <div class="col-sm-offset-2 col-sm-8">
-                                <div class="text-center">
-                                    <img src="Assets/startbootstrap-sb-admin-2-1.0.5/dist/image/712.GIF" style="width:100px;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" id="submit-holder">
-                            <div class="col-sm-offset-2 col-sm-8">
-                                <div class="text-center">
-                                    <?php
-                                    $termLink = '/index.php?control=PipeRunner&action=terminate&run-id='.$pageVars["pipex"].'&item='.$pageVars["data"]["pipeline"]["project-slug"] ;
-                                    ?>
-                                    <a href="<?php echo $termLink ; ?>" type="submit" class="btn btn-danger hvr-float-shadow" id="terminate-build">
-                                        Terminate Build
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    <?php
-                       }
-                    ?>
 
                     <input type="hidden" id="item" value="<?= $pageVars["data"]["pipeline"]["project-slug"] ;?>" />
                     <input type="hidden" id="pid" value="<?= $pageVars["pipex"] ;?>" />
-                    <?php
-                    if ($pageVars["route"]["action"] =="start" || $pageVars["route"]["action"] =="show" || $pageVars["route"]["action"] == "summary") {
-                        echo '<input type="hidden" id="run-id" value="'.$pageVars["data"]["historic_build"]["run-id"].'" />' ; }
-                    ?>
 
                 </form>
             </div>
             <hr>
-                <p class="text-center">
+            <p class="text-center">
                 Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
             </p>
 
-    </div>
+        </div>
 </div><!-- /.container -->
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/PipeRunner/css/piperunner.css">
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/PipeRunner/css/piperunnerhistory.css">
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildList/css/buildlist.css">
