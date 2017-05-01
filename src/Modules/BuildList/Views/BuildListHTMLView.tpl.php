@@ -233,25 +233,28 @@
 				</div>
 			</div>
 		</div>
+        
+        <hr />
 
-        <div class="col-lg-6">
-            <div class="alert alert-info">
-                <h4>Running Builds </h4>
-                <div class="runningBuilds">
-                    <p>
-                        No builds currently being executed
-                    </p>
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="alert alert-info">
+                    <h4>Running Builds </h4>
+                    <div class="runningBuilds">
+                        <p>
+                            No builds currently being executed
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg-6">
-            <div class="alert alert-info">
-                <h4>Queued Builds</h4>
-                <div class="queuedBuilds">
-                    <p>
-                        No builds currently queued
-                    </p>
+            <div class="col-lg-6">
+                <div class="alert alert-info">
+                    <h4>Queued Builds</h4>
+                    <div class="queuedBuilds">
+                        <p>
+                            No builds currently queued
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
