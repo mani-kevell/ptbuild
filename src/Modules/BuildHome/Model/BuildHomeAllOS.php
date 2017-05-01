@@ -20,6 +20,7 @@ class BuildHomeAllOS extends Base {
         $ret["login_enabled"] = $this->isLoginEnabled();
         $ret["features"] = $this->getPipelineFeatures();
         $ret["historic_builds"] = $this->getOldBuilds();
+        $ret["history_index"] = $this -> getHistoryIndex();
         $ret["current_user"] = $this->getCurrentUser() ;
         $ret["current_user_role"] = $this->getCurrentUserRole($ret["current_user"]);
         return $ret ;
@@ -58,17 +59,22 @@ class BuildHomeAllOS extends Base {
         return $r ;
     }
 
-    private function getOldBuilds() {
-        $pdir = PIPEDIR.DS.$this->params["item"].DS.'history' ;
-        $builds = scandir($pdir) ;
+    public function getOldBuilds() {
+        $builds = scandir(PIPEDIR.DS.$this->params["item"].DS.'history') ;
         $buildsRay = array();
-        $limit = count($builds) ;
-        $limit = ($limit < 10) ? $limit : 1 ;
-        for ($i=0; $i < $limit; $i++) {
+        for ($i=0; $i<count($builds); $i++) {
             if (!in_array($builds[$i], array(".", "..", "tmpfile"))){
                 $buildsRay[] = $builds[$i] ; } }
         rsort($buildsRay) ;
         return $buildsRay ;
+    }
+
+    public function getHistoryIndex() {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+        }
+        return $historyIndex ;
     }
 
     public function getPipelineFeatures() {
