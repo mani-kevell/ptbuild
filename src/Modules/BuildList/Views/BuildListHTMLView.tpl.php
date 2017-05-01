@@ -103,133 +103,133 @@
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane active" id="all">
 							<div class="table-responsive" ">
-							<div class="table table-striped table-bordered table-condensed">
-                                <div>
-                                    <div class="blCell cellRowIndex">#</div>
-                                    <div class="blCell cellRowName">Pipeline</div>
-                                    <div class="blCell cellRowRun">Run Now</div>
-                                    <div class="blCell cellRowStatus">Status</div>
-                                    <div class="blCell cellRowSuccess">Success</div>
-                                    <div class="blCell cellRowFailure">Failure</div>
-                                    <div class="blCell cellRowDuration">Duration</div>
+                                <div class="table table-striped table-bordered table-condensed">
+                                    <div>
+                                        <div class="blCell cellRowIndex">#</div>
+                                        <div class="blCell cellRowName">Pipeline</div>
+                                        <div class="blCell cellRowRun">Run Now</div>
+                                        <div class="blCell cellRowStatus">Status</div>
+                                        <div class="blCell cellRowSuccess">Success</div>
+                                        <div class="blCell cellRowFailure">Failure</div>
+                                        <div class="blCell cellRowDuration">Duration</div>
+                                    </div>
+                                <div class="allBuildRows table-hover">
+
+                                <?php
+
+                                $i = 1;
+                                foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) {
+
+
+                                    if ($pipelineDetails["last_status"] === true) {
+                                        $successFailureClass = "successRow"  ; }
+                                    else if ($pipelineDetails["last_status"] === false) {
+                                        $successFailureClass = "failureRow" ; }
+                                    else {
+                                        $successFailureClass = "unstableRow" ; }
+
+                                    ?>
+
+                                <div class="buildRow <?php echo $successFailureClass ?>" id="blRow_<?php echo $pipelineSlug; ?>" >
+                                    <div class="blCell cellRowIndex" scope="row"><?php echo $i; ?> </div>
+                                    <div class="blCell cellRowName"><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug; ?>" class="pipeName"><?php echo $pipelineDetails["project-name"]; ?>  </a> </div>
+
+                                    <div class="blCell cellRowRun">
+                                        <?php
+                                        echo '<a href="/index.php?control=PipeRunner&action=start&item=' . $pipelineDetails["project-slug"] . '">';
+                                        echo '<i class="fa fa-play fa-2x hvr-grow-shadow" style="color:rgb(13, 193, 42);"></i></a>';
+                                        ?>
+                                    </div>
+                                    <div  class="blCell cellRowStatus"
+                                        <?php
+
+                                        if ($pipelineDetails["last_status"] === true) {
+                                            echo ' style="background-color:rgb(13, 193, 42);" '; }
+                                        else if ($pipelineDetails["last_status"] === false) {
+                                            echo ' style="background-color:#D32B2B" '; }
+                                        else {
+                                            echo ' style="background-color:gray" '; }
+                                        ?>
+
+                                        >
+
+                                        <?php
+
+                                        echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ;
+
+                                    ?>
+
+                                    </div>
+
+                                    <div class="blCell cellRowSuccess">
+                                        <?php
+
+                                        $today = new DateTime(); // This object represents current date/time
+                                        $actualToday = $today; // copy original for display
+                                        $today->setTime( 0, 0, 0 ); // reset time part, to prevent partial comparison
+
+                                        if ($pipelineDetails["last_success"] != false) {
+
+                                            $match_date = new DateTime(date('d.m.Y H:i', $pipelineDetails["last_success"]));
+
+            //                                var_dump($match_date) ;
+
+                                            $diff = $today->diff( $match_date );
+                                            $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
+
+                                            $date = date($pipelineDetails["last_success"]);
+                                            if( $diffDays == 0 ) {
+                                                echo date_format($match_date, 'g:ia')." Today"; }
+                                            else if( $diffDays == -1 ) {
+                                                echo date_format($match_date, 'g:ia')." Yesterday"; }
+                                            else {
+                                                echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
+                                            echo ' #(' . $pipelineDetails["last_success_build"] . ')'; }
+                                        else {
+                                            echo 'N/A'; }
+                                        ?>
+                                    </div>
+                                    <div class="blCell cellRowFailure">
+                                        <?php
+                                        if ($pipelineDetails["last_fail"] != false) {
+
+                                            $match_date = new DateTime(date('d.m.Y H:i', $pipelineDetails["last_fail"]));
+            //                                var_dump($match_date) ;
+
+                                            $diff = $today->diff( $match_date );
+                                            $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
+
+                                            $date = date($pipelineDetails["last_fail"]);
+                                            if( $diffDays == 0 ) {
+                                                echo date_format($match_date, 'g:ia')." Today"; }
+                                            else if( $diffDays == -1 ) {
+                                                echo date_format($match_date, 'g:ia')." Yesterday"; }
+                                            else {
+                                                echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
+                                            echo ' #(' . $pipelineDetails["last_fail_build"] . ')';}
+                                        else {
+                                            echo 'N/A'; }
+
+                                        ?>
+                                    </div>
+                                    <div class="blCell cellRowDuration">
+                                        <?php
+                                        if ($pipelineDetails["duration"] != false) {
+                                            echo $pipelineDetails["duration"] . ' seconds';
+                                        } else {
+                                            echo 'N/A';
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <hr class="buildRowSpace" />
                                 </div>
-							<div class="allBuildRows table-hover">
-
-							<?php
-
-							$i = 1;
-							foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) {
-
-
-                                if ($pipelineDetails["last_status"] === true) {
-                                    $successFailureClass = "successRow"  ; }
-                                else if ($pipelineDetails["last_status"] === false) {
-                                    $successFailureClass = "failureRow" ; }
-                                else {
-                                    $successFailureClass = "unstableRow" ; }
-
+                                <?php
+                                $i++;
+                                }
                                 ?>
 
-							<div class="buildRow <?php echo $successFailureClass ?>" id="blRow_<?php echo $pipelineSlug; ?>" >
-							<div class="blCell cellRowIndex" scope="row"><?php echo $i; ?> </div>
-							<div class="blCell cellRowName"><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug; ?>" class="pipeName"><?php echo $pipelineDetails["project-name"]; ?>  </a> </div>
-							
-							<div class="blCell cellRowRun">
-							<?php
-							echo '<a href="/index.php?control=PipeRunner&action=start&item=' . $pipelineDetails["project-slug"] . '">';
-							echo '<i class="fa fa-play fa-2x hvr-grow-shadow" style="color:rgb(13, 193, 42);"></i></a>';
-							?>
-							</div>
-							<div  class="blCell cellRowStatus"
-                                <?php
-
-                                if ($pipelineDetails["last_status"] === true) {
-                                    echo ' style="background-color:rgb(13, 193, 42);" '; }
-                                else if ($pipelineDetails["last_status"] === false) {
-                                    echo ' style="background-color:#D32B2B" '; }
-                                else {
-                                    echo ' style="background-color:gray" '; }
-                                ?>
-
-                                >
-
-                                <?php
-
-                                echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ;
-
-							?>
-
-							</div>
-							
-							<div class="blCell cellRowSuccess">
-							<?php
-
-                            $today = new DateTime(); // This object represents current date/time
-                            $actualToday = $today; // copy original for display
-                            $today->setTime( 0, 0, 0 ); // reset time part, to prevent partial comparison
-
-                            if ($pipelineDetails["last_success"] != false) {
-
-                                $match_date = new DateTime(date('d.m.Y H:i', $pipelineDetails["last_success"]));
-
-//                                var_dump($match_date) ;
-
-                                $diff = $today->diff( $match_date );
-                                $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
-
-								$date = date($pipelineDetails["last_success"]);
-                                if( $diffDays == 0 ) {
-                                    echo date_format($match_date, 'g:ia')." Today"; }
-                                else if( $diffDays == -1 ) {
-                                    echo date_format($match_date, 'g:ia')." Yesterday"; }
-                                else {
-                                    echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
-								echo ' #(' . $pipelineDetails["last_success_build"] . ')'; }
-                            else {
-								echo 'N/A'; }
-							?>
-							</div>
-							<div class="blCell cellRowFailure">
-							<?php
-							if ($pipelineDetails["last_fail"] != false) {
-
-                                $match_date = new DateTime(date('d.m.Y H:i', $pipelineDetails["last_fail"]));
-//                                var_dump($match_date) ;
-
-                                $diff = $today->diff( $match_date );
-                                $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
-
-                                $date = date($pipelineDetails["last_fail"]);
-                                if( $diffDays == 0 ) {
-                                    echo date_format($match_date, 'g:ia')." Today"; }
-                                else if( $diffDays == -1 ) {
-                                    echo date_format($match_date, 'g:ia')." Yesterday"; }
-                                else {
-                                    echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
-                                echo ' #(' . $pipelineDetails["last_fail_build"] . ')';}
-                            else {
-                                echo 'N/A'; }
-
-							?>
-							</div>
-							<div class="blCell cellRowDuration">
-							<?php
-							if ($pipelineDetails["duration"] != false) {
-								echo $pipelineDetails["duration"] . ' seconds';
-							} else {
-								echo 'N/A';
-							}
-							?>
-							</div>
-
-                                <hr class="buildRowSpace" />
-							</div>
-							<?php
-							$i++;
-							}
-							?>
-
-							</div>
+                                </div>
 							</div>
 						</div>
 					</div>
