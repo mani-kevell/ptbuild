@@ -1,17 +1,13 @@
 <div class="container" id="wrapper">
-    <div class="navbar-default col-sm-2 sidebar" role="navigation">
+    <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
 		<div class="sidebar-nav ">
+            <div class="sidebar-search">
+                <button class="btn btn-success" id="menu_visibility_label" type="button">
+                    Show Menu
+                </button>
+                <i class="fa fa-1x fa-toggle-off hvr-grow" id="menu_visibility_switch"></i>
+            </div>
 			<ul class="nav in" id="side-menu">
-				<li class="sidebar-search">
-					<div class="input-group custom-search-form hvr-bounce-in">
-						<input type="text" class="form-control" placeholder="Search...">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button">
-								<i class="fa fa-search"></i>
-							</button>
-                        </span>
-					</div>
-					 </li>
                 <li>
                     <a href="/index.php?control=Index&amp;action=show "class="hvr-bounce-in">
                         <i class="fa fa-dashboard hvr-bounce-in"></i> Dashboard
