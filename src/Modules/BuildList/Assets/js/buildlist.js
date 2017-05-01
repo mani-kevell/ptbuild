@@ -53,7 +53,7 @@ function setRunningBuildList(data) {
         $('.runningBuildRow' +" > th ").animate({ opacity: 100 });
         $('.buildRow').removeClass("runningBuildRow");
         ht = "<p>No builds currently being executed...</p>" ;
-        $('#runningBuilds').html(ht); }
+        $('.runningBuilds').html(ht); }
     else {
         ht = "" ;
         for (index = 0; index < data.length; index++) {
@@ -75,7 +75,7 @@ function setRunningBuildList(data) {
             // ht += '  <h5><strong>User:</strong> '+data[index].runuser+'</h5>' ;
             ht += '</div>' ;}
             
-        $('#runningBuilds').html(ht); }
+        $('.runningBuilds').html(ht); }
 }
 
 function setQueuedBuildList(data) {
@@ -86,7 +86,7 @@ function setQueuedBuildList(data) {
         $('.queuedBuildRow' +" > th ").animate({ opacity: 100 });
         $('.buildRow').removeClass("queuedBuildRow");
         ht = "<p>No builds currently queued...</p>" ;
-        $('#queuedBuilds').html(ht); }
+        $('.queuedBuilds').html(ht); }
     else {
         ht = "" ;
         ht += '<div class=" well well-sm">' ;
@@ -99,7 +99,7 @@ function setQueuedBuildList(data) {
             ht += '  </div>'
             ht += '  <hr />' ;}
         ht += '</div>' ;
-        $('#queuedBuilds').html(ht); }
+        $('.queuedBuilds').html(ht); }
 }
 
 function showFilteredRows(rowType) {

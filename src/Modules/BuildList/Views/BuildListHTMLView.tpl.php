@@ -50,25 +50,21 @@
                             <li>
                                 <a href="/index.php?control=BuildList&action=show " class="active  hvr-bounce-in"><i class="fa fa-bars fa-fw hvr-bounce-in"></i> All Pipelines</a>
                             </li>
-
                             <br />
 
                             <li>
-
-
                                 <div class="alert alert-info">
                                     <h4>Running Builds </h4>
-                                    <div id="runningBuilds">
+                                    <div class="runningBuilds">
                                         <p>
                                             No builds currently being executed
                                         </p>
 
                                     </div>
                                 </div>
-
                                 <div class="alert alert-info">
                                     <h4>Queued Builds</h4>
-                                    <div id="queuedBuilds">
+                                    <div class="queuedBuilds">
                                         <p>
                                             No builds currently queued
                                         </p>
@@ -76,6 +72,7 @@
                                     </div>
                                 </div>
                             </li>
+
                         </ul>
                     </div>
 
@@ -236,10 +233,33 @@
 				</div>
 			</div>
 		</div>
-		 <hr>
-                <p class="text-center">
-                Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
-            </p>
+
+        <div class="col-lg-6">
+            <div class="alert alert-info">
+                <h4>Running Builds </h4>
+                <div class="runningBuilds">
+                    <p>
+                        No builds currently being executed
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="alert alert-info">
+                <h4>Queued Builds</h4>
+                <div class="queuedBuilds">
+                    <p>
+                        No builds currently queued
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <p class="text-center">
+            Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
+        </p>
 	</div>
 </div><!-- /.container -->
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildList/css/buildlist.css">
