@@ -1,5 +1,7 @@
-#show_menu_wrapper {
-    display: none ;
-    position: fixed;
-    z-index: 10000;
+.cellRowStart {
+    width: 20% ;
+}
+
+.cellRowEnd {
+    width: 20% ;
 }
