@@ -52,6 +52,10 @@ hr.buildRowSpace {
     text-align: left;
 }
 
+.cellRowName a {
+    font-size: 125%;
+}
+
 .cellRowRun {
     width: 10% ;
 }
