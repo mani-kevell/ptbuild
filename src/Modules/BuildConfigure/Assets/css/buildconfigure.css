@@ -63,3 +63,8 @@
 #show_menu_wrapper {
     display: none ;
 }
+
+nav.navbar-default {
+    width: 100% ;
+    max-width: 100% ;
+}
