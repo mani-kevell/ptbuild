@@ -156,6 +156,7 @@ class PipeRunnerAllOS extends Base {
                         $bpl = $one_ev["build-parameter-location"] ; } } }
 
             $this -> setRunStartTime($run);
+            $this -> setRunParameters($run, $bpl);
             $this -> runPipeForkCommand($run, $bpl); }
 
         else {
@@ -164,6 +165,18 @@ class PipeRunnerAllOS extends Base {
                 $this->params["run-id"] :
                 $this->getBuildNumber("last") ; }
         return $run;
+	}
+
+	private function setRunParameters($run, $bpl) {
+		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+		if ($historyIndex = file_get_contents($file))
+			$historyIndex = json_decode($historyIndex, true);
+
+        $bpl_data = (is_null($bpl)) ? null : json_decode(file_get_contents($bpl)) ;
+
+		$historyIndex[intval($run)]['params'] = $bpl_data ;
+		$historyIndex = json_encode($historyIndex);
+		file_put_contents($file, $historyIndex);
 	}
 
 	private function setRunStartTime($run) {
