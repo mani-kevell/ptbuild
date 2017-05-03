@@ -233,7 +233,7 @@
 				</div>
 			</div>
 		</div>
-        
+
         <hr />
 
         <div class="col-lg-12">
