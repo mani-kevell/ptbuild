@@ -1,8 +1,5 @@
 <?php
 
-$jQuery('.sidebar')->draggable() ;
-#  jQuery( "#sortableSteps" ).sortable();
-
 $jQuery('#hide_menu_button')->on('click', function() use ($jQuery)  {
     $jQuery('#page_sidebar')->css('display', 'none');
     $pageCon = $jQuery('#page_content') ;
@@ -27,3 +24,27 @@ if ($jQuery('#updatable')->length === 1) {
     } ;
     \js_core::$window->outUpdater = \js_core::$window->setInterval($updateTimer, 1000);
 }
+
+
+
+$jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
+
+    $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+
+    $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
+    $overlay_content = "" ;
+
+    $history_index = \js_core::$window->build_run_params ;
+
+//    \js_core::$console->log($history_index[$run_id]) ;
+
+    $decoded = \js_core::$php->json_decode($history_index[$run_id]) ;
+
+//    \js_core::$console->log('dcd', $decoded) ;
+    foreach ($decoded as $paramKey => $paramValue) {
+//        \js_core::$console->log('pkv', $paramKey, $paramValue) ;
+        $overlay_content = $overlay_content . "<p>".$paramKey.":<strong>".$paramValue."</strong></p>" ;
+    }
+
+    \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
+});
