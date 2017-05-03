@@ -57,6 +57,7 @@
         <!--  sign up add -->
         <!-- Bootstrap Core CSS -->
         <link href="/Assets/Modules/DefaultSkin/css/default.css" rel="stylesheet">
+        <link href="/Assets/Modules/DefaultSkin/css/fephp.css" rel="stylesheet">
         <script type="text/javascript" src="/Assets/Modules/DefaultSkin/js/pharaoh_default.js"></script>
         <script type="text/javascript" src="/Assets/Modules/DefaultSkin/js/jquery-ui.js"></script>
     </head>
