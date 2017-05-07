@@ -119,7 +119,7 @@ class WindowMessage {
         $htmlvar = $htmlvar . '    <div class="overlay_inner"> ';
         $htmlvar = $htmlvar . '        <div id="close_button_div"> ';
         $htmlvar = $htmlvar . '            <span id="close_page_overlay"> ';
-        $htmlvar = $htmlvar . '                <img src="assets/fephp/images/close_button.png" /> ';
+        $htmlvar = $htmlvar . '                <img src="Assets/Modules/DefaultSkin/image/close_button.png" /> ';
         $htmlvar = $htmlvar . '            </span> ';
         $htmlvar = $htmlvar . '        </div> ';
         $htmlvar = $htmlvar . '        <div class="overlay_content"> ';
