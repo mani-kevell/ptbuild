@@ -26,6 +26,7 @@ class PipelineCollaterAllOS extends Base {
         $collated = array_merge($collated, $this->getDefaults()) ;
         $collated = array_merge($collated, $this->getSteps()) ;
         $collated = array_merge($collated, $this->getSettings()) ;
+        $collated = array_merge($collated, $this->getHistoryIndex()) ;
         return $collated ;
     }
 
@@ -61,6 +62,15 @@ class PipelineCollaterAllOS extends Base {
             foreach ($historyIndex as $run=>$val) {
                 return array('time' => $historyIndex[$run]['start'], 'build' => $run) ; } }
         return array('time' => false, 'build' => 0) ;
+    }
+
+    private function getHistoryIndex() {
+        $file = PIPEDIR.DS.$this->params["item"].DS.'historyIndex';
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+            krsort($historyIndex) ;
+            return array('history_index' => $historyIndex) ; }
+        return array('history_index' => false) ;
     }
 
     private function getLastStatus() {
