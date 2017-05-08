@@ -201,31 +201,44 @@
             <hr />
             <div class="row clearfix no-margin build-home-properties">
 
+                <?php
+                if (isset($pageVars["data"]["features"]) &&
+                count($pageVars["data"]["features"])>0 ) {
+                ?>
+
                 <div class="pipe-features-block pipe-block">
                     <h4 class="propertyTitle">Build Features:</h4>
                     <div class="col-sm-12">
-                    <?php
-                    if (isset($pageVars["data"]["features"]) &&
-                        count($pageVars["data"]["features"])>0 ) {
-                        foreach ($pageVars["data"]["features"] as $build_feature) {
+                        <?php
+                        if (isset($pageVars["data"]["features"]) &&
+                            count($pageVars["data"]["features"])>0 ) {
+                            foreach ($pageVars["data"]["features"] as $build_feature) {
 //                            var_dump($build_feature);
-                            if (
-                                (isset($build_feature["hidden"]) && $build_feature["hidden"] != true)
-                                || !isset($build_feature["hidden"]) ) {
-                                echo '<div class="build-feature">' ;
-                                echo '<a target="_blank" href="'.$build_feature["model"]["link"].'">' ;
-                                echo  '<h3>'.$build_feature["model"]["title"].'</h3>' ;
-                                echo  '<img src="'.$build_feature["model"]["image"].'" />' ;
-                                echo "</a>" ;
-                                echo '</div>' ; } } }
-                    ?>
+                                if (
+                                    (isset($build_feature["hidden"]) && $build_feature["hidden"] != true)
+                                    || !isset($build_feature["hidden"]) ) {
+                                    echo '<div class="build-feature">' ;
+                                    echo '<a target="_blank" href="'.$build_feature["model"]["link"].'">' ;
+                                    echo  '<h3>'.$build_feature["model"]["title"].'</h3>' ;
+                                    echo  '<img src="'.$build_feature["model"]["image"].'" />' ;
+                                    echo "</a>" ;
+                                    echo '</div>' ; } } }
+                        ?>
+                    </div>
                 </div>
+
+                <?php
+                } else {
+                ?>
+                    <h4 class="propertyTitle">This Build Job has no Features</h4>
+                <?php
+                }
+                ?>
 
             </div>
             <hr />
             <div class="row clearfix no-margin build-home-properties">
                 <?php
-                }
 
                 if ($pageVars["data"]["login_enabled"] == false ||
                     in_array($pageVars["data"]["current_user_role"], array("1", "2", "3")) ||
@@ -235,137 +248,155 @@
                     )) {
                 ?>
 
-            </div>
 
-            <hr />
-            <div class="row clearfix no-margin build-home-properties">
-                <div class="pipe-history-block pipe-block">
-                    <h4 class="propertyTitle">Build History:</h4>
 
-                    <div class="allBuildRows table-hover">
+                <?php
+                if (isset($pageVars["data"]["historic_builds"]) &&
+                    count($pageVars["data"]["historic_builds"])>0 ) {
+                    ?>
 
-                        <?php
+                    <div class="pipe-history-block pipe-block">
+                        <h4 class="propertyTitle">Build History:</h4>
 
-                        $i = 1;
-                        foreach ($pageVars["data"]["historic_builds"] as $hb_id) {
+                        <div class="allBuildRows table-hover">
 
-                            if ($i > 10) { break ; }
+                            <?php
 
-                            if ($pipelineDetails["last_status"] === true) {
-                                $successFailureClass = "successRow"  ; }
-                            else if ($pipelineDetails["last_status"] === false) {
-                                $successFailureClass = "failureRow" ; }
-                            else {
-                                $successFailureClass = "unstableRow" ; }
+                            $i = 1;
+                            foreach ($pageVars["data"]["historic_builds"] as $hb_id) {
 
-                            $summary_link_open_tag = '<a href="/index.php?control=PipeRunner&action=summary&item='.
-                                $pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb_id.'">'
+                                if ($i > 10) { break ; }
+
+                                if ($pipelineDetails["last_status"] === true) {
+                                    $successFailureClass = "successRow"  ; }
+                                else if ($pipelineDetails["last_status"] === false) {
+                                    $successFailureClass = "failureRow" ; }
+                                else {
+                                    $successFailureClass = "unstableRow" ; }
+
+                                $summary_link_open_tag = '<a href="/index.php?control=PipeRunner&action=summary&item='.
+                                    $pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb_id.'">'
+                                ?>
+
+                                <div class="buildRow <?php echo $successFailureClass ?>"
+                                     id="blRow_<?php echo $pipelineDetails["project-slug"]; ?>" >
+
+                                    <div class="blCell cellRowIndex" scope="row">
+
+                                        <?php
+                                        echo $summary_link_open_tag ;
+                                        echo $hb_id ;
+                                        echo '</a>';
+                                        ?>
+                                    </div>
+                                    <div  class="blCell cellRowStatus" <?php
+
+                                    if ($pageVars["data"]["history_index"][$hb_id]["status"] === 'SUCCESS') {
+                                        echo ' style="background-color:rgb(13, 193, 42);" '; }
+                                    else if ($pageVars["data"]["history_index"][$hb_id]["status"] === 'FAIL') {
+                                        echo ' style="background-color:#D32B2B" '; }
+                                    else {
+                                        echo ' style="background-color:gray" '; }
+                                    ?> >
+
+                                        <?php
+
+                                        if (is_null($pageVars["data"]["history_index"][$hb_id]["status"])) {
+                                            $this_build_status = "UNKNOWN" ;
+                                        } else {
+                                            $this_build_status = $pageVars["data"]["history_index"][$hb_id]["status"] ;
+                                        }
+
+                                        echo '<p>'.$summary_link_open_tag.$this_build_status.'</a></p>' ;
+
+                                        ?>
+
+                                    </div>
+
+                                    <div class="blCell cellRowStart">
+                                        <?php
+
+                                        if (is_int($pageVars["data"]["history_index"][$hb_id]["start"])) {
+                                            $start = $pageVars["data"]["history_index"][$hb_id]["start"] ;
+                                            echo $summary_link_open_tag ;
+                                            echo date('d/m/Y H:i:s', $start) ;
+                                            echo '</a>';
+                                        } else {
+                                            echo 'N/A';
+                                        }
+
+                                        ?>
+                                    </div>
+                                    <div class="blCell cellRowEnd">
+                                        <?php
+
+                                        if (is_int($pageVars["data"]["history_index"][$hb_id]["end"])) {
+                                            $end = $pageVars["data"]["history_index"][$hb_id]["end"] ;
+                                            echo $summary_link_open_tag ;
+                                            echo date('d/m/Y H:i:s', $end) ;
+                                            echo '</a>';
+                                        } else {
+                                            echo 'N/A';
+                                        }
+
+                                        ?>
+                                    </div>
+                                    <div class="blCell cellRowDuration">
+                                        <?php
+
+                                        if (is_int($pageVars["data"]["history_index"][$hb_id]["end"]) &&
+                                            is_int($pageVars["data"]["history_index"][$hb_id]["start"])) {
+
+                                            $duration =
+                                                $pageVars["data"]["history_index"][$hb_id]["end"] -
+                                                $pageVars["data"]["history_index"][$hb_id]["start"] ;
+
+                                            $dur = date('i:s', $duration) ;
+                                            echo $summary_link_open_tag ;
+                                            echo $dur ;
+                                            echo '</a>';
+                                        } else {
+                                            echo 'N/A';
+                                        }
+
+                                        ?>
+                                    </div>
+
+                                    <hr class="buildRowSpace" />
+                                </div>
+                                <?php
+                                $i++;
+                            }
                             ?>
 
-                            <div class="buildRow <?php echo $successFailureClass ?>"
-                                 id="blRow_<?php echo $pipelineDetails["project-slug"]; ?>" >
-
-                                <div class="blCell cellRowIndex" scope="row">
-
-                                    <?php
-                                    echo $summary_link_open_tag ;
-                                    echo $hb_id ;
-                                    echo '</a>';
-                                    ?>
-                                </div>
-                                <div  class="blCell cellRowStatus" <?php
-
-                                if ($pageVars["data"]["history_index"][$hb_id]["status"] === 'SUCCESS') {
-                                    echo ' style="background-color:rgb(13, 193, 42);" '; }
-                                else if ($pageVars["data"]["history_index"][$hb_id]["status"] === 'FAIL') {
-                                    echo ' style="background-color:#D32B2B" '; }
-                                else {
-                                    echo ' style="background-color:gray" '; }
-                                ?> >
-
-                                    <?php
-
-                                    if (is_null($pageVars["data"]["history_index"][$hb_id]["status"])) {
-                                        $this_build_status = "UNKNOWN" ;
-                                    } else {
-                                        $this_build_status = $pageVars["data"]["history_index"][$hb_id]["status"] ;
-                                    }
-
-                                    echo '<p>'.$summary_link_open_tag.$this_build_status.'</a></p>' ;
-
-                                    ?>
-
-                                </div>
-
-                                <div class="blCell cellRowStart">
-                                    <?php
-
-                                    if (is_int($pageVars["data"]["history_index"][$hb_id]["start"])) {
-                                        $start = $pageVars["data"]["history_index"][$hb_id]["start"] ;
-                                        echo $summary_link_open_tag ;
-                                        echo date('d/m/Y H:i:s', $start) ;
-                                        echo '</a>';
-                                    } else {
-                                        echo 'N/A';
-                                    }
-
-                                    ?>
-                                </div>
-                                <div class="blCell cellRowEnd">
-                                    <?php
-
-                                    if (is_int($pageVars["data"]["history_index"][$hb_id]["end"])) {
-                                        $end = $pageVars["data"]["history_index"][$hb_id]["end"] ;
-                                        echo $summary_link_open_tag ;
-                                        echo date('d/m/Y H:i:s', $end) ;
-                                        echo '</a>';
-                                    } else {
-                                        echo 'N/A';
-                                    }
-
-                                    ?>
-                                </div>
-                                <div class="blCell cellRowDuration">
-                                    <?php
-
-                                    if (is_int($pageVars["data"]["history_index"][$hb_id]["end"]) &&
-                                        is_int($pageVars["data"]["history_index"][$hb_id]["start"])) {
-
-                                        $duration =
-                                            $pageVars["data"]["history_index"][$hb_id]["end"] -
-                                            $pageVars["data"]["history_index"][$hb_id]["start"] ;
-
-                                        $dur = date('i:s', $duration) ;
-                                        echo $summary_link_open_tag ;
-                                        echo $dur ;
-                                        echo '</a>';
-                                    } else {
-                                        echo 'N/A';
-                                    }
-
-                                    ?>
-                                </div>
-
-                                <hr class="buildRowSpace" />
-                            </div>
-                            <?php
-                            $i++;
-                        }
-                        ?>
+                        </div>
 
                     </div>
 
-                </div>
+                    <?php
+                } else {
+                    ?>
+                    <h4 class="propertyTitle">This Build Job has no History</h4>
+                    <?php
+                }
+                    ?>
 
                 <?php
                 }
                 ?>
 
+            </div>
+            <hr />
+            <div class="row clearfix no-margin build-home-properties">
                 <p class="text-center">
                 Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
                 </p>
             </div>
 
+            <?php
+            }
+
+            ?>
         </div>
 
     </div>
