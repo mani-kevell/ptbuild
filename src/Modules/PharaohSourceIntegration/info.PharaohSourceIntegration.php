@@ -20,6 +20,10 @@ class PharaohSourceIntegrationInfo extends PTConfigureBase {
         return array("pharaohsourceintegration"=>"PharaohSourceIntegration");
     }
 
+    public function buildSteps() {
+        return array("create", "delete_repository");
+    }
+
     public function repositorySettings() {
         return array();
     }
