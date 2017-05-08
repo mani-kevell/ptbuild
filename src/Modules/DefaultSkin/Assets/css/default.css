@@ -128,3 +128,11 @@ h3.title_username {
 ul#side-menu {
     display: none;
 }
+
+
+.fullWidth {
+    display: block;
+    width: 100%;
+    float:left;
+    margin: 10px 0px;
+}
