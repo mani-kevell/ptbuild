@@ -91,23 +91,9 @@ class PharaohSourceIntegrationAllOS extends Base {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         if ( $step["steptype"] == "create_repository") {
-            $logging->log("Running Shell from Data...", $this->getModuleName()) ;
-            $env_var_string = "" ;
-            if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
-                $logging->log("Shell Extracting Environment Variables...", $this->getModuleName()) ;
-                $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
-                $count = 0 ;
-                foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
-                    $env_var_string .= "$env_var_key=".'"'.$env_var_val.'"'."\n" ;
-                    $count++ ; }
-                $logging->log("Successfully Extracted {$count} Environment Variables into Shell Variables {$ext_vars}...", $this->getModuleName()) ; }
-            $data = $step["data"] ;
-            $data = $this->addSetter($data) ;
-            $data = $env_var_string.$data ;
-            $rc = $this->executeAsShell($data);
-            $res = ($rc == 0) ? true : false ;
-//            var_dump("rc dump in shell is: ", $rc, $res) ;
-            return $res ; }
+            $logging->log("Running Creation of a Repository in Pharaoh Source...", $this->getModuleName()) ;
+            $logging->log("Calling API to {$step['server_url']}...", $this->getModuleName()) ;
+            return true ; }
         else {
             $logging->log("Unrecognised Build Step Type {$step["type"]} specified in Shell Module", $this->getModuleName()) ;
             return false ; }
