@@ -42,7 +42,7 @@ class ShellLinuxUnix extends Base {
                 $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
                 $count = 0 ;
                 foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
-                    $env_var_string .= "$env_var_key=$env_var_val\n" ;
+                    $env_var_string .= "$env_var_key=".'"'.$env_var_val.'"'."\n" ;
                     $count++ ; }
                 $logging->log("Successfully Extracted {$count} Environment Variables into Shell Variables {$ext_vars}...", $this->getModuleName()) ; }
             $data = $step["data"] ;
