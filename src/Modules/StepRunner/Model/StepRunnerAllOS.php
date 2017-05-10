@@ -19,7 +19,7 @@ class StepRunnerAllOS extends BaseLinuxApp {
         $this->initialize();
     }
 
-    public function stepRunner($step, $item = null) {
+    public function stepRunner($step, $item = null, $hash = null) {
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params) ;
@@ -40,7 +40,7 @@ class StepRunnerAllOS extends BaseLinuxApp {
             return false ; }
         $logging->log ("Module {$step["module"]}, step type {$step["steptype"]}", $this->getModuleName() ) ;
         // send step data to method in question
-        $stepResult = $stepModel->executeStep($step, $item) ;
+        $stepResult = $stepModel->executeStep($step, $item, $hash) ;
         // return the result of the step run (true or false, output should already be done)
         return $stepResult ;
     }
