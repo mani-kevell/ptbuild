@@ -360,7 +360,7 @@ class PipeRunnerAllOS extends Base {
             $stepRunnerFactory = new \Model\StepRunner() ;
             $stepRunner = $stepRunnerFactory->getModel($this->params) ;
             $logging->log("Executing step id $hash", $this->getModuleName()) ;
-            $res = $stepRunner->stepRunner($stepDetails, $this->params["item"]) ;
+            $res = $stepRunner->stepRunner($stepDetails, $this->params["item"], $hash) ;
             $evar  = "Step execution " ;
             $evar .= ($res) ? "Success" : "Failed" ;
             $evar .= ", ID $hash" ;
