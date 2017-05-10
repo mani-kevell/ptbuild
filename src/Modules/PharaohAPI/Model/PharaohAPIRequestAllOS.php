@@ -57,7 +57,7 @@ class PharaohAPIRequestAllOS extends Base {
         $ch = curl_init();
         $curlUrl = $this->ensureTrailingSlash($instance_url).'index.php?control=PharaohAPI&action=call&output-format=JSON' ;
 //        $curlUrl = $this->ensureTrailingSlash($instance_url) ; //.'index.php?control=PharaohAPI&action=call&output-format=JSON' ;
-        curl_setopt($ch, CURLOPT_URL,$curlUrl);
+        curl_setopt($ch, CURLOPT_URL, $curlUrl);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($curlParams));
         curl_setopt($ch, CURLOPT_POST, 1);
 
@@ -66,10 +66,10 @@ class PharaohAPIRequestAllOS extends Base {
         $server_output = curl_exec ($ch);
 
 //        ob_start();
-//        var_dump('api returned: ' ,$server_output) ;
+//        var_dump('api returned: ' ,$curlUrl) ;
 //        $out = ob_get_clean() ;
-//        error_log($out) ;
-//        curl_close ($ch);
+//        file_put_contents('/tmp/pharaohlog', "From Build: \n" .$server_output.$out, FILE_APPEND) ;
+        curl_close ($ch);
         $callObject = json_decode($server_output, true);
 
         return $callObject;
