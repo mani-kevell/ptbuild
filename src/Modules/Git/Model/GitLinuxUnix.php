@@ -49,9 +49,6 @@ class GitLinuxUnix extends Base {
             if (strlen($targetDir > 0)) {
                 $cmd .= ' --custom-clone-dir="'.$targetDir.'" ' ; }
 
-//            if (strlen($branch > 0)) {
-//                $cmd .= ' --custom-branch="'.$branch.'" ' ; }
-
             if (isset($this->params["build-settings"]["PollSCM"]["git_privkey_path"]) &&
                 $this->params["build-settings"]["PollSCM"]["git_privkey_path"] != "")  {
                 $logging->log("Adding Private Key for cloning Git", $this->getModuleName()) ;
@@ -64,7 +61,6 @@ class GitLinuxUnix extends Base {
 
             echo $cmd."\n" ;
 
-//            self::executeAndOutput($cmd) ;
             $rc = self::executeAndGetReturnCode($cmd, true, true) ;
             return ($rc["rc"]==0) ? true : false; }
         else {
