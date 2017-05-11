@@ -92,25 +92,45 @@ class PharaohSourceIntegrationAllOS extends Base {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         if ( $step["steptype"] == "create_repository") {
-            $logging->log("Running Creation of a Repository in Pharaoh Source...", $this->getModuleName()) ;
 
             $pf = new \Model\Pipeline() ;
             $pipelineBase = $pf->getModel($this->params) ;
             $pipelineInstance = $pipelineBase->getPipeline($item) ;
 
+            if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
+                $logging->log("Pharaoh Source Integration Extracting Environment Variables...", $this->getModuleName()) ;
+                foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
+                    if (strpos($pipelineInstance['steps'][$hash]["repository_name"], '$'.$env_var_key) !== false) {
+                        $logging->log('Found Variable $'.$env_var_key.', replacing', $this->getModuleName()) ;
+                        $pipelineInstance['steps'][$hash]["repository_name"] =
+                            str_replace('$'.$env_var_key, $env_var_val, $pipelineInstance['steps'][$hash]["repository_name"] ) ; } } }
+
+            $logging->log("Running Creation of a Repository {$pipelineInstance['steps'][$hash]["repository_name"]} in Pharaoh Source...", $this->getModuleName()) ;
+
             $server_url = $pipelineInstance['steps'][$hash]["server_url"] ;
             $logging->log("Calling API to {$server_url}...", $this->getModuleName()) ;
             $res = $this->createRepository($server_url, $pipelineInstance['steps'][$hash]["repository_name"]) ;
 
-            return $res ; }
+            $success_or_failure = ($res['result'] == 'success')
+                ? 'API Returned a Success status for Repository creation'
+                : 'API Returned a Failed status for Repository creation' ;
+
+            if ($res['result'] == 'success') {
+                $logging->log("API: $success_or_failure", $this->getModuleName()) ;
+            } else if ($res['result'] == 'failure') {
+                $logging->log("API: $success_or_failure", $this->getModuleName()) ;
+            }
+
+            $status = ($res['result'] === 'success') ? true : false ;
+            return $status ; }
         else {
-            $logging->log("Unrecognised Build Step Type {$step["type"]} specified in Shell Module", $this->getModuleName()) ;
+            $logging->log("Unrecognised Build Step Type {$step["steptype"]} specified in Pharaoh Source Integration Module", $this->getModuleName()) ;
             return false ; }
     }
 
     protected function createRepository($server_url, $repo_name) {
         // load repo
-        $this->params['item'] = $this->params['slug'] ;
+//        $this->params['item'] = $this->params['slug'] ;
 
         $apif = new \Model\PharaohAPI();
         $params = $this->params ;
@@ -123,6 +143,11 @@ class PharaohSourceIntegrationAllOS extends Base {
         $api_request = $apif->getModel($params, 'Request') ;
         $result = $api_request->performAPIRequest() ;
 
+//        ob_start();
+//        var_dump('success failure in PS int: ' ,$result) ;
+//        $out = ob_get_clean() ;
+//        file_put_contents('/tmp/pharaohlog', "$out\n" . "\n\n\n", FILE_APPEND) ;
+
         return $result;
 
     }
@@ -132,13 +157,13 @@ class PharaohSourceIntegrationAllOS extends Base {
         $instance_url = $this->ensureTrailingSlash($instance_url) ;
         $settings = $this->getSettings() ;
         $instance_key = false ;
-        if ($settings['PharaohBuildIntegration']['enabled'] === 'on') {
+        if ($settings['PharaohSourceIntegration']['enabled'] === 'on') {
             for ($i=0; $i<5; $i++) {
-                if (isset($settings['PharaohBuildIntegration']['build_instance_url_'.$i])) {
-                    $url = $settings['PharaohBuildIntegration']['build_instance_url_'.$i] ;
+                if (isset($settings['PharaohSourceIntegration']['source_instance_url_'.$i])) {
+                    $url = $settings['PharaohSourceIntegration']['source_instance_url_'.$i] ;
                     $url_with_slash = $this->ensureTrailingSlash($url) ;
                     if ($url_with_slash === $instance_url) {
-                        $instance_key = $settings['PharaohBuildIntegration']['build_instance_key_'.$i] ;
+                        $instance_key = $settings['PharaohSourceIntegration']['source_instance_key_'.$i] ;
                     }
                 }
             }
