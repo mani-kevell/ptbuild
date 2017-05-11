@@ -281,19 +281,19 @@
 
                                         if ($data['type'] == 'text' || $data['type'] == 'time' || $data['type'] == 'number') {
                                             echo '    <div class="fullWidth">' ;
-                                            echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$one_build_step["data"].'" class="form-control" type="'.$data['type'].'" />';
+                                            echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$one_build_step[$data['slug']].'" class="form-control" type="'.$data['type'].'" />';
                                             echo '    </div>' ;
                                         }
 
                                         if ($data['type'] == 'textarea') {
                                             echo '    <div class="fullWidth">' ;
-                                            echo '      <textarea id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" class="form-control buildStepTextArea">'.$one_build_step["data"].'</textarea>';
+                                            echo '      <textarea id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" class="form-control buildStepTextArea">'.$one_build_step[$data['slug']].'</textarea>';
                                         }
                                         if ($data["type"] == "dropdown") {
                                             echo '    <div class="fullWidth">' ;
                                             echo '<select id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" '.$action.' class="form-control">';
                                             foreach ($data['data'] as $key => $value) {
-                                                $selected = ($one_build_step["data"] == $key)? 'selected' : '';
+                                                $selected = ($one_build_step[$data['slug']] == $key)? 'selected' : '';
                                                 echo '<option '.$selected.' value="'.$key.'">'.$value.'</option>';
                                             }
                                             echo '</select>';
@@ -301,13 +301,13 @@
                                         }
                                         if ($data["type"] == "radio") {
                                             echo '    <div class="fullWidth">' ;
-                                            $selected = ($one_build_step["data"] == "on")? 'checked="checked"' : '';
+                                            $selected = ($one_build_step[$data['slug']] == "on")? 'checked="checked"' : '';
                                             echo ' <input type="'.$data["type"].'" id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$key.'" '.$selected.' class="form-control" />'.$value;
                                             echo '    </div>' ;
                                         }
                                         if ($data["type"] == "boolean" || $data["type"] == "checkbox") {
                                             echo '    <div class="fullWidth">' ;
-                                            $selected = ($one_build_step["data"] == "on")? 'checked="checked"' : '';
+                                            $selected = ($one_build_step[$data['slug']] == "on")? 'checked="checked"' : '';
                                             echo ' <input type="checkbox" id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" '.$selected.' class="form-control">' ;
                                             echo '    </div>' ;
                                         }
