@@ -3,3 +3,12 @@
     position: fixed;
     z-index: 10000;
 }
+
+@media (min-width: 1200px) {
+    #wrapper.container {
+        width: 90%;
+    }
+    #wrapper.container pre {
+        font-size: 100%;
+    }
+}
