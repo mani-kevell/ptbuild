@@ -61,6 +61,14 @@ class PharaohSourceIntegrationAllOS extends Base {
                     "type" => "text",
                     "name" => "Repository Name",
                     "slug" => "repository_name"),
+                array(
+                    "type" => "text",
+                    "name" => "Repository Slug",
+                    "slug" => "repository_slug"),
+                array(
+                    "type" => "textarea",
+                    "name" => "Repository Description",
+                    "slug" => "repository_description"),
                 ) ,
             "delete_repository" => array(
                 "type" => "textarea",
@@ -97,19 +105,27 @@ class PharaohSourceIntegrationAllOS extends Base {
             $pipelineBase = $pf->getModel($this->params) ;
             $pipelineInstance = $pipelineBase->getPipeline($item) ;
 
+            $mod_fields = array('server_url', 'repository_name', 'repository_slug', 'repository_description') ;
+
             if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
                 $logging->log("Pharaoh Source Integration Extracting Environment Variables...", $this->getModuleName()) ;
                 foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
-                    if (strpos($pipelineInstance['steps'][$hash]["repository_name"], '$'.$env_var_key) !== false) {
-                        $logging->log('Found Variable $'.$env_var_key.', replacing', $this->getModuleName()) ;
-                        $pipelineInstance['steps'][$hash]["repository_name"] =
-                            str_replace('$'.$env_var_key, $env_var_val, $pipelineInstance['steps'][$hash]["repository_name"] ) ; } } }
+                    foreach ($mod_fields as $field) {
+                        if (strpos($pipelineInstance['steps'][$hash][$field], '$'.$env_var_key) !== false) {
+                            $logging->log('Found Variable $'.$env_var_key.', replacing', $this->getModuleName()) ;
+                            $pipelineInstance['steps'][$hash][$field] =
+                                str_replace('$'.$env_var_key, $env_var_val, $pipelineInstance['steps'][$hash][$field] ) ; } } } }
 
             $logging->log("Running Creation of a Repository {$pipelineInstance['steps'][$hash]["repository_name"]} in Pharaoh Source...", $this->getModuleName()) ;
 
             $server_url = $pipelineInstance['steps'][$hash]["server_url"] ;
             $logging->log("Calling API to {$server_url}...", $this->getModuleName()) ;
-            $res = $this->createRepository($server_url, $pipelineInstance['steps'][$hash]["repository_name"]) ;
+            $repo_ray = array(
+                'repo_name' => $pipelineInstance['steps'][$hash]["repository_name"],
+                'repo_slug' => $pipelineInstance['steps'][$hash]["repository_slug"],
+                'repo_description' => $pipelineInstance['steps'][$hash]["repository_description"],
+            ) ;
+            $res = $this->createRepository($server_url, $repo_ray) ;
 
             $success_or_failure = ($res['result'] == 'success')
                 ? 'API Returned a Success status for Repository creation'
@@ -128,7 +144,7 @@ class PharaohSourceIntegrationAllOS extends Base {
             return false ; }
     }
 
-    protected function createRepository($server_url, $repo_name) {
+    protected function createRepository($server_url, $repo_ray) {
         // load repo
 //        $this->params['item'] = $this->params['slug'] ;
 
@@ -138,7 +154,9 @@ class PharaohSourceIntegrationAllOS extends Base {
         $params['api_function'] = 'create_repository' ;
         $params['api_instance_url'] = $server_url ;
         $params['api_key'] = $this->findInstanceKey($server_url) ;
-        $params['api_param_repo_name'] = $repo_name ;
+        $params['api_param_repo_slug'] = $repo_ray['repo_slug'] ;
+        $params['api_param_repo_name'] = $repo_ray['repo_name'] ;
+        $params['api_param_repo_description'] = $repo_ray['repo_description'] ;
 
         $api_request = $apif->getModel($params, 'Request') ;
         $result = $api_request->performAPIRequest() ;
