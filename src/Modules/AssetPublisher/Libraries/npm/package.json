@@ -4,7 +4,7 @@
   "description": "Pharaoh Tools build to publish assets",
   "main": "index.js",
   "scripts": {
-    "build": "(browserify app --standalone=pharaohTrack | uglifyjs --mangle > ../../../PostInput/Assets/Modules/DefaultSkin/js/bundle.js) && cp ../../../PostInput/Assets/Modules/DefaultSkin/js/bundle.js ../../../DefaultSkin/Assets/js/bundle.js",
+    "build": "node fs.js && (browserify app --standalone=pharaohTrack | uglifyjs --mangle > ../../../PostInput/Assets/Modules/DefaultSkin/js/bundle.js) && cp ../../../PostInput/Assets/Modules/DefaultSkin/js/bundle.js ../../../DefaultSkin/Assets/js/bundle.js",
     "webpack": "webpack"
   },
   "keywords": [

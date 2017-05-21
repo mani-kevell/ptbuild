@@ -14,11 +14,11 @@ var $ = jQuery,
     output = document.getElementById('output');
 
 var file_require_string = 'require("/Assets/Modules/DefaultSkin/php/main.phpfe") ; ';
-// console.log("this pn", window.location.pathname) ;
+console.log("this pn", window.location.pathname) ;
 if (window.location.pathname !== '/') {
     var current_page_module = getParameterByName('control') ;
     var mainpath = '/opt/ptbuild/ptbuild/src/Modules/'+current_page_module+'/Assets/php/main.phpfe' ;
-    // console.log("this main", mainpath) ;
+    console.log("this main", mainpath) ;
     if (mainFiles.indexOf(mainpath) != -1) {
         var relative_url = '/Assets/Modules/'+current_page_module+'/php/main.phpfe' ;
         console.log("relative url: " + relative_url) ;
