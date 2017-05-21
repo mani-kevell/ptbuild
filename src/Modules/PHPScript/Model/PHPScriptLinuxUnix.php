@@ -90,7 +90,7 @@ class PHPScriptLinuxUnix extends Base {
             $logging->log("php $scr_loc", $this->getModuleName()) ;
             $comm = "{$scr_loc}" ;
             $res = $this->executePHP($comm, true, null) ;
-            return ($res["rc"] == 0) ? true : false ; }
+            return ($res["rc"] === 0) ? true : false ; }
         else {
             $logging->log("File not found, error...", $this->getModuleName()) ;
             \Core\BootStrap::setExitCode(1);
