@@ -138,7 +138,10 @@ class PharaohSourceIntegrationAllOS extends Base {
             }
 
             $status = ($res['result'] === 'success') ? true : false ;
-            return $status ; }
+            $status_ray = array() ;
+            $status_ray['status'] = $status ;
+            $status_ray['meta'][$this->getModuleName()][$hash] = $repo_ray ;
+            return $status_ray ; }
         else {
             $logging->log("Unrecognised Build Step Type {$step["steptype"]} specified in Pharaoh Source Integration Module", $this->getModuleName()) ;
             return false ; }
