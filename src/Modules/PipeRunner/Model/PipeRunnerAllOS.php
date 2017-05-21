@@ -167,24 +167,64 @@ class PipeRunnerAllOS extends Base {
         return $run;
 	}
 
-	private function setRunParameters($run, $bpl) {
-		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
-		if ($historyIndex = file_get_contents($file))
-			$historyIndex = json_decode($historyIndex, true);
+    private function setRunParameters($run, $bpl) {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        if ($historyIndex = file_get_contents($file))
+            $historyIndex = json_decode($historyIndex, true);
 
         $bpl_data = (is_null($bpl)) ? null : json_decode(file_get_contents($bpl)) ;
 
-		$historyIndex[intval($run)]['params'] = $bpl_data ;
-		$historyIndex = json_encode($historyIndex);
-		file_put_contents($file, $historyIndex);
-	}
+        $historyIndex[intval($run)]['params'] = $bpl_data ;
+        $historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
+        file_put_contents($file, $historyIndex);
+    }
+
+    private function updateRunMetadata($run, $meta) {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        if ($historyIndex = file_get_contents($file))
+            $historyIndex = json_decode($historyIndex, true);
+        $cur_metadata = $historyIndex[$run]['meta'] ;
+        if (!is_null($cur_metadata)) {
+//            var_dump('c2', $cur_metadata, $meta) ;
+            $cur_key = array_keys($meta)[0] ;
+            foreach ($cur_metadata as $one_meta_mod => $one_metadata_vals) {
+//                var_dump(
+//                    $cur_key ,
+//                    $one_meta_mod
+//                ) ;
+                if ($cur_key === $one_meta_mod) {
+                    $newray = array() ;
+                    foreach ($cur_metadata[$cur_key] as $key => $vals) {
+                        $newray[$key] = $vals ;
+                    }
+                    foreach ($meta[$cur_key] as $key => $vals) {
+                        $newray[$key] = $vals ;
+                    }
+//                    $am = array_merge($cur_metadata[$cur_key], $meta[$cur_key]) ;
+//                    var_dump('ck is', $cur_metadata[$cur_key], $meta[$cur_key], $am) ;
+                    $cur_metadata[$cur_key] = $newray ;
+                }
+            }
+            if (!isset($cur_metadata[$cur_key]) ) {
+                $cur_metadata = array_merge($cur_metadata, $meta) ;
+            }
+            $all_meta = $cur_metadata ;
+        }
+        else  {
+            var_dump($meta);
+            $all_meta = $meta ;
+        }
+        $historyIndex[$run]['meta'] = $all_meta ;
+        $historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
+        file_put_contents($file, $historyIndex);
+    }
 
 	private function setRunStartTime($run) {
 		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
 		if ($historyIndex = file_get_contents($file))
 			$historyIndex = json_decode($historyIndex, true);
 		$historyIndex[intval($run)]['start'] = time();
-		$historyIndex = json_encode($historyIndex);
+		$historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
 		file_put_contents($file, $historyIndex);
 	}
 
@@ -195,7 +235,7 @@ class PipeRunnerAllOS extends Base {
 			$historyIndex = json_decode($historyIndex, true);
 		$historyIndex[intval($run)]['end'] = time();
 		$historyIndex[intval($run)]['status'] = $status;
-		$historyIndex = json_encode($historyIndex);
+		$historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
 		file_put_contents($file, $historyIndex);
 	}
 
@@ -361,12 +401,20 @@ class PipeRunnerAllOS extends Base {
             $stepRunner = $stepRunnerFactory->getModel($this->params) ;
             $logging->log("Executing step id $hash", $this->getModuleName()) ;
             $res = $stepRunner->stepRunner($stepDetails, $this->params["item"], $hash) ;
+            if (is_array($res)) {
+                if (isset($res['meta'])) {
+                    $this->updateRunMetadata($this->params["run-id"], $res['meta']);
+                }
+                $res_bool = $res['status'] ;
+            } else {
+                $res_bool = $res ;
+            }
             $evar  = "Step execution " ;
             $evar .= ($res) ? "Success" : "Failed" ;
             $evar .= ", ID $hash" ;
             $logging->log($evar, $this->getModuleName()) ;
             echo "\n" ;
-            $ressys[] = $res ;
+            $ressys[] = $res_bool ;
             $ev = $eventRunner->eventRunner("afterStep") ;
             if ($ev == false) { return $this->failBuild() ; }
             if ($res==false) break ; }
