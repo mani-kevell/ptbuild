@@ -1,19 +1,5 @@
 <?php
 
-$jQuery('#hide_menu_button')->on('click', function() use ($jQuery)  {
-    $jQuery('#page_sidebar')->css('display', 'none');
-    $pageCon = $jQuery('#page_content') ;
-    $jQuery('#show_menu_wrapper')->css('display', 'block');
-    $path_header = $jQuery('#path_header') ;
-});
-
-$jQuery('#show_menu_button')->on('click', function() use ($jQuery)  {
-    $jQuery('#page_sidebar')->css('display', 'block');
-    $pageCon = $jQuery('#page_content') ;
-    $jQuery('#show_menu_wrapper')->css('display', 'none');
-    $path_header = $jQuery('#path_header') ;
-});
-
 if ($jQuery('#updatable')->length === 1) {
     $updateTimer = function () use ($jQuery) {
         $now = \js_core::$php->time() ;
@@ -22,29 +8,53 @@ if ($jQuery('#updatable')->length === 1) {
         $friendly_time_difference = \js_core::$php->date('H:i:s', $time_difference) ;
         $jQuery('#timer')->html( $friendly_time_difference ) ;
     } ;
-    \js_core::$window->outUpdater = \js_core::$window->setInterval($updateTimer, 1000);
+    \js_core::$window->pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
 }
 
-
-
 $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
-
     $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
-
     $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
     $overlay_content = "" ;
-
     $history_index = \js_core::$window->build_run_params ;
-
-//    \js_core::$console->log($history_index[$run_id]) ;
-
     $decoded = \js_core::$php->json_decode($history_index[$run_id]) ;
-
-//    \js_core::$console->log('dcd', $decoded) ;
     foreach ($decoded as $paramKey => $paramValue) {
-//        \js_core::$console->log('pkv', $paramKey, $paramValue) ;
         $overlay_content = $overlay_content . "<p>".$paramKey.":<strong>".$paramValue."</strong></p>" ;
     }
-
     \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
 });
+
+
+$jQuery('.metadata_display_button')->on('click', function($jqthis) use ($jQuery)  {
+    $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+    $overlay_title = "<h3>Metadata for Run ID: <strong>".$run_id."</strong></h3>" ;
+    $overlay_content = "" ;
+    $meta = \js_core::$window->build_run_metadata ;
+    \js_core::$console->log('meta', $meta) ;
+    if ($meta[$run_id] !== null) {
+        \js_core::$console->log('mri', $meta[$run_id]) ;
+        $decoded = \js_core::$php->json_decode($meta[$run_id], true) ;
+        \js_core::$console->log('dcd', $decoded) ;
+        $overlay_content = objectToHTML($decoded);
+    } else {
+        $overlay_content = $overlay_content . "<p>No Metadata available</p>" ;
+    }
+    \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
+});
+
+
+function objectToHTML($start_object, $depth=1) {
+    $html = '' ;
+    $gap = '&nbsp;&nbsp;' ;
+    $gap_str = \js_core::$php->str_repeat ($gap, $depth)  ;
+    foreach ($start_object as $paramKey => $paramValue) {
+        if (\js_core::$php->is_object($paramValue)) {
+            $html = $html . "<p>".$gap_str.$paramKey.":</p>" ;
+            \js_core::$console->log('one log', $paramValue) ;
+            $ojht = objectToHTML($paramValue, $depth+1) ;
+            $html = $html . $ojht ;
+        } else if (\js_core::$php->is_string($paramValue)) {
+            $html = $html . "<p>".$gap_str.$paramKey.": <strong>". $paramValue."</strong></p>" ;
+        }
+    }
+    return $html ;
+}
