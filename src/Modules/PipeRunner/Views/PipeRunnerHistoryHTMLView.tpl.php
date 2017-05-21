@@ -87,13 +87,12 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="all">
-                                <div class="table-responsive" ">
                                 <div class="table table-striped table-bordered table-condensed">
                                     <div>
                                         <div class="blCell cellRowIndex">#</div>
                                         <div class="blCell cellRowStatus">Status</div>
-                                        <div class="blCell cellRowSuccess">Success</div>
-                                        <div class="blCell cellRowFailure">Failure</div>
+                                        <div class="blCell cellRowSuccess">Start</div>
+                                        <div class="blCell cellRowFailure">End</div>
                                         <div class="blCell cellRowDuration">Duration</div>
                                         <div class="blCell cellRowParams">Parameters</div>
                                     </div>
@@ -103,6 +102,7 @@
 
                                         echo "<script type='text/javascript'>\n" ;
                                         echo "var build_run_params = [] ;" ;
+                                        echo "var build_run_metadata = [] ;" ;
                                         echo "</script>\n" ;
 
                                         $i = 1;
@@ -122,6 +122,7 @@
 
                                             <div class="buildRow <?php echo $successFailureClass ?>"
                                                  id="blRow_<?php echo $pipelineDetails["project-slug"]; ?>" >
+
 
                                                 <div class="blCell cellRowIndex" scope="row">
 
@@ -210,13 +211,23 @@
                                                         is_array($pageVars["data"]["history_index"][$hb_id]["params"])) {
 
                                                         echo "<script type='text/javascript'>\n" ;
-                                                        echo " build_run_params['".$hb_id."'] = '".json_encode($pageVars["data"]["history_index"][$hb_id]["params"])."' ;\n" ;
+                                                        if (!is_null($pageVars["data"]["history_index"][$hb_id]["params"])) {
+                                                            echo " build_run_params['".$hb_id."'] = '".json_encode($pageVars["data"]["history_index"][$hb_id]["params"])."' ;\n" ;
+                                                        }
+                                                        if (!is_null($pageVars["data"]["history_index"][$hb_id]["meta"])) {
+                                                            echo " build_run_metadata['".$hb_id."'] = '".json_encode($pageVars["data"]["history_index"][$hb_id]["meta"])."' ;\n" ;
+                                                        }
                                                         echo "console.log(build_run_params) ;\n";
                                                         echo "</script>\n";
                                                         echo "<span id='params_display_button_".$hb_id."' " ;
                                                         echo " data-run_id='".$hb_id."'" ;
                                                         echo " class='params_display_button btn btn-info'>" ;
                                                         echo "Show Params" ;
+                                                        echo "</span>\n" ;
+                                                        echo "<span id='metadata_display_button_".$hb_id."' " ;
+                                                        echo " data-run_id='".$hb_id."'" ;
+                                                        echo " class='metadata_display_button btn btn-info'>" ;
+                                                        echo "Show Metadata" ;
                                                         echo "</span>\n" ;
                                                     } else {
                                                         echo 'N/A';
