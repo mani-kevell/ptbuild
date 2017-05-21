@@ -1,8 +1,9 @@
 done = false ;
 max = 0 ;
-window.updateRunning = false ;
-window.outUpdater = setInterval(function () {
-    if (window.updateRunning==false) {
+var updateRunning = false ;
+var pageUpdater = null ;
+var outUpdater = setInterval(function () {
+    if (window.updateRunning === false) {
         console.log("calling update page js method, updateRunning variable is set to false");
         updatePage() ; }
     else {
@@ -25,7 +26,7 @@ function updatePage() {
             // Schedule the next request when the current one's complete
             setStatus();
             console.log("Req Status: " + window.reqStatus);
-            if (window.reqStatus == "OK") {
+            if (window.reqStatus === "OK") {
                 doCompletion(); }
             window.updateRunning = false ; }
     });
@@ -48,7 +49,7 @@ function setStatus() {
 function doCompletion() {
     removeWaitImage();
     changeSubButton();
-    clearInterval(window.outUpdater);
+    clearInterval(outUpdater);
 }
 
 function removeWaitImage() {
