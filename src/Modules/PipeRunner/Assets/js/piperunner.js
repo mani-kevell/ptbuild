@@ -50,6 +50,7 @@ function doCompletion() {
     removeWaitImage();
     changeSubButton();
     clearInterval(outUpdater);
+    clearInterval(pageUpdater);
 }
 
 function removeWaitImage() {
