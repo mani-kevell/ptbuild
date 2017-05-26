@@ -49,8 +49,8 @@ function setStatus() {
 function doCompletion() {
     removeWaitImage();
     changeSubButton();
-    clearInterval(outUpdater);
-    clearInterval(pageUpdater);
+    clearInterval(window.outUpdater);
+    clearInterval(window.pageUpdater);
 }
 
 function removeWaitImage() {
