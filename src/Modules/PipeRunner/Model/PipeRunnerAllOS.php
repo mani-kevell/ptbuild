@@ -211,7 +211,6 @@ class PipeRunnerAllOS extends Base {
             $all_meta = $cur_metadata ;
         }
         else  {
-            var_dump($meta);
             $all_meta = $meta ;
         }
         $historyIndex[$run]['meta'] = $all_meta ;
