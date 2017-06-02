@@ -140,14 +140,14 @@
                               window.pipeitem = "'.$pageVars["data"]["pipeline"]["project-slug"].'" ;
                               window.runid = "'.$pageVars["pipex"].'" ;
                           </script>
-                              <script type="text/javascript" src="/Assets/Modules/PipeRunner/js/piperunner.js"></script>
-                              <div class="form-group" id="loading-holder">
-                                  <div class="col-sm-offset-2 col-sm-8">
-                                      <div class="text-center  ">
-                                          
-                                      </div>
-                                 </div>
-                             </div>'; }
+                          <div class="form-group" id="loading-holder">
+                              <div class="col-sm-offset-2 col-sm-8">
+                                  <div class="text-center  ">
+                                      
+                                  </div>
+                             </div>
+                         </div>'; }
+                    
                     ?>
 
 
