@@ -63,9 +63,9 @@
 
     <form class="form-horizontal custom-form" action="<?php echo $act ; ?>" method="POST">
 
-        <div class="col-sm-9 clearfix main-container">
+        <div class="col-sm-12 clearfix main-container">
 <!--                <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools </a></h2>-->
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <div class="row clearfix no-margin">
 
                     <h3>Project  <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></h3>
@@ -91,11 +91,11 @@
                                 if ($parameter["param_type"]=="text") {
                                     ?>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
                                 </div>
 
-                                <div class="col-sm-8">
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_default"] ; ?>" />
                                 </div>
 
@@ -105,11 +105,11 @@
                                 else if ($parameter["param_type"]=="textarea") {
                                     ?>
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
                                     </div>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-9">
                                         <textarea class="form-control col-sm-7" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]"><?php echo $parameter["param_default"] ; ?></textarea>
                                     </div>
 
@@ -122,11 +122,11 @@
 
                                     ?>
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
                                     </div>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-9">
 
                                         <select name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]">
                                             <?php
@@ -148,11 +148,11 @@
                                 else if ($parameter["param_type"]=="boolean") {
                                     ?>
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-right"><?php echo $parameter["param_name"] ; ?></label>
                                     </div>
 
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-9">
                                         <input type="checkbox" class="text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_boolean_default"] ; ?>" />
                                     </div>
 
