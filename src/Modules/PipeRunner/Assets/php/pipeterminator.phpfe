@@ -1,0 +1,170 @@
+<?php
+
+$pipeRunner = new \PipeRunner() ;
+$pipeRunner->setPageTriggers() ;
+
+
+class PipeRunner {
+
+    protected static $done = false ;
+    protected static $max = 0 ;
+    protected static $updateRunning = true ;
+    protected static $pageUpdater = null ;
+    protected static $outUpdater = null ;
+    protected static $reqStatus = null ;
+
+    public function setPageTriggers() {
+        
+        $jQuery = \js_core::$jQuery ;
+
+        if ($jQuery('#updatable')->length === 1) {
+            $updateTimer = function () use ($jQuery) {
+                $now = \js_core::$php->time() ;
+                $start_time = $jQuery('#timer')->attr('data-start_time') ;
+                $time_difference = $now - $start_time ;
+                $friendly_time_difference = \js_core::$php->date('H:i:s', $time_difference) ;
+                $jQuery('#timer')->html( $friendly_time_difference ) ;
+            } ;
+            self::$pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
+        }
+
+        $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
+            $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+            $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
+            $overlay_content = "" ;
+            $history_index = \js_core::$window->build_run_params ;
+            $decoded = \js_core::$php->json_decode($history_index[$run_id]) ;
+            foreach ($decoded as $paramKey => $paramValue) {
+                $overlay_content = $overlay_content . "<p>".$paramKey.":<strong>".$paramValue."</strong></p>" ;
+            }
+            \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
+        });
+
+
+        $jQuery('.metadata_display_button')->on('click', function($jqthis) use ($jQuery)  {
+            $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+            $overlay_title = "<h3>Metadata for Run ID: <strong>".$run_id."</strong></h3>" ;
+            $overlay_content = "" ;
+            $meta = \js_core::$window->build_run_metadata ;
+            \js_core::$console->log('meta', $meta) ;
+            if ($meta[$run_id] !== null) {
+                \js_core::$console->log('mri', $meta[$run_id]) ;
+                $decoded = \js_core::$php->json_decode($meta[$run_id], true) ;
+                \js_core::$console->log('dcd', $decoded) ;
+                $overlay_content = self::objectToHTML($decoded);
+            } else {
+                $overlay_content = $overlay_content . "<p>No Metadata available</p>" ;
+            }
+            \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
+        });
+
+
+        self::$outUpdater = \js_core::$window->setInterval(function () {
+            if (self::$updateRunning === true) {
+                \js_core::$console->log("calling update page js method, updateRunning variable is set to true");
+                self::updatePage() ; }
+            else {
+                \js_core::$console->log("not calling update page js method, updateRunning variable is set to false"); }
+        }, 4000);
+
+    }
+
+    protected function objectToHTML($start_object, $depth=1) {
+        $html = '' ;
+        $gap = '&nbsp;&nbsp;' ;
+        $gap_str = \js_core::$php->str_repeat ($gap, $depth)  ;
+        foreach ($start_object as $paramKey => $paramValue) {
+            if (\js_core::$php->is_object($paramValue)) {
+                $html = $html . "<p>".$gap_str.$paramKey.":</p>" ;
+                \js_core::$console->log('one log', $paramValue) ;
+                $ojht = self::objectToHTML($paramValue, $depth+1) ;
+                $html = $html . $ojht ;
+            } else if (\js_core::$php->is_string($paramValue)) {
+                $html = $html . "<p>".$gap_str.$paramKey.": <strong>". $paramValue."</strong></p>" ;
+            }
+        }
+        return $html ;
+    }
+
+
+    public function updatePage() {
+        \js_core::$console->log("running update page js method");
+        self::$updateRunning = false ;
+        \js_core::$console->log("setting update running to true");
+        $item = \js_core::$window->pipeitem ;
+        $runid = \js_core::$window->runid ;
+        \js_core::$console->log("item runid: ", $item, $runid);
+        $url = "/index.php?control=PipeRunner&action=service&item=" . $item . "&run-id=" . $runid . "&output-format=SERVICE";
+
+        $data = array(
+            'type' => 'POST',
+            'url' => $url,
+        ) ;
+
+        $jQuery = \js_core::$jQuery ;
+
+        $ajax_object = $jQuery->ajax($data);
+        $ajax_object->done(
+            function ($data) use ($jQuery) {
+                $jQuery('#updatable')->html($data);
+                self::$updateRunning = true ;
+            }
+        );
+        $ajax_object->always(
+            function ($data) {
+                // Schedule the next request when the current one's complete
+                self::setStatus();
+                \js_core::$console->log("Req Status: " . self::$reqStatus);
+                if (self::$reqStatus === "OK") {
+                    self::doCompletion(); }
+                self::$updateRunning = true ;
+            }
+        );
+
+    }
+
+    public function setStatus() {
+        $item = \js_core::$window->pipeitem ;
+        $runid = \js_core::$window->runid ;
+        $url = "/index.php?control=PipeRunner&action=pipestatus&item=" . $item . "&run-id=" . $runid . "&output-format=PIPESTATUS";
+        \js_core::$console->log($url);
+        $data = array(
+            'type' => 'POST',
+            'url' => $url,
+        ) ;
+        $jQuery = \js_core::$jQuery ;
+        $ajax_object = $jQuery->ajax($data);
+        $ajax_object->done(
+            function ($data) use ($jQuery) {
+                self::$reqStatus = $data ;
+                \js_core::$console->log("pipestat: " . $data) ;
+            }
+        );
+
+    }
+
+    public function doCompletion() {
+        self::removeWaitImage();
+        self::changeSubButton();
+        \js_core::$window->clearInterval(self::$outUpdater);
+        \js_core::$window->clearInterval(self::$pageUpdater);
+    }
+
+    public function removeWaitImage() {
+        $jQuery = \js_core::$jQuery ;
+        $jQuery("#loading-holder")->remove() ;
+        $jQuery("#terminate-build")->remove() ;
+    }
+
+    public function changeSubButton() {
+        $subhtml  = '<div class="col-sm-offset-2 col-sm-8">';
+        $subhtml = $subhtml . '  <div class="text-center">';
+        $subhtml = $subhtml . '    <button type="submit" class="btn btn-primary" id="close-complete">Close Execution Screen</button>';
+        $subhtml = $subhtml . '  </div>';
+        $subhtml = $subhtml . '</div>' ;
+        $jQuery = \js_core::$jQuery ;
+        $jQuery("#submit-holder")->html($subhtml) ;
+    }
+}
+
+
