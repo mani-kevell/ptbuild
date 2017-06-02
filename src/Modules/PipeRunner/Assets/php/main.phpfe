@@ -25,7 +25,7 @@ class PipeRunner {
                 $friendly_time_difference = \js_core::$php->date('H:i:s', $time_difference) ;
                 $jQuery('#timer')->html( $friendly_time_difference ) ;
             } ;
-            self::$pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
+            $this->pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
         }
 
         $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
@@ -51,7 +51,7 @@ class PipeRunner {
                 \js_core::$console->log('mri', $meta[$run_id]) ;
                 $decoded = \js_core::$php->json_decode($meta[$run_id], true) ;
                 \js_core::$console->log('dcd', $decoded) ;
-                $overlay_content = self::objectToHTML($decoded);
+                $overlay_content = $this->objectToHTML($decoded);
             } else {
                 $overlay_content = $overlay_content . "<p>No Metadata available</p>" ;
             }
@@ -59,10 +59,10 @@ class PipeRunner {
         });
 
 
-        self::$outUpdater = \js_core::$window->setInterval(function () {
-            if (self::$updateRunning === true) {
+        $this->outUpdater = \js_core::$window->setInterval(function () {
+            if ($this->updateRunning === true) {
                 \js_core::$console->log("calling update page js method, updateRunning variable is set to true");
-                self::updatePage() ; }
+                $this->updatePage() ; }
             else {
                 \js_core::$console->log("not calling update page js method, updateRunning variable is set to false"); }
         }, 4000);
@@ -77,7 +77,7 @@ class PipeRunner {
             if (\js_core::$php->is_object($paramValue)) {
                 $html = $html . "<p>".$gap_str.$paramKey.":</p>" ;
                 \js_core::$console->log('one log', $paramValue) ;
-                $ojht = self::objectToHTML($paramValue, $depth+1) ;
+                $ojht = $this->objectToHTML($paramValue, $depth+1) ;
                 $html = $html . $ojht ;
             } else if (\js_core::$php->is_string($paramValue)) {
                 $html = $html . "<p>".$gap_str.$paramKey.": <strong>". $paramValue."</strong></p>" ;
@@ -89,7 +89,7 @@ class PipeRunner {
 
     public function updatePage() {
         \js_core::$console->log("running update page js method");
-        self::$updateRunning = false ;
+        $this->updateRunning = false ;
         \js_core::$console->log("setting update running to true");
         $item = \js_core::$window->pipeitem ;
         $runid = \js_core::$window->runid ;
@@ -107,17 +107,17 @@ class PipeRunner {
         $ajax_object->done(
             function ($data) use ($jQuery) {
                 $jQuery('#updatable')->html($data);
-                self::$updateRunning = true ;
+                $this->updateRunning = true ;
             }
         );
         $ajax_object->always(
             function ($data) {
                 // Schedule the next request when the current one's complete
-                self::setStatus();
-                \js_core::$console->log("Req Status: " . self::$reqStatus);
-                if (self::$reqStatus === "OK") {
-                    self::doCompletion(); }
-                self::$updateRunning = true ;
+                $this->setStatus();
+                \js_core::$console->log("Req Status: " . $this->reqStatus);
+                if ($this->reqStatus === "OK") {
+                    $this->doCompletion(); }
+                $this->updateRunning = true ;
             }
         );
 
@@ -136,7 +136,7 @@ class PipeRunner {
         $ajax_object = $jQuery->ajax($data);
         $ajax_object->done(
             function ($data) use ($jQuery) {
-                self::$reqStatus = $data ;
+                $this->reqStatus = $data ;
                 \js_core::$console->log("pipestat: " . $data) ;
             }
         );
@@ -144,10 +144,10 @@ class PipeRunner {
     }
 
     public function doCompletion() {
-        self::removeWaitImage();
-        self::changeSubButton();
-        \js_core::$window->clearInterval(self::$outUpdater);
-        \js_core::$window->clearInterval(self::$pageUpdater);
+        $this->removeWaitImage();
+        $this->changeSubButton();
+        \js_core::$window->clearInterval($this->outUpdater);
+        \js_core::$window->clearInterval($this->pageUpdater);
     }
 
     public function removeWaitImage() {
