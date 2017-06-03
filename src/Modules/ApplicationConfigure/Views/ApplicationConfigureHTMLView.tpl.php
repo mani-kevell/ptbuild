@@ -56,13 +56,12 @@
 
                         if (is_array($pageVars["data"]["mod_configs"]) && count($pageVars["data"]["mod_configs"]>0)) {
                             foreach ($pageVars["data"]["mod_configs"] as $module_name => $one_mod_confs) {
-                                echo '  <div class="col-sm-10">' ;
+                                echo '  <div class="col-sm-12">' ;
                                 echo '      <h4>Module: '.$module_name.'</h4>';
-                                echo '  </div>';
                                 foreach ($one_mod_confs as $one_config_slug => $one_conf_tails) {
                                     echo '<div class="form-group">' ;
-                                    echo '  <label for="'.$one_config_slug.'" class="col-sm-4 control-label text-left">'.$one_conf_tails["label"].'</label>' ;
-                                    echo '  <div class="col-sm-4">' ;
+                                    echo '  <label for="'.$one_config_slug.'" class="col-sm-3 control-label text-left">'.$one_conf_tails["label"].'</label>' ;
+                                    echo '  <div class="col-sm-9">' ;
                                     switch ($one_conf_tails["type"]) {
                                         case "boolean" :
                                             if ( (isset($pageVars["data"]["current_configs"]["mod_config"][$module_name]["".$one_config_slug])) &&
@@ -101,7 +100,9 @@
                                             echo '<textarea name="mod_config['.$module_name.']['.$one_config_slug.']" id="mod_config['.$module_name.']['.$one_config_slug.']" class="form-control" >'.$val.'</textarea>' ;
                                             break ; }
                                     echo '  </div>';
-                                    echo '</div>'; } } }
+                                    echo '</div>'; }
+                                echo '  </div>';
+                            } }
                         else {
                             echo '<div class="form-group">' ;
                             echo '    <p>No Modules are providing editable configurations</p>';
