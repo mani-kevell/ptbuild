@@ -97,19 +97,15 @@ phpEngine.getStdout().on('data', function (data) {
     document.body.insertAdjacentHTML('beforeEnd', data);
 });
 
-
-
 var on_page_scripts = "" ;
 
 [].forEach.call(document.querySelectorAll('script[type="text/x-uniter"]'), function (script) {
     on_page_scripts += script.textContent ;
-    phpEngine.execute('<?php ' + script.textContent).fail(function (error) {
-        console.error(error);
-    });
+    // phpEngine.execute('<?php ' + script.textContent).fail(function (error) {
+    //     console.error(error);
+    // });
 });
-var php_code_string = '<?php '+ on_page_scripts + file_require_string+' ?>' ;
-
-console.log("Php cde string: ", php_code_string) ;
+var php_code_string = '<?php ' + file_require_string + on_page_scripts + ' ?>' ;
 
 // Go!
 phpEngine.execute(php_code_string).fail(function (error) {
