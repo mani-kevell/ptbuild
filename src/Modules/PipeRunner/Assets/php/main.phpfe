@@ -6,8 +6,8 @@ $pipeRunner->setPageTriggers() ;
 
 class PipeRunner {
 
-    protected static $done = false ;
-    protected static $max = 0 ;
+    protected $done = false ;
+    protected $max = 0 ;
     protected static $updateRunning = true ;
     protected static $pageUpdater = null ;
     protected static $outUpdater = null ;
@@ -25,7 +25,7 @@ class PipeRunner {
                 $friendly_time_difference = \js_core::$php->date('H:i:s', $time_difference) ;
                 $jQuery('#timer')->html( $friendly_time_difference ) ;
             } ;
-            $this->pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
+            self::$pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
         }
 
         $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
@@ -59,10 +59,10 @@ class PipeRunner {
         });
 
 
-        $this->outUpdater = \js_core::$window->setInterval(function () {
-            if ($this->updateRunning === true) {
+        self::$outUpdater = \js_core::$window->setInterval(function () {
+            if (self::$updateRunning === true) {
                 \js_core::$console->log("calling update page js method, updateRunning variable is set to true");
-                $this->updatePage() ; }
+                self::updatePage() ; }
             else {
                 \js_core::$console->log("not calling update page js method, updateRunning variable is set to false"); }
         }, 4000);
@@ -87,9 +87,9 @@ class PipeRunner {
     }
 
 
-    public function updatePage() {
+    public static function updatePage() {
         \js_core::$console->log("running update page js method");
-        $this->updateRunning = false ;
+        self::$updateRunning = false ;
         \js_core::$console->log("setting update running to true");
         $item = \js_core::$window->pipeitem ;
         $runid = \js_core::$window->runid ;
@@ -107,23 +107,23 @@ class PipeRunner {
         $ajax_object->done(
             function ($data) use ($jQuery) {
                 $jQuery('#updatable')->html($data);
-                $this->updateRunning = true ;
+                self::$updateRunning = true ;
             }
         );
         $ajax_object->always(
             function ($data) {
                 // Schedule the next request when the current one's complete
-                $this->setStatus();
-                \js_core::$console->log("Req Status: " . $this->reqStatus);
-                if ($this->reqStatus === "OK") {
-                    $this->doCompletion(); }
-                $this->updateRunning = true ;
+                self::setStatus();
+                \js_core::$console->log("Req Status: " . self::$reqStatus);
+                if (self::$reqStatus === "OK") {
+                    self::doCompletion(); }
+                self::$updateRunning = true ;
             }
         );
 
     }
 
-    public function setStatus() {
+    public static function setStatus() {
         $item = \js_core::$window->pipeitem ;
         $runid = \js_core::$window->runid ;
         $url = "/index.php?control=PipeRunner&action=pipestatus&item=" . $item . "&run-id=" . $runid . "&output-format=PIPESTATUS";
@@ -136,27 +136,27 @@ class PipeRunner {
         $ajax_object = $jQuery->ajax($data);
         $ajax_object->done(
             function ($data) use ($jQuery) {
-                $this->reqStatus = $data ;
+                self::$reqStatus = $data ;
                 \js_core::$console->log("pipestat: " . $data) ;
             }
         );
 
     }
 
-    public function doCompletion() {
-        $this->removeWaitImage();
-        $this->changeSubButton();
-        \js_core::$window->clearInterval($this->outUpdater);
-        \js_core::$window->clearInterval($this->pageUpdater);
+    public static function doCompletion() {
+        self::removeWaitImage();
+        self::changeSubButton();
+        \js_core::$window->clearInterval(self::$outUpdater);
+        \js_core::$window->clearInterval(self::$pageUpdater);
     }
 
-    public function removeWaitImage() {
+    public static function removeWaitImage() {
         $jQuery = \js_core::$jQuery ;
         $jQuery("#loading-holder")->remove() ;
         $jQuery("#terminate-build")->remove() ;
     }
 
-    public function changeSubButton() {
+    public static function changeSubButton() {
         $subhtml  = '<div class="col-sm-offset-2 col-sm-8">';
         $subhtml = $subhtml . '  <div class="text-center">';
         $subhtml = $subhtml . '    <button type="submit" class="btn btn-primary" id="close-complete">Close Execution Screen</button>';
