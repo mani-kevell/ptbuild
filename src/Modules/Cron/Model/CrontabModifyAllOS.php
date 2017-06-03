@@ -56,9 +56,10 @@ class CrontabModifyAllOS extends Base {
     }
 
     private function saveCronjobs($cj) {
-//        $fpc = file_put_contents("/tmp/crontemp.txt", implode("\n", $cj)."\n");
+        file_put_contents("/tmp/crontemp.txt", implode("\n", $cj)."\n");
 //        var_dump('fpc', $fpc) ;
-        $out = self::executeAndGetReturnCode("crontab < /tmp/crontemp.txt", true, true) ;
+        $out = self::executeAndGetReturnCode("crontab < /tmp/crontemp.txt", false, true) ;
+        unlink("/tmp/crontemp.txt") ;
 //        var_dump('cront out', $out) ;
         return ($out['rc'] === 0) ? true : false ;
     }
