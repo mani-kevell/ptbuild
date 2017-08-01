@@ -118,5 +118,5 @@ phpEngine.getStdout().on('data', function (data) {
 });
 
 phpEngine.getStderr().on('data', function (data) {
-    document.body.insertAdjacentHTML('beforeEnd', 'PHP error: ' + data);
+    document.body.insertAdjacentHTML('beforeEnd', 'PHP Error: ' + data);
 });
