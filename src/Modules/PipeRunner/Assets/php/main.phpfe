@@ -161,7 +161,9 @@ class PipeRunner {
     public static function changeSubButton() {
         $subhtml  = '<div class="col-sm-offset-2 col-sm-8">';
         $subhtml = $subhtml . '  <div class="text-center">';
-        $subhtml = $subhtml . '    <button type="submit" class="btn btn-primary" id="close-complete">Close Execution Screen</button>';
+        $subhtml = $subhtml . '    <button type="submit" class="btn btn-primary" id="close-complete">';
+        $subhtml = $subhtml . '        Close Execution Screen';
+        $subhtml = $subhtml . '    </button>';
         $subhtml = $subhtml . '  </div>';
         $subhtml = $subhtml . '</div>' ;
         $jQuery = \js_core::$jQuery ;
