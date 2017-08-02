@@ -20,7 +20,7 @@ class CopyOnSave extends Base {
             $this->content["helpData"] = $helpModel->getHelpData($pageVars["route"]["control"]);
             return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
 
-        $this->content["messages"][] = "Help is the only valid HTML reports Action";
+        $this->content["messages"][] = "Help is the only valid Copy on Save Action";
         return array ("type"=>"control", "control"=>"index", "pageVars"=>$this->content);
 
     }
