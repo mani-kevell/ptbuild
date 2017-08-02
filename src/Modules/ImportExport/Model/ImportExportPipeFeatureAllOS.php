@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class CopyOnSavePipeFeatureAllOS extends Base {
+class ImportExportPipeFeatureAllOS extends Base {
 
     // Compatibility
     public $os = array("any") ;

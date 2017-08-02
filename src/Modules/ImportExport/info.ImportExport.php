@@ -2,38 +2,41 @@
 
 Namespace Info;
 
-class CopyOnSaveInfo extends PTConfigureBase {
+class ImportExportInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "Copy build configuration after Pipeline Save";
+    public $name = "Import or Export a build configuration after Pipeline Save";
 
     public function _construct() {
         parent::__construct();
     }
 
     public function routesAvailable() {
-        return array( "CopyOnSave" => array_merge(parent::routesAvailable(), array() ) );
+        return array("ImportExport" => array_merge(parent::routesAvailable(), array('import', 'export') ) );
     }
 
     public function routeAliases() {
-        return array("copyonsave"=>"CopyOnSave","copy-on-save"=>"CopyOnSave");
-    }
-
-    public function buildSettings() {
-        return array("enabled", "target_directory");
-    }
-
-    public function events() {
-        return array("afterPipelineSave", "afterCopiedPipelineSave");
+        return array("importexport" => "ImportExport", "import-export" => "ImportExport");
     }
 
     public function helpDefinition() {
        $help = <<<"HELPDATA"
-    This extension Copies a build configuration to another location when saving.
+    This extension imports or exports the configuration of a build pipeline to another location when saving.
     It provides code functionality, but no extra CLI commands.
 
-    copyonsave
+    importexport
+    
+        - import
+        Import a Build Job
+        example: ptconfigure importexport import --yes --guess
+            --source=/path/to/source/job/directory
+            --force
+
+        - export
+        Export a Build Job
+        example: ptconfigure importexport export --yes --guess
+            --target=/path/to/save/job
 
 HELPDATA;
       return $help ;

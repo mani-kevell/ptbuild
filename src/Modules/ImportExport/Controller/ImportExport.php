@@ -2,7 +2,7 @@
 
 Namespace Controller ;
 
-class CopyOnSave extends Base {
+class ImportExport extends Base {
 
      public function execute($pageVars) {
 
@@ -11,7 +11,7 @@ class CopyOnSave extends Base {
 
         $action = $pageVars["route"]["action"];
 
-         if (in_array($pageVars["route"]["action"], array("report"))) {
+        if ($action === 'import') {
              $this->content["data"] = $thisModel->getReportData();
              return array ("type"=>"view", "view"=>"copyOnSave", "pageVars"=>$this->content); }
 
