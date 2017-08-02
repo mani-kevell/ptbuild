@@ -14,89 +14,91 @@ class ImportExportAllOS extends Base {
     // Model Group
     public $modelGroup = array("Default") ;
 
-    public function getSettingTypes() {
-        return array_keys($this->getSettingFormFields());
-    }
-
-    public function getSettingFormFields() {
-        $ff = array(
-            "enabled" =>
-            	array(
-                	"type" => "boolean",
-                	"optional" => true,
-                	"name" => "Copy configuration on Pipeline save?"
-            ),
-		    "target_directory" =>
-				array("type" => "text",
-					 "name" => "Directory to copy configuration to",
-					 "slug" => "target_directory"),
-//		    "Index_Page" =>
-//				array("type" => "text",
-//					 "name" => "Index Page",
-//					 "slug" => "indexpage"),
-//			"Report_Title" =>
-//				array("type" => "text",
-//					 "name" => "Report Title",
-//					 "slug" => "reporttitle")
-        );
-          return $ff ;
-    }
-   
-    public function getEventNames() {
-        return array_keys($this->getEvents());
-    }
-
-	public function getEvents() {
-		$ff = array("afterPipelineSave" => array("copyOnSave"));
-		return $ff ;
-    }
-
-	public function copyOnSave() {
+	public function importJob() {
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
 
-        $this->pipeline = $this->getPipeline();
-        $this->params["build-settings"] = $this->pipeline["settings"];
-        $this->params["app-settings"]["app_config"] = \Model\AppConfig::getAppVariable("app_config");
-        $this->params["app-settings"]["mod_config"] = \Model\AppConfig::getAppVariable("mod_config");
+        $dir = $this->params["source"] ;
+        if ($dir == "") {
+            $logging->log("Unable to import job - no directory has been specified.", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            return false ; }
+
+        $dir = $this->ensureTrailingSlash($dir) ;
+
+        $job_dir_name = basename($dir) ;
+        $logging->log("Importing {$job_dir_name} from {$dir}...", $this->getModuleName());
+
+        $target_dir = PIPEDIR.DS.$job_dir_name ;
+        $target_dir = $this->ensureTrailingSlash($target_dir) ;
+
+        if (!is_dir($target_dir)) {
+            $logging->log("Creating target directory {$target_dir}", $this->getModuleName());
+            $res = mkdir($target_dir,0775, true) ;
+            if ($res == false) {
+                $logging->log("Creating New Build Job Directory unsuccessful", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+                return false ;
+            }
+        } else {
+            $logging->log("Target directory {$target_dir} already exists", $this->getModuleName());
+        }
+
 
         $files_to_copy = array("settings", "steps", "defaults");
-        $mn = $this->getModuleName() ;
+        foreach ($files_to_copy as $file_to_copy) {
+            $source = $dir.$file_to_copy ;
+            $target = $target_dir.$file_to_copy ;
+            $logging->log("Copying {$source} to {$target}", $this->getModuleName());
+            $copy_command = "cp {$source} {$target}" ;
+            $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
+            if ($rc["rc"] !== 0) {
+                $last = count($rc["output"])-1 ;
+                $logging->log("File Copy unsuccessful, Error: {$rc["output"][$last]}", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+                return false ;
+            }
+        }
 
-        if (isset($this->params["build-settings"][$mn]["enabled"]) && $this->params["build-settings"][$mn]["enabled"] == "on") {
-            $logging->log("Copy on Save enabled for pipeline...", $this->getModuleName());
-            $dir = $this->params["build-settings"][$mn]["target_directory"] ;
-            if ($dir == "") {
-                $logging->log("Copy on Save enabled, but no directory has been specified.", $this->getModuleName());
-                return false ; }
-            if (substr($dir, -1) != DS) { $dir = $dir . DS ; }
-            $pipeline_path = PIPEDIR.DS.$this->params["item"].DS ;
-            $full_dir = $dir.$this->params["item"].DS ;
-            if (!file_exists($full_dir)) {
-                $logging->log("Creating target directory {$full_dir}", $this->getModuleName());
-                $res = mkdir($full_dir,0755, true) ;
+        $dirs_to_ensure = array("history", "tmp", "workspace");
+        foreach ($dirs_to_ensure as $dir_to_ensure) {
+            $target = $target_dir.$dir_to_ensure ;
+            if (is_dir($target)) {
+                $logging->log("Target dir {$target} already exists", $this->getModuleName());
+                continue ;
+            }
+            else {
+                $logging->log("Creating Job sub directory {$target}", $this->getModuleName());
+                $res = mkdir($target,0775, true) ;
                 if ($res == false) {
-                    $logging->log("Copy unsuccessful", $this->getModuleName());
+                    $logging->log("Creating Job Subdirectory Directory unsuccessful", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
                     return false ;
                 }
             }
-            foreach ($files_to_copy as $file_to_copy) {
-                $source = $pipeline_path.$file_to_copy ;
-                $target = $dir.$this->params["item"].DS.$file_to_copy ;
-                $logging->log("Copying {$source} to {$target}", $this->getModuleName());
-                $copy_command = SUDOPREFIX." cp -r {$source} {$target}" ;
-                $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
-                if ($rc["rc"] !== 0) {
-                    $logging->log("Copy unsuccessful, Error: {$rc["output"]}", $this->getModuleName());
-                    return false ; }  }
-            return true ; }
-    }
+        }
 
-    private function getPipeline() {
-        $pipelineFactory = new \Model\Pipeline() ;
-        $pipeline = $pipelineFactory->getModel($this->params);
-        return $pipeline->getPipeline($this->params["item"]);
+        $copy_command = "chmod -R 775 {$target_dir}" ;
+        $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
+        if ($rc["rc"] !== 0) {
+            $last = count($rc["output"])-1 ;
+            $logging->log("Changing Mode to 775 Failed, Error: {$rc["output"][$last]}", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            return false ;
+        }
+        else {
+            $logging->log("Changing Mode Successful", $this->getModuleName());
+        }
+
+        $copy_command = "chown -R ptbuild:ptbuild {$target_dir}" ;
+        $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
+        if ($rc["rc"] !== 0) {
+            $last = count($rc["output"])-1 ;
+            $logging->log("Changing Ownership to ptbuild Failed, Error: {$rc["output"][$last]}", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+            return false ;
+        }
+        else {
+            $logging->log("Changing Ownership Successful", $this->getModuleName());
+        }
+
+        return true ;
+
     }
 
 }

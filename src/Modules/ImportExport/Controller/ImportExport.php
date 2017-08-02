@@ -12,15 +12,15 @@ class ImportExport extends Base {
         $action = $pageVars["route"]["action"];
 
         if ($action === 'import') {
-             $this->content["data"] = $thisModel->getReportData();
-             return array ("type"=>"view", "view"=>"copyOnSave", "pageVars"=>$this->content); }
+             $this->content["data"] = $thisModel->importJob();
+             return array ("type"=>"view", "view"=>"importExport", "pageVars"=>$this->content); }
 
         if ($action=="help") {
             $helpModel = new \Model\Help();
             $this->content["helpData"] = $helpModel->getHelpData($pageVars["route"]["control"]);
             return array ("type"=>"view", "view"=>"help", "pageVars"=>$this->content); }
 
-        $this->content["messages"][] = "Help is the only valid HTML reports Action";
+        $this->content["messages"][] = "Help is the only valid Import Export Action";
         return array ("type"=>"control", "control"=>"index", "pageVars"=>$this->content);
 
     }
