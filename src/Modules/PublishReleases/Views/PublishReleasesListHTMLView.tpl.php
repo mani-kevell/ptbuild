@@ -36,7 +36,7 @@ if ($pageVars["route"]["action"] === 'image') {
 <div class="container" id="wrapper">
     <div class="col-lg-12">
         <h2>
-            Current Build Status: <strong><?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></strong>
+            All Releases List for Job: <strong><?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?></strong>
         </h2>
 
         <div class="current_status current_status_<?php echo $sclass ; ?>">
@@ -92,6 +92,71 @@ if ($pageVars["route"]["action"] === 'image') {
                 echo '</a>' ;
 
             } }
+
+        ?>
+
+        <h3>
+            Releases List
+        </h3>
+
+        <?php
+
+
+        $mn = 'PublishReleases' ;
+        foreach ($pageVars["data"]["releases_list"]["custom_release"] as $releaseHash => $releaseDetail) {
+
+            ?>
+
+            <div class="col-sm-12 one_release_type">
+
+                <div class="col-sm-12">
+                    <h2><?php echo $releaseDetail['release_title'] ; ?></h2>
+                </div>
+
+                <?php
+
+//                    var_dump($pageVars["data"]["releases_available"]) ;
+
+                    foreach ($pageVars["data"]["releases_available"][$releaseHash] as $one_current_runid => $one_available_release) {
+
+//                        var_dump($one_available_release) ;
+                ?>
+
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <h3><?php echo $one_current_runid ;  ?></h3>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3><?php echo $one_current_runid ;  ?></h3>
+                        </div>
+                        <div class="col-sm-4">
+                            <h3>
+                                <?php
+
+                                foreach ($one_available_release as $one_download_file) {
+
+                                    $path = "pipes/{$pageVars["data"]["pipeline"]["project-slug"]}/ReleasePackages/{$releaseHash}/{$one_current_runid}" ;
+                                    ?>
+
+                                    <a href="/index.php?control=AssetLoader&action=show&location=root&path=<?php echo $path ;?>&asset=<?php echo $one_download_file ; ?>&output-format=FILE&type=binary" >
+                                        <?php echo $one_download_file ; ?>
+                                    </a>
+                                    <?php
+                                }
+
+                                echo $one_current_runid ;  ?>
+                            </h3>
+                        </div>
+                    </div>
+                <?php
+                     }
+                ?>
+
+            </div>
+
+            <?php
+
+        }
 
         ?>
     </div>

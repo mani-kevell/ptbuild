@@ -13,7 +13,7 @@ class PublishReleasesInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "PublishReleases" => array_merge(parent::routesAvailable(), array("help", "image", "status", "status-list") ) );
+        return array( "PublishReleases" => array_merge(parent::routesAvailable(), array("help", "image", "releases", "releases-list") ) );
     }
 
     public function routeAliases() {
@@ -33,7 +33,7 @@ class PublishReleasesInfo extends PTConfigureBase {
     }
 
     public function ignoredAuthenticationRoutes() {
-        return array( "PublishReleases" => array("image", "status", "status-list") );
+        return array( "PublishReleases" => array("image", "releases", "releases-list") );
     }
 
     public function helpDefinition() {

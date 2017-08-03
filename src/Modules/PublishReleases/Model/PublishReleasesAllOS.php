@@ -76,30 +76,49 @@ class PublishReleasesAllOS extends Base {
         return $r ;
     }
 
-    public function getReleasesListData() {
+    public function getReleasesList() {
 		$pipeFactory = new \Model\Pipeline();
 		$pipeline = $pipeFactory->getModel($this->params);
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
 		$mn = $this->getModuleName() ;
-		$ff = array(
-            "status_list" => $thisPipe["settings"][$mn],
-            "pipe" => $thisPipe
-        );
+        $ff["releases_list"] = $thisPipe["settings"][$mn] ;
+        $ff["releases_available"] = $this->getReleasesAvailable() ;
+        $ff["pipeline"] = $thisPipe;
+        $ff["current_user"] = $this->getCurrentUser() ;
+        $ff["current_user_role"] = $this->getCurrentUserRole($ff["current_user"]);
 		return $ff ;
     }
 
 	public function getReleasesData() {
-        $ff["is_https"] = $this->isSecure();
         $ff["pipeline"] = $this->getPipeline() ;
         $ff["current_user"] = $this->getCurrentUser() ;
         $ff["current_user_role"] = $this->getCurrentUserRole($ff["current_user"]);
         return $ff ;
     }
 
-    protected function isSecure() {
-        return
-            (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-            || $_SERVER['SERVER_PORT'] == 443;
+	public function getReleasesAvailable() {
+
+        $releaseRef =
+            PIPEDIR.DS.$this->params["item"].DS.'ReleasePackages'.
+            DS ;
+
+        $hashes = scandir($releaseRef) ;
+        $hashes = array_diff($hashes, array('.', '..')) ;
+        $releases = array() ;
+        foreach ($hashes as $hash) {
+            $run_ids = scandir($releaseRef.$hash) ;
+            $run_ids = array_diff($run_ids, array('.', '..')) ;
+            foreach ($run_ids as $run_id) {
+                $release_files = scandir($releaseRef.$hash.DS.$run_id) ;
+                $release_files = array_diff($release_files, array('.', '..')) ;
+                foreach ($release_files as $release_file) {
+                    $releases[$hash][$run_id][] = $release_file ;
+                }
+            }
+        }
+
+        return $releases ;
+
     }
 
     protected function getCurrentUser() {
@@ -194,8 +213,17 @@ class PublishReleasesAllOS extends Base {
         $logging = $loggingFactory->getModel($this->params);
 
         $file = $one_release_details["release_file"];
-        if (!is_file($file)) {
-            $log_msg = "Unable to locate Release Directory {$dir} " ;
+
+        if (substr($file, 0, 1) !== DS) {
+            $source_file = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.$file ;
+            $source_dir = dirname($source_file) ;
+        } else {
+            $source_file = $file ;
+            $source_dir = dirname($file) ;
+        }
+
+        if (!is_dir($source_dir)) {
+            $log_msg = "Unable to locate Release Directory {$source_dir} " ;
             $log_msg .= "from release {$one_release_details["release_title"]}" ;
             $logging->log($log_msg, $this->getModuleName());
             return false ;
@@ -203,19 +231,31 @@ class PublishReleasesAllOS extends Base {
 
         $releaseRef =
             PIPEDIR.DS.$this->params["item"].DS.'ReleasePackages'.
-            DS.$one_release_hash.DS ;
+            DS.$one_release_hash.DS.$this->params["run-id"].DS ;
         $logging->log ("Publishing to release directory {$releaseRef}", $this->getModuleName() ) ;
-        if (!is_dir($releaseRef))
-        {
+        if (!is_dir($releaseRef)) {
             $logging->log ("Attempting to create release directory {$releaseRef}", $this->getModuleName() ) ;
             mkdir($releaseRef, 0777, true);
         }
-        if ( copy($file, $releaseRef.DS.$file) ) {
-            $logging->log ("Release {$one_release_details["release_title"]} published to file...", $this->getModuleName() ) ;
-            return true; }
+
+        $new_file = basename($file) ;
+        $tf = $releaseRef.$new_file ;
+        $copy_command = "cp -r {$source_file} {$tf}" ;
+        $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
+
+        if ($rc["rc"] !== 0) {
+            $last = count($rc["output"]) - 1 ;
+            $logging->log("Copy unsuccessful, Error: {$rc["output"][$last]}", $this->getModuleName());
+        }
+
+        if ($rc["rc"] == 0) {
+            $logging->log ("Release {$one_release_details["release_title"]} published to file {$tf}...", $this->getModuleName() ) ;
+            return true;
+        }
         else {
-            $logging->log ("Unable {$one_release_details["release_title"]} to publish generated release to file...", $this->getModuleName() ) ;
-            return false;	}
+            $logging->log ("Unable to publish generated release {$one_release_details['release_title']} to file {$tf}...", $this->getModuleName() ) ;
+            return false;
+        }
 
     }
 

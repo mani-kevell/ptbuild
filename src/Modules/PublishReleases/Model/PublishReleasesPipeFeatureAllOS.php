@@ -42,14 +42,14 @@ class PublishReleasesPipeFeatureAllOS extends Base {
 	}
 
 	public function getLink() {
-		$link  = 'index.php?control=PublishReleases&action=status-list&item='.$this->pipeline["project-slug"];
+		$link  = 'index.php?control=PublishReleases&action=releases-list&item='.$this->pipeline["project-slug"];
 //		$link .= '&hash='.$this->pipeFeatureValues["hash"];
 		$ff = array("link" => "$link");
 		return $ff ;
 	}
 
 	public function getTitle() {
-		$ff = array("title" => 'Current Status');
+		$ff = array("title" => 'Published Releases');
 		return $ff ;
 	}
 
