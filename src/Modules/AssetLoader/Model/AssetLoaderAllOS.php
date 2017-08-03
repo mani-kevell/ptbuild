@@ -22,8 +22,6 @@ class AssetLoaderAllOS extends Base {
     }
 
     public function getAsset() {
-        # path = pipes/testing_project/ReleasePackages/21576212753139734
-        # asset = test_releases.file
         $type = $this->params["type"] ;
         $asset = $this->params["asset"] ;
         $path = $this->ensureTrailingSlash($this->params["path"]) ;
