@@ -22,11 +22,18 @@ class AssetLoaderAllOS extends Base {
     }
 
     public function getAsset() {
+        # path = pipes/testing_project/ReleasePackages/21576212753139734
+        # asset = test_releases.file
         $type = $this->params["type"] ;
         $asset = $this->params["asset"] ;
-        $modDir = \Core\AutoLoader::findModulePath($this->params["module"]) ;
-        $assPath = $modDir.DS.'Assets'.DS.$type.DS.$asset ;
+        $path = $this->ensureTrailingSlash($this->params["path"]) ;
+        if (isset($this->params["location"]) && $this->params["location"] == 'root') {
+            $assPath = PFILESDIR.PHARAOH_APP.DS.$path.$asset ; }
+        else {
+            $modDir = \Core\AutoLoader::findModulePath($this->params["module"]) ;
+            $assPath = $modDir.DS.'Assets'.DS.$type.$asset ; }
         $r = null ;
+//        var_dump('apx:', $assPath) ;
         if (file_exists($assPath)) {
             $r = file_get_contents($assPath); }
         return $r ;
@@ -36,8 +43,11 @@ class AssetLoaderAllOS extends Base {
         $out = "" ;
         $type = $this->params["type"] ;
         switch ($type) {
-            case "js" :
-                $out = "text/javascript";
+            case "binary" :
+                $out = "application/octet-stream";
+                break ;
+            case "raw" :
+                $out = "text/plain";
                 break ;
             case "css" :
                 $out = "text/css";
