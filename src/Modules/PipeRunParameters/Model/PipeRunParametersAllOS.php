@@ -111,11 +111,12 @@ class PipeRunParametersAllOS extends Base {
 
         if ( isset($this->params["build-parameters"])) {
             $logging->log ("Adding parameters to environment variables", $this->getModuleName() ) ;
+            foreach ($this->params["build-parameters"] as &$one_param) {
+                if ($one_param === '') {
+                    $one_param = 'on' ;
+                }
+            }
             return array("params"=>array("env-vars"=>$this->params["build-parameters"])) ;  }
-//        if ( isset($_REQUEST["build-parameters"])) {
-//            var_dump($_REQUEST["build-parameters"]) ;
-//            $logging->log ("parameters set by request", $this->getModuleName() ) ;
-//            return array("build-parameters"=>$_REQUEST["build-parameters"]) ; }
         return true ;
     }
 

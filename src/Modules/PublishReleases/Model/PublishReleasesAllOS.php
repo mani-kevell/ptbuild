@@ -38,7 +38,7 @@ class PublishReleasesAllOS extends Base {
                         array(
                             "type" => "text",
                             "name" => "Release Title",
-                            "slug" => "releasetitle"),
+                            "slug" => "release_title"),
                     "release_file" =>
                         array(
                             "type" => "text",
