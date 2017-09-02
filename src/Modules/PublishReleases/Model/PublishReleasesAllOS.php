@@ -108,7 +108,7 @@ class PublishReleasesAllOS extends Base {
         foreach ($hashes as $hash) {
             $run_ids = scandir($releaseRef.$hash) ;
             $run_ids = array_diff($run_ids, array('.', '..')) ;
-            $run_ids = natsort($run_ids) ;
+            sort($run_ids, SORT_NUMERIC);
             foreach ($run_ids as $run_id) {
                 $release_files = scandir($releaseRef.$hash.DS.$run_id) ;
                 $release_files = array_diff($release_files, array('.', '..')) ;
