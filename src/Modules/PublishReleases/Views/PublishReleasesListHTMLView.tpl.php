@@ -81,7 +81,7 @@ if ($pageVars["route"]["action"] === 'image') {
                         </div>
                         <div class="col-sm-6">
                             <h3>
-                                Asset: 
+                                Asset:
                                 <?php
 
                                 foreach ($one_available_release as $one_download_file) {
