@@ -70,23 +70,18 @@ if ($pageVars["route"]["action"] === 'image') {
                 </div>
 
                 <?php
-
-//                    var_dump($pageVars["data"]["releases_available"]) ;
-
                     foreach ($pageVars["data"]["releases_available"][$releaseHash] as $one_current_runid => $one_available_release) {
-
-//                        var_dump($one_available_release) ;
                 ?>
 
                     <div class="col-sm-12">
-                        <div class="col-sm-4">
-                            <h3><?php echo $one_current_runid ;  ?></h3>
-                        </div>
-                        <div class="col-sm-4">
-                            <h3><?php echo $one_current_runid ;  ?></h3>
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <h3>
+                                Build ID: <?php echo $one_current_runid ;  ?>
+                            </h3>
+                        </div>
+                        <div class="col-sm-6">
+                            <h3>
+                                Asset: 
                                 <?php
 
                                 foreach ($one_available_release as $one_download_file) {
@@ -100,7 +95,7 @@ if ($pageVars["route"]["action"] === 'image') {
                                     <?php
                                 }
 
-                                echo $one_current_runid ;  ?>
+                                ?>
                             </h3>
                         </div>
                     </div>
