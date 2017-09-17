@@ -50,6 +50,12 @@ class PublicScopeAllOS extends Base {
                 "optional" => true,
                 "name" => "Allow Making Individual Reports Public?"
             ),
+            "build_public_releases" =>
+            array(
+                "type" => "boolean",
+                "optional" => true,
+                "name" => "Allow Making Individual Releases Public?"
+            ),
         );
         return $ff ;
     }

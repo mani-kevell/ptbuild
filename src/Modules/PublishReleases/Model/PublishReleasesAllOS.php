@@ -52,7 +52,7 @@ class PublishReleasesAllOS extends Base {
                     "allow_public" =>
                         array(
                             "type" => "boolean",
-                            "name" => "Allow Public Report Access?",
+                            "name" => "Allow Public Release Access?",
                             "slug" => "allow_public")
                 ),
             ),
@@ -162,13 +162,13 @@ class PublishReleasesAllOS extends Base {
             if ($user == false) {
                 // and the user is not logged in
                 if ($pipeline["settings"]["PublicScope"]["enabled"] === "on" &&
-                    $pipeline["settings"]["PublicScope"]["build_public_statuses"] === "on") {
+                    $pipeline["settings"]["PublicScope"]["build_public_releases"] === "on") {
                     // if public pages are on
-                    if ($pipeline["settings"]["PublishReleases"]["statuses"][$this->params["hash"]]["allow_public"] === "on") {
-                        // if this status has public access enabled
+                    if ($pipeline["settings"]["PublishReleases"]["releases"][$this->params["hash"]]["allow_public"] === "on") {
+                        // if this release has public access enabled
                         return true ; }
                     else {
-                        // if this status has public access disabled
+                        // if this release has public access disabled
                         return false ; } }
                 else {
                     // if no public pages are on
