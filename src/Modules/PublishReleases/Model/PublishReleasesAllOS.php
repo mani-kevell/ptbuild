@@ -163,13 +163,8 @@ class PublishReleasesAllOS extends Base {
                 // and the user is not logged in
                 if ($pipeline["settings"]["PublicScope"]["enabled"] === "on" &&
                     $pipeline["settings"]["PublicScope"]["build_public_releases"] === "on") {
-                    // if public pages are on
-                    if ($pipeline["settings"]["PublishReleases"]["custom_release"][$this->params["hash"]]["allow_public"] === "on") {
-                        // if this release has public access enabled
-                        return true ; }
-                    else {
-                        // if this release has public access disabled
-                        return false ; } }
+                    // if public releases and general are on
+                    return true ; }
                 else {
                     // if no public pages are on
                     return false ; } }
