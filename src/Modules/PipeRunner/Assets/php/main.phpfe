@@ -60,6 +60,8 @@ class PipeRunner {
 
         $control = \js_core::$window->getParameterByName('control') ;
         $action = \js_core::$window->getParameterByName('action') ;
+        \js_core::$console->log("testing control and action with", $control, $action);
+
         if ($control === 'PipeRunner' && $action === 'start') {
             self::$outUpdater = \js_core::$window->setInterval(function () {
                 if (self::$updateRunning === true) {
