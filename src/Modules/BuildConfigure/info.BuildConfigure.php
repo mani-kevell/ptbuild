@@ -6,19 +6,23 @@ class BuildConfigureInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "BuildConfigure/Home Page";
+    public $name = "Build Configuration Page";
 
     public function _construct() {
       parent::__construct();
     }
 
     public function routesAvailable() {
-      return array( "BuildConfigure" => array("show", "save", "new") );
+      return array("BuildConfigure" => array("show", "save", "new", "template", "copy"));
     }
 
     public function routeAliases() {
-      return array("buildConfigure"=>"BuildConfigure");
+      return array("buildConfigure"=>"BuildConfigure", "build-configure"=>"BuildConfigure", "buildconfigure"=>"BuildConfigure");
     }
+
+//    public function events() {
+//        return array("beforePipelineSave", "beforeCopiedPipelineSave", "afterPipelineSave", "afterCopiedPipelineSave");
+//    }
 
     public function helpDefinition() {
       $help = <<<"HELPDATA"

@@ -17,24 +17,33 @@ class PipeRunnerAllOS extends Base {
 	public function getData() {
 		$this -> setPipeDir();
 		$ret["historic_builds"] = $this -> getOldBuilds();
-		$ret["historic_build"] = $this -> getOneBuild($this -> params["run-id"]);
+		$ret["history_index"] = $this -> getHistoryIndex();
+        $run_id = (isset($this -> params["run-id"])) ? $this -> params["run-id"] : null ;
+		$ret["historic_build"] = $this -> getOneBuild($run_id);
 		$ret["pipeline"] = $this -> getPipeline();
 		$ret["item"] = $this -> params["item"];
 		$ret["history_count"] = $this -> getBuildNumber("last");
+		$ret["run_start"] = $this -> getRunStartTime($run_id);
 		return $ret;
 	}
 
 	public function getChildData() {
 		$this -> setPipeDir();
-		$ret["tempfile"] = PIPEDIR . DS . $this -> params["item"] . DS . 'tmpfile';
+		$ret["tempfile"] = PIPEDIR . DS . $this -> params["item"] . DS .'tmp'.DS. 'tmpfile_'.$this -> params["run-id"];
 		return $ret;
 	}
 
-	public function getServiceData() {
-		$ret["output"] = $this -> getExecutionOutput();
-		$ret["status"] = $this -> getExecutionStatus();
-		return $ret;
-	}
+    public function getServiceData() {
+        $ret["output"] = $this -> getExecutionOutput();
+        $ret["status"] = $this -> getExecutionStatus();
+        return $ret;
+    }
+
+    public function getTermServiceData() {
+        $ret["output"] = $this -> getTerminationOutput();
+        $ret["status"] = $this -> getTerminationStatus();
+        return $ret;
+    }
 
 	public function getPipeline() {
 		$pipelineFactory = new \Model\Pipeline();
@@ -42,45 +51,179 @@ class PipeRunnerAllOS extends Base {
 		return $pipeline -> getPipeline($this -> params["item"]);
 	}
 
-	public function checkPipeVariables() {
-		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'defaults';
-		if ($defaults = file_get_contents($file))
-			$defaults = json_decode($defaults, true);
-		if ($defaults["parameter-status"] == "on") {
-			if (!$_POST["parameter-input"]) {
-				return true;
-			} else {
-				$defaults["parameter-input"] = $_POST["parameter-input"];
-				file_put_contents($file, json_encode($defaults));
-				return false;
-			}
-			return true;
-		}
-		return false;
+
+    public function enableBuildParameters() {
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $pipeline = $this->getPipeline();
+        $this->params["build-settings"] = $pipeline["settings"];
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("pipeRunParameterEnable") ;
+        return $ev ;
+    }
+
+
+    public function enableBuildQueue() {
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $pipeline = $this->getPipeline();
+        $this->params["build-settings"] = $pipeline["settings"];
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("buildQueueEnable") ;
+        return $ev ;
+    }
+
+    public function buildShouldQueue() {
+
+
+        $loggingFactory = new \Model\Logging();
+        $logging = $loggingFactory->getModel($this->params);
+        file_put_contents('/tmp/pharaoh.log', "Checking if this build should be queued\n", FILE_APPEND) ;
+
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $pipeline = $this->getPipeline();
+        $this->params["build-settings"] = $pipeline["settings"];
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("buildQueueEnable", true) ;
+
+//        ob_start() ;
+//        var_dump("build q event", $ev, $this->params["build-settings"]) ;
+//        $out = ob_get_clean() ;
+//
+//        file_put_contents('/tmp/pharaoh.log', "build queue enable event has run: $out\n", FILE_APPEND) ;
+
+        return (is_array($ev) && in_array(false, $ev)) ? false : $ev ;
+    }
+
+    public function findBuildParameters() {
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $pipeline = $this->getPipeline();
+//        $this->params["build-settings"] = $pipeline["settings"];
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("pipeRunParameterLoad", true) ;
+        foreach ($ev as $eventOutput) {
+            if (is_array($eventOutput) && array_key_exists("build-parameters", $eventOutput)) {
+                return $eventOutput ; } }
+        return false  ;
+    }
+
+
+	public function runPipe($start_execution = true) {
+
+	    if ($start_execution === true) {
+            if ($this->enableBuildParameters() === true) {
+                if ($this->findBuildParameters() === false) {
+                    return "getParamValue"; } }
+
+            $bsq = $this->buildShouldQueue() ;
+            if (is_array($bsq)) {
+                $res = array() ;
+                $res['status'] = "queued" ;
+                $res['pipeline'] = $this->getPipeline();
+                $res['queued_run'] = $bsq;
+                return $res ; }
+        }
+        $this->setPipeDir();
+
+        // @todo we should use a return value from this and fail the buid if it doesnt work
+        // ie if we cant find a pipe dir from the above method call
+        // ensure build dir exists
+
+        if ( $start_execution === true ) {
+
+            $run = $this -> saveRunPlaceHolder();
+            $this->params["run-id"] = $run ;
+            $this->params["app-log"] = true ;
+            $eventRunnerFactory = new \Model\EventRunner() ;
+            $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+            $ev = $eventRunner->eventRunner("prepareBuild", true) ;
+
+//            ob_start();
+//            var_dump("evx:", $ev ) ;
+//            $res = ob_get_clean() ;
+//            $loggingFactory = new \Model\Logging();
+//            $this -> params["echo-log"] = true;
+//            $this -> params["app-log"] = true;
+//            $logging = $loggingFactory -> getModel($this -> params);
+//            $logging -> log("Result $res" ) ;
+
+            if (in_array(false, $ev)) {
+                $this->dropRunPlaceHolder($run) ;
+                return false ; }
+
+            $bpl = null ;
+            if (count($ev)>0) {
+                foreach($ev as $one_ev) {
+                    if (is_array($one_ev) && isset($one_ev["build-parameter-location"])) {
+                        $bpl = $one_ev["build-parameter-location"] ; } } }
+
+            $this -> setRunStartTime($run);
+            $this -> setRunParameters($run, $bpl);
+            $this -> runPipeForkCommand($run, $bpl); }
+
+        else {
+            // @todo what does this do, the above runs a build, i don't know what this does here...
+            $run = (isset($this->params["run-id"])) ?
+                $this->params["run-id"] :
+                $this->getBuildNumber("last") ; }
+        return $run;
 	}
 
-	public function runPipe() {
-		if ($this -> checkPipeVariables()) {
-			return "getParamValue";
-		} else {
-			// set build dir
-			$this -> setPipeDir();
-			// ensure build dir exists
-			// run pipe fork command
-			$run = $this -> saveRunPlaceHolder();
-			$this -> setRunStartTime($run);
-			// save run
-			$this -> runPipeForkCommand($run);
-			return $run;
-		}
-	}
+    private function setRunParameters($run, $bpl) {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        if ($historyIndex = file_get_contents($file))
+            $historyIndex = json_decode($historyIndex, true);
+
+        $bpl_data = (is_null($bpl)) ? null : json_decode(file_get_contents($bpl)) ;
+
+        $historyIndex[intval($run)]['params'] = $bpl_data ;
+        $historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
+        file_put_contents($file, $historyIndex);
+    }
+
+    private function updateRunMetadata($run, $meta) {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        if ($historyIndex = file_get_contents($file))
+            $historyIndex = json_decode($historyIndex, true);
+        $cur_metadata = $historyIndex[$run]['meta'] ;
+        if (!is_null($cur_metadata)) {
+//            var_dump('c2', $cur_metadata, $meta) ;
+            $cur_key = array_keys($meta)[0] ;
+            foreach ($cur_metadata as $one_meta_mod => $one_metadata_vals) {
+//                var_dump(
+//                    $cur_key ,
+//                    $one_meta_mod
+//                ) ;
+                if ($cur_key === $one_meta_mod) {
+                    $newray = array() ;
+                    foreach ($cur_metadata[$cur_key] as $key => $vals) {
+                        $newray[$key] = $vals ;
+                    }
+                    foreach ($meta[$cur_key] as $key => $vals) {
+                        $newray[$key] = $vals ;
+                    }
+//                    $am = array_merge($cur_metadata[$cur_key], $meta[$cur_key]) ;
+//                    var_dump('ck is', $cur_metadata[$cur_key], $meta[$cur_key], $am) ;
+                    $cur_metadata[$cur_key] = $newray ;
+                }
+            }
+            if (!isset($cur_metadata[$cur_key]) ) {
+                $cur_metadata = array_merge($cur_metadata, $meta) ;
+            }
+            $all_meta = $cur_metadata ;
+        }
+        else  {
+            $all_meta = $meta ;
+        }
+        $historyIndex[$run]['meta'] = $all_meta ;
+        $historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
+        file_put_contents($file, $historyIndex);
+    }
 
 	private function setRunStartTime($run) {
 		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
 		if ($historyIndex = file_get_contents($file))
 			$historyIndex = json_decode($historyIndex, true);
 		$historyIndex[intval($run)]['start'] = time();
-		$historyIndex = json_encode($historyIndex);
+		$historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
 		file_put_contents($file, $historyIndex);
 	}
 
@@ -91,17 +234,41 @@ class PipeRunnerAllOS extends Base {
 			$historyIndex = json_decode($historyIndex, true);
 		$historyIndex[intval($run)]['end'] = time();
 		$historyIndex[intval($run)]['status'] = $status;
-		$historyIndex = json_encode($historyIndex);
+		$historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
 		file_put_contents($file, $historyIndex);
 	}
 
+	public function getRunStartTime($run) {
+		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+		if ($historyIndex = file_get_contents($file))
+			$historyIndex = json_decode($historyIndex, true);
+		$start = $historyIndex[intval($run)]['start'] ;
+		return $start ;
+	}
+
+    public function getRunEndTime($run) {
+		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+		if ($historyIndex = file_get_contents($file))
+			$historyIndex = json_decode($historyIndex, true);
+        $end = $historyIndex[intval($run)]['end'] ;
+        return $end ;
+	}
+
+	public function getHistoryIndex() {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        $historyIndex = array() ;
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+        }
+        return $historyIndex ;
+    }
+
     private function setPipeDir() {
         if (isset($this -> params["guess"]) && $this -> params["guess"] == true) {
-            $this -> params["pipe-dir"] = PIPEDIR;
-        } else {
+            $this -> params["pipe-dir"] = PIPEDIR; }
+        else {
             // @todo should probably ask a question here
-            $this -> params["pipe-dir"] = PIPEDIR;
-        }
+            $this -> params["pipe-dir"] = PIPEDIR; }
     }
 
     private function getSwitchUser() {
@@ -113,25 +280,61 @@ class PipeRunnerAllOS extends Base {
     }
 
     private function isWebSapi() {
-        if (!in_array(PHP_SAPI, array("cgi", "cli")))  { return true ; }
+        if (!in_array(PHP_SAPI, array("cli")))  { return true ; }
         return false ;
     }
 
-    private function runPipeForkCommand($run) {
+    private function runPipeForkCommand($run, $param_loc=null) {
         $switch = $this->getSwitchUser() ;
         $cmd = "" ;
-        if ($switch != false) { $cmd .= 'sudo su '.$switch.' -c '."'" ; }
-        // this should be a phrank piperunner@cli and it should save the log to a named history
-        $cmd .= PHRCOMM.' piperunner child --pipe-dir="'.$this->params["pipe-dir"].'" ' ;
+        if ($switch != false) { $cmd .= 'sudo -u '.$switch.' -c '."'" ; }
+        $cmd .= PTBCOMM.' piperunner child --pipe-dir="'.$this->params["pipe-dir"].'" ' ;
         if (isset($this->params["build-request-source"])) {
             $cmd .= '--build-request-source="'.$this->params["build-request-source"].'" '; }
         else if ($this->isWebSapi()==true) {
             $cmd .= '--build-request-source="web" '; }
-        $cmd .= '--item="'.$this->params["item"].'" --run-id="'.$run.'" > '.PIPEDIR.DS.$this->params["item"].DS ;
-        $cmd .= 'tmpfile &';
+
+        $str = "" ;
+        if ($param_loc !=null) {
+            $str .= " --build-parameter-location=$param_loc" ; }
+
+        $cmd .= '--item="'.$this->params["item"].'" '.$str.' --run-id="'.$run.'" > '.PIPEDIR.DS.$this->params["item"].DS ;
+        $cmd .= 'tmp'.DS.'tmpfile_'.$run.' &';
         if ($switch != false) { $cmd .= "'" ; }
 
-        error_log($cmd);
+        $descr = array(
+            0 => array(
+                'pipe',
+                'r'
+            ) ,
+            1 => array(
+                'pipe',
+                'w'
+            ) ,
+            2 => array(
+                'pipe',
+                'w'
+            )
+        );
+        $pipes = array();
+        $process = proc_open($cmd, $descr, $pipes);
+        $stat = proc_get_status ( $process ) ;
+        proc_close($process);
+        return $stat["pid"]  ;
+    }
+
+    public function runPipeTerminateCommand() {
+        $switch = $this->getSwitchUser() ;
+        $cmd = "" ;
+        if ($switch != false) { $cmd .= 'sudo -u '.$switch.' -c '."'" ; }
+        // this should be a phrank piperunner@cli and it should save the log to a named history
+        $cmd .= PTBCOMM.' piperunner terminate-child ' ;
+        $cmd .= '--item="'.$this->params["item"].'" --run-id="'.$this->params["run-id"].'" > ' ;
+        $cmd .= PIPEDIR.DS.$this->params["item"].DS.'tmp'.DS ;
+        $cmd .= 'tmpfile_terminate_'.$this->params["run-id"] ;
+        if ($switch != false) { $cmd .= "'" ; }
+
+//        error_log("terminate: " . $cmd);
         $descr = array(
             0 => array(
                 'pipe',
@@ -170,26 +373,49 @@ class PipeRunnerAllOS extends Base {
         if ($ev == false) { return $this->failBuild() ; }
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
-        $stepRunnerFactory = new \Model\StepRunner() ;
-        $stepRunner = $stepRunnerFactory->getModel($this->params) ;
-        $logging->log("Writing to temp file ". PIPEDIR.DS.$this->params["item"].DS.'tmpfile', $this->getModuleName()) ;
+        $tmpfile = PIPEDIR.DS.$this->params["item"].DS.'tmp'.DS.'tmpfile_'.$this->params["run-id"] ;
+        if (!is_writable(dirname($tmpfile))) {
+            $logging->log("Unable to write to temp file {$tmpfile}", $this->getModuleName()) ;
+            return false ; }
+        $logging->log("Writing to temp file ".$tmpfile , $this->getModuleName()) ;
         $logging->log("Executing as ".self::executeAndLoad("whoami"), $this->getModuleName()) ;
-        $workspace = $this->getWorkspace() ;
-        $dir = $workspace->getWorkspaceDir()  ;
-        $logging->log("Changing to workspace directory $dir", $this->getModuleName()) ;
-        chdir($dir);
+        $ws_avail = $this->buildWorkspace();
+        if ($ws_avail == false) { return $this->failBuild() ; }
         $ressys = array() ;
-        $ev = $eventRunner->eventRunner("beforeBuild") ;
-        if ($ev == false) { return $this->failBuild() ; }
+        $ev = $eventRunner->eventRunner("beforeBuild", true) ;
+        if (count($ev)>0) {
+            foreach($ev as $one_ev) {
+                if (is_array($one_ev) && isset($one_ev["params"])) {
+                    $this->params = array_merge($this->params, $one_ev["params"]) ; } } }
+        if (in_array(false, $ev)) { return $this->failBuild() ; }
         foreach ($pipeline["steps"] as $hash => $stepDetails) {
+            $ev = $eventRunner->eventRunner("beforeStep", true) ;
+//            var_dump($ev) ;
+            if (count($ev)>0) {
+                foreach($ev as $one_ev) {
+                    if (is_array($one_ev) && isset($one_ev["params"])) {
+                        $this->params = array_merge($this->params, $one_ev["params"]) ; } } }
+            if (in_array(false, $ev)) { return $this->failBuild() ; }
+            $stepRunnerFactory = new \Model\StepRunner() ;
+            $stepRunner = $stepRunnerFactory->getModel($this->params) ;
             $logging->log("Executing step id $hash", $this->getModuleName()) ;
-            $res = $stepRunner->stepRunner($stepDetails, $this->params["item"]) ;
+            $res = $stepRunner->stepRunner($stepDetails, $this->params["item"], $hash) ;
+            if (is_array($res)) {
+                if (isset($res['meta'])) {
+                    $this->updateRunMetadata($this->params["run-id"], $res['meta']);
+                }
+                $res_bool = $res['status'] ;
+            } else {
+                $res_bool = $res ;
+            }
             $evar  = "Step execution " ;
             $evar .= ($res) ? "Success" : "Failed" ;
             $evar .= ", ID $hash" ;
             $logging->log($evar, $this->getModuleName()) ;
             echo "\n" ;
-            $ressys[] = $res ;
+            $ressys[] = $res_bool ;
+            $ev = $eventRunner->eventRunner("afterStep") ;
+            if ($ev == false) { return $this->failBuild() ; }
             if ($res==false) break ; }
         $ev = $eventRunner->eventRunner("beforeBuildComplete") ;
         if ($ev == false) { return $this->failBuild() ; }
@@ -198,8 +424,140 @@ class PipeRunnerAllOS extends Base {
         $this->params["run-status"] = (in_array(false, $ressys)) ? "FAIL" : "SUCCESS" ;
         $eventRunner->params = $this->params ;
         $eventRunner->eventRunner("afterBuildComplete") ;
-		$this->setRunEndTime($this->params["run-status"]) ;
-        return $this->saveRunLog() ;
+        $this->setRunEndTime($this->params["run-status"]) ;
+        $ret = "BUILD COMPLETE\n" ;
+        $logging->log("", $this->getModuleName()) ;
+        $logging->log($ret, $this->getModuleName()) ;
+        $srl = $this->saveRunLog() ;
+        return $srl ;
+    }
+
+    protected function buildWorkspace(){
+        $loggingFactory = new \Model\Logging();
+        $logging = $loggingFactory->getModel($this->params);
+        $workspace = $this->getWorkspace() ;
+        $res = array() ;
+        $res[] = $workspace->createWorkspaceIfNeeded();
+        $dir = $workspace->getWorkspaceDir()  ;
+        $logging->log("Changing to workspace directory $dir", $this->getModuleName()) ;
+        $res[] = chdir($dir);
+        return ($res[0]==true && $res[1]==true) ? true : false ;
+    }
+
+    public function terminateChild() {
+
+        $this->params["echo-log"] = true ;
+        $loggingFactory = new \Model\Logging();
+        $logging = $loggingFactory->getModel($this->params);
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("beforeTermination") ;
+
+        $run_id = $this->params["run-id"] ;// get the run id
+        $item = $this->params["item"] ;// get the pipe id
+
+        // if unable to get either, say unable to find parameters to terminate build
+        if (!isset($item)) {
+            $logging->log("Unable to find Pipeline ID to terminate", $this->getModuleName());
+            \Core\BootStrap::setExitCode(1) ;
+            return false ; }
+        if (!isset($run_id)) {
+            $logging->log("Unable to find Run ID to terminate", $this->getModuleName());
+            \Core\BootStrap::setExitCode(1) ;
+            return false ; }
+
+        $pipeFactory = new \Model\PipeRunner();
+        $pipeFindRunning = $pipeFactory->getModel($this->params, "FindRunning");
+        $runningBuilds = $pipeFindRunning->getRunningBuilds() ; // find running pipes
+
+        $killRes = array() ;
+
+        foreach ($runningBuilds as $runningBuild) {
+            if ($runningBuild["item"] == $item &&
+                $runningBuild["runid"] == $run_id) {
+                $logging->log("Found running build: Pipeline {$item} and Run ID {$run_id}", $this->getModuleName()); // if the pipe we want is in in the list, echo that it is
+                $killCommands = $this->createChildTerminateCommand($item, $run_id); // create the kill command
+                foreach ($killCommands as $killCommand) {
+                    $logging->log("Executing $killCommand", $this->getModuleName()); // echo the proposed kill command
+                    $rc = $this->executeAndGetReturnCode($killCommand, true, true) ;
+                    if (strlen($rc["output"][0])>0) {
+                        $logging->log($rc["output"][0], $this->getModuleName()); } } // issue the kill command
+                $mod_config = \Model\AppConfig::getAppVariable("mod_config");
+                $initial_termination_wait = 1 ; // @todo get this from the config
+                sleep($initial_termination_wait); // wait a specified number of seconds for it to die (initial_termination_wait)
+                $stillRunningBuilds = $pipeFindRunning->getRunningBuilds() ; // find running pipes
+                foreach ($stillRunningBuilds as $stillRunningBuild) {
+                    if ($stillRunningBuild["item"] == $item &&
+                        $stillRunningBuild["runid"] == $run_id) {
+                        $logging->log("PENDING TERMINATION", $this->getModuleName());    //     echo SUCCESSFUL TERMINATION ;
+                        $stillAlive = true ; } }
+                if (!isset($stillAlive)) { //   if its not in this list (killed)
+                    $logging->log("SUCCESSFUL TERMINATION", $this->getModuleName());    //     echo SUCCESSFUL TERMINATION ;
+                    $killRes[] = true ; }
+                else { //   if it is in this list (still alive)
+                    // if we have a conf setting for termination_attempts
+                    $iterations = (isset($mod_config["PipeRunner"]["termination_attempts"])) //         $iterations = (isset($conf->iterations)) ? isset($conf->iterations) : 3 ;
+                        ? $mod_config["PipeRunner"]["termination_attempts"]
+                        : 3 ;
+                    for ($iteration = 1; $iteration<=$iterations; $iteration++) {
+                        foreach ($killCommands as $killCommand) {
+                            $logging->log("Executing iteration {$iteration} of {$iterations}, $killCommand", $this->getModuleName()); // echo the proposed kill command
+                            $rc = $this->executeAndGetReturnCode($killCommand, true, true) ;
+                            if (strlen($rc["output"][0])>0) {
+                                $logging->log($rc["output"][0], $this->getModuleName()); }} } // issue the kill command
+                        $mod_config = \Model\AppConfig::getAppVariable("mod_config");
+                        $iterate_termination_wait = 1 ; // @todo get this from the config
+                        sleep($iterate_termination_wait); // wait a specified number of seconds for it to die (initial_termination_wait)
+                        $stillIteratingRunningBuilds = $pipeFindRunning->getRunningBuilds() ; // find running pipes
+                        foreach ($stillIteratingRunningBuilds as $stillIteratingRunningBuild) {
+                            if ($stillIteratingRunningBuild["item"] == $item &&
+                                $stillIteratingRunningBuild["runid"] == $run_id) {
+                                $logging->log("PENDING TERMINATION", $this->getModuleName());    //     echo SUCCESSFUL TERMINATION ;
+                                $evenStillAlive = true ; } }
+                        if (!isset($evenStillAlive)) { //   if its not in this list (killed)
+                            $logging->log("SUCCESSFUL TERMINATION", $this->getModuleName());    //     echo SUCCESSFUL TERMINATION ;
+                            $killRes[] = true ;  } } } }
+
+
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ev = $eventRunner->eventRunner("afterTermination") ;
+
+        if (in_array(false, $killRes)) {
+            $logging->log("COMPLETE FAILED TERMINATION", $this->getModuleName());    //     echo SUCCESSFUL TERMINATION ;
+            return false ; }
+        $logging->log("COMPLETE SUCCESSFUL TERMINATION", $this->getModuleName());    //     echo SUCCESSFUL TERMINATION ;
+        return true ;
+
+    }
+
+
+    public function createChildTerminateCommand($item, $run_id) {
+        // create the kill command
+        $switch = $this->getSwitchUser() ;
+        $cmd = "" ;
+        if ($switch != false) { $cmd .= 'sudo su '.$switch.' -c '."'" ; }
+        $cmd .= 'ps aux | grep "piperunner child" ' ;
+        $cmd .= '| grep \''.PTBCOMM.'\' ' ;
+        $cmd .= '| grep \''.$item.'\' ' ;
+        $cmd .= '| grep \''.$run_id.'\' ' ;
+//        $cmd .= '| awk \'{print $2}\' ' ;
+        if ($switch != false) { $cmd .= "'" ; }
+        $all = $this->executeAndLoad($cmd) ;
+        $lines = explode("\n", $all) ;
+        $termcomms = array() ;
+        foreach($lines as &$line) {
+            if ($line == '') {
+                unset ($line);
+                continue ; }
+            else if (strpos($line, 'grep')!==false) {
+                unset ($line);
+                continue ; }
+            else {
+                $pieces = preg_split('/\s+/', $line);
+//                $pieces = array_diff($pieces, array("")) ;
+                $termcomms[] = "kill {$pieces[1]}" ; } }
+        return $termcomms  ;
     }
 
     private function failBuild() {
@@ -211,17 +569,41 @@ class PipeRunnerAllOS extends Base {
         return false ;
     }
 
-    private function getExecutionOutput() {
-        $ofile = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+    private function getExecutionOutput($run = null) {
+        $param_run = (isset($this->params["run-id"])) ? $this->params["run-id"] : null ;
+        $runstr = ($run == null) ? $param_run : $run ;
+        $ofile = PIPEDIR.DS.$this->params["item"].DS.'tmp'.DS.'tmpfile_'.$runstr;
+        if (file_exists($ofile)) {
+            $o = file_get_contents($ofile) ;
+            return $o ; }
+        return null ;
+    }
+
+    private function getExecutionStatus() {
+        $ts = $this->getTerminationStatus() ;
+//        $reverse_ts = ($ts==true) ? false : true ;
+//        var_dump($reverse_ts) ;
+//        return $reverse_ts ;
+        return $ts ;
+    }
+
+
+    private function getTerminationOutput() {
+        $ofile = PIPEDIR.DS.$this->params["item"].DS.'tmp'.DS.'tmpfile_terminate_'.$this->params["run-id"];
         $o = file_get_contents($ofile) ;
         return $o ;
     }
 
-    private function getExecutionStatus($o = null) {
-        $o = ($o==null) ? $this->getExecutionOutput() : $o ;
-        if (strpos($o, "SUCCESSFUL EXECUTION") !== false ||
-           (strpos($o, "FAILED EXECUTION") !== false || strpos($o, "ABORTED EXECUTION" )))
-        { return true ; }
+    private function getTerminationStatus() {
+        $pipeFactory = new \Model\PipeRunner();
+        $pipeFindRunning = $pipeFactory->getModel($this->params, "FindRunning");
+        $runningBuilds = $pipeFindRunning->getRunningBuilds() ; // find running pipes
+        $found = array();
+        foreach ($runningBuilds as $runningBuild) {
+            if ($runningBuild["item"]==$this->params["item"] &&
+                $runningBuild["runid"]==$this->params["run-id"]){
+                $found[] = $runningBuild ; } }
+        if (count($found)==0) { return true ; }
         return false ;
     }
 
@@ -236,7 +618,7 @@ class PipeRunnerAllOS extends Base {
         return $ret ;
     }
 
-    private function getOldBuilds() {
+    public function getOldBuilds() {
         $builds = scandir($this->params["pipe-dir"].DS.$this->params["item"].DS.'history') ;
         $buildsRay = array();
         for ($i=0; $i<count($builds); $i++) {
@@ -255,14 +637,24 @@ class PipeRunnerAllOS extends Base {
     public function saveRunPlaceHolder() {
         $run = $this->getBuildNumber("next") ;
         $file = $this->params["pipe-dir"].DS.$this->params["item"].DS.'history'.DS.$run ;
-        $buildOut = $this->getExecutionOutput() ;
+        $buildOut = $this->getExecutionOutput($run) ;
         $top = "THIS IS A PLACEHOLDER TO SHOW A STARTED OUTPUT FILE\n\n" ;
-		file_put_contents($file, "$top.$buildOut");
-		if (file_exists($file)) {
-			return $run;
-		}
-		return false;
-	}
+        file_put_contents($file, "$top.$buildOut");
+//        chmod($file, 0777) ;
+        if (file_exists($file)) { return $run; }
+        return false;
+    }
+
+    public function dropRunPlaceHolder($run) {
+        $loggingFactory = new \Model\Logging();
+        $this -> params["echo-log"] = true;
+        $this -> params["app-log"] = true;
+        $logging = $loggingFactory -> getModel($this -> params);
+        $file = $this->params["pipe-dir"].DS.$this->params["item"].DS.'history'.DS.$run ;
+        $logging -> log("Removing placeholder file", $file ) ;
+        $res = unlink($file);
+        return ($res !== false);
+    }
 
 	public function saveRunLog() {
 		$loggingFactory = new \Model\Logging();
@@ -275,8 +667,7 @@ class PipeRunnerAllOS extends Base {
 			$f = PIPEDIR . DS . $this -> params["item"] . DS . $this -> params["run-id"];
 			$logging -> log("Removing temp log file", $this -> getModuleName());
 			self::executeAndOutput("rm -f $f");
-			return $this -> params["run-id"];
-		}
+			return $this -> params["run-id"]; }
 		return false;
 	}
 

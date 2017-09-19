@@ -14,10 +14,39 @@ class BuilderAllOS extends Base {
     // Model Group
     public $modelGroup = array("Default") ;
 
+    private $builderCollater ;
+    private $builderRepository ;
+
+    private function getBuilderCollater() {
+        if (isset($this->builderCollater) && is_object($this->builderCollater)) {
+            return $this->builderCollater ;  }
+        $builderCollater = RegistryStore::getValue("builderCollaterObject") ;
+        if (isset($builderCollater) && is_object($builderCollater)) {
+            $this->builderCollater = $builderCollater ;
+            return $this->builderCollater ;  }
+        $builderFactory = new \Model\Builder() ;
+        $this->builderCollater = $builderFactory->getModel($this->params, "BuilderCollater");
+        RegistryStore::setValue("builderCollaterObject", $this->builderCollater) ;
+        return $this->builderCollater ;
+    }
+
+    private function getBuilderRepository() {
+        if (isset($this->builderRepository) && is_object($this->builderRepository)) {
+            return $this->builderRepository ;  }
+        $builderRepository = RegistryStore::getValue("builderRepositoryObject") ;
+        if (isset($builderRepository) && is_object($builderRepository)) {
+            $this->builderRepository = $builderRepository ;
+            return $this->builderRepository ;  }
+        $builderRepositoryFactory = new \Model\Builder() ;
+        $this->builderRepository = $builderRepositoryFactory->getModel($this->params, "BuilderRepository");
+        RegistryStore::setValue("builderRepositoryObject", $this->builderRepository) ;
+        return $this->builderRepository ;
+    }
+
+
     public function getBuilders() {
-        $builderFactory = new Builder();
-        $builderRepository = $builderFactory->getModel($this->params, "BuilderRepository") ;
-        $builders = $builderRepository->getAllBuilders();
+        $this->getBuilderRepository() ;
+        $builders = $this->builderRepository->getAllBuilders();
         $ret = $builders ;
         return $ret ;
     }
@@ -27,6 +56,7 @@ class BuilderAllOS extends Base {
         // var_dump(1, $builders) ;
         $ret = array() ;
         foreach ($builders as $name => $builder) {
+//            var_dump("bn", $name) ;
             if (isset($builder["settings"]) && count($builder["settings"])>0) {
                 $ret[$name] = $builder ; } }
         // var_dump(2, $ret) ;
@@ -34,9 +64,8 @@ class BuilderAllOS extends Base {
     }
 
     public function getBuilder($module) {
-        $builderFactory = new Builder();
-        $builderCollater = $builderFactory->getModel($this->params, "BuilderCollater") ;
-        $builder = $builderCollater->getBuilder($module);
+        $this->getBuilderCollater();
+        $builder = $this->builderCollater->getBuilder($module);
         $ret = $builder ;
         return $ret ;
     }
@@ -53,23 +82,6 @@ class BuilderAllOS extends Base {
         $builders = $this->getBuilders() ;
         $names = array_keys($builders) ;
         return (isset($names) && is_array($names)) ? $names : false ;
-    }
-    public function deleteBuilder($name) {
-        $builders = $this->getBuilders() ;
-        $path = dirname(dirname(__FILE__)).DS."Data".DS."demobuilders.php" ;
-        include($path) ;
-        unset($demobuilders[$name]);
-
-//        $builders = $this->getBuilders() ;
-//        $path = dirname(dirname(__FILE__)).DS."Data".DS."demobuilders.php" ;
-//
-//        $file = fopen($path,"w");
-//        fwrite($file,$builders);
-//        fclose($file);
-        $ret = $builders[$name] ;
-        $r = (isset($ret) && is_array($ret)) ? $ret : false ;
-        return $r ;
-        return ;
     }
 
 }

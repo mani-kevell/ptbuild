@@ -2,43 +2,64 @@
 
 Namespace Controller;
 
-class Signup extends Base
-{
+class Signup extends Base {
 
-    public function execute($pageVars)
-    {
+    public function execute($pageVars) {
+
         $thisModel = $this->getModelAndCheckDependencies(substr(get_class($this), 11), $pageVars);
         // if we don't have an object, its an array of errors
         $this->content = $pageVars;
         if (is_array($thisModel)) {
-            return $this->failDependencies($pageVars, $this->content, $thisModel);
-        }
+            return $this->failDependencies($pageVars, $this->content, $thisModel); }
 
+        // @todo if signup is not enabled this should redirect to the Index module
         // @todo This is functionality. It should be in the Model, not here
-        // @todo do not Start the session here. At most, this should be in a wrapper like $session->ensureSession();
-        session_start();
-
         if ($pageVars["route"]["action"] == "login") {
-            $this->content["data"] = $thisModel->getlogin();
-        }
+            $this->content["data"] = $thisModel->getlogin(); }
+
         if ($pageVars["route"]["action"] == "registration") {
-            $this->content["data"] = "registration";
-        }
+            if ($thisModel->registrationEnabled() == true) {
+                // todo @karthik do we need the line below
+                // $this->content["data"] = "registration";
+                return array("type" => "view", "view" => "signupRegistration", "pageVars" => $this->content); }
+            else {
+                $this->content["registration_disabled"] = true ;
+                return array("type" => "view", "view" => "signupLogin", "pageVars" => $this->content); } }
 
         if ($pageVars["route"]["action"] == "registration-submit") {
-            return $thisModel->registrationSubmit();
+            if ($thisModel->registrationEnabled() == true) {
+                $this->content["data"] = $thisModel->registrationSubmit();
+                $this->content["output-format"] = "JSON" ;}
+            else {
+                $this->content["registration_disabled"] = true ;
+                return array("type" => "view", "view" => "signupLogin", "pageVars" => $this->content); }
         }
 
         if ($pageVars["route"]["action"] == "login-status") {
-            return $thisModel->checkLoginStatus();
-        }
+            $this->content["data"] =  $thisModel->checkLoginStatus();
+            $this->content["output-format"] = "JSON" ;
+            return array("type" => "view", "view" => "signupLoginSubmit", "pageVars" => $this->content); }
+
         if ($pageVars["route"]["action"] == "login-submit") {
-            return $thisModel->checkLogin();
-        }
+            $this->content["data"] = $thisModel->checkLogin();
+            $this->content["output-format"] = "JSON" ;
+            return array("type" => "view", "view" => "signupLoginSubmit", "pageVars" => $this->content); }
 
         if ($pageVars["route"]["action"] == "logout") {
-            $thisModel->allLoginInfoDestroy();
-        }
-        return array("type" => "view", "view" => "signup", "pageVars" => $this->content);
+            $thisModel->allLoginInfoDestroy(); }
+		
+		if ($pageVars["route"]["action"] == "verify") {
+            $thisModel->mailVerification(); }
+
+        $of = (isset($this->content["route"]["extraParams"]["output-format"])) ?
+            $this->content["route"]["extraParams"]["output-format"] : "" ;
+
+        if ( (isset($this->content["output-format"]) && $this->content["output-format"] == "JSON") ||
+            $of === "JSON") {
+            return array("type" => "view", "view" => "signupLogin", "pageVars" => $this->content); }
+        else {
+            $this->content["data"] = $thisModel->getlogin();
+            return array("type" => "view", "view" => "signupLogin", "pageVars" => $this->content); }
+
     }
 }

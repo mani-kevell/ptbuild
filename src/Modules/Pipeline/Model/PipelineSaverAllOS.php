@@ -19,12 +19,6 @@ class PipelineSaverAllOS extends Base {
         return $r ;
     }
 
-    public function getPipelineNames() {
-        $pipelines = $this->getPipelines() ;
-        $names = array_keys($pipelines) ;
-        return (isset($names) && is_array($names)) ? $names : false ;
-    }
-
     private function saveStates($save) {
         $saveRes = array() ;
         $saveRes["statuses"] = $this->saveStatuses($save) ;
@@ -45,7 +39,7 @@ class PipelineSaverAllOS extends Base {
         if (isset($save["type"]) && $save["type"] == "Defaults") {
             $defaultsFile = PIPEDIR.DS.$this->params["item"].DS.'defaults' ;
             $logging->log("Storing defaults file in pipe at $defaultsFile", $this->getModuleName()) ;
-            $defaults = json_encode($save["data"]) ;
+            $defaults = json_encode($save["data"], JSON_PRETTY_PRINT) ;
             return file_put_contents($defaultsFile, $defaults) ; }
         return false ;
     }
@@ -56,7 +50,7 @@ class PipelineSaverAllOS extends Base {
         if (isset($save["type"]) && $save["type"] == "Steps") {
             $stepsFile = PIPEDIR.DS.$this->params["item"].DS.'steps' ;
             $logging->log("Storing steps file in pipe at $stepsFile", $this->getModuleName()) ;
-            $steps = json_encode($save["data"]) ;
+            $steps = json_encode($save["data"], JSON_PRETTY_PRINT) ;
             return file_put_contents($stepsFile, $steps) ; }
         $statuses = array() ;
         return $statuses ;
@@ -68,7 +62,7 @@ class PipelineSaverAllOS extends Base {
         if (isset($save["type"]) && $save["type"] == "Settings") {
             $stepsFile = PIPEDIR.DS.$this->params["item"].DS.'settings' ;
             $logging->log("Storing settings file in pipe at $stepsFile", $this->getModuleName()) ;
-            $steps = json_encode($save["data"]) ;
+            $steps = json_encode($save["data"], JSON_PRETTY_PRINT) ;
             return file_put_contents($stepsFile, $steps) ; }
         $statuses = array() ;
         return $statuses ;

@@ -24,7 +24,7 @@ class Base {
     protected $extraBootStrap;
     protected $programExecutorFolder;
     protected $programExecutorTargetPath;
-    protected $tempDir;
+    protected static $tempDir;
     protected $defaultStatusCommandPrefix ;
     protected $statusCommand;
     protected $statusCommandExpects;
@@ -33,14 +33,18 @@ class Base {
     protected $versionLatestCommand;
 
     public function __construct($params) {
-        if (PHP_OS =="Windows") {
-            $this->tempDir =  'C:\tmp'; }
-        else {
-            $this->tempDir =  '/tmp'; }
         $this->autopilotDefiner = $this->getModuleName() ;
+        $this->setTempDir();
         $this->setCmdLineParams($params);
         $this->setRequestParams();
         $this->salt='QlkjfpoiZfsdluyvposdfMszZi';
+    }
+
+    protected static function setTempDir() {
+        if (in_array(PHP_OS, array("Windows", "WINNT"))) {
+            self::$tempDir =  getenv('TEMP'); }
+        else {
+            self::$tempDir =  '/tmp'; }
     }
 
     protected function populateTitle() {
@@ -78,28 +82,82 @@ COMPLETION;
     }
 
     protected function executeAsShell($multiLineCommand, $message=null) {
-        $tempFile = $this->tempDir."/ptconfigure-temp-script-".mt_rand(100, 99999999999).".sh";
-        echo "Creating $tempFile\n";
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+        $tempFile = self::$tempDir.DS.PHARAOH_APP."-temp-script-".mt_rand(100, 99999999999).".sh";
+//        $logging->log("Creating $tempFile", $this->getModuleName());
         $fileVar = "";
-        if (is_array($multiLineCommand) && count($multiLineCommand)>0) {
-            foreach ($multiLineCommand as $command) { $fileVar .= $command."\n" ; } }
-        file_put_contents($tempFile, $fileVar);
-        echo "chmod 755 $tempFile 2>/dev/null\n";
-        shell_exec("chmod 755 $tempFile 2>/dev/null");
-        echo "Changing $tempFile Permissions\n";
-        echo "Executing $tempFile\n";
-        $outputText = shell_exec($tempFile);
-        if ($message !== null) { $outputText .= "$message\n"; }
-        echo $outputText;
+        $multiLineCommand = str_replace("\r", "", $multiLineCommand) ;
+        $multiLineCommand = explode("\r\n", $multiLineCommand) ;
+        foreach ($multiLineCommand as $command) { $fileVar .= $command."\n" ; }
+        file_put_contents($tempFile, $fileVar) ;
+        //@note these chmods are required to make bash run scripts
+        // echo "chmod 755 $tempFile 2>/dev/null\n";
+        if (!is_executable($tempFile)) {
+            // @todo this wont work on windows
+            shell_exec("chmod 755 $tempFile 2>/dev/null");
+            // echo "chmod +x $tempFile 2>/dev/null\n";
+            shell_exec("chmod +x $tempFile 2>/dev/null"); }
+//        $logging->log("Changing $tempFile Permissions", $this->getModuleName());
+        $logging->log("Executing $tempFile", $this->getModuleName());
+        // @todo this should refer to the actual shell we are running
+        $commy = "{$tempFile}" ;
+        $rc = $this->executeAndGetReturnCode($commy, true) ;
+        if ($message !== null) { echo $message."\n"; }
         shell_exec("rm $tempFile");
-        echo "Temp File $tempFile Removed\n";
+        $logging->log("Temp File $tempFile Removed", $this->getModuleName());
+        return $rc["rc"] ;
+    }
+
+    protected function tempfileFromCommand($multiLineCommand) {
+        $loggingFactory = new \Model\Logging();
+        $params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
+        $tempFile = self::$tempDir.DS.PHARAOH_APP."-temp-script-".mt_rand(100, 99999999999).".sh";
+//        $logging->log("Creating $tempFile", $this->getModuleName());
+        $fileVar = "";
+        $multiLineCommand = $this->multilineToArray($multiLineCommand) ;
+        foreach ($multiLineCommand as $command) { $fileVar .= $command."\n" ; }
+        file_put_contents($tempFile, $fileVar) ;
+        return $tempFile ;
+    }
+
+    protected static function multilineToArray($multiLineCommand) {
+        if (!is_array($multiLineCommand)) {
+            $multiLineCommand = explode("\n", $multiLineCommand) ;  }
+        $newRay = array() ;
+        foreach ($multiLineCommand as $singleCommand) {
+            $entry = str_replace(PHP_EOL, "", $singleCommand) ;
+            $entry = str_replace("\n", "", $entry) ;
+            $entry = str_replace("\r\n", "", $entry) ;
+            $newRay[] = $entry ; }
+        return $multiLineCommand ;
+    }
+
+    protected static function tempfileStaticFromCommand($multiLineCommand) {
+        $loggingFactory = new \Model\Logging();
+        $params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($params);
+        self::setTempDir();
+        $tempFile = self::$tempDir.DS."ptconfigure-temp-script-".mt_rand(100, 999999999).".sh";
+//        $logging->log("Creating $tempFile");
+        $fileVar = "";
+        $multiLineCommand = self::multilineToArray($multiLineCommand) ;
+        foreach ($multiLineCommand as $command) { $fileVar .= $command."\n" ; }
+        file_put_contents($tempFile, $fileVar) ;
+        return $tempFile ;
     }
 
     protected function executeAndOutput($command, $message=null) {
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
         $outputText = shell_exec($command);
-        if ($message !== null) {
-          $outputText .= "$message\n"; }
         print $outputText;
+        if ($message !== null) {
+            $outputText .= "$message\n";
+            $logging->log("", $this->getModuleName());}
         return $outputText;
     }
 
@@ -108,30 +166,124 @@ COMPLETION;
         return $outputText;
     }
 
-    public static function executeAndGetReturnCode($command) {
-        $output = '';
-        $retVal = null;
-        exec($command, $output, $retVal);
-        return $retVal;
+    protected function executePHP($command, $show_output = null, $get_output = null) {
+        $command = "php {$command}" ;
+        $proc = popen($command, 'r');
+        $all_out = "" ;
+        while (!feof($proc))
+        {
+            $data = fread($proc, 4096);
+            if (!is_null($show_output)) {
+                echo $data ;
+            }
+            if (!is_null($get_output)) {
+                $all_out .= $data ;
+            }
+        }
+        $res = pclose($proc);
+        $ret['out'] = $all_out ;
+        $ret['rc'] = $res ;
+        return $ret;
     }
 
-    protected function setCmdLineParams($params) {
-        $cmdParams = array();
-        if (!is_array($params)) {
-            var_dump($params) ;
-            debug_print_backtrace() ; }
-        foreach ($params as $paramKey => $paramValue) {
-            if (is_array($paramValue)) {
-                // if the value is a php array, the param must be already formatted so do nothing
+    public static function executeAndGetReturnCode($command, $show_output = null, $get_output = null, $custom_exe = null) {
+        $tempFile = self::tempfileStaticFromCommand($command) ;
+        $loggingFactory = new \Model\Logging();
+        $params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($params);
+        if (!is_executable($tempFile)) {
+            // @todo this wont work on windows
+            shell_exec("chmod 755 $tempFile 2>/dev/null");
+            shell_exec("chmod +x $tempFile 2>/dev/null"); }
+
+        if ($custom_exe === null) {
+            $exe_str = 'bash -ex' ;
+            $command = "{$exe_str} $tempFile" ;
+        } else {
+            $exe_str = $custom_exe ;
+            $command = "{$exe_str} $tempFile" ;
+        }
+
+        $proc = proc_open($command, array(
+            0 => array("pipe","r"),
+            1 => array("pipe",'w'),
+            2 => array("pipe",'w'),
+        ),$pipes);
+        if ($show_output === true) {
+            stream_set_blocking($pipes[1], true);
+            stream_set_blocking($pipes[2], true);
+            $data = "";
+            $data2 = "";
+            while ( ($buf = fread($pipes[1], 131072)) || ( $buf2 = fread($pipes[2], 131072))) {
+                if (isset($buf) && $buf !== false) {
+                    $data .= $buf;
+                    echo $buf ; }
+                if ( (isset($buf2) && $buf2 !== false) || $buf2 = fread($pipes[2], 131072) ) {
+//                    $buf2 = "ERR: ".$buf2;
+//                    echo "ERR: ".$buf2 ;
+                    $data2 .= $buf2;
+//                    echo "ERR: " ;
+                    unset($buf2) ; } }
+            echo $data2 ; }
+
+//        while ( ($buf = fread($pipes[1], 131072)) || ( $buf2 = fread($pipes[2], 131072))) {
+//            if (isset($buf) && $buf !== false) {
+//                $data .= $buf;
+//                echo $buf ; }
+//            if ( (isset($buf2) && $buf2 !== false) || $buf2 = fread($pipes[2], 131072) ) {
+////                    $buf2 = "ERR: ".$buf2;
+////                    echo "ERR: ".$buf2 ;
+//                $data .= $buf2;
+////                    echo "ERR: " ;
+//                echo $buf2 ;
+//                unset($buf2) ;}
+
+        $stdout = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[2]);
+        $retVal = proc_close($proc);
+        $output = (isset($stderr)) ? $stdout.$stderr : $stdout ;
+        $output = explode("\n", $output) ;
+        if ($show_output == true) {
+            $stdout = explode("\n", $stdout) ;
+            foreach ($stdout as $stdoutline) {
+                file_put_contents('/tmp/pharaoh.log', "show output $stdoutline\n", FILE_APPEND) ;
+                echo $stdoutline."\n" ; }
+            if (strlen($stderr)>0) {
+//                echo "ERRORS:\n";
+                $stderr = explode("\n", $stderr) ;
+                foreach ($stderr as $stderrline) {
+                    file_put_contents('/tmp/pharaoh.log', "show err $stderrline\n", FILE_APPEND) ;
+                    echo $stderrline."\n" ;
+                }
             }
-            else if (substr($paramValue, 0, 2)=="--" && strpos($paramValue, '=') != null ) {
-                $equalsPos = strpos($paramValue, "=") ;
-                $paramKey = substr($paramValue, 2, $equalsPos-2) ;
-                $paramValue = substr($paramValue, $equalsPos+1, strlen($paramValue)) ; }
-            else if (substr($paramValue, 0, 2)=="--" && strpos($paramValue, '=') == false ) {
-                $paramKey = substr($paramValue, 2) ;
-                $paramValue = true ; }
-            $cmdParams = array_merge($cmdParams, array($paramKey => $paramValue)); }
+            return array("rc"=>$retVal, "output"=>$output) ; }
+        if ($get_output == true) {
+            return array("rc"=>$retVal, "output"=>$output) ;}
+        else {
+            return $retVal; }
+    }
+
+    protected function setCmdLineParams($params = array()) {
+        $cmdParams = array();
+        // if (!is_array($params)) {
+        //    var_dump($params) ;
+        //    debug_print_backtrace() ;
+        // }
+        if (count($params)>0) {
+            foreach ($params as $paramKey => $paramValue) {
+                if (is_array($paramValue)) {
+                    // if the value is a php array, the param must be already formatted so do nothing
+                }
+                else if (substr($paramValue, 0, 2)=="--" && strpos($paramValue, '=') != null ) {
+                    $equalsPos = strpos($paramValue, "=") ;
+                    $paramKey = substr($paramValue, 2, $equalsPos-2) ;
+                    $paramValue = substr($paramValue, $equalsPos+1, strlen($paramValue)) ; }
+                else if (substr($paramValue, 0, 2)=="--" && strpos($paramValue, '=') == false ) {
+                    $paramKey = substr($paramValue, 2) ;
+                    $paramValue = true ; }
+                $cmdParams = array_merge($cmdParams, array($paramKey => $paramValue)); } }
         $this->params = (is_array($this->params)) ? array_merge($this->params, $cmdParams) : $cmdParams;
     }
 
@@ -143,6 +295,7 @@ COMPLETION;
         print "$question (Y/N) \n";
         $fp = fopen('php://stdin', 'r');
         $last_line = false;
+        $yesOrNo = "" ;
         while (!$last_line) {
             $inputChar = fgetc($fp);
             $yesOrNo = ($inputChar=="y"||$inputChar=="Y") ? true : false;
@@ -154,6 +307,7 @@ COMPLETION;
         print "!! Sure? $question (Y/N) !!\n";
         $fp = fopen('php://stdin', 'r');
         $last_line = false;
+        $yesOrNo = "" ;
         while (!$last_line) {
             $inputChar = fgetc($fp);
             $yesOrNo = ($inputChar=="y"||$inputChar=="Y") ? true : false;
@@ -165,6 +319,7 @@ COMPLETION;
         $fp = fopen('php://stdin', 'r');
         $last_line = false;
         $i = 0;
+        $inputChar = "" ;
         while ($last_line == false ) {
             print "$question\n";
             $inputChar = fgetc($fp);
@@ -177,6 +332,7 @@ COMPLETION;
     protected function askForInput($question, $required=null) {
         $fp = fopen('php://stdin', 'r');
         $last_line = false;
+        $inputLine = "" ;
         while (!$last_line) {
             print "$question\n";
             $inputLine = fgets($fp, 1024);
@@ -190,6 +346,7 @@ COMPLETION;
     protected function askForArrayOption($question, $options, $required=null) {
         $fp = fopen('php://stdin', 'r');
         $last_line = false;
+        $inputLine = "" ;
         while ($last_line == false) {
             print "$question\n";
             for ( $i=0 ; $i<count($options) ; $i++) { print "($i) $options[$i] \n"; }
@@ -390,6 +547,26 @@ COMPLETION;
             return $this->versionsAvailable() ; }
         else {
             return false; }
+    }
+
+    public function recursiveCopy($src,$dst) {
+        $dir = opendir($src);
+        @mkdir($dst);
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                if ( is_dir($src . DS . $file) ) {
+                    $this->recursiveCopy($src . DS . $file,$dst . DS . $file);
+                }
+                else {
+                    $res = copy($src . DS . $file,$dst . DS . $file);
+                    if ($res === false) {
+                        return false ;
+                    }
+                }
+            }
+        }
+        closedir($dir);
+        return true ;
     }
 
 }

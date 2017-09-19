@@ -20,6 +20,13 @@ class MongodbLinuxUnix extends Base {
 
     public function getSettingFormFields() {
         $ff = array(
+           "Mongodb_enabled" =>
+            	array(
+                	"type" => "boolean",
+                	"optional" => true,
+                	"name" => "Mongodb on Build Completion?"
+            ),
+
             "host" => array(
                 "type" => "text",
                 "optional" => true,
@@ -81,7 +88,7 @@ class MongodbLinuxUnix extends Base {
         //$buildsettings = $pipeline->getData();
 
         $mn = $this->getModuleName() ;
-              
+        if (isset($pipeline["settings"][$mn]["Mongodb_enabled"]) && $pipeline["settings"][$mn]["Mongodb_enabled"] == "on") {
             $m = new \MongoClient($pipeline["settings"][$mn]["host"]);
             //$m = new MongoClient(mongodb://$host);
             
@@ -100,6 +107,14 @@ class MongodbLinuxUnix extends Base {
             );
                $collection->insert($document);
                echo "Document inserted successfully \n";
+}
+   else
+  {
+// @todo this should do something at max level debugging
+//echo "Mongodb not run";
+       return true ;
+}
+
 	}
 
     private function getPipeline() {

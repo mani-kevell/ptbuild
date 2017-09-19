@@ -24,9 +24,14 @@ class AssetLoaderAllOS extends Base {
     public function getAsset() {
         $type = $this->params["type"] ;
         $asset = $this->params["asset"] ;
-        $modDir = \Core\AutoLoader::findModulePath($this->params["module"]) ;
-        $assPath = $modDir.DS.'Assets'.DS.$type.DS.$asset ;
+        $path = $this->ensureTrailingSlash($this->params["path"]) ;
+        if (isset($this->params["location"]) && $this->params["location"] == 'root') {
+            $assPath = PFILESDIR.PHARAOH_APP.DS.$path.$asset ; }
+        else {
+            $modDir = \Core\AutoLoader::findModulePath($this->params["module"]) ;
+            $assPath = $modDir.DS.'Assets'.DS.$type.$asset ; }
         $r = null ;
+//        var_dump('apx:', $assPath) ;
         if (file_exists($assPath)) {
             $r = file_get_contents($assPath); }
         return $r ;
@@ -36,8 +41,11 @@ class AssetLoaderAllOS extends Base {
         $out = "" ;
         $type = $this->params["type"] ;
         switch ($type) {
-            case "js" :
-                $out = "text/javascript";
+            case "binary" :
+                $out = "application/octet-stream";
+                break ;
+            case "raw" :
+                $out = "text/plain";
                 break ;
             case "css" :
                 $out = "text/css";
@@ -52,9 +60,10 @@ class AssetLoaderAllOS extends Base {
 
     private function getImageMimeType() {
         $ext = substr($this->params["asset"], strrpos($this->params["asset"], ".")+1 ) ;
-        if ($ext == "jpg") { $ext = "jpeg" ; }
+		$mime="";
+		if ($ext == "jpg") { $ext = "jpeg" ; }
         if (in_array($ext, array("png", "jpeg", "gif"))) { $mime = 'image/'.$ext ; }
-        else if ($ext == 'svg') { $mime = 'image/svg+xml' ; }
+        else if ($ext == "svg") { $mime = 'image/svg+xml' ; }
         return $mime ;
     }
 

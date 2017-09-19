@@ -40,6 +40,31 @@ class WorkspaceAllOS extends Base {
         return $this->params["pipe-dir"].DS.$this->params["item"].DS.'workspace'.DS.$relPath;
     }
 
+    public function createWorkspaceIfNeeded() {
+        $workspace_path = $this->getWorkspaceDir() ;
+        $loggingFactory = new \Model\Logging();
+        $logging = $loggingFactory->getModel($this->params);
+        if (is_dir($workspace_path)) {
+            $logging->log("Workspace directory exists... " , $this->getModuleName()) ;
+            if(is_writable($workspace_path)) {
+                $logging->log("Workspace is writable " , $this->getModuleName()) ;
+                return true ; }
+            else {
+                $logging->log("Workspace is not writable " , $this->getModuleName()) ; } }
+        else {
+            $logging->log("No Workspace directory exists " , $this->getModuleName()) ; }
+        $logging->log("Rebuilding workspace " , $this->getModuleName()) ;
+        $rc = array();
+        $rc[] = $this->executeAndGetReturnCode("rm -rf {$workspace_path}", true, true);
+        $rc[] = $this->executeAndGetReturnCode("mkdir -p {$workspace_path}", true, true);
+        $res = ($rc[0]["rc"]==0 && $rc[1]["rc"]==0) ;
+        if ($res == true) {
+            $logging->log("Workspace successfully rebuilt" , $this->getModuleName()) ; }
+        else {
+            $logging->log("Workspace failed rebuild" , $this->getModuleName()) ; }
+        return $res ;
+    }
+
     public function setPipeDir() {
         if (isset($this->params["guess"]) && $this->params["guess"]==true) {
             $this->params["pipe-dir"] = PIPEDIR ; }

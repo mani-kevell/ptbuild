@@ -2,7 +2,7 @@
 
 Namespace Model;
 
-class CronLinuxUnix extends Base {
+class CronLinuxUnix extends BaseLinuxApp {
 
     // Compatibility
     public $os = array("any") ;
@@ -20,33 +20,31 @@ class CronLinuxUnix extends Base {
 
     public function getEvents() {
         $ff = array(
-            "afterApplicationConfigureSave" => array("crontabParent",),
+            "afterApplicationConfigurationSave" => array("crontabParent",),
         );
         return $ff ;
     }
 
     public function crontabParent() {
+//        var_dump("running crontab parent") ;
         $loggingFactory = new \Model\Logging();
-        $this->params["php-log"] = true ;
+//        $this->params["php-log"] = true ;
+        $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
         $mn = $this->getModuleName() ;
         $this->params["app-settings"] = \Model\AppConfig::getAppVariable("mod_config");
         if ($this->params["app-settings"][$mn]["cron_enable"] == "on") {
             $logging->log ("Cron Enabled as scheduled task driver, running cron create command...", $this->getModuleName() ) ;
-
             $switch = $this->getSwitchUser() ;
             $cmd = "" ;
-            if ($switch != false) { $cmd .= 'sudo su '.$switch.' -c '."'" ; }
-            $cmd .= PHRCOMM.' Cron set-crontab --yes --guess --frequency="'.$this->params["app-settings"][$mn]["cron_frequency"].
-                '"';
-            if ($switch != false) { $cmd .= "'" ; }
-            error_log($cmd) ;
-
-            $cmd2 = "echo $?" ;
-            $result = self::executeAndLoad($cmd2) ;
-            if ($result == true) { $logging->log ("Cron job installed successfully", $this->getModuleName() ) ; }
-            else { $logging->log ("Cron job install error", $this->getModuleName() ) ; }
-            return $result; }
+            if ($switch !== null) { $cmd .= 'sudo su '.$switch.' -c '."'" ; }
+            $cmd .= PTBCOMM.' Cron set-crontab --yes --guess --frequency="'.$this->params["app-settings"][$mn]["cron_frequency"].'"';
+            if ($switch !== null) { $cmd .= "'" ; }
+            $rc = self::executeAndGetReturnCode($cmd, false, true) ;
+            $res = ($rc["rc"] === 0) ? true : false ;
+            if ($res === true) { $logging->log ("Cron job installed successfully", $this->getModuleName() ) ; }
+            else { $logging->log ("Cron job install error: {$rc["output"][0]}", $this->getModuleName() ) ; }
+            return $res; }
         else {
             $logging->log ("Cron disabled, deleting current crontab...", $this->getModuleName() ) ;
             $this->removeCrontab() ;
@@ -61,7 +59,7 @@ class CronLinuxUnix extends Base {
         $mn = $this->getModuleName() ;
         if ($this->params["app-settings"][$mn]["cron_enable"] == "on") {
             $logging->log ("Cron Enabled as scheduled task driver, creating...", $this->getModuleName() ) ;
-            $this->removeCrontab() ;
+//            $this->removeCrontab() ;
             $this->addCrontab() ;
             return true; }
         else {
@@ -71,7 +69,8 @@ class CronLinuxUnix extends Base {
     }
 
     private function getSwitchUser() {
-        if ($this->params["app-settings"]["Cron"]["cron_switch"] == "on") {
+        if (isset($this->params["app-settings"]["Cron"]["cron_switch"]) &&
+            $this->params["app-settings"]["Cron"]["cron_switch"] === "on") {
             if (isset($this->params["app-settings"]["UserSwitching"]["switching_user"])) {
                 return $this->params["app-settings"]["UserSwitching"]["switching_user"] ; }
             else {
@@ -81,13 +80,13 @@ class CronLinuxUnix extends Base {
     private function addCrontab() {
         $cronFactory = new \Model\Cron();
         $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
-        $cronModify->addCronjob();
+        $cronModify->addCronjob("Cron");
     }
 
     private function removeCrontab() {
         $cronFactory = new \Model\Cron();
         $cronModify = $cronFactory->getModel($this->params, "CrontabModify");
-        $cronModify->removeCronjob();
+        $cronModify->removeCronjob("Cron");
     }
 
 }

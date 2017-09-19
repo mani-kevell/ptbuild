@@ -44,12 +44,60 @@ class PipelineAllOS extends Base {
         return (isset($names) && is_array($names)) ? $names : false ;
     }
 
+    public function getPipelineFeatures() {
+        $pipeFeatureFactory = new \Model\PipeFeature();
+        $pipeFeatureRepository = $pipeFeatureFactory->getModel($this->params, "PipeFeatureRepository") ;
+        $names = $pipeFeatureRepository->getPipeFeatureNames();
+        $pipeline = $this->getPipeline($this->params["item"]);
+        $this->params["build-settings"] = $pipeline["settings"];
+        $enabledFeatures = array() ;
+        $i = 0;
+        foreach ($pipeline["settings"] as $key => $values) {
+            if (in_array($key, $names) && $values["enabled"] =="on") {
+                $cname = '\Model\\'.$key ;
+                $moduleFactory = new $cname();
+                $modulePipeFeature = $moduleFactory->getModel($this->params, "PipeFeature");
+                // @ todo maybe an interface check? is object something?
+//                if (!is_array($values)) {
+//                    $values=array("default_fieldsets" =>array(0 => array($values))) ; }
+
+                if (method_exists($modulePipeFeature, 'getDefaults')) {
+                    $modulePipeFeature->setPipeline($pipeline) ;
+                    $default_fieldsets = $modulePipeFeature->getDefaults() ;
+                    foreach ($default_fieldsets as $hash => $model) {
+                        if ($hash !== 0) {
+                            $valueset["hash"] = $hash ; }
+                        $enabledFeatures[$i]["module"] = $key  ;
+                        $enabledFeatures[$i]["values"] = $pipeline["settings"][$key]  ;
+                        $enabledFeatures[$i]["model"] = $model  ;
+                        $i++;
+                    }
+                }
+
+                foreach ($values as $fieldSetTitle => $fieldSets) {
+                    foreach ($fieldSets as $hash => $valueset) {
+                        if ($hash !== 0) {
+                            $valueset["hash"] = $hash ; }
+                        $modulePipeFeature->setValues($valueset) ;
+                        $modulePipeFeature->setPipeline($pipeline) ;
+                        $collated = $modulePipeFeature->collate();
+                        $enabledFeatures[$i]["module"] = $key  ;
+                        $enabledFeatures[$i]["values"] = $valueset  ;
+                        $enabledFeatures[$i]["model"] = $collated  ;
+//                        var_dump('<pre>', $enabledFeatures[$i], '</pre>') ;
+                        $i++; }
+
+                }
+            }}
+        return $enabledFeatures ;
+    }
+
     public function deletePipeline($name) {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         if (file_exists(PIPEDIR.DS.$name)) {
             $logging->log("Directory exists at ".PIPEDIR.DS."{$name}. Attempting removal.", $this->getModuleName()) ;
-            $rc = self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name);
+            $rc = self::executeAndGetReturnCode('rm -rf '.PIPEDIR.DS.$name);
             return $rc ; }
         else  {
             $logging->log("No directory exists at ".PIPEDIR.DS."$name to delete", $this->getModuleName()) ;
@@ -64,10 +112,14 @@ class PipelineAllOS extends Base {
             return false ; }
         else  {
             $logging->log("Attempting to create directory ".PIPEDIR.DS."$name ", $this->getModuleName()) ;
+            // @todo cross os
+            // @todo rturn the actual result. maybe use pharaoh configure mkdir module or add it here
             $rc = self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name);
             self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name.DS.'history');
             self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name.DS.'workspace');
             self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name.DS.'stepsHistory');
+            self::executeAndGetReturnCode('mkdir -p '.PIPEDIR.DS.$name.DS.'tmp');
+            self::executeAndGetReturnCode('touch '.PIPEDIR.DS.$name.DS.'historyIndex');
             return $rc ; }
     }
 

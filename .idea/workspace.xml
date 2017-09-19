@@ -2,238 +2,64 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03f6198e-7b92-4492-834b-a57d478943eb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/cross.png" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/cross.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.eot" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.eot" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.ttf" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.woff" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.woff" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/green-ball.png" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/green-ball.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildConfigure/images/loading.gif" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildConfigure/images/loading.gif" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/images/loading.gif" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/images/loading.gif" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/PipeRunner/images/loading.gif" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/PipeRunner/images/loading.gif" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/red-ball.png" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/red-ball.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/run.png" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/run.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/tick.png" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildList/images/tick.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/AbstractFilterableInputStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/AbstractFilterableInputStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/AbstractHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/AbstractHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/AbstractSmtpTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/AbstractSmtpTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/AntiFloodPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/AntiFloodPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/ArrayByteStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/ArrayByteStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterStream/ArrayCharacterStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterStream/ArrayCharacterStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/ArrayKeyCache.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/ArrayKeyCache.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Loggers/ArrayLogger.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Loggers/ArrayLogger.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mailer/ArrayRecipientIterator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mailer/ArrayRecipientIterator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Attachment.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Attachment.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Attachment.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Attachment.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/AuthHandler.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/AuthHandler.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Authenticator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Authenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/BandwidthMonitorPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/BandwidthMonitorPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/Base64ContentEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/Base64ContentEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder/Base64Encoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder/Base64Encoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderEncoder/Base64HeaderEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderEncoder/Base64HeaderEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/BodySigner.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/BodySigner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/BuildConfigure/Model/BuildConfigureAllOS.php" afterPath="$PROJECT_DIR$/src/Modules/BuildConfigure/Model/BuildConfigureAllOS.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/BuildConfigure/Views/BuildConfigureHTMLView.tpl.php" afterPath="$PROJECT_DIR$/src/Modules/BuildConfigure/Views/BuildConfigureHTMLView.tpl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilters/ByteArrayReplacementFilter.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilters/ByteArrayReplacementFilter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReaderFactory.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReaderFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/CharsetObserver.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/CharsetObserver.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/CommandEvent.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/CommandEvent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/CommandListener.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/CommandListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ConfigurableSpool.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ConfigurableSpool.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/CramMd5Authenticator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/CramMd5Authenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/DKIMSigner.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/DKIMSigner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/DateHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/DateHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/DecoratorPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/DecoratorPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/DependencyContainer.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/DependencyContainer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/DependencyException.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/DependencyException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/DiskKeyCache.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/DiskKeyCache.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/DomainKeySigner.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/DomainKeySigner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Loggers/EchoLogger.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Loggers/EchoLogger.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/EmbeddedFile.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/EmbeddedFile.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/EmbeddedFile.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/EmbeddedFile.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoding.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoding.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/EncodingObserver.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/EncodingObserver.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/EsmtpHandler.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/EsmtpHandler.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/EsmtpTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/EsmtpTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/Event.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/Event.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/EventDispatcher.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/EventDispatcher.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/EventListener.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/EventListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/EventObject.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/EventObject.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/FailoverTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/FailoverTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/FailoverTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/FailoverTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/FileByteStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/FileByteStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/FileSpool.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/FileSpool.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/FileStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/FileStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Filterable.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Filterable.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader/GenericFixedWidthReader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader/GenericFixedWidthReader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Grammar.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Grammar.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Header.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Header.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderFactory.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderSet.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderSet.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/HeaderSigner.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/HeaderSigner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Reporters/HitReporter.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Reporters/HitReporter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Reporters/HtmlReporter.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Reporters/HtmlReporter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/IdentificationHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/IdentificationHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Image.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Image.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/ImpersonatePlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/ImpersonatePlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/InputByteStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/InputByteStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/IoBuffer.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/IoBuffer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/IoException.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/IoException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/KeyCacheInputStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/KeyCacheInputStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/LoadBalancedTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/LoadBalancedTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/LoadBalancedTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/LoadBalancedTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Logger.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Logger.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/LoggerPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/LoggerPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/LoginAuthenticator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/LoginAuthenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/MailInvoker.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/MailInvoker.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/MailTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/MailTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/MailTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/MailTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/MailboxHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/MailboxHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mailer.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mailer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/MemorySpool.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/MemorySpool.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Message.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Message.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Message.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Message.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/MessageLogger.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/MessageLogger.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/MimeEntity.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/MimeEntity.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/MimePart.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/MimePart.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/MimePart.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/MimePart.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/ModuleManager/Controller/ModuleManager.php" afterPath="$PROJECT_DIR$/src/Modules/ModuleManager/Controller/ModuleManager.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManager.php" afterPath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManager.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerAnyOS.php" afterPath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerAnyOS.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebActionAnyOS.php" afterPath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebActionAnyOS.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebAnyOS.php" afterPath="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebAnyOS.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/NTLMAuthenticator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/NTLMAuthenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/NativeQpContentEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/NativeQpContentEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterStream/NgCharacterStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterStream/NgCharacterStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/NullKeyCache.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/NullKeyCache.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/NullTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/NullTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/NullTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/NullTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/OpenDKIMHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/OpenDKIMHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/OpenDKIMSigner.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/OpenDKIMSigner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/OutputByteStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/OutputByteStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ParameterizedHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ParameterizedHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/ParameterizedHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/ParameterizedHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/PathHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/PathHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PipeRunner/Model/PipeRunnerAllOS.php" afterPath="$PROJECT_DIR$/src/Modules/PipeRunner/Model/PipeRunnerAllOS.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PipeRunner/Views/PipeRunnerGetValueHTMLView.tpl.php" afterPath="$PROJECT_DIR$/src/Modules/PipeRunner/Views/PipeRunnerGetValueHTMLView.tpl.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/PlainAuthenticator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/PlainAuthenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/PlainContentEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/PlainContentEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Pop/Pop3Connection.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Pop/Pop3Connection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Pop/Pop3Exception.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Pop/Pop3Exception.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/PopBeforeSmtpPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/PopBeforeSmtpPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Preferences.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Preferences.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/QpContentEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/QpContentEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/QpContentEncoderProxy.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/QpContentEncoderProxy.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder/QpEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder/QpEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderEncoder/QpHeaderEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/HeaderEncoder/QpHeaderEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/RawContentEncoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/ContentEncoder/RawContentEncoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mailer/RecipientIterator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mailer/RecipientIterator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/RedirectingPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/RedirectingPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ReplacementFilterFactory.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ReplacementFilterFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Decorator/Replacements.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Decorator/Replacements.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Reporter.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Reporter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/ReporterPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/ReporterPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/ResponseEvent.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/ResponseEvent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/ResponseListener.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/ResponseListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder/Rfc2231Encoder.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Encoder/Rfc2231Encoder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/RfcComplianceException.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/RfcComplianceException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/SMimeSigner.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signers/SMimeSigner.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Model/SendEmailLinuxUnix.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Model/SendEmailLinuxUnix.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/SendEvent.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/SendEvent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/SendListener.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/SendListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SendmailTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SendmailTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SendmailTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SendmailTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SignedMessage.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SignedMessage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signer.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Signer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReaderFactory/SimpleCharacterReaderFactory.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReaderFactory/SimpleCharacterReaderFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/SimpleEventDispatcher.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/SimpleEventDispatcher.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleHeaderFactory.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleHeaderFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleHeaderSet.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleHeaderSet.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/SimpleKeyCacheInputStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/KeyCache/SimpleKeyCacheInputStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SimpleMailInvoker.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SimpleMailInvoker.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleMessage.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleMessage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleMimeEntity.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/SimpleMimeEntity.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Sleeper.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Sleeper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SmtpAgent.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SmtpAgent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SmtpTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SmtpTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Spool.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Spool.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SpoolTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SpoolTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SpoolTransport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/SpoolTransport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/StreamBuffer.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/StreamBuffer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilter.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilters/StringReplacementFilter.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilters/StringReplacementFilter.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilters/StringReplacementFilterFactory.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/StreamFilters/StringReplacementFilterFactory.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SwiftException.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/SwiftException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/TemporaryFileByteStream.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/ByteStream/TemporaryFileByteStream.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/ThrottlerPlugin.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/ThrottlerPlugin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Timer.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Plugins/Timer.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportChangeEvent.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportChangeEvent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportChangeListener.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportChangeListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/TransportException.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/TransportException.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportExceptionEvent.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportExceptionEvent.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportExceptionListener.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Events/TransportExceptionListener.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/UnstructuredHeader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Mime/Headers/UnstructuredHeader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader/UsAsciiReader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader/UsAsciiReader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader/Utf8Reader.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/CharacterReader/Utf8Reader.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Validate.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Validate.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/XOAuth2Authenticator.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/classes/Swift/Transport/Esmtp/Auth/XOAuth2Authenticator.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap-theme.css.map" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap-theme.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap-theme.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap-theme.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap-theme.min.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap-theme.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.css.map" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/bootstrap.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/bootstrap.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/bootstrap.min.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/bootstrap.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildConfigure/css/buildconfigure.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildConfigure/css/buildconfigure.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildConfigure/js/buildconfigure.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/BuildConfigure/js/buildconfigure.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/cache_deps.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/cache_deps.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/fonts/glyphicons-halflings-regular.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/ModuleManager/info.ModuleManager.php" afterPath="$PROJECT_DIR$/src/Modules/ModuleManager/info.ModuleManager.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/jquery-ui.min.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/jquery-ui.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/message_deps.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/message_deps.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/mime_deps.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/mime_deps.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/mime_types.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/mime_types.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/css/modulemanager.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/css/modulemanager.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/js/modulemanager.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/js/modulemanager.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/npm.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/js/npm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phrankinsense.iml" afterPath="$PROJECT_DIR$/phrankinsense.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/PipeRunner/js/piperunner.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/PipeRunner/js/piperunner.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/preferences.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/preferences.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ptbuildvars" afterPath="$PROJECT_DIR$/ptbuildvars" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/Signup/js/signup.js" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/Signup/js/signup.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/style.css" afterPath="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/swift_init.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/swift_init.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/swift_required.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/swift_required.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/swift_required_pear.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/swift_required_pear.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/transport_deps.php" afterPath="$PROJECT_DIR$/src/Modules/SendEmail/Libraries/dependency_maps/transport_deps.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Assets/image/loading.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Controller/UserProfile.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfile.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileAlertHTMLView.tpl.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfileAnyOS.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfileGetUserAllOS.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileGetUserJSONView.tpl.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileHTMLView.tpl.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileView.tpl.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/info.UserProfile.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Assets/css/userprofile.css" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Modules/UserManager/Views/UserProfileHTMLView.tpl.php" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Modules/UserManager/Assets/js/userprofile.js" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Assets/js/userprofile.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Modules/UserManager/Views/ChangePasswordResultJSONView.tpl.php" afterPath="$PROJECT_DIR$/src/Modules/UserProfile/Views/ChangePasswordResultJSONView.tpl.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/Signup/Model/SignupAllOS.php" afterPath="$PROJECT_DIR$/src/Modules/Signup/Model/SignupAllOS.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Modules/Signup/Data/users.txt" afterPath="$PROJECT_DIR$/src/Modules/Signup/Data/users.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="phrankinsense.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424820948720" ignored="false" />
-    <file path="/a.dummy" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424686338751" ignored="false" />
-    <file path="/ModuleManagerHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424726338601" ignored="false" />
-    <file path="/ModuleManagerWebAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424639087469" ignored="false" />
-    <file path="/ApplicationConfigureSaverAllOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424640894267" ignored="false" />
-    <file path="/AppConfig.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424641013592" ignored="false" />
-    <file path="/ApplicationInstanceLinuxUnix.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424641785552" ignored="false" />
-    <file path="/ApplicationConfigureHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424642173458" ignored="false" />
-    <file path="/modulemanager.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424648403589" ignored="false" />
-    <file path="/ModuleManagerWebActionsAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424660522777" ignored="false" />
-    <file path="/ModuleManager.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424656342537" ignored="false" />
-    <file path="/BasePHPApp.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424705357821" ignored="false" />
-    <file path="/ModuleManagerAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424659874961" ignored="false" />
-    <file path="/ModuleManagerWebActionHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424657630354" ignored="false" />
-    <file path="/SendEmailLinuxUnix.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424811813245" ignored="false" />
-    <file path="/BuildConfigureHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1424741081080" ignored="false" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <file path="/Dummy.txt" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440902651165" ignored="false" />
+    <file path="/a.dummy" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440906993416" ignored="false" />
+    <file path="/UserPermissionAllOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440786922517" ignored="false" />
+    <file path="/ptbuildvars" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440862953804" ignored="false" />
+    <file path="/SignupAllOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440908685528" ignored="false" />
+    <file path="/Control.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440869263190" ignored="false" />
+    <file path="/Signup.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440869416154" ignored="false" />
+    <file path="/UserManagerAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440872859604" ignored="false" />
+    <file path="/Authentication.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440901585070" ignored="false" />
+    <file path="/info.Signup.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440876679357" ignored="false" />
+    <file path="/PTConfigureBase.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440877675471" ignored="false" />
+    <file path="/ModuleManagerHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440887855092" ignored="false" />
+    <file path="/modulemanager.js" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440878979952" ignored="false" />
+    <file path="/ModuleManagerWebActionAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440886028860" ignored="false" />
+    <file path="/AutoLoad.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440882920952" ignored="false" />
+    <file path="/ModuleManagerAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440884904754" ignored="false" />
+    <file path="/ModuleManager.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440885153223" ignored="false" />
+    <file path="/ModuleManagerWebAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440886831149" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/DefaultSkin/Assets/css/bootstrap.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535862" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/DefaultSkin/Assets/css/bootstrap.min.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535862" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/BuildConfigure/Assets/js/buildconfigure.js" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535862" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/PostInput/Assets/startbootstrap-sb-admin-2-1.0.5/bower_components/bootstrap/dist/css/bootstrap.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535862" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/PostInput/Assets/startbootstrap-sb-admin-2-1.0.5/bower_components/bootstrap/dist/css/bootstrap.min.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535862" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/DefaultSkin/Assets/startbootstrap-sb-admin-2-1.0.5/bower_components/bootstrap/dist/css/bootstrap.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535864" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/DefaultSkin/Assets/startbootstrap-sb-admin-2-1.0.5/bower_components/bootstrap/dist/css/bootstrap.min.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535864" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535864" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/PostInput/Assets/css/bootstrap.min.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535864" ignored="false" />
+    <file path="$PROJECT_DIR$/src/Modules/PostInput/Assets/startbootstrap-sb-admin-2-1.0.5/dist/css/sb-admin-2.css" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889535864" ignored="false" />
+    <file path="/PipeRunnerAllOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440889889532" ignored="false" />
+    <file path="/BuildListHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440895727124" ignored="false" />
+    <file path="/buildlist.js" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440896996492" ignored="false" />
+    <file path="$PROJECT_DIR$/../../pttrack/pttrack/src/Core/Control.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440905170077" ignored="false" />
+    <file path="/UserProfileAnyOS.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440906547686" ignored="false" />
+    <file path="/UserProfileHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440906850872" ignored="false" />
+    <file path="/UserProfile.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440906335854" ignored="false" />
+    <file path="$PROJECT_DIR$/../../pttrack/pttrack/src/Modules/UserProfile/Views/UserProfileHTMLView.tpl.php" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440906879347" ignored="false" />
+    <file path="/users.txt" changelist="03f6198e-7b92-4492-834b-a57d478943eb" time="1440907555614" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -248,6 +74,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -284,7 +111,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -294,43 +120,115 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ModuleManagerHTMLView.tpl.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Modules/ModuleManager/Views/ModuleManagerHTMLView.tpl.php">
+      <file leaf-file-name="UserProfile.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfile.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="62" selection-start="6182" selection-end="6182" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PipeRunnerAllOS.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Modules/PipeRunner/Model/PipeRunnerAllOS.php">
+      <file leaf-file-name="UserProfileHTMLView.tpl.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileHTMLView.tpl.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="103" selection-start="3794" selection-end="3794" vertical-scroll-proportion="0.0">
+            <state line="61" column="68" selection-start="3064" selection-end="3072" vertical-scroll-proportion="-4.0">
+              <folding>
+                <element signature="n#style#0;n#h5#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="info.UserProfile.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/info.UserProfile.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="22" selection-start="269" selection-end="280" vertical-scroll-proportion="-8.571428">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BuildConfigureHTMLView.tpl.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Modules/BuildConfigure/Views/BuildConfigureHTMLView.tpl.php">
+      <file leaf-file-name="UserProfileAnyOS.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfileAnyOS.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="145" column="0" selection-start="8544" selection-end="8544" vertical-scroll-proportion="0.0">
+            <state line="59" column="32" selection-start="1807" selection-end="1807" vertical-scroll-proportion="-18.285715">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SendEmailLinuxUnix.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Modules/SendEmail/Model/SendEmailLinuxUnix.php">
+      <file leaf-file-name="users.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/Signup/Data/users.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="49" selection-start="2151" selection-end="2151" vertical-scroll-proportion="0.50442475">
+            <state line="0" column="47" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserProfile.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Controller/UserProfile.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="63" selection-start="612" selection-end="612" vertical-scroll-proportion="-9.714286">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userprofile.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Assets/js/userprofile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="48" selection-start="1445" selection-end="1445" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserManager.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/UserManager/Controller/UserManager.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="69" selection-start="420" selection-end="809" vertical-scroll-proportion="-8.047619">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SignupAllOS.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Modules/Signup/Model/SignupAllOS.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="245" column="65" selection-start="10198" selection-end="10198" vertical-scroll-proportion="-7.4042554">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="workspace.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1400" column="0" selection-start="81348" selection-end="81348" vertical-scroll-proportion="-1.1485714">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -348,31 +246,37 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebActionsAnyOS.php" />
-        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Views/ModuleManagerView.tpl.php" />
-        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Views/ModuleManagerWebActionHTMLView.tpl.php" />
-        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Controller/ModuleManager.php" />
-        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebAnyOS.php" />
         <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebActionAnyOS.php" />
-        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerAnyOS.php" />
-        <option value="$PROJECT_DIR$/src/Modules/UserSwitching/Controller/UserSwitching.php" />
-        <option value="$PROJECT_DIR$/src/Modules/UserSwitching/info.UserSwitching.php" />
-        <option value="$PROJECT_DIR$/src/Modules/UserSwitching/Model/UserSwitching.php" />
-        <option value="$PROJECT_DIR$/src/Modules/PTConfigureRequired/Model/BasePHPApp.php" />
+        <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerWebAnyOS.php" />
         <option value="$PROJECT_DIR$/src/Modules/ModuleManager/Views/ModuleManagerHTMLView.tpl.php" />
-        <option value="$PROJECT_DIR$/src/Modules/PipeRunner/Views/PipeRunnerHTMLView.tpl.php" />
-        <option value="$PROJECT_DIR$/src/Modules/BuildConfigure/Views/BuildConfigureHTMLView.tpl.php" />
+        <option value="$PROJECT_DIR$/src/Modules/PipeRunner/info.PipeRunner.php" />
+        <option value="$PROJECT_DIR$/src/Modules/PTConfigureRequired/Info/PTConfigureBase.php" />
         <option value="$PROJECT_DIR$/src/Modules/PipeRunner/Model/PipeRunnerAllOS.php" />
-        <option value="$PROJECT_DIR$/src/Modules/SendEmail/Model/SendEmailLinuxUnix.php" />
+        <option value="$PROJECT_DIR$/src/Modules/BuildList/Views/BuildListHTMLView.tpl.php" />
+        <option value="$PROJECT_DIR$/src/Modules/BuildList/Assets/js/buildlist.js" />
+        <option value="$PROJECT_DIR$/src/Core/Base/Model/Authentication.php" />
+        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileHTMLView.tpl.php" />
+        <option value="$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfileAnyOS.php" />
+        <option value="$PROJECT_DIR$/src/Modules/UserProfile/Controller/UserProfile.php" />
+        <option value="$PROJECT_DIR$/src/Modules/UserProfile/Assets/js/userprofile.js" />
+        <option value="$PROJECT_DIR$/src/Modules/Signup/Data/users.txt" />
+        <option value="$PROJECT_DIR$/src/Modules/Signup/Model/SignupAllOS.php" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="PhpServers">
+    <servers />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1301" />
-    <option name="height" value="744" />
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="709" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -400,6 +304,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -468,6 +374,448 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="image" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserProfile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Signup" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Signup" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Signup" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Signup" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="PipeRunner" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -508,125 +856,449 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="plugins" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="installed" />
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BuildList" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BuildList" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BuildList" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BuildList" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AssetPublisher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AssetPublisher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AssetPublisher" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="build" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="phrankinsense" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptbuild" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="100" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="116" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="111" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../pttrack/pttrack" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="120" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="914" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="910" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="116" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="113" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Modules" />
-      <recent name="$PROJECT_DIR$/src/Modules/ModuleManager/Views" />
-      <recent name="$PROJECT_DIR$/src/Modules/ModuleManager/Model" />
+      <recent name="$PROJECT_DIR$/build/tests/behat/features" />
+      <recent name="$PROJECT_DIR$/build/tests/behat" />
+      <recent name="$PROJECT_DIR$/src/Modules/BuildConfigure/Views" />
+      <recent name="$PROJECT_DIR$/src/Modules/PublishHTMLreports/Views" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Modules/UserProfile/Assets/js" />
+      <recent name="$PROJECT_DIR$/src/Modules/UserProfile/Views" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
-      <TestRunner />
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
       <method />
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
       <method />
     </configuration>
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
       <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
       <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
       <method />
     </configuration>
     <list size="0" />
-    <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    </configuration>
-    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    </configuration>
-    <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-    </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="03f6198e-7b92-4492-834b-a57d478943eb" name="Default" comment="" />
+      <created>1438224131491</created>
+      <updated>1438224131491</updated>
+    </task>
+    <servers />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="709" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.67232597" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48125" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Amazon EC2" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20611285" sideWeight="0.6704362" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2917342" sideWeight="0.32767403" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Amazon EC2" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -689,86 +1361,125 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Modules/ModuleManager/Views/ModuleManagerHTMLView.tpl.php">
+    <entry file="file://$PROJECT_DIR$/src/Core/Control.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="62" selection-start="6182" selection-end="6182" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/SendEmail/Model/SendEmailLinuxUnix.php">
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserPermission/Model/UserPermissionAllOS.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="14" selection-start="1073" selection-end="1073" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/BuildConfigure/Views/BuildConfigureHTMLView.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="0" selection-start="8544" selection-end="8544" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/ModuleManager/Model/ModuleManagerAnyOS.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="49" selection-start="1267" selection-end="1356" vertical-scroll-proportion="-9.583333" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Core/Base/Model/Base.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="27" selection-start="6313" selection-end="6313" vertical-scroll-proportion="0.772296" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/PTConfigureRequired/Model/BasePHPApp.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="264" column="130" selection-start="12808" selection-end="12808" vertical-scroll-proportion="0.9456522" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/PostInput/Assets/ModuleManager/css/modulemanager.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="57" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/ApplicationConfigure/Views/ApplicationConfigureHTMLView.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="23" selection-start="1743" selection-end="1743" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/PipeRunner/Controller/PipeRunner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="39" selection-start="876" selection-end="880" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/PipeRunner/Views/PipeRunnerHTMLView.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="0" selection-start="6420" selection-end="6460" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/ModuleManager/Views/ModuleManagerHTMLView.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="62" selection-start="6182" selection-end="6182" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/BuildConfigure/Views/BuildConfigureHTMLView.tpl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="0" selection-start="8544" selection-end="8544" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="15.380953">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Modules/PipeRunner/Model/PipeRunnerAllOS.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="103" selection-start="3794" selection-end="3794" vertical-scroll-proportion="0.0">
+        <state line="117" column="21" selection-start="3742" selection-end="3880" vertical-scroll-proportion="-10.285714">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Modules/SendEmail/Model/SendEmailLinuxUnix.php">
+    <entry file="file://$PROJECT_DIR$/src/Core/Base/Model/Authentication.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="49" selection-start="2151" selection-end="2151" vertical-scroll-proportion="0.50442475">
+        <state line="41" column="45" selection-start="1880" selection-end="1880" vertical-scroll-proportion="0.8684211">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileAlertHTMLView.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.3970894">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileGetUserJSONView.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserManager/Controller/UserManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="69" selection-start="420" selection-end="809" vertical-scroll-proportion="-8.047619">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/info.UserProfile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="22" selection-start="269" selection-end="280" vertical-scroll-proportion="-8.571428">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Views/UserProfileHTMLView.tpl.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="68" selection-start="3064" selection-end="3072" vertical-scroll-proportion="-4.0">
+          <folding>
+            <element signature="n#style#0;n#h5#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#3;n#form#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Assets/js/userprofile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="48" selection-start="1445" selection-end="1445" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Controller/UserProfile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="63" selection-start="612" selection-end="612" vertical-scroll-proportion="-9.714286">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/UserProfile/Model/UserProfileAnyOS.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="32" selection-start="1807" selection-end="1807" vertical-scroll-proportion="-18.285715">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/Signup/Data/users.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="47" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Modules/Signup/Model/SignupAllOS.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="245" column="65" selection-start="10198" selection-end="10198" vertical-scroll-proportion="-7.4042554">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1400" column="0" selection-start="81348" selection-end="81348" vertical-scroll-proportion="-1.1485714">
           <folding />
         </state>
       </provider>

@@ -19,15 +19,16 @@ class CronInfo extends PTConfigureBase {
     public function routeAliases() {
         return array("cron"=>"Cron");
     }
+
     public function events() {
-        return array("afterApplicationConfigureSave");
+        return array("afterApplicationConfigurationSave");
     }
 
     public function configuration() {
         return array(
             "cron_enable"=> array("type" => "boolean", "default" => "on", "label" => "Cron Enabled?", ),
             "cron_switch_user"=> array("type" => "boolean", "default" => "on", "label" => "Use switching user if available?", ),
-            "cron_command"=> array("type" => "text", "default" => "/usr/bin/ptbuild ScheduledTasks execute --yes --guess", "label" => "Cron Command for Scheduled Tasks?", ),
+            "cron_command"=> array("type" => "text", "default" => "/usr/bin/ptbuild ScheduledBuild run-cycle --yes --guess", "label" => "Cron Command for Scheduled Tasks?", ),
             "cron_frequency"=> array("type" => "text", "default" => "*/10 * * * *", "label" => "Cron Execution Frequency?", ),
         );
     }

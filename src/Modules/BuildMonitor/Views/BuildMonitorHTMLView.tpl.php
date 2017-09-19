@@ -1,46 +1,61 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4 col-md-3 sidebar">
-            <div class="mini-submenu">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+<div class="container" id="wrapper">
+    <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
+		<div class="sidebar-nav ">
+            <div class="sidebar-search">
+                <button class="btn btn-success" id="menu_visibility_label" type="button">
+                    Show Menu
+                </button>
+                <i class="fa fa-1x fa-toggle-off hvr-grow" id="menu_visibility_switch"></i>
             </div>
-            <div class="list-group sidebar-list">
-                <span href="#" class="list-group-item active"> Menu <span class="pull-right" id="slide-submenu">
-                    <i class="fa fa-times"></i>
-                </span> </span>
-                <a href="/index.php?control=Index&action=show" class="list-group-item">
-                    <i class="fa fa-comment-o"></i> Dashboard
-                </a>
-                <a href="/index.php?control=BuildList&action=show" class="list-group-item">
-                    <i class="fa fa-search"></i> All Pipelines
-                </a>
-                <a href="/index.php?control=BuildConfigure&action=show&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-user"></i> Configure
-                </a>
-                <a href="/index.php?control=Workspace&action=show&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-folder-open-o"></i> Workspace
-                </a>
-                <a href="index.php?control=BuildMonitor&action=show&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-bar-chart-o"></i> Monitors
-                </a>
-                <a href="/index.php?control=BuildHome&action=changes&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-bar-chart-o"></i> Changes <span class="badge">3</span>
-                </a>
-                <a href="/index.php?control=BuildHome&action=history&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-bar-chart-o"></i> History <span class="badge">3</span>
-                </a>
-                <a href="/index.php?control=BuildHome&action=delete&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-envelope"></i> Delete
-                </a>
-                <a href="/index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["item"] ; ?>" class="list-group-item">
-                    <i class="fa fa-envelope"></i> Run Now
-                </a>
-            </div>
+			<ul class="nav in" id="side-menu">
+                <li>
+                    <a href="/index.php?control=Index&amp;action=show "class="hvr-bounce-in">
+                        <i class="fa fa-dashboard hvr-bounce-in"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="/index.php?control=BuildList&amp;action=show" class="hvr-bounce-in">
+                        <i class="fa fa-bars hvr-bounce-in"></i> All Pipelines
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?control=BuildConfigure&action=show&item=<?php echo $pageVars["data"]["item"] ; ?>" class="hvr-bounce-in">
+                        <i class="fa fa-cog hvr-bounce-in"></i> Configure
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="index.php?control=Workspace&action=show&item=<?php echo $pageVars["data"]["item"] ; ?>" class="hvr-bounce-in">
+                        <i class="fa fa-folder-open-o hvr-bounce-in"></i> Workspace
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?control=BuildMonitor&action=show&item=<?php echo $pageVars["data"]["item"] ; ?>" class="hvr-bounce-in">
+                        <i class="fa fa-bar-chart-o hvr-bounce-in"></i> Monitors
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?control=BuildHome&action=history&item=<?php echo $pageVars["data"]["item"] ; ?>" class="hvr-bounce-in">
+                        <i class="fa fa-history hvr-bounce-in"></i> History <span class="badge"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?control=BuildHome&action=delete&item=<?php echo $pageVars["data"]["item"] ; ?>" class="hvr-bounce-in">
+                        <i class="fa fa-trash hvr-bounce-in"></i> Delete
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?control=PipeRunner&action=start&item=<?php echo $pageVars["data"]["item"] ; ?>" class="hvr-bounce-in">
+                        <i class="fa fa-sign-in fa-fw hvr-bounce-in"></i> Run Now
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="col-sm-8 col-md-9 clearfix main-container">
-            <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools</a></h2>
+       </div>
+    
+       <div class="col-lg-12">
+                    <div class="well well-lg">
+<!--       <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools</a></h2>-->
 
             <div class="row clearfix no-margin">
                 <!--<h4 class="text-uppercase text-light">Chart For <?php echo $pageVars['data']["item"]; ?></h4>-->
@@ -60,12 +75,14 @@
 					    border-color: rgba(0,0,0,.2);
 					}
 				</style>
-                <script src="Assets/BuildMonitor/js/Chart.js"></script>
-                <div id="canvas-holder">
-					<canvas id="chart-area" width="300" height="300"/>
-				</div>
-				<div class="col-sm-8 col-md-9">
-					<canvas id="canvas" height="450" width="600"></canvas>
+                <script src="/Assets/Modules/BuildMonitor/js/Chart.js"></script>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+	                <div class="col-sm-6 col-md-6 col-lg-6" id="canvas-holder">
+						<canvas id="chart-area" width="" height=""/></canvas>
+					</div>
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<canvas id="canvas" height="" width=""></canvas>
+					</div>
 				</div>
 				<?php
 				$success = $fail = $running = $date = array();
@@ -137,10 +154,9 @@
 					</script>
 
             </div>
-
-            <p>
-                ---------------------------------------<br/>
-                Visit www.pharaohtools.com for more
+ <hr>
+                 <p class="text-center">
+                Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
             </p>
         </div>
 

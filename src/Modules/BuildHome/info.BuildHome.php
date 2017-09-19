@@ -6,7 +6,7 @@ class BuildHomeInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "BuildHome/Home Page";
+    public $name = "BuildHome Module";
 
     public function _construct() {
       parent::__construct();
@@ -18,6 +18,10 @@ class BuildHomeInfo extends PTConfigureBase {
 
     public function routeAliases() {
       return array("buildHome"=>"BuildHome");
+    }
+
+    public function ignoredAuthenticationRoutes() {
+        return array( "BuildHome" => array("show") );
     }
 
     public function helpDefinition() {

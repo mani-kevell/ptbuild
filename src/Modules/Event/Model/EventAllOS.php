@@ -14,28 +14,36 @@ class EventAllOS extends Base {
     // Model Group
     public $modelGroup = array("Default") ;
 
-    public function runEvent($event) {
-        $modules = $this->getsModulesOfEvent($event) ;
+    public function runEvent($event, $allResults=false) {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         $res = array();
-        foreach ($modules as $module ) {
+        $modules = $this->getsModulesOfEvent($event) ;
+//        if ($event === "afterBuildComplete") {
+//            var_dump("afterBuildComplete", $modules) ;
+//        }
+        foreach ($modules as $module) {
             $eventModuleFactoryClass = '\Model\\'.$module;
             $eventModuleFactory = new $eventModuleFactoryClass() ;
             $eventModel = $eventModuleFactory->getModel($this->params) ;
             $eventMethods = $eventModel->getEvents() ;
+//            if ($event === "afterBuildComplete" && $module="PublishHTMLreports") {
+//                var_dump("em: ", get_class($eventModel), $eventMethods, $module) ;
+//            }
             foreach ($eventMethods as $availableEventName => $availableEventMethods) {
                 if ($event == $availableEventName) { // if the module provides an event for this
                     foreach ($availableEventMethods as $oneMethod) {
                         if (method_exists($eventModel, $oneMethod)) {
-                            $logging->log("Running ".get_class($eventModel)." with method $oneMethod", $this->getModuleName()) ;
+//                            $logging->log("Running ".get_class($eventModel)." with method $oneMethod", $this->getModuleName()) ;
                             $oneres = $eventModel->$oneMethod() ;
-                            $res[] = $oneres ;
-                            if ($oneres == false) return false ; }
+                            $res[] = $oneres ; }
                         else {
                             $logging->log("No method exists in ".get_class($eventModel)." with name $oneMethod", $this->getModuleName()) ;
-                            $res[] = false ;} } } } }
-        return (in_array(false, $res)) ? false : true ;
+                            $res[] = false ; } } } } }
+        if ($allResults==true) {
+            return $res ; }
+        else {
+            return (in_array(false, $res)) ? false : true ; }
     }
 
     public function getsModulesOfEvent($event) {

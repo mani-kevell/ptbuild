@@ -13,7 +13,12 @@ class PipeRunnerInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-      return array( "PipeRunner" => array("start", "apistart", "service", "pipestatus", "show", "child", "history", "summary") );
+        return array( "PipeRunner" => array("start", "apistart", "service", "pipestatus", "show", "child", "history",
+          "summary", "findrunning", "terminate-child", "terminate", "termservice", "termstatus") );
+    }
+
+    public function ignoredAuthenticationRoutes() {
+        return array( "PipeRunner" => array("child", "terminate-child") );
     }
 
     public function routeAliases() {

@@ -24,14 +24,14 @@ class BuildMonitorAllOS extends Base {
 		$historyIndexJson = file_get_contents($historyIndexFile);
 		$historyIndex = json_decode($historyIndexJson);
 		$success = $fail = $running = 0;
-		foreach ($historyIndex as $value) {
-			if (!isset($value->status))
-				$running++;
-			elseif ($value->status == "SUCCESS")
-				$success++;
-			elseif ($value->status == "FAIL")
-				$fail++;
-		}
+        if (is_array($historyIndex)) {
+            foreach ($historyIndex as $value) {
+                if (!isset($value->status))
+                    $running++;
+                elseif ($value->status == "SUCCESS")
+                    $success++;
+                elseif ($value->status == "FAIL")
+                    $fail++; } }
         return array('item' => $this->params["item"], 'success' => $success, 'fail' => $fail, 'running' => $running, 'history' => $historyIndex ) ;
     }
 

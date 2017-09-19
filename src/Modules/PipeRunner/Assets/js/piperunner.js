@@ -1,28 +1,41 @@
 done = false ;
 max = 0 ;
-window.outUpdater = setInterval(function () { updatePage() }, 5000);
+var updateRunning = false ;
+var pageUpdater = null ;
+var outUpdater = setInterval(function () {
+    if (window.updateRunning === false) {
+        console.log("calling update page js method, updateRunning variable is set to false");
+        updatePage() ; }
+    else {
+        console.log("not calling update page js method, updateRunning variable is set to true"); }
+}, 4000);
 
 function updatePage() {
     console.log("running update page js method");
+    window.updateRunning = true ;
+    console.log("setting update running to true");
     item = window.pipeitem ;
-    url = "/index.php?control=PipeRunner&action=service&item=" + item + "&output-format=SERVICE";
+    runid = window.runid ;
+    url = "/index.php?control=PipeRunner&action=service&item=" + item + "&run-id=" + runid + "&output-format=SERVICE";
     $.ajax({
         url: url,
         success: function(data) {
-            $('#updatable').html(data); },
+            $('#updatable').html(data);
+            window.updateRunning = false ; },
         complete: function() {
             // Schedule the next request when the current one's complete
             setStatus();
             console.log("Req Status: " + window.reqStatus);
-            if (window.reqStatus == "OK") {
-                doCompletion(); } }
+            if (window.reqStatus === "OK") {
+                doCompletion(); }
+            window.updateRunning = false ; }
     });
 }
 
 function setStatus() {
     item = window.pipeitem ;
-    pid = window.runid ;
-    url = "/index.php?control=PipeRunner&action=pipestatus&item=" + item + "&pid=" + pid + "&output-format=PIPESTATUS";
+    runid = window.runid ;
+    url = "/index.php?control=PipeRunner&action=pipestatus&item=" + item + "&run-id=" + runid + "&output-format=PIPESTATUS";
     console.log(url);
     $.ajax({
         url: url,
@@ -37,10 +50,12 @@ function doCompletion() {
     removeWaitImage();
     changeSubButton();
     clearInterval(window.outUpdater);
+    clearInterval(window.pageUpdater);
 }
 
 function removeWaitImage() {
-    $("#loading-holder").hide() ;
+    $("#loading-holder").remove() ;
+    $("#terminate-build").remove() ;
 }
 
 function changeSubButton() {

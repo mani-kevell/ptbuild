@@ -26,13 +26,22 @@ class PipelineCollaterAllOS extends Base {
         $collated = array_merge($collated, $this->getDefaults()) ;
         $collated = array_merge($collated, $this->getSteps()) ;
         $collated = array_merge($collated, $this->getSettings()) ;
+        $collated = array_merge($collated, $this->getHistoryIndex()) ;
         return $collated ;
     }
 
+    public function getItem() {
+        $item = array("item" => $this->params["item"]);
+        return $item ;
+    }
+
     private function getStatuses() {
-		$successStatus = $this->getLastSuccess();
+        $lastRun = $this->getLastRun();
+        $successStatus = $this->getLastSuccess();
 		$failStatus = $this->getLastFail();
 		$statuses = array(
+            "last_run_build" => $lastRun["build"] ,
+            "last_run_start" => $lastRun["time"] ,
             "last_status" => $this->getLastStatus(),
 			"last_success" => $successStatus['time'],
 			"last_fail" => $failStatus['time'],
@@ -44,12 +53,31 @@ class PipelineCollaterAllOS extends Base {
         return $statuses ;
     }
 
+    private function getLastRun() {
+        $file = PIPEDIR.DS.$this->params["item"].DS.'historyIndex';
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+            krsort($historyIndex);
+            // @todo this foreach doesn't make sense, kinda, but is it actually any quicker to change, it loops once anyway
+            foreach ($historyIndex as $run=>$val) {
+                return array('time' => $historyIndex[$run]['start'], 'build' => $run) ; } }
+        return array('time' => false, 'build' => 0) ;
+    }
+
+    private function getHistoryIndex() {
+        $file = PIPEDIR.DS.$this->params["item"].DS.'historyIndex';
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+            krsort($historyIndex) ;
+            return array('history_index' => $historyIndex) ; }
+        return array('history_index' => false) ;
+    }
+
     private function getLastStatus() {
-        $allRuns = scandir(PIPEDIR.DS.$this->params["item"].DS.'history') ;
-        foreach($allRuns as $i=>$run) {
-            if (is_numeric($allRuns[$i])) { intval($allRuns[$i]) ; } else { unset($allRuns[$i]) ; } }
-     	$runId = max($allRuns) ;
-        return $this->getRunOutput($runId) ;
+        $lr = $this->getLastRun() ;
+//        var_dump($lr["build"]) ;
+        $ro = $this->getRunOutput($lr["build"]) ;
+        return $ro ;
     }
 
     private function getLastSuccess() {
@@ -70,7 +98,9 @@ class PipelineCollaterAllOS extends Base {
 			krsort($historyIndex);
 			foreach ($historyIndex as $run=>$val) {
 				if (isset($historyIndex[$run]['status']) && $historyIndex[$run]['status'] == "FAIL") {
-					return array('time' => $historyIndex[$run]['end'], 'build' => $run) ; } } }
+                    $arr = array('time' => $historyIndex[$run]['end'], 'build' => $run) ;
+//                    var_dump($arr) ;
+					return $arr ; } } }
         return array('time' => false, 'build' => 0) ;
     }
 
@@ -98,9 +128,20 @@ class PipelineCollaterAllOS extends Base {
 
     private function getRunOutput($runId) {
         $outFile = PIPEDIR.DS.$this->params["item"].DS.'history'.DS.$runId ;
-        $out = file_get_contents($outFile) ;
-        $lastStatus = strpos($out, "SUCCESSFUL EXECUTION") ;
-        return ($lastStatus) ? true : false ;
+        $out = (file_exists($outFile)) ? file_get_contents($outFile) : "" ;
+        $successStatus = strpos($out, "SUCCESSFUL EXECUTION") ;
+        if ($successStatus !== false) {
+//            var_dump("ret true");
+            return true ; }
+
+//        var_dump($outFile, $out) ;
+
+        $failStatus = strpos($out, "FAILED EXECUTION") ;
+        if ($failStatus !== false) {
+//            var_dump("ret false");
+            return false ; }
+//        var_dump("ret null");
+        return null ;
     }
 
     private function getDefaults() {
@@ -134,15 +175,16 @@ class PipelineCollaterAllOS extends Base {
         else {
             $loggingFactory = new \Model\Logging() ;
             $logging = $loggingFactory->getModel($this->params) ;
-            $logging->log("No steps For Run file available in build", $this->getModuleName()) ; }
-        $stepsFile = PIPEDIR.DS.$this->params["item"].DS.'steps' ;
+//            $logging->log("No steps For Run file available in build ".$this->params["item"], $this->getModuleName()) ;
+            }
+            $stepsFile = PIPEDIR.DS.$this->params["item"].DS.'steps' ;
         if (file_exists($stepsFile)) {
             $stepsFileData =  file_get_contents($stepsFile) ;
             $steps = json_decode($stepsFileData, true) ; }
         else {
             $loggingFactory = new \Model\Logging() ;
             $logging = $loggingFactory->getModel($this->params) ;
-            $logging->log("No steps file available in build", $this->getModuleName()) ; }
+            $logging->log("No steps file available in build ".$this->params["item"], $this->getModuleName()) ;}
         return array("steps" => $steps, "steps-for-run" => $stepsForRun ) ;
     }
 
@@ -155,7 +197,7 @@ class PipelineCollaterAllOS extends Base {
         else {
             $loggingFactory = new \Model\Logging() ;
             $logging = $loggingFactory->getModel($this->params) ;
-            $logging->log("No settings file available in build", $this->getModuleName()) ; }
+            $logging->log("No settings file available in build ".$this->params["item"], $this->getModuleName()) ; }
         return array("settings" => $settings) ;
     }
 

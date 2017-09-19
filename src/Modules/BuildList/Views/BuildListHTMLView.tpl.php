@@ -1,429 +1,269 @@
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4 col-md-3 sidebar">
-            <div class="mini-submenu">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </div>
-            <div class="list-group sidebar-list">
-                        <span href="#" class="list-group-item active">
-                            Menu
-                            <span class="pull-right" id="slide-submenu">
-                                <i class="fa fa-times"></i>
-                            </span>
-                        </span>
-                <a href="/index.php?control=Index&action=show" class="list-group-item">
-                    <i class="fa fa-comment-o"></i> Dashboard
-                </a>
-                <a href="/index.php?control=ApplicationConfigure&action=show" class="list-group-item">
-                    <i class="fa fa-search"></i> Configure PTBuild
-                </a>
-                <a href="/index.php?control=BuildConfigure&action=new" class="list-group-item">
-                    <i class="fa fa-user"></i> New Pipeline
-                </a>
-                <a href="/index.php?control=BuildList&action=show" class="list-group-item">
-                    <i class="fa fa-user"></i> List Pipelines
-                </a>
-                <!--
-                <a href="#" class="list-group-item">
-                    <i class="fa fa-folder-open-o"></i> Lorem ipsum <span class="badge">14</span>
-                </a>
-                <a href="#" class="list-group-item">
-                    <i class="fa fa-bar-chart-o"></i> Lorem ipsumr <span class="badge">14</span>
-                </a>
-                -->
-                <a href="#" class="list-group-item">
-                    <i class="fa fa-envelope"></i> History
-                </a>
-            </div>
-        </div>
+<div class="container" id="wrapper">
 
-        <div class="col-sm-8 col-md-9 clearfix main-container">
-            <h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools</a></h2>
+	<div class="col-lg-12">
+		<div class="well well-lg">
+<!--			<h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools</a></h2>-->
 
-            <div class="row clearfix no-margin">
-                <h4 class="text-uppercase text-light">A list of builds in a page</h4>
-                <h3><a class="lg-anchor text-light" href="/index.php?control=BuildList&action=show">Build List <i style="font-size: 18px;" class="fa fa-chevron-right"></i></a></h3>
-                <div role="tabpanel">
+			<div class="row clearfix no-margin">
+				<h4 class="text-uppercase text-light">All Build Jobs</h4>
 
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a></li>
-                        <li role="presentation"><a href="#success" aria-controls="success" role="tab" data-toggle="tab">All Success</a></li>
-                        <li role="presentation"><a href="#failed" aria-controls="failed" role="tab" data-toggle="tab">All Failed</a></li>
-                        <li role="presentation"><a href="#unstable" aria-controls="unstable" role="tab" data-toggle="tab">All Unstable</a></li>
-                    </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="all">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-custom">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Pipeline</th>
-                                        <th>Status</th>
-                                        <th>Success</th>
-                                        <th>Failure</th>
-                                        <th>Duration</th>
-                                        <!--
-                                        <th>Parent</th>
-                                        <th>Child</th>
-                                        -->
-                                        <th>Run Now</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-hover">
-
-                                    <?php
-
-                                    $i = 1;
-                                    foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) { ?>
-                                        <tr>
-                                            <th scope="row"><?php echo $i ; ?></th>
-                                            <td><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug ; ?>"><?php echo $pipelineDetails["project-name"] ; ?></a></td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_status"] === true) {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=green-ball.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=red-ball.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_success"] != false) {
-                                                    echo date('Y-m-d \<\b\r\> h:i:s', $pipelineDetails["last_success"]) ; 
-													echo ' #('.$pipelineDetails["last_success_build"].')'; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_fail"] != false) {
-                                                    echo date('Y-m-d \<\b\r\> h:i:s', $pipelineDetails["last_fail"]) ; 
-													echo ' #('.$pipelineDetails["last_fail_build"].')'; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["duration"] != false) {
-                                                    echo $pipelineDetails["duration"].' seconds' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <!--
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_parents"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_children"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            -->
-                                            <td>
-                                                <?php
-                                                echo '<a href="/index.php?control=PipeRunner&action=start&item='.$pipelineDetails["project-slug"].'">';
-                                                echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=run.png" /></a>' ;
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        $i++;
-                                    } ?>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                <div id="page_sidebar" class="col-sm-2 sidebar" role="navigation">
+                    <div class="sidebar-nav ">
+                        <div class="sidebar-search">
+                            <button class="btn btn-success" id="menu_visibility_label" type="button">
+                                Show Menu
+                            </button>
+                            <i class="fa fa-1x fa-toggle-off hvr-grow" id="menu_visibility_switch"></i>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="success"><div class="table-responsive">
-                                <table class="table table-bordered table-custom">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Pipeline</th>
-                                        <th>Status</th>
-                                        <th>Success</th>
-                                        <th>Failure</th>
-                                        <th>Duration</th>
-                                        <th>Parent</th>
-                                        <th>Child</th>
-                                        <th>Run Now</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-hover">
+                        <ul class="nav in" id="side-menu">
+                            <li>
+                                <a href="/index.php?control=Index&action=show" class=" hvr-bounce-in"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-bounce-in"> <i class="fa fa-cogs fa-fw"></i> Configure PTBuild<span class="fa arrow"></span> </a>
+                                <ul class="nav nav-second-level collapse">
+                                    <li>
+                                        <a href="/index.php?control=ApplicationConfigure&action=show" class=" hvr-curl-bottom-right">Application</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=UserManager&action=show" class=" hvr-curl-bottom-right">User Manager</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=UserProfile&action=show" class=" hvr-curl-bottom-right">User Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=ModuleManager&action=show" class=" hvr-curl-bottom-right">Modules</a>
+                                    </li>
+                                    <li>
+                                        <a href="/index.php?control=Integrations&action=show" class=" hvr-curl-bottom-right">Integrations</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="/index.php?control=BuildConfigure&action=new"class=" hvr-bounce-in"><i class="fa fa-edit fa-fw hvr-bounce-in"></i> New Pipeline</a>
+                            </li>
+                            <li>
+                                <a href="/index.php?control=BuildConfigure&action=copy"class=" hvr-bounce-in"><i class="fa fa-edit fa-fw hvr-bounce-in"></i> Copy Pipeline</a>
+                            </li>
+                            <li>
+                                <a href="/index.php?control=BuildList&action=show " class="active  hvr-bounce-in"><i class="fa fa-bars fa-fw hvr-bounce-in"></i> All Pipelines</a>
+                            </li>
+                            <br />
 
-                                    <?php
+                            <li>
+                                <div class="alert alert-info">
+                                    <h4>Running Builds </h4>
+                                    <div class="runningBuilds">
+                                        <p>
+                                            No builds currently being executed
+                                        </p>
 
-                                    $i = 1;
-                                    foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) { ?>
-                                        <tr>
-                                            <th scope="row"><?php echo $i ; ?></th>
-                                            <td><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug ; ?>"><?php echo $pipelineDetails["project-name"] ; ?></a></td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_status"] === true) {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=green-ball.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=red-ball.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_success"] != false) {
-                                                    echo '20:13:55 01/02/2015' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_fail"] != false) {
-                                                    echo '14:13:55 21/01/2015' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["duration"] != false) {
-                                                    echo '134 seconds' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_parents"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_children"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                echo '<a href="/index.php?control=PipeRunner&action=start&item='.$pipelineDetails["project-slug"].'">';
-                                                echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=run.png" /></a>' ;
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        $i++;
-                                    } ?>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info">
+                                    <h4>Queued Builds</h4>
+                                    <div class="queuedBuilds">
+                                        <p>
+                                            No builds currently queued
+                                        </p>
 
-                                    </tbody>
-                                </table>
-                            </div></div>
-                        <div role="tabpanel" class="tab-pane" id="failed"><div class="table-responsive">
-                                <table class="table table-bordered table-custom">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Pipeline</th>
-                                        <th>Status</th>
-                                        <th>Success</th>
-                                        <th>Failure</th>
-                                        <th>Duration</th>
-                                        <th>Parent</th>
-                                        <th>Child</th>
-                                        <th>Run Now</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-hover">
+                                    </div>
+                                </div>
+                            </li>
 
-                                    <?php
-
-                                    $i = 1;
-                                    foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) { ?>
-                                        <tr>
-                                            <th scope="row"><?php echo $i ; ?></th>
-                                            <td><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug ; ?>"><?php echo $pipelineDetails["project-name"] ; ?></a></td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_status"] === true) {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=green-ball.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=red-ball.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_success"] != false) {
-                                                    echo '20:13:55 01/02/2015' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_fail"] != false) {
-                                                    echo '14:13:55 21/01/2015' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["duration"] != false) {
-                                                    echo '134 seconds' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_parents"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_children"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                echo '<a href="/index.php?control=PipeRunner&action=start&item='.$pipelineDetails["project-slug"].'">';
-                                                echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=run.png" /></a>' ;
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        $i++;
-                                    } ?>
-
-                                    </tbody>
-                                </table>
-                            </div></div>
-                        <div role="tabpanel" class="tab-pane" id="unstable"><div class="table-responsive">
-                                <table class="table table-bordered table-custom">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Pipeline</th>
-                                        <th>Status</th>
-                                        <th>Success</th>
-                                        <th>Failure</th>
-                                        <th>Duration</th>
-                                        <th>Parent</th>
-                                        <th>Child</th>
-                                        <th>Run Now</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table-hover">
-
-                                    <?php
-
-                                    $i = 1;
-                                    foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) { ?>
-                                        <tr>
-                                            <th scope="row"><?php echo $i ; ?></th>
-                                            <td><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug ; ?>"><?php echo $pipelineDetails["project-name"] ; ?></a></td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_status"] === true) {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=green-ball.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage listImageWide" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=red-ball.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_success"] != false) {
-                                                    echo '20:13:55 01/02/2015' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["last_fail"] != false) {
-                                                    echo '14:13:55 21/01/2015' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["duration"] != false) {
-                                                    echo '134 seconds' ; }
-                                                else {
-                                                    echo 'N/A' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_parents"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                if ($pipelineDetails["has_children"] === true) {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=tick.png" />' ; }
-                                                else {
-                                                    echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=cross.png" />' ; }
-                                                ?>
-                                            </td>
-                                            <td>
-                                                <?php
-                                                echo '<a href="/index.php?control=PipeRunner&action=start&item='.$pipelineDetails["project-slug"].'">';
-                                                echo '<img class="listImage" src="/index.php?control=AssetLoader&action=show&module=BuildList&type=image&asset=run.png" /></a>' ;
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        $i++;
-                                    } ?>
-
-                                    </tbody>
-                                </table>
-                            </div></div>
+                        </ul>
                     </div>
 
                 </div>
 
-            </div>
+				<div role="tabpanel grid">
 
-            <p>
-                ---------------------------------------<br/>
-                Visit www.pharaohtools.com for more
-            </p>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active allRowsTab">
+                            <a onclick="showFilteredRows('all'); return false ;">All</a>
+                        </li>
+                        <li role="presentation" class="successRowsTab">
+                            <a onclick="showFilteredRows('success'); return false ;">All Success</a>
+                        </li>
+                        <li role="presentation" class="failedRowsTab">
+                            <a onclick="showFilteredRows('failure'); return false ;">All Failed</a>
+                        </li>
+                        <li role="presentation"class="unstableRowsTab">
+                            <a onclick="showFilteredRows('unstable'); return false ;">All Unstable</a>
+                        </li>
+                    </ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="all">
+							<div class="table-responsive" ">
+                                <div class="table table-striped table-bordered table-condensed">
+                                    <div>
+                                        <div class="blCell cellRowIndex">#</div>
+                                        <div class="blCell cellRowName">Pipeline</div>
+                                        <div class="blCell cellRowRun">Run Now</div>
+                                        <div class="blCell cellRowStatus">Status</div>
+                                        <div class="blCell cellRowSuccess">Success</div>
+                                        <div class="blCell cellRowFailure">Failure</div>
+                                        <div class="blCell cellRowDuration">Duration</div>
+                                    </div>
+                                <div class="allBuildRows table-hover">
+
+                                <?php
+
+                                $i = 1;
+                                foreach ($pageVars["data"]["pipelines"] as $pipelineSlug => $pipelineDetails) {
+
+
+                                    if ($pipelineDetails["last_status"] === true) {
+                                        $successFailureClass = "successRow"  ; }
+                                    else if ($pipelineDetails["last_status"] === false) {
+                                        $successFailureClass = "failureRow" ; }
+                                    else {
+                                        $successFailureClass = "unstableRow" ; }
+
+                                    ?>
+
+                                <div class="buildRow <?php echo $successFailureClass ?>" id="blRow_<?php echo $pipelineSlug; ?>" >
+                                    <div class="blCell cellRowIndex" scope="row"><?php echo $i; ?> </div>
+                                    <div class="blCell cellRowName"><a href="/index.php?control=BuildHome&action=show&item=<?php echo $pipelineSlug; ?>" class="pipeName"><?php echo $pipelineDetails["project-name"]; ?>  </a> </div>
+
+                                    <div class="blCell cellRowRun">
+                                        <?php
+                                        echo '<a href="/index.php?control=PipeRunner&action=start&item=' . $pipelineDetails["project-slug"] . '">';
+                                        echo '<i class="fa fa-play fa-2x hvr-grow-shadow" style="color:rgb(13, 193, 42);"></i></a>';
+                                        ?>
+                                    </div>
+                                    <div  class="blCell cellRowStatus"
+                                        <?php
+
+                                        if ($pipelineDetails["last_status"] === true) {
+                                            echo ' style="background-color:rgb(13, 193, 42);" '; }
+                                        else if ($pipelineDetails["last_status"] === false) {
+                                            echo ' style="background-color:#D32B2B" '; }
+                                        else {
+                                            echo ' style="background-color:gray" '; }
+                                        ?>
+
+                                        >
+
+                                        <?php
+
+                                        echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ;
+
+                                    ?>
+
+                                    </div>
+
+                                    <div class="blCell cellRowSuccess">
+                                        <?php
+
+                                        $today = new DateTime(); // This object represents current date/time
+                                        $actualToday = $today; // copy original for display
+                                        $today->setTime( 0, 0, 0 ); // reset time part, to prevent partial comparison
+
+                                        if ($pipelineDetails["last_success"] != false) {
+
+                                            $match_date = new DateTime(date('d.m.Y H:i', $pipelineDetails["last_success"]));
+
+            //                                var_dump($match_date) ;
+
+                                            $diff = $today->diff( $match_date );
+                                            $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
+
+                                            $date = date($pipelineDetails["last_success"]);
+                                            if( $diffDays == 0 ) {
+                                                echo date_format($match_date, 'g:ia')." Today"; }
+                                            else if( $diffDays == -1 ) {
+                                                echo date_format($match_date, 'g:ia')." Yesterday"; }
+                                            else {
+                                                echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
+                                            echo ' #(' . $pipelineDetails["last_success_build"] . ')'; }
+                                        else {
+                                            echo 'N/A'; }
+                                        ?>
+                                    </div>
+                                    <div class="blCell cellRowFailure">
+                                        <?php
+                                        if ($pipelineDetails["last_fail"] != false) {
+
+                                            $match_date = new DateTime(date('d.m.Y H:i', $pipelineDetails["last_fail"]));
+            //                                var_dump($match_date) ;
+
+                                            $diff = $today->diff( $match_date );
+                                            $diffDays = (integer)$diff->format( "%R%a" ); // Extract days count in interval
+
+                                            $date = date($pipelineDetails["last_fail"]);
+                                            if( $diffDays == 0 ) {
+                                                echo date_format($match_date, 'g:ia')." Today"; }
+                                            else if( $diffDays == -1 ) {
+                                                echo date_format($match_date, 'g:ia')." Yesterday"; }
+                                            else {
+                                                echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
+                                            echo ' #(' . $pipelineDetails["last_fail_build"] . ')';}
+                                        else {
+                                            echo 'N/A'; }
+
+                                        ?>
+                                    </div>
+                                    <div class="blCell cellRowDuration">
+                                        <?php
+                                        if ($pipelineDetails["duration"] != false) {
+                                            echo $pipelineDetails["duration"] . ' seconds';
+                                        } else {
+                                            echo 'N/A';
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <hr class="buildRowSpace" />
+                                </div>
+                                <?php
+                                $i++;
+                                }
+                                ?>
+
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <hr />
+
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="alert alert-info">
+                    <h4>Running Builds </h4>
+                    <div class="runningBuilds">
+                        <p>
+                            No builds currently being executed
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="alert alert-info">
+                    <h4>Queued Builds</h4>
+                    <div class="queuedBuilds">
+                        <p>
+                            No builds currently queued
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-
-    </div>
-
+        <hr />
+        <p class="text-center">
+            Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
+        </p>
+	</div>
 </div><!-- /.container -->
-
-
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildList/css/buildlist.css">
+<script type="text/javascript" src="/Assets/Modules/BuildList/js/buildlist.js"></script>

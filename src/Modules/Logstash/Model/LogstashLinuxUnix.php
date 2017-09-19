@@ -20,6 +20,12 @@ class LogstashLinuxUnix extends Base {
 
     public function getSettingFormFields() {
         $ff = array(
+           "logstash_enabled" =>
+            	array(
+                	"type" => "boolean",
+                	"optional" => true,
+                	"name" => "logstash on Build Completion?"
+            ),
             "ipaddress" => array(
                 "type" => "text",
                 "optional" => false,
@@ -63,7 +69,8 @@ class LogstashLinuxUnix extends Base {
            
         $pipeline = $this->getPipeline() ;
         
-        $mn = $this->getModuleName() ;	
+        $mn = $this->getModuleName() ;
+	    if (isset($pipeline["settings"][$mn]["logstash_enabled"]) && $pipeline["settings"][$mn]["logstash_enabled"] == "on") {
 		$errno  = 0;
 		$tmpfile = PIPEDIR.DS.$this->params["item"].DS."tmpfile";
 		$str = array( "log" => file_get_contents($tmpfile),
@@ -72,13 +79,20 @@ class LogstashLinuxUnix extends Base {
 		$str = json_encode($str);
 		$fp = stream_socket_client("tcp://".$pipeline["settings"][$mn]["ipaddress"].":".$pipeline["settings"][$mn]["port"], $errno, $str, 30);
 		if (!$fp) {
-		    $logging->log ("Faild: Push to logstash", $this->getModuleName() ) ;
+		    $logging->log ("Failed: Push to logstash", $this->getModuleName() ) ;
 			return FALSE;
 		}
 		{
 			$logging->log ("Success: Pushed in to logstash", $this->getModuleName() ) ;
 			return TRUE;
-		}       
+		}
+}
+   else
+  {
+// @todo this should do something at max level debugging
+//echo "logstash not run";
+       return true;
+}
     }
 
     private function getPipeline() {

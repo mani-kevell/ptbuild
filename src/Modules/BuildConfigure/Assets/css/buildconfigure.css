@@ -13,7 +13,58 @@
 
 .confSettingsSlideySection {
     margin-bottom: 0;
+    background-color: #86b6f5;
 }
 
 .confSettingsHideSectionButton {
+}
+
+.settingsScroller {
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+    height: 60% ;
+    max-height: 80vh;
+    resize: both;
+}
+
+.scroll-mods-top-inner,
+.scroll-mods-bottom-inner {
+    display: block;
+    position: relative;
+    left: 50%;
+}
+
+.bg-secondary {
+    background-color: #337ab7 ;
+}
+
+#sortableSteps h3 {
+    text-align: center;
+}
+
+#sortableSteps .step_subtitle {
+    text-align: center;
+}
+
+.singleBuildStep {
+    border: 1px solid black ;
+}
+
+.buildStepTextArea {
+    min-height: 100px;
+}
+
+.slideysWrapper .title {
+    font-family: "Roboto Condensed",Helvetica,Arial,sans-serif;
+    color: #555;
+    font-size: 14px;
+}
+
+#show_menu_wrapper {
+    display: none ;
+}
+
+nav.navbar-default {
+    width: 100% ;
+    max-width: 100% ;
 }

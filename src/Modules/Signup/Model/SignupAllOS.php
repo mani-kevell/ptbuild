@@ -14,134 +14,130 @@ class SignupAllOS extends Base {
     // Model Group
     public $modelGroup = array("Default") ;
 
-
     public function getlogin() {
-        $ret="get Login";
+        $ret["settings"] = $this->getSettings() ;
+        $eventRunnerFactory = new \Model\EventRunner() ;
+        $eventRunner = $eventRunnerFactory->getModel($this->params) ;
+        $ret["events"] = $eventRunner->eventRunner("getPublicLinks") ;
+        if ($ret["events"] == false) {
+         // should probably do sometihing here
+        }
         return $ret ;
     }
 
+    private function getSalt() {
+        // @todo this is a security risk
+        // @todo a proper salt
+        $salt = "12345678" ;
+        return $salt ;
+    }
+
     //check login
-    public function checkLogin() {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $this->checkLoginInfo($username, $password);
+    public function checkLogin($user = null, $pass = null) {
+        $user = (is_null($user)) ? $_POST['username'] : $user ;
+        $pass = (is_null($pass)) ? $_POST['password'] : $pass ;
+        $uaf = new \Model\UserAccount() ;
+        $ua = $uaf->getModel($this->params) ;
+        $res = $ua->checkLoginInfo($user, $pass);
+        return $res ;
     }
 
-    //check login status
-    public function checkLoginStatus() {
-        $url = $_POST['url'];
-        $this->checkLoginStatusInfo($url);
-    }
-
-
-    // @todo need to check login credential from datastore or PAM/LDAP
-    public function checkLoginInfo($usr, $pass) {
-        // List of users and their password.
-        $users = array(1 => 'test1', 2 => 'test2', 3 => 'test3', 4 => 'test4', 5 => "bigboss");
-        $passwords = array(1 => 'e10adc3949ba59abbe56e057f20f883e', 2 => 'e10adc3949ba59abbe56e057f20f883e', 3 => 'e10adc3949ba59abbe56e057f20f883e', 4 => 'e10adc3949ba59abbe56e057f20f883e', 5 => '81dc9bdb52d04dc20036dbd8313ed055');
-        if (in_array($usr, $users) && in_array(md5($pass), $passwords))
-        {
-            $_SESSION["login-status"]=TRUE;
-            $_SESSION["username"] = $usr;
-            echo json_encode(array("status" => TRUE));
-            return;
-        }
-        else{
-            echo json_encode(array("status" => FALSE, "msg" => "Sorry!! Wrong User name Or Password"));
-            return;
-        }
-
-    }
-
-    public function checkLoginStatusInfo($url) {
-        // login status check
-        $url_split = explode("?", $url);
-        if(isset($url_split[1])){
-            $url_spl = explode("&", $url_split[1]);
-            if(isset($url_spl[0])){
-                $url_sp = explode("=", $url_spl[0]);
-                if(isset($url_sp[1]) && $url_sp[1] =="Signup"){
-                    $url_s = explode("=", $url_spl[1]);
-                    if(isset($url_s[1]) && ($url_s[1] =="login" || $url_s[1] =="logout" || $url_s[1] =="login-submit" || $url_s[1] =="registration" || $url_s[1] =="registration-submit")){
-                        echo json_encode(array("status" => TRUE));
-                        return;
-                    }
-                    else
-                        $this->checkLoginSession();
-
-                }
-                else
-                    $this->checkLoginSession();
-            }
-            else
-                $this->checkLoginSession();
-
-        }
-        else
-            $this->checkLoginSession();
-
-    }
-    //@todo we can do autoload.php file before load a controller
     public function checkLoginSession() {
-        if(isset($_SESSION["login-status"]) && $_SESSION["login-status"] == TRUE){
-            echo json_encode(array("status" => TRUE));
-            return;
+        // @TODO if user is on CLI assume a logged in admin. Is that OK?
+        $auth = new \Model\Authentication();
+        $is_web = $auth->isWebSapi() ;
+        if ($is_web == false) {
+            $res = array("status" => true);
+            return $res ;
         }
-        else{
-            echo json_encode(array("status" => FALSE));
-            return;
-        }
+        if ( isset($_SESSION) && is_array($_SESSION) && (count($_SESSION)==0) ) {
+            $res = array("status" => false); }
+        else {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            if(isset($_SESSION["login-status"]) && $_SESSION["login-status"] == true){
+                $res = array("status" => true); }
+            else{
+                $res = array("status" => false); } }
+        return $res ;
     }
 
-
-
-    public function registrationSubmit(){
-
-        $registrationData=array('username'=>$_POST['username'],'email'=>$_POST['email'],'password'=>md5($this->salt.$_POST['password']));
-        $myfile = fopen(__DIR__."/../Data/users.txt", "r") or die("Unable to open file!");
-        $oldData='';
-        while(!feof($myfile))
-            $oldData.=fgets($myfile);
-        fclose($myfile);
-        $oldData=json_decode($oldData);
-
-        foreach($oldData as $data)
-        {
-            if($data->username==$_POST['username'])
-            {
-                echo json_encode(array("status" => FALSE,"id"=>"login_username_alert", "msg" => "User Name Already Exist!!!"));
-                return;
-            }
-
-            if($data->email==$_POST['email'])
-            {
-                echo json_encode(array("status" => FALSE,"id"=>"login_email_alert", "msg" => "Email Already Exist!!!"));
-                return;
-            }
-
-        }
-
-        $myfile = fopen(__DIR__."/../Data/users.txt", "w") or die("Unable to open file!");
-        if($oldData==null) {
-            fwrite($myfile, json_encode(array($registrationData)));
-        }
-        else{
-            fwrite($myfile, json_encode(array_merge($oldData, array($registrationData))));
-        }
-       // print_r(array_merge($oldData, array($registrationData)));
-        fclose($myfile);
-        echo json_encode(array("status" => TRUE, "id"=>"registration_error_msg", "msg" => "Registration Successful!!"));
-        return;
+    public function registrationSubmit() {
+        $signupFactory = new \Model\Signup() ;
+        $signup = $signupFactory->getModel($this->params, "Registration") ;
+        $res = $signup->registrationSubmit();
+        return $res ;
     }
-
-
 
     public function allLoginInfoDestroy() {
         session_destroy();
-        // return array ("type"=>"control", "control"=>"Signup");
-        //return array ("type"=>"control", "control"=>"Signup", "action"=>"login");
-         //return array( "Signup" => array("login") );
         header("Location: /index.php?control=Signup&action=login");
+    }
+
+    public function mailVerification() {
+        $signupFactory = new \Model\Signup() ;
+        $signup = $signupFactory->getModel($this->params, "Registration") ;
+        $res = $signup->mailVerification();
+        return $res ;
+    }
+
+    public function loginByOAuth($name, $email, $user){
+        $_SESSION["login-status"] = true;
+        $_SESSION["username"] = $email;
+        if ($this->userExist($email) == true) {
+            $_SESSION["userrole"] = $this->getUserRole($email);
+            header("Location: /index.php?control=Index&action=index");
+            return; }
+        else {
+            $newUser = array('name' => $name, 'username'=>$email, 'email'=>$email, 'password'=>mt_rand(5, 15), 'verificationcode'=> hash('sha512', 'aDv@4gtm%7rfeEg4!gsFe'), 'data'=>$user,'role'=>3,'status'=> 1);
+            $this->createNewUser($newUser);
+            $_SESSION["userrole"] = 3; }
+        header("Location: /index.php?control=Index&action=index");
+    }
+
+    public function loginByLDAP($name, $email, $user){
+        $_SESSION["login-status"] = true ;
+        $_SESSION["username"] = $email ;
+        if ($this->userExist($email) == true) {
+
+            $_SESSION["userrole"] = $this->getUserRole($email);
+            header("Location: /index.php?control=Index&action=index");
+            return; }
+        else {
+            $newUser = array(
+                'name' => $name,
+                'username'=>$email,
+                'email'=>$email,
+                'password'=> mt_rand(5, 15),
+                'verificationcode'=> hash('sha512', 'aDv@4gtm%7rfeEg4!gsFe'),
+                'data'=>$user,'role'=>3,
+                'status'=> 1);
+            $this->createNewUser($newUser);
+            $_SESSION["userrole"] = 3; }
+    }
+
+    public function getLoggedInUserData() {
+        $userAccountFactory = new \Model\UserAccount();
+        $userAccount = $userAccountFactory->getModel($this->params);
+        $retuser = $userAccount->getLoggedInUserData();
+        return $retuser ;
+    }
+
+    public function getSaltWord($word) {
+        return md5($this->getSalt().$word) ;
+    }
+
+    public function getSettings() {
+        $settings = \Model\AppConfig::getAppVariable("mod_config");
+        return $settings ;
+    }
+
+    public function registrationEnabled() {
+        $mod_config = \Model\AppConfig::getAppVariable("mod_config");
+        $is_enabled = (isset($mod_config["Signup"]["registration_enabled"]) &&
+            $mod_config["Signup"]["registration_enabled"]==true ) ? true : false ;
+        return $is_enabled ;
     }
 
 }

@@ -6,7 +6,7 @@ class PollSCMInfo extends PTConfigureBase {
 
     public $hidden = false;
 
-    public $name = "PollSCM Provisioner Integration";
+    public $name = "Poll SCM for code changes Functionality";
 
     public function _construct() {
         parent::__construct();
@@ -17,22 +17,23 @@ class PollSCMInfo extends PTConfigureBase {
     }
 
     public function routeAliases() {
-        return array("sendemail"=>"PollSCM");
+        return array("pollscm"=>"PollSCM");
     }
 
     public function events() {
-        return array("afterBuildComplete");
+        return array("prepareBuild");
     }
 
     public function buildSettings() {
-        return array("send_postbuild_email", "send_postbuild_email_stability", "send_postbuild_email_address");
+        return array("enabled", "scm_always_allow_web", "git_repository_url", "git_branch", "git_privkey_path",
+            "cron_string");
     }
 
-//    public function configuration() {
-//        return array(
-//            "smtp_server"=> array( "type" => "text", "default" => "SMTP Server", "label" => "SMTP Server Address", ),
-//        );
-//    }
+    public function configuration() {
+        return array(
+            "exec_delay"=> array( "type" => "text", "default" => "180", "label" => "Minimum execution delay between SCM Poll runs", ),
+        );
+    }
 
     public function helpDefinition() {
        $help = <<<"HELPDATA"

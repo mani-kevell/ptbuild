@@ -5,8 +5,21 @@
 * then it will perform a normal Bootstrap of the application
 *
 */
+require_once(dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."Constants.php");
+$vardata = file_get_contents(PFILESDIR.PHARAOH_APP.DS.PHARAOH_APP.DS.PHARAOH_APP.'vars') ;
+$vars = json_decode($vardata, true);
+$fsslval = (isset($vars["mod_config"]["ApplicationInstance"]["force_ssl"])) ?
+    $vars["mod_config"]["ApplicationInstance"]["force_ssl"] : "" ;
+$force_ssl = (isset($fsslval) && $fsslval=="on") ? true : false ;
+if ($force_ssl == true) {
+    if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+        $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        header('Location: ' . $redirect);
+        exit(); } }
+
 if ( !isset($_REQUEST['control']) || !isset($_REQUEST['action']) ) {
-    echo '<p>Control or Action is missing, using default</p>';
+    // @todo i dont think this requires an echo
+    // echo '<p>Control or Action is missing, using default</p>';
     $_REQUEST['control'] = "Index" ;
     $_REQUEST['action'] = "index" ;}
 if (!isset($_REQUEST['output-format'])) { $_REQUEST['output-format'] = "HTML"; }
@@ -17,5 +30,5 @@ $cleo_vars[2] = $_REQUEST['action'];
 foreach($_REQUEST as $post_key => $post_var) {
     if (!in_array($post_key, array('control', 'action'))) {
         $cleo_vars[] = "--$post_key=$_REQUEST[$post_key]" ; } }
-$_ENV['cleo_bootstrap'] = serialize($cleo_vars);
-include("../../Bootstrap.php");
+$_ENV['ptbuild_bootstrap'] = serialize($cleo_vars);
+include(dirname(dirname(__DIR__)).DIRECTORY_SEPARATOR."Bootstrap.php");
