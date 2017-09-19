@@ -71,8 +71,6 @@
                         </div>
                     </div>
 
-                    <script type="text/javascript" src="/Assets/ScheduledBuild/js/piperunner.js"></script>
-
                     <div class="form-group" id="loading-holder">
                         <div class="col-sm-offset-2 col-sm-8">
                             <div class="text-center">
