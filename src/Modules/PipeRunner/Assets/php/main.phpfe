@@ -62,14 +62,20 @@ class PipeRunner {
         $action = \js_core::$window->getParameterByName('action') ;
         \js_core::$console->log("testing control and action with", $control, $action);
 
-        if ($control === 'PipeRunner' && $action === 'start') {
-            self::$outUpdater = \js_core::$window->setInterval(function () {
-                if (self::$updateRunning === true) {
-                    \js_core::$console->log("calling update page js method, updateRunning variable is set to true");
-                    self::updatePage() ; }
-                else {
-                    \js_core::$console->log("not calling update page js method, updateRunning variable is set to false"); }
-            }, 4000);
+        if ($control == 'PipeRunner') {
+            if ($action == 'start') {
+                \js_core::$console->log("inside piperunner start");
+                self::$outUpdater = \js_core::$window->setInterval(function () {
+                    if (self::$updateRunning === true) {
+                        \js_core::$console->log("calling update page js method, updateRunning variable is set to true");
+                        self::updatePage();
+                    } else {
+                        \js_core::$console->log("not calling update page js method, updateRunning variable is set to false");
+                    }
+                }, 4000);
+            } else {
+                \js_core::$console->log("outside piperunner start");
+            }
         }
 
     }
