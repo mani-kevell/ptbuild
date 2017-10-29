@@ -248,6 +248,15 @@ class PublishReleasesAllOS extends Base {
             $logging->log("Successfully Extracted {$count} Environment Variables into Release Publishing Variables {$ext_vars}...", $this->getModuleName()) ; }
         $logging->log("publish releases env vars $env_var_string", $this->getModuleName()) ;
 
+        $swap_options = array('item', 'run-id') ;
+        foreach ($swap_options as $swap_option) {
+            $var_swap_option = '$$'.$swap_option ;
+            if (strpos($tf, $var_swap_option)) {
+                $logging->log("Swapping variable \${$swap_option} for value {$this->params[$swap_option]}", $this->getModuleName()) ;
+                str_replace($var_swap_option, $this->params[$swap_option], $tf) ;
+            }
+        }
+
         $copy_command = "cp -r {$source_file} {$tf}" ;
         $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
 
