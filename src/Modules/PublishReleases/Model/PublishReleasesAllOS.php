@@ -236,6 +236,18 @@ class PublishReleasesAllOS extends Base {
 
         $new_file = basename($file) ;
         $tf = $releaseRef.$new_file ;
+
+        $env_var_string = "" ;
+        if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
+            $logging->log("Release Publishing Extracting Environment Variables...", $this->getModuleName()) ;
+            $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
+            $count = 0 ;
+            foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
+                $env_var_string .= "$env_var_key=".'"'.$env_var_val.'"'."\n" ;
+                $count++ ; }
+            $logging->log("Successfully Extracted {$count} Environment Variables into Release Publishing Variables {$ext_vars}...", $this->getModuleName()) ; }
+        $logging->log("publish releases env vars $env_var_string", $this->getModuleName()) ;
+
         $copy_command = "cp -r {$source_file} {$tf}" ;
         $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
 
