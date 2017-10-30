@@ -44,6 +44,11 @@ class PublishReleasesAllOS extends Base {
                             "type" => "text",
                             "name" => "Relative or absolute path to file",
                             "slug" => "release_file"),
+                    "new_file_name" =>
+                        array(
+                            "type" => "text",
+                            "name" => "New File Name",
+                            "slug" => "new_file_name"),
                     "image" =>
                         array(
                             "type" => "text",
@@ -234,7 +239,11 @@ class PublishReleasesAllOS extends Base {
             mkdir($releaseRef, 0777, true);
         }
 
-        $new_file = basename($file) ;
+        if (isset($one_release_details['new_file_name'])) {
+            $new_file = $one_release_details['new_file_name'] ;
+        } else {
+            $new_file = basename($file) ;
+        }
         $tf = $releaseRef.$new_file ;
 
         $env_var_string = "" ;
@@ -242,9 +251,11 @@ class PublishReleasesAllOS extends Base {
             $logging->log("Release Publishing Extracting Environment Variables...", $this->getModuleName()) ;
             $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
             $count = 0 ;
-            foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
-                $env_var_string .= "$env_var_key=".'"'.$env_var_val.'"'."\n" ;
-                $count++ ; }
+            foreach ($this->params["env-vars"] as $env_var_key) {
+                $var_swap_option = '$$'.$env_var_key ;
+                if (strpos($tf, $var_swap_option)) {
+                    $logging->log("Swapping Env Variable \${$env_var_key} for value {$this->params["env-vars"][$env_var_key]}", $this->getModuleName()) ;
+                    $tf = str_replace($var_swap_option, $this->params["env-vars"][$env_var_key], $tf) ; } }
             $logging->log("Successfully Extracted {$count} Environment Variables into Release Publishing Variables {$ext_vars}...", $this->getModuleName()) ; }
 
         $swap_options = array('item', 'run-id') ;
@@ -255,6 +266,10 @@ class PublishReleasesAllOS extends Base {
                 $tf = str_replace($var_swap_option, $this->params[$swap_option], $tf) ;
             }
         }
+
+        foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
+            $env_var_string .= "$env_var_key=".'"'.$env_var_val.'"'."\n" ;
+            $count++ ; }
 
         $copy_command = "cp -r {$source_file} {$tf}" ;
         $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
