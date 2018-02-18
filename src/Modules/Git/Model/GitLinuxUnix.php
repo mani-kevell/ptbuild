@@ -74,7 +74,7 @@ class GitLinuxUnix extends Base {
                         if (strpos($step[$field], '$'.$env_var_key) !== false) {
                             $logging->log('Found Variable $'.$env_var_key.', replacing', $this->getModuleName()) ;
                             $step[$field] = str_replace('$'.$env_var_key, $env_var_val, $step[$field] ) ; } } } }
-            $repo = $step["git_repo_url"] ;
+            $repo = $this->params["build-settings"]["PollSCM"]["git_repository_url"] ;
 
             $targetDir = (isset($this->params["build-settings"]["PollSCM"]["target_dir"]))
                 ? $this->params["build-settings"]["PollSCM"]["target_dir"]
@@ -113,7 +113,7 @@ class GitLinuxUnix extends Base {
                             $logging->log('Found Variable $'.$env_var_key.', replacing', $this->getModuleName()) ;
                             $step[$field] = str_replace('$'.$env_var_key, $env_var_val, $step[$field] ) ; } } } }
 
-            $repo = $step["git_repo_url"] ;
+            $repo = $this->params["build-settings"]["PollSCM"]["git_repository_url"] ;
 
             $targetDir = (isset($step["git_repo_target_dir"]))
                 ? $step["git_repo_target_dir"]
