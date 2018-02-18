@@ -117,7 +117,10 @@ class PipeRunner {
         $ajax_object = $jQuery->ajax($data);
         $ajax_object->done(
             function ($data) use ($jQuery) {
-                $jQuery('#updatable')->html($data);
+                $current_data = $jQuery('#updatable')->html();
+                if ($current_data !== $data) {
+                    $jQuery('#updatable')->html($data);
+                }
                 self::$updateRunning = true ;
             }
         );
