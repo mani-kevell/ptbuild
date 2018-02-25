@@ -167,7 +167,7 @@ COMPLETION;
     }
 
     protected function executePHP($command, $show_output = null, $get_output = null) {
-        $command = "php {$command}" ;
+        $command = "php {$command} 2>&1" ;
         $proc = popen($command, 'r');
         $all_out = "" ;
         while (!feof($proc))
