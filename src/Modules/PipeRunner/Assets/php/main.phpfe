@@ -168,7 +168,7 @@ class PipeRunner {
     public static function removeWaitImage() {
         $jQuery = \js_core::$jQuery ;
         $jQuery("#loading-holder")->remove() ;
-        $jQuery("#terminate-build")->remove() ;
+        $jQuery(".terminate-build")->remove() ;
     }
 
     public static function setSuccessFailureOnPage($data) {

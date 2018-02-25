@@ -118,7 +118,17 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4" id="status_banner">
-                                    <button class="btn btn-info build_status_banner_text" id="status_banner_button" type="button">BUILD EXECUTING</button>
+                                    <div class="col-sm-12" id="status_banner">
+                                        <button class="btn btn-info build_status_banner_text" id="status_banner_button" type="button">BUILD EXECUTING</button>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <?php
+                                        $termLink = '/index.php?control=PipeRunner&action=terminate&run-id='.$pageVars["pipex"].'&item='.$pageVars["data"]["pipeline"]["project-slug"] ;
+                                        ?>
+                                        <a href="<?php echo $termLink ; ?>" type="submit" class="btn btn-danger hvr-float-shadow terminate-build">
+                                            Terminate Build
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -180,7 +190,7 @@
                                     <?php
                                     $termLink = '/index.php?control=PipeRunner&action=terminate&run-id='.$pageVars["pipex"].'&item='.$pageVars["data"]["pipeline"]["project-slug"] ;
                                     ?>
-                                    <a href="<?php echo $termLink ; ?>" type="submit" class="btn btn-danger hvr-float-shadow" id="terminate-build">
+                                    <a href="<?php echo $termLink ; ?>" type="submit" class="btn btn-danger hvr-float-shadow terminate-build">
                                         Terminate Build
                                     </a>
                                 </div>
