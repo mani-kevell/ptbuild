@@ -57,6 +57,7 @@ class PHPScriptLinuxUnix extends Base {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
         $phpc = ''  ;
+//        var_dump('this pars', $this->params) ;
         if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
             $loggingFactory = new \Model\Logging();
             $logging = $loggingFactory->getModel($this->params);
@@ -64,6 +65,7 @@ class PHPScriptLinuxUnix extends Base {
             $ext_vars = json_encode($this->params["env-vars"], JSON_PRETTY_PRINT) ;
             $phpc .= '<?'.'php'."\n" ;
             $phpc .= '  '."\n" ;
+            $phpc .= '  error_reporting(E_ALL);'."\n" ;
             $phpc .= '  $extract_vars = \''.$ext_vars.'\';'."\n" ;
             $phpc .= '  $extract_vars_array = json_decode($extract_vars, true);'."\n" ;
             $phpc .= '  $extract_vars_keys = array_keys($extract_vars_array);'."\n" ;
@@ -79,7 +81,7 @@ class PHPScriptLinuxUnix extends Base {
             $logging->log("File not found, error...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
             return false ; }
         $res = $this->executeAsPHPScript($tempFile) ;
-        unlink($tempFile);
+        // unlink($tempFile);
         return $res ;
     }
 
@@ -90,6 +92,7 @@ class PHPScriptLinuxUnix extends Base {
             $logging->log("php $scr_loc", $this->getModuleName()) ;
             $comm = "{$scr_loc}" ;
             $res = $this->executePHP($comm, true, null) ;
+//            var_dump('exec php res', $res) ;
             return ($res["rc"] === 0) ? true : false ; }
         else {
             $logging->log("File not found, error...", $this->getModuleName()) ;
