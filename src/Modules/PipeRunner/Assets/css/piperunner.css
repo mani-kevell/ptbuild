@@ -12,3 +12,8 @@
         font-size: 100%;
     }
 }
+
+.build_status_banner_text {
+    font-size: 175%;
+    font-weight: 600;
+}

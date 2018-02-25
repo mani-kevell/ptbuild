@@ -67,6 +67,7 @@
                             $stat = "Execution Summary of " ;
                             break ; }
                 ?>
+
                 <h3>
                     <?php echo $stat; ?> Pipeline <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
                     <i style="font-size: 18px;" </i>
@@ -77,14 +78,15 @@
                     </button>
                 </div>
 
-                    <?php
-                    if ($pageVars["route"]["action"] === "summary") {
-                        echo ', Run '.$pageVars["data"]["historic_build"]["run-id"] ; }
-                    ?>
+                <?php
+                if ($pageVars["route"]["action"] === "summary") {
+                    echo ', Run '.$pageVars["data"]["historic_build"]["run-id"] ; }
+                ?>
 
                 <h5 class="text-uppercase text-light" style="margin-top: 15px;">
                     <a href="/index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>"></a>
                 </h5>
+
                 <?php
                     if ($pageVars["route"]["action"] !== "summary") {
                         $act = '/index.php?control=PipeRunner&item='.$pageVars["data"]["pipeline"]["project-slug"].'&action=summary' ; }
@@ -99,17 +101,27 @@
                         ?>
 
                         <div class="form-group">
-                            <div class="col-sm-12">
-                                Pipeline Execution started - Run # <?= $pageVars["pipex"] ;?>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="col-sm-12">
-                                    Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
+
+                            <div class="row col-sm-12">
+                                <div class="col-sm-8">
+
+                                    <div class="col-sm-12">
+                                        Pipeline Execution started - Run # <?= $pageVars["pipex"] ;?>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            Started at <?= date('H:i:s', $pageVars["data"]["run_start"]) ;?> on <?= date('d/m/Y', $pageVars["data"]["run_start"]) ;?>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            Timer: <span id="timer" data-start_time="<?= $pageVars["data"]["run_start"] ; ?>"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    Timer: <span id="timer" data-start_time="<?= $pageVars["data"]["run_start"] ; ?>"></span>
+                                <div class="col-sm-4" id="status_banner">
+                                    <button class="btn btn-info build_status_banner_text" id="status_banner_button" type="button">BUILD EXECUTING</button>
                                 </div>
                             </div>
+
                         </div>
 
                     <?php

@@ -130,7 +130,7 @@ class PipeRunner {
                 self::setStatus();
                 \js_core::$console->log("Req Status: " . self::$reqStatus);
                 if (self::$reqStatus === "OK") {
-                    self::doCompletion(); }
+                    self::doCompletion($data); }
                 self::$updateRunning = true ;
             }
         );
@@ -157,9 +157,10 @@ class PipeRunner {
 
     }
 
-    public static function doCompletion() {
+    public static function doCompletion($data) {
         self::removeWaitImage();
         self::changeSubButton();
+        self::setSuccessFailureOnPage($data);
         \js_core::$window->clearInterval(self::$outUpdater);
         \js_core::$window->clearInterval(self::$pageUpdater);
     }
@@ -170,8 +171,30 @@ class PipeRunner {
         $jQuery("#terminate-build")->remove() ;
     }
 
+    public static function setSuccessFailureOnPage($data) {
+        $jQuery = \js_core::$jQuery ;
+
+        \js_core::$console->log("set success failure on page: " . $data) ;
+
+        $success_string = '[Pharaoh Build] [PipeRunner] SUCCESSFUL EXECUTION' ;
+        $failure_string = '[Pharaoh Build] [PipeRunner] FAILED EXECUTION' ;
+        $is_success = (\js_core::$php->strpos($data, $success_string) !== false)  ;
+        $is_failure = (\js_core::$php->strpos($data, $failure_string) !== false)  ;
+        $success_html = '<button class="btn btn-success build_status_banner_text" id="status_banner_button" type="button">BUILD SUCCESS</button>' ;
+        $failure_html = '<button class="btn btn-danger build_status_banner_text" id="status_banner_button" type="button">BUILD FAILURE</button>' ;
+        $warning_html = '<button class="btn btn-warning build_status_banner_text" id="status_banner_button" type="button">STATUS UNKNOWN</button>' ;
+
+        if ($is_success) {
+            $jQuery("#status_banner")->html($success_html) ;
+        } elseif ($is_failure) {
+            $jQuery("#status_banner")->html($failure_html) ;
+        } else {
+            $jQuery("#status_banner")->html($warning_html) ;
+        }
+    }
+
     public static function changeSubButton() {
-        $subhtml  = '<div class="col-sm-offset-2 col-sm-8">';
+        $subhtml = '<div class="col-sm-offset-2 col-sm-8">';
         $subhtml = $subhtml . '  <div class="text-center">';
         $subhtml = $subhtml . '    <button type="submit" class="btn btn-primary" id="close-complete">';
         $subhtml = $subhtml . '        Close Execution Screen';
