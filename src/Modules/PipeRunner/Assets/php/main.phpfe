@@ -30,11 +30,7 @@ class PipeRunner {
 
         $jQuery('#page_scroll_end')->on('click', function($jqthis) use ($jQuery)  {
             $scroll_height = \js_core::$window->document->body->scrollHeight ;
-
-            $animate_settings = new StdClass() ;
-            $animate_settings->scrollTop = $scroll_height ;
-            $jQuery('#page_scroll_end')->animate($animate_settings);
-//            \js_core::$window->scrollTo(0, $scroll_height);
+            \js_core::$window->scrollTo(0, $scroll_height);
         });
 
         $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
