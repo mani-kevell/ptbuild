@@ -81,7 +81,7 @@ class PHPScriptLinuxUnix extends Base {
             $logging->log("File not found, error...", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
             return false ; }
         $res = $this->executeAsPHPScript($tempFile) ;
-        // unlink($tempFile);
+        unlink($tempFile);
         return $res ;
     }
 
