@@ -104,7 +104,7 @@
                                     <div>
                                         <div class="blCell cellRowIndex">#</div>
                                         <div class="blCell cellRowName">Pipeline</div>
-                                        <div class="blCell cellRowRun">Run Now</div>
+                                        <div class="blCell cellRowRun">Action</div>
                                         <div class="blCell cellRowStatus">Status</div>
                                         <div class="blCell cellRowSuccess">Success</div>
                                         <div class="blCell cellRowFailure">Failure</div>
@@ -133,8 +133,24 @@
 
                                     <div class="blCell cellRowRun">
                                         <?php
-                                        echo '<a href="/index.php?control=PipeRunner&action=start&item=' . $pipelineDetails["project-slug"] . '">';
-                                        echo '<i class="fa fa-play fa-2x hvr-grow-shadow" style="color:rgb(13, 193, 42);"></i></a>';
+                                        echo '<div class="col-sm-12">' ;
+                                        echo '    <div class="col-sm-3">' ;
+                                        echo '        <a href="/index.php?control=BuildConfigure&action=show&item=' . $pipelineDetails["project-slug"] . '">';
+                                        echo '        <i class="fa fa-cog fa-2x hvr-grow-shadow"></i></a>';
+                                        echo '    </div>' ;
+                                        echo '    <div class="col-sm-3">' ;
+                                        echo '        <a href="/index.php?control=Workspace&action=show&item=' . $pipelineDetails["project-slug"] . '">';
+                                        echo '        <i class="fa fa-folder-open-o fa-2x hvr-grow-shadow"></i></a>';
+                                        echo '    </div>' ;
+                                        echo '    <div class="col-sm-3">' ;
+                                        echo '        <a href="/index.php?control=PipeRunner&action=history&item=' . $pipelineDetails["project-slug"] . '">';
+                                        echo '        <i class="fa fa-history fa-2x hvr-grow-shadow"></i></a>';
+                                        echo '    </div>' ;
+                                        echo '    <div class="col-sm-3">' ;
+                                        echo '        <a href="/index.php?control=PipeRunner&action=start&item=' . $pipelineDetails["project-slug"] . '">';
+                                        echo '        <i class="fa fa-play fa-2x hvr-grow-shadow" style="color:rgb(13, 193, 42);"></i></a>';
+                                        echo '    </div>' ;
+                                        echo '</div>' ;
                                         ?>
                                     </div>
                                     <div  class="blCell cellRowStatus"

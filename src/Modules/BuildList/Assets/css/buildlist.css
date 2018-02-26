@@ -57,11 +57,11 @@ hr.buildRowSpace {
 }
 
 .cellRowRun {
-    width: 10% ;
+    width: 15% ;
 }
 
 .cellRowStatus {
-    width: 10% ;
+    width: 5% ;
 }
 
 .cellRowSuccess {
