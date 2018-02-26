@@ -28,6 +28,15 @@ class PipeRunner {
             self::$pageUpdater = \js_core::$window->setInterval($updateTimer, 1000);
         }
 
+        $jQuery('#page_scroll_end')->on('click', function($jqthis) use ($jQuery)  {
+            $scroll_height = \js_core::$window->document->body->scrollHeight ;
+
+            $animate_settings = new StdClass() ;
+            $animate_settings->scrollTop = $scroll_height ;
+            $jQuery('#page_scroll_end')->animate($animate_settings);
+//            \js_core::$window->scrollTo(0, $scroll_height);
+        });
+
         $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
             $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
             $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
@@ -62,8 +71,12 @@ class PipeRunner {
         $action = \js_core::$window->getParameterByName('action') ;
         \js_core::$console->log("testing control and action with", $control, $action);
 
+        $is_start_or_show = false ;
+        if ($action == 'start') { $is_start_or_show = true ; }
+        if ($action == 'show') { $is_start_or_show = true ; }
+
         if ($control == 'PipeRunner') {
-            if ($action == 'start') {
+            if ($is_start_or_show == true) {
                 \js_core::$console->log("inside piperunner start");
                 self::$outUpdater = \js_core::$window->setInterval(function () {
                     if (self::$updateRunning === true) {
