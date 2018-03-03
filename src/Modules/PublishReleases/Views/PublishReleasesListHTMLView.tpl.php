@@ -74,7 +74,7 @@ if ($pageVars["route"]["action"] === 'image') {
                     $current_ordered_count = count($ordered) ;
                     $row_count = 0 ;
                     foreach ($ordered as $one_current_runid => $one_available_release) {
-                        if ($row_count > 3) {
+                        if ($row_count > 9) {
                             $hide_further_string = 'hidden_published_release hidden_published_release_'.$releaseHash ;
                         } else {
                             $hide_further_string = '';
@@ -120,7 +120,7 @@ if ($pageVars["route"]["action"] === 'image') {
 
             <?php
 
-            if ($row_count > 3) {
+            if ($row_count > 9) {
                 ?>
                 <div class="col-sm-12">
                     <button class="btn btn-success see-more-button" data-release-hash="<?php echo $releaseHash ; ?>" id="see-more-button_<?php echo $releaseHash; ?>">
