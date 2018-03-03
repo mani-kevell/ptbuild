@@ -70,44 +70,69 @@ if ($pageVars["route"]["action"] === 'image') {
                 </div>
 
                 <?php
-                    foreach ($pageVars["data"]["releases_available"][$releaseHash] as $one_current_runid => $one_available_release) {
-                ?>
+                    $ordered = array_reverse($pageVars["data"]["releases_available"][$releaseHash], true) ;
+                    $current_ordered_count = count($ordered) ;
+                    $row_count = 0 ;
+                    foreach ($ordered as $one_current_runid => $one_available_release) {
+                        if ($row_count > 3) {
+                            $hide_further_string = 'hidden_published_release hidden_published_release_'.$releaseHash ;
+                        } else {
+                            $hide_further_string = '';
+                        }
 
-                    <div class="col-sm-12">
-                        <div class="col-sm-6">
-                            <h3>
-                                Build ID: <?php echo $one_current_runid ;  ?>
-                            </h3>
-                        </div>
-                        <div class="col-sm-6">
-                            <h3>
-                                Asset:
-                                <?php
+                        ?>
 
-                                foreach ($one_available_release as $one_download_file) {
-
-                                    $path = "pipes/{$pageVars["data"]["pipeline"]["project-slug"]}/ReleasePackages/{$releaseHash}/{$one_current_runid}" ;
-                                    ?>
-
-                                    <a href="/index.php?control=AssetLoader&action=show&location=root&path=<?php echo $path ;?>&asset=<?php echo $one_download_file ; ?>&output-format=FILE&type=binary" >
-                                        <?php echo $one_download_file ; ?>
-                                    </a>
+                        <div class="col-sm-12 <?php echo $hide_further_string; ?>" id="hidden_published_release_<?php echo $releaseHash; ?>">
+                            <div class="col-sm-6">
+                                <h3>
+                                    Build ID: <?php echo $one_current_runid; ?>
+                                </h3>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>
+                                    Asset:
                                     <?php
-                                }
 
-                                ?>
-                            </h3>
+                                    foreach ($one_available_release as $one_download_file) {
+
+                                        $path = "pipes/{$pageVars["data"]["pipeline"]["project-slug"]}/ReleasePackages/{$releaseHash}/{$one_current_runid}";
+                                        ?>
+
+                                        <a href="/index.php?control=AssetLoader&action=show&location=root&path=<?php echo $path; ?>&asset=<?php echo $one_download_file; ?>&output-format=FILE&type=binary">
+                                            <?php echo $one_download_file; ?>
+                                        </a>
+                                        <?php
+                                    }
+
+                                    ?>
+                                </h3>
+                            </div>
                         </div>
-                    </div>
-                <?php
-                     }
+
+                        <?php
+
+                        $row_count++;
+                    }
+
                 ?>
 
             </div>
 
             <?php
 
+            if ($row_count > 3) {
+                ?>
+                <div class="col-sm-12">
+                    <button class="btn btn-success see-more-button" data-release-hash="<?php echo $releaseHash ; ?>" id="see-more-button_<?php echo $releaseHash; ?>">
+                        See More...
+                    </button>
+                </div>
+                <?php
+            }
+            unset($row_count) ;
+
         }
+
 
         ?>
     </div>
@@ -119,6 +144,7 @@ if ($pageVars["route"]["action"] === 'image') {
     </div>
 </div>
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildHome/css/buildhome.css">
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/PublishReleases/css/publishreleases.css">
 
 
 <?php
