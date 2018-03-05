@@ -8,7 +8,6 @@
                 Return To Build Home :
                 <strong>
                     <?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>
-                    <?php var_dump($pageVars["data"]["pipeline"]) ; ?>
                 </strong>
             </a>
         </h4>

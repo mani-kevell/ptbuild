@@ -49,6 +49,11 @@ class PublishReleasesAllOS extends Base {
                             "type" => "text",
                             "name" => "New File Name",
                             "slug" => "new_file_name"),
+                    "remote_file_url" =>
+                        array(
+                            "type" => "text",
+                            "name" => "Remote File URL",
+                            "slug" => "remote_file_url"),
                     "image" =>
                         array(
                             "type" => "text",
@@ -58,7 +63,12 @@ class PublishReleasesAllOS extends Base {
                         array(
                             "type" => "boolean",
                             "name" => "Allow Public Release Access?",
-                            "slug" => "allow_public")
+                            "slug" => "allow_public"),
+                    "publish_as_remote_url" =>
+                        array(
+                            "type" => "boolean",
+                            "name" => "Publish Remote URL?",
+                            "slug" => "publish_as_remote_url")
                 ),
             ),
         ) ;
