@@ -84,7 +84,7 @@
 
                             ?>
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 parameter_row">
 
                                 <?php
 
@@ -153,7 +153,9 @@
                                     </div>
 
                                     <div class="col-sm-9">
-                                        <input type="checkbox" class="text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_boolean_default"] ; ?>" />
+                                        <span class="checkbox-wrap">
+                                            <input type="checkbox" class="checkbox-float-left text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_boolean_default"] ; ?>" />
+                                        </span>
                                     </div>
 
 
@@ -207,3 +209,5 @@
     </form>
 </div><!-- /.container -->
 </div><!-- /.container -->
+
+<link rel="stylesheet" type="text/css" href="/Assets/Modules/PipeRunner/css/piperunnerparams.css">
