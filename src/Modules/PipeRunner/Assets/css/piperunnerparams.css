@@ -1,19 +1,17 @@
-#show_menu_wrapper {
-    display: none ;
-    position: fixed;
-    z-index: 10000;
+.checkbox-float-left {
+    float: left;
+    display: block;
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
 }
 
-@media (min-width: 1200px) {
-    #wrapper.container {
-        width: 90%;
-    }
-    #wrapper.container pre {
-        font-size: 100%;
-    }
+.checkbox-wrap {
+    float: left;
+    width: 10% ;
+    display: block;
 }
 
-.build_status_banner_text {
-    font-size: 175%;
-    font-weight: 600;
+.parameter_row:hover {
+    background-color: #737373;
 }
