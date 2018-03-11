@@ -29,7 +29,7 @@ class PublishReleasesAllOS extends Base {
             "allow_public" =>
                 array(
                     "type" => "boolean",
-                    "name" => "Allow Public Release Access?",
+                    "name" => "Allow public Release access for this Pipeline?",
                     "slug" => "allow_public"
             ),
             "fieldsets" => array(
@@ -62,7 +62,7 @@ class PublishReleasesAllOS extends Base {
                     "allow_public" =>
                         array(
                             "type" => "boolean",
-                            "name" => "Allow Public Release Access?",
+                            "name" => "Allow Public Release Access for this release?",
                             "slug" => "allow_public"),
                     "publish_as_remote_url" =>
                         array(
@@ -97,7 +97,7 @@ class PublishReleasesAllOS extends Base {
 		$thisPipe = $pipeline->getPipeline($this->params["item"]);
 		$mn = $this->getModuleName() ;
         $ff["releases_list"] = $thisPipe["settings"][$mn] ;
-        $ff["releases_available"] = $this->getReleasesAvailable() ;
+        $ff["releases_available"] = $this->getReleasesAvailable($thisPipe) ;
         $ff["pipeline"] = $thisPipe;
         $ff["current_user"] = $this->getCurrentUser() ;
         $ff["current_user_role"] = $this->getCurrentUserRole($ff["current_user"]);
@@ -111,7 +111,7 @@ class PublishReleasesAllOS extends Base {
         return $ff ;
     }
 
-	public function getReleasesAvailable() {
+	public function getReleasesAvailable($thisPipe) {
 
         $releaseRef =
             PIPEDIR.DS.$this->params["item"].DS.'ReleasePackages'.
@@ -121,20 +121,29 @@ class PublishReleasesAllOS extends Base {
         $hashes = array_diff($hashes, array('.', '..')) ;
         $releases = array() ;
         foreach ($hashes as $hash) {
-            $run_ids = scandir($releaseRef.$hash) ;
-            $run_ids = array_diff($run_ids, array('.', '..')) ;
-            sort($run_ids, SORT_NUMERIC);
-            foreach ($run_ids as $run_id) {
-                $release_files = scandir($releaseRef.$hash.DS.$run_id) ;
-                $release_files = array_diff($release_files, array('.', '..')) ;
-                foreach ($release_files as $release_file) {
-                    $releases[$hash][$run_id][] = $release_file ;
+            $is_remote = ($thisPipe['settings']['PublishReleases']['custom_release'][$hash]['publish_as_remote_url'] == 'on') ? true : false ;
+            if ($is_remote == true) {
+                $hi = $this->getHistoryIndex() ;
+                foreach ($hi as $run_id => $hi_detail) {
+                    $remote_url = $hi[$run_id]["meta"]['PublishedReleases'][$hash]['remote_url'] ;
+                    if ($remote_url!= "") {
+                        $releases[$hash][$run_id][] = $remote_url;
+                    }
+                }
+            } else {
+                $run_ids = scandir($releaseRef . $hash);
+                $run_ids = array_diff($run_ids, array('.', '..'));
+                sort($run_ids, SORT_NUMERIC);
+                foreach ($run_ids as $run_id) {
+                    $release_files = scandir($releaseRef . $hash . DS . $run_id);
+                    $release_files = array_diff($release_files, array('.', '..'));
+                    foreach ($release_files as $release_file) {
+                        $releases[$hash][$run_id][] = $release_file;
+                    }
                 }
             }
         }
-
         return $releases ;
-
     }
 
     protected function getCurrentUser() {
@@ -225,39 +234,75 @@ class PublishReleasesAllOS extends Base {
 
         $file = $one_release_details["release_file"];
 
-        if (substr($file, 0, 1) !== DS) {
-            $source_file = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.$file ;
-            $source_dir = dirname($source_file) ;
+        if ($one_release_details['publish_as_remote_url'] == 'on') {
+            $publish_url = $this->parseEnvVarString($one_release_details['remote_file_url']) ;
+            $logging->log ("Publishing Remote URL {$publish_url} to build metadata...", $this->getModuleName() ) ;
+            $this->saveRemoteURLToMetadata($publish_url, $one_release_hash);
+
         } else {
-            $source_file = $file ;
-            $source_dir = dirname($file) ;
+
+            if (substr($file, 0, 1) !== DS) {
+                $source_file = PIPEDIR.DS.$this->params["item"].DS.'workspace'.DS.$file ;
+                $source_dir = dirname($source_file) ;
+            } else {
+                $source_file = $file ;
+                $source_dir = dirname($file) ;
+            }
+
+            if (!is_dir($source_dir)) {
+                $log_msg = "Unable to locate Release Directory {$source_dir} " ;
+                $log_msg .= "from release {$one_release_details["release_title"]}" ;
+                $logging->log($log_msg, $this->getModuleName());
+                return false ;
+            }
+
+            $releaseRef =
+                PIPEDIR.DS.$this->params["item"].DS.'ReleasePackages'.
+                DS.$one_release_hash.DS.$this->params["run-id"].DS ;
+            $logging->log ("Publishing to release directory {$releaseRef}", $this->getModuleName() ) ;
+            if (!is_dir($releaseRef)) {
+                $logging->log ("Attempting to create release directory {$releaseRef}", $this->getModuleName() ) ;
+                mkdir($releaseRef, 0777, true);
+            }
+
+            if (isset($one_release_details['new_file_name'])) {
+                $new_file = $one_release_details['new_file_name'] ;
+            } else {
+                $new_file = basename($file) ;
+            }
+            $tf = $releaseRef.$new_file ;
+            $tf = $this->parseEnvVarString($tf) ;
+
+            $copy_command = "cp -r {$source_file} {$tf}" ;
+            $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
+
+            if ($rc["rc"] !== 0) {
+                $last = count($rc["output"]) - 1 ;
+                $logging->log("Copy unsuccessful, Error: {$rc["output"][$last]}", $this->getModuleName());
+            }
+
+            if ($rc["rc"] == 0) {
+                $logging->log ("Release {$one_release_details["release_title"]} published to file {$tf}...", $this->getModuleName() ) ;
+                return true;
+            }
+            else {
+                $logging->log ("Unable to publish generated release {$one_release_details['release_title']} to file {$tf}...", $this->getModuleName() ) ;
+                return false;
+            }
         }
 
-        if (!is_dir($source_dir)) {
-            $log_msg = "Unable to locate Release Directory {$source_dir} " ;
-            $log_msg .= "from release {$one_release_details["release_title"]}" ;
-            $logging->log($log_msg, $this->getModuleName());
-            return false ;
-        }
 
-        $releaseRef =
-            PIPEDIR.DS.$this->params["item"].DS.'ReleasePackages'.
-            DS.$one_release_hash.DS.$this->params["run-id"].DS ;
-        $logging->log ("Publishing to release directory {$releaseRef}", $this->getModuleName() ) ;
-        if (!is_dir($releaseRef)) {
-            $logging->log ("Attempting to create release directory {$releaseRef}", $this->getModuleName() ) ;
-            mkdir($releaseRef, 0777, true);
-        }
 
-        if (isset($one_release_details['new_file_name'])) {
-            $new_file = $one_release_details['new_file_name'] ;
-        } else {
-            $new_file = basename($file) ;
-        }
-        $tf = $releaseRef.$new_file ;
+    }
+
+    protected function parseEnvVarString($tf, $run_id = null) {
+
+        $loggingFactory = new \Model\Logging();
+        $this->params["echo-log"] = true ;
+        $logging = $loggingFactory->getModel($this->params);
 
         $env_var_string = "" ;
-        if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
+        if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"]) && (count($this->params["env-vars"])>0)) {
             $logging->log("Release Publishing Extracting Environment Variables...", $this->getModuleName()) ;
             $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
             $count = 0 ;
@@ -266,38 +311,51 @@ class PublishReleasesAllOS extends Base {
                 if (strpos($tf, $var_swap_option)) {
                     $logging->log("Swapping Env Variable \${$env_var_key} for value {$this->params["env-vars"][$env_var_key]}", $this->getModuleName()) ;
                     $tf = str_replace($var_swap_option, $this->params["env-vars"][$env_var_key], $tf) ; } }
-            $logging->log("Successfully Extracted {$count} Environment Variables into Release Publishing Variables {$ext_vars}...", $this->getModuleName()) ; }
-
-        $swap_options = array('item', 'run-id') ;
-        foreach ($swap_options as $swap_option) {
-            $var_swap_option = '$$'.$swap_option ;
-            if (strpos($tf, $var_swap_option)) {
-                $logging->log("Swapping variable \${$swap_option} for value {$this->params[$swap_option]}", $this->getModuleName()) ;
-                $tf = str_replace($var_swap_option, $this->params[$swap_option], $tf) ;
-            }
+            $logging->log("Successfully Extracted {$count} Environment Variables into Release Publishing Variables {$ext_vars}...", $this->getModuleName()) ;
         }
 
         foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
             $env_var_string .= "$env_var_key=".'"'.$env_var_val.'"'."\n" ;
-            $count++ ; }
-
-        $copy_command = "cp -r {$source_file} {$tf}" ;
-        $rc = $this->executeAndGetReturnCode($copy_command, false, true) ;
-
-        if ($rc["rc"] !== 0) {
-            $last = count($rc["output"]) - 1 ;
-            $logging->log("Copy unsuccessful, Error: {$rc["output"][$last]}", $this->getModuleName());
         }
 
-        if ($rc["rc"] == 0) {
-            $logging->log ("Release {$one_release_details["release_title"]} published to file {$tf}...", $this->getModuleName() ) ;
-            return true;
+        if ($run_id === null) {
+            $run_id = $this->params['run-id'] ;
         }
-        else {
-            $logging->log ("Unable to publish generated release {$one_release_details['release_title']} to file {$tf}...", $this->getModuleName() ) ;
-            return false;
+        $swap_options = array('item', 'run-id', 'run_id') ;
+        foreach ($swap_options as $swap_option) {
+            $pso = $this->params[$swap_option];
+            if (in_array($swap_option, array('run-id', 'run_id'))) {
+                $pso = $run_id ;
+            }
+            $var_swap_option = '$$'.$swap_option ;
+            if (strpos($tf, $var_swap_option) !== false) {
+                $logging->log("Swapping variable \${$swap_option} for value {$pso}", $this->getModuleName()) ;
+                $tf = str_replace($var_swap_option, $pso, $tf) ;
+            }
         }
 
+        return $tf ;
+
+    }
+
+    public function saveRemoteURLToMetadata($remote_url, $one_release_hash) {
+        $hi = $this->getHistoryIndex() ;
+        $hi[$this -> params["run-id"]]["meta"]['PublishedReleases'][$one_release_hash]['remote_url'] = $remote_url ;
+        $this->saveHistoryIndex($hi) ;
+    }
+
+    public function getHistoryIndex() {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true);
+        }
+        return $historyIndex ;
+    }
+
+    public function saveHistoryIndex($hi) {
+        $file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
+        $hi_string = json_encode($hi, JSON_PRETTY_PRINT) ;
+        file_put_contents($file, $hi_string);
     }
 
 }

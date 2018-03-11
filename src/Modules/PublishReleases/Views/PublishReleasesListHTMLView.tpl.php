@@ -83,25 +83,42 @@ if ($pageVars["route"]["action"] === 'image') {
                         ?>
 
                         <div class="col-sm-12 <?php echo $hide_further_string; ?>" id="hidden_published_release_<?php echo $releaseHash; ?>">
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <h3>
                                     Build ID: <?php echo $one_current_runid; ?>
                                 </h3>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-9">
                                 <h3>
                                     Asset:
                                     <?php
 
+//                                    var_dump($releaseDetail) ;
+
                                     foreach ($one_available_release as $one_download_file) {
 
-                                        $path = "pipes/{$pageVars["data"]["pipeline"]["project-slug"]}/ReleasePackages/{$releaseHash}/{$one_current_runid}";
-                                        ?>
+                                        if ($releaseDetail['publish_as_remote_url'] == 'on') {
 
-                                        <a href="/index.php?control=AssetLoader&action=show&location=root&path=<?php echo $path; ?>&asset=<?php echo $one_download_file; ?>&output-format=FILE&type=binary">
-                                            <?php echo $one_download_file; ?>
-                                        </a>
-                                        <?php
+                                            $path = $releaseDetail['remote_file_url'];
+                                            ?>
+
+                                            <a href="<?php echo $one_download_file; ?>">
+                                                <?php echo $one_download_file; ?>
+                                            </a>
+
+                                            <?php
+
+                                        } else {
+
+                                            $path = "pipes/{$pageVars["data"]["pipeline"]["project-slug"]}/ReleasePackages/{$releaseHash}/{$one_current_runid}";
+                                            ?>
+
+                                            <a href="/index.php?control=AssetLoader&action=show&location=root&path=<?php echo $path; ?>&asset=<?php echo $one_download_file; ?>&output-format=FILE&type=binary">
+                                                <?php echo $one_download_file; ?>
+                                            </a>
+                                            <?php
+                                        }
+
                                     }
 
                                     ?>
