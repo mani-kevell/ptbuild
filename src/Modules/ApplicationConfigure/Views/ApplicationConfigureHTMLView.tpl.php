@@ -36,7 +36,7 @@
                                 </li>
                                 <li>
                                     <a href="/index.php?control=ApplicationConfigure&action=show"class=" active hvr-bounce-in">
-                                        <i class="fa fa-cogs fa-fw hvr-bounce-in"></i> Configure PTBuild</a>
+                                        <i class="fa fa-cogs fa-fw hvr-bounce-in"></i> Configure <?php echo PHARAOH_APP_FRIENDLY ; ?></a>
                                 </li>
                                 <li>
                                     <a href="/index.php?control=UserManager&action=show"class=" hvr-bounce-in">
