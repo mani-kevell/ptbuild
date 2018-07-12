@@ -1,12 +1,12 @@
 <div class="container" id="wrapper">
 
 	<div class="col-lg-12">
+
 		<div class="well well-lg">
-<!--			<h2 class="text-uppercase text-light"><a href="/"> PTBuild - Pharaoh Tools</a></h2>-->
 
 			<div class="row clearfix no-margin">
-				<h4 class="text-uppercase text-light">All Build Jobs</h4>
 
+				<h4 class="text-uppercase text-light">All Build Jobs</h4>
 
                 <div id="page_sidebar" class="col-sm-2 sidebar" role="navigation">
                     <div class="sidebar-nav ">
@@ -247,7 +247,9 @@
 						</div>
 					</div>
 				</div>
+
 			</div>
+
 		</div>
 
         <hr />
