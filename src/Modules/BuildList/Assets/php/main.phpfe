@@ -1,3 +1,337 @@
 <?php
 
-require_once ('/Assets/Modules/PipeRunner/php/main.phpfe') ;
+class BuildList {
+
+    public static $done = false ;
+    public static $max = 0 ;
+    public static $updateBuildRunning = false ;
+    public static $updateQueueRunning = false ;
+    public static $last_data = array() ;
+    public static $buildUpdater ;
+    public static $queueUpdater ;
+
+    public function bindFilter() {
+        $jQuery = \js_core::$jQuery ;
+        $jQuery('.build_list_filter')->on('click', function ($jqthis) use ($jQuery) {
+            \js_core::$console->log( 'filter click' );
+            \js_core::$console->log($jqthis);
+            $rowType1 = $jQuery('#'.$jqthis->target->id)->attr('data-filter') ;
+            \js_core::$console->log('row', $rowType1) ;
+            self::showFilteredRows($rowType1) ;
+        });
+    }
+
+    public function startUpdater() {
+        \js_core::$console->log("in updater method");
+        $has_focus = \js_core::$window->document->hasFocus() ;
+        \js_core::$console->log("page has focus", $has_focus);
+        self::$buildUpdater = \js_core::$window->setInterval(function () use ($has_focus) {
+            if (self::$updateBuildRunning == false) {
+                \js_core::$console->log("calling update builds php method, updateBuildRunning variable is set to false");
+                if ($has_focus !== false) {
+                    self::updatePage() ;
+                }
+            }
+            if (self::$updateBuildRunning == true) {
+                \js_core::$console->log("not calling update page php method, updateBuildRunning variable is set to true");
+            }
+        }, 4000);
+        self::$queueUpdater = \js_core::$window->setInterval(function () use ($has_focus) {
+            if (self::$updateQueueRunning == false) {
+                \js_core::$console->log("calling update queue php method, updateQueueRunning variable is set to false");
+                if ($has_focus !== false) {
+                    self::updatePageQueue() ;
+                }
+            }
+            if (self::$updateQueueRunning == true) {
+                \js_core::$console->log("not calling update page php method, updateQueueRunning variable is set to true");
+            }
+        }, 4000);
+
+    }
+
+    public static function updatePage() {
+        $jQuery = \js_core::$jQuery ;
+        \js_core::$console->log("running update page php method");
+        self::$updateBuildRunning = true ;
+        \js_core::$console->log("setting update running to true");
+        $url = "/index.php?control=PipeRunner&action=findrunning&output-format=JSON";
+        $success = function($data) {
+            \js_core::$console->log("success in update page");
+            self::setRunningBuildList($data) ;
+//            self::calcuate_running_build_differences($data) ;
+            self::$updateBuildRunning = false ;
+        } ;
+        $complete = function() {
+            \js_core::$console->log("complete in update page");
+            self::$updateBuildRunning = false ;
+        } ;
+        $data = array(
+            "url" => $url
+        ) ;
+        $ajax_object = $jQuery->ajax($data) ;
+        $ajax_object->done($success)->always($complete);
+    }
+
+    public static function updatePageQueue() {
+        $jQuery = \js_core::$jQuery ;
+        \js_core::$console->log("running update queued builds php method");
+        self::$updateQueueRunning = true ;
+        \js_core::$console->log("setting update running to true");
+        $url = "/index.php?control=BuildQueue&action=findqueued&output-format=JSON";
+        $success = function($data) {
+            self::setQueuedBuildList($data) ;
+            self::$updateQueueRunning = false ;
+        } ;
+        $complete = function() {
+            self::$updateQueueRunning = false ;
+        } ;
+        $data = array(
+            "url" => $url
+        ) ;
+        $ajax_object = $jQuery->ajax($data) ;
+        $ajax_object->done($success)->always($complete);
+    }
+
+    public static function setRunningBuildList($data) {
+        \js_core::$console->log("setRunningBuildList 1");
+        \js_core::$console->log($data);
+        $data = \js_core::$php->json_decode($data);
+        \js_core::$console->log("setRunningBuildList 2");
+        $data_count = \js_core::$php->count($data) ;
+        \js_core::$console->log($data);
+        \js_core::$console->log($data_count);
+        $jQuery = \js_core::$jQuery ;
+        if ($data_count == 0) {
+            \js_core::$console->log('In no builds executed fork');
+            $data = array( 'opacity' => 100 ) ;
+            $jQuery('.runningBuildRow' . " > td ")->animate($data);
+            $jQuery('.runningBuildRow' . " > th ")->animate($data);
+            $jQuery('.buildRow')->removeClass("runningBuildRow");
+            $ht = "<p>No builds currently being executed...</p>" ;
+            $jQuery('.runningBuilds')->html($ht);
+        }
+        if ($data_count !== 0) {
+            \js_core::$console->log('builds executing fork');
+            $ht_menu = "" ;
+            $ht_footer = "" ;
+            $loop_count = \js_core::$php->count($data) ;
+            for ($index = 0; $index < $loop_count ; $index++) {
+                $jQuery('#blRow_' . $data[$index]->item)->addClass("runningBuildRow");
+                $animate_settings = array( 'opacity' => 100 ) ;
+                $jQuery('.runningBuildRow' ." > td ")->animate($animate_settings);
+                $jQuery('.runningBuildRow' ." > th ")->animate($animate_settings);
+
+                $ht1 = "" ;
+                $ht2 = "" ;
+                $ht3 = "" ;
+
+                $this_index = $data[$index] ;
+                $run_id = $this_index->runid ;
+                $ht1 = $ht1 .  '<div class="running_build_display well well-sm fullWidth col-sm-12">' ;
+                $ht1 = $ht1 .  '  <div class="col-sm-12">' ;
+                $ht1 = $ht1 .  '    <img src="Assets/startbootstrap-sb-admin-2-1.0.5/dist/image/rt.GIF" class="build_running_widget">' ;
+                $ht1 = $ht1 .  '  </div>' ;
+                $ht1 = $ht1 .  '  <div class="col-sm-' ;
+
+                $ht2 = $ht2 .  '">' ;
+                $ht2 = $ht2 .  '    <h5><strong>Name:</strong> '.$this_index->pipename.'</h5>' ;
+                $ht2 = $ht2 .  '    <h5><a href="index.php?control=PipeRunner&action=show&item=' ;
+                $ht2 = $ht2 .  $this_index->item.'&run-id='.$run_id.'">' ;
+                $ht2 = $ht2 .  '    <strong>Build start at:</strong> '.$this_index->starttime.'</a></h5>' ;
+                $ht2 = $ht2 .  '    <h5><strong>Source:</strong> '.$this_index->brs.'</h5>' ;
+                $ht2 = $ht2 .  '    <h5><a href="index.php?control=PipeRunner&action=show&item='.$this_index->item ;
+                $ht2 = $ht2 .  '&run-id='.$run_id.'"> ' ;
+                $ht2 = $ht2 .  '    <strong>Run ID:</strong> '.$run_id.'</a></h5>' ;
+                $ht2 = $ht2 .  '  </div>' ;
+                $ht2 = $ht2 .  '  <div class="col-sm-' ;
+
+                $ht3 = $ht3 .  '">' ;
+                \js_core::$console->log('Data is:', $this_index) ;
+
+                if (isset($this_index->params)) {
+                    \js_core::$console->log('params is:', $this_index->params) ;
+                    $params_string = \js_core::$php->json_encode($this_index->params) ;
+                    \js_core::$console->log('$params_string is:', $params_string) ;
+                    $ht3 = $ht3 .  "<script type='text/javascript'>" ;
+                    $ht3 = $ht3 .
+                        " build_run_params['" . $run_id . "'] = '" .
+                        $params_string . "' ;\n" ;
+                    $ht3 = $ht3 .  "</script>";
+                    $ht3 = $ht3 .  "<span id='params_display_button_" . $run_id . "' " ;
+                    $ht3 = $ht3 .  " data-run_id='" . $run_id . "'" ;
+                    $ht3 = $ht3 .  " class='params_display_button btn btn-info'>" ;
+                    $ht3 = $ht3 .  "Show Params" ;
+                    $ht3 = $ht3 .  "</span>" ;
+                }
+
+                if (isset($this_index->meta)) {
+                    \js_core::$console->log('meta is:', $this_index->meta) ;
+                    $meta_string = \js_core::$php->json_encode($this_index->meta) ;
+                    \js_core::$console->log('$meta_string is:', $meta_string) ;
+                    $ht3 = $ht3 .  "<script type='text/javascript'>" ;
+                    $ht3 = $ht3 .
+                        " build_run_metadata['" . $run_id ."'] = '" .
+                        $meta_string . "' ;\n" ;
+                    $ht3 = $ht3 .  "</script>";
+                    $ht3 = $ht3 .  "<span id='metadata_display_button_" . $run_id . "' " ;
+                    $ht3 = $ht3 .  " data-run_id='" . $run_id . "'" ;
+                    $ht3 = $ht3 .  " class='metadata_display_button btn btn-info'>" ;
+                    $ht3 = $ht3 .  "Show Metadata" ;
+                    $ht3 = $ht3 .  "</span>" ;
+                }
+
+                $terminate_href = "index.php?control=PipeRunner&action=terminate&run-id=" .
+                    $run_id . "&item=" . $this_index->item;
+
+                $ht3 = $ht3 .  "<a href='".$terminate_href."' type='submit' class='btn btn-danger hvr-float-shadow terminate-build'>" ;
+                $ht3 = $ht3 .  " Terminate" ;
+                $ht3 = $ht3 .  "</a>" ;
+
+                $ht3 = $ht3 .  '  </div>' ;
+                $ht3 = $ht3 .  '</div>' ;
+
+
+                $ht_menu = $ht_menu .  $ht1 . "12" . $ht2 . "12" . $ht3;
+                $ht_footer = $ht_footer .  $ht1 . "9" . $ht2 . "3" . $ht3;
+            }
+
+            $jQuery('.updatable_menu_list .runningBuilds')->html($ht_menu);
+            $jQuery('.updatable_footer_list .runningBuilds')->html($ht_footer);
+        }
+    }
+
+    public static function calcuate_running_build_differences($data) {
+        $last_data = '' ;
+        $data = \js_core::$php->json_decode($data);
+        \js_core::$console->log('last data', $last_data);
+        \js_core::$console->log('current data', $data);
+        $data_count = \js_core::$php->count($data) ;
+        for ($index = 0; $index < $data_count; $index++) {
+//            \js_core::$console->log('cur lst data entry', $last_data[$index]) ;
+            self::find_current_matching_data($last_data[$index]->runid, $last_data[$index]->item) ;
+        }
+    }
+
+    public static function find_current_matching_data($one, $two) {
+        \js_core::$console->log('find current matching data');
+        \js_core::$console->log('one data', $one);
+        \js_core::$console->log('two data', $two);
+    }
+
+    public static function setQueuedBuildList($data) {
+//        \js_core::$console->log("setQueuedBuildList 1");
+//        \js_core::$console->log('data before parse', $data);
+        $data = \js_core::$php->json_decode($data);
+//        \js_core::$console->log("setQueuedBuildList 2");
+        $data_count = \js_core::$php->count($data) ;
+//        \js_core::$console->log($data);
+//        \js_core::$console->log($data_count);
+        $jQuery = \js_core::$jQuery ;
+        if ($data_count == 0) {
+            \js_core::$console->log("No Queued builds to list") ;
+            $animate_settings = array( 'opacity' => 100 ) ;
+            $jQuery('.queuedBuildRow' ." > td ")->animate($animate_settings);
+            $jQuery('.queuedBuildRow' ." > th ")->animate($animate_settings);
+            $jQuery('.buildRow')->removeClass("queuedBuildRow");
+            $ht = "<p>No builds currently queued...</p>" ;
+            $jQuery('.queuedBuilds')->html($ht);
+        }
+        if ($data_count !== 0) {
+//            \js_core::$console->log('data after parse', $data);
+            $ht_menu = "";
+            $ht_footer = "";
+            $loop_count = \js_core::$php->count($data) ;
+            for ($index = 0; $index < $loop_count ; $index++) {
+//                \js_core::$console->log('Queue, loop, this index:', $data[$index] );
+
+                $this_index = $data[$index] ;
+                $entry_id = $this_index->entry_id ;
+
+                $terminate_href = "index.php?control=PipeRunner&action=terminate&run-id=" .
+                    $entry_id . "&item=" . $this_index->pipeline_slug;
+
+                $ht1  = '<div class="running_build_display well well-sm fullWidth col-sm-12">';
+                $ht1 = $ht1 .  '  <div class="col-sm-' ;
+
+                $ht2 =  '">' ;
+                $ht2 = $ht2 .  '    <h4><strong>' . $this_index->pipeline_slug . '</strong> </h4>';
+                $ht2 = $ht2 .  '    <h5><strong>Queue Position:</strong> ' .$entry_id . '</h5>';
+                $ht2 = $ht2 .  '    <h5><strong>Queued On:</strong> ' . $this_index->entry_time_format . '</h5>';
+                $ht2 = $ht2 .  '    <h5><strong>Queued By:</strong> ' . $this_index->entry_time_format . '</h5>';
+                $ht2 = $ht2 .  '  </div>';
+                $ht2 = $ht2 .  '  <div class="col-sm-' ;
+
+                $ht3 = '">' ;
+                $ht3 = $ht3 .  "<span id='params_display_button_" . $entry_id . "' ";
+                $ht3 = $ht3 .  " data-run_id='" . $entry_id . "'";
+                $ht3 = $ht3 .  " class='params_display_button btn btn-info'>";
+                $ht3 = $ht3 .  "Show Params";
+                $ht3 = $ht3 .  "</span>";
+                $ht3 = $ht3 .  "<span id='metadata_display_button_" . $entry_id . "' ";
+                $ht3 = $ht3 .  " data-run_id='" . $entry_id . "'";
+                $ht3 = $ht3 .  " class='metadata_display_button btn btn-info'>";
+                $ht3 = $ht3 .  "Show Metadata";
+                $ht3 = $ht3 .  "</span>";
+                $ht3 = $ht3 .  "<a href='" . $terminate_href . "' type='submit' class='btn btn-danger hvr-float-shadow terminate-build'>";
+                $ht3 = $ht3 .  " Remove";
+                $ht3 = $ht3 .  "</a>";
+
+                $ht3 = $ht3 .  '  </div>';
+
+                $ht3 = $ht3 .  '</div>';
+
+                $ht_menu = $ht_menu .  $ht1 . "12" . $ht2 . "12" . $ht3;
+                $ht_footer = $ht_footer .  $ht1 . "9" . $ht2 . "3" . $ht3;
+
+            }
+            $jQuery('.updatable_menu_list .queuedBuilds')->html($ht_menu);
+            $jQuery('.updatable_footer_list .queuedBuilds')->html($ht_footer);
+
+        }
+    }
+
+
+    public static function showFilteredRows($rowType) {
+        \js_core::$console->log("showing rows filtered by: ".$rowType) ;
+        $jQuery = \js_core::$jQuery ;
+
+        if ($rowType == "all") {
+            $jQuery('.failureRow')->show() ;
+            $jQuery('.successRow')->show() ;
+            $jQuery('.unstableRow')->show() ;
+            $jQuery('.successRowsTab')->removeClass("active") ;
+            $jQuery('.failedRowsTab')->removeClass("active") ;
+            $jQuery('.allRowsTab')->addClass("active") ;
+            $jQuery('.unstableRowsTab')->removeClass("active") ; }
+
+        else if ($rowType == "success") {
+            $jQuery('.failureRow')->hide() ;
+            $jQuery('.successRow')->show() ;
+            $jQuery('.unstableRow')->hide() ;
+            $jQuery('.successRowsTab')->addClass("active") ;
+            $jQuery('.failedRowsTab')->removeClass("active") ;
+            $jQuery('.allRowsTab')->removeClass("active") ;
+            $jQuery('.unstableRowsTab')->removeClass("active") ;  }
+
+        else if ($rowType == "failure") {
+            $jQuery('.failureRow')->show() ;
+            $jQuery('.successRow')->hide() ;
+            $jQuery('.unstableRow')->hide() ;
+            $jQuery('.successRowsTab')->removeClass("active") ;
+            $jQuery('.failedRowsTab')->addClass("active") ;
+            $jQuery('.allRowsTab')->removeClass("active") ;
+            $jQuery('.unstableRowsTab')->removeClass("active") ;  }
+
+        else if ($rowType == "unstable") {
+            $jQuery('.failureRow')->hide() ;
+            $jQuery('.successRow')->hide() ;
+            $jQuery('.unstableRow')->show() ;
+            $jQuery('.successRowsTab')->removeClass("active") ;
+            $jQuery('.failedRowsTab')->removeClass("active") ;
+            $jQuery('.allRowsTab')->removeClass("active") ;
+            $jQuery('.unstableRowsTab')->addClass("active") ;  }
+
+    }
+
+}
