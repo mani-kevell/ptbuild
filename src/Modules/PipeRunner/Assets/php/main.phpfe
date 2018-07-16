@@ -35,6 +35,7 @@ class PipeRunner {
 
         $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
             $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+            \js_core::$console->log('clicked params button') ;
             $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
             $overlay_content = "" ;
             $history_index = \js_core::$window->build_run_params ;
@@ -47,6 +48,7 @@ class PipeRunner {
 
 
         $jQuery('.metadata_display_button')->on('click', function($jqthis) use ($jQuery)  {
+            \js_core::$console->log('clicked meta button') ;
             $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
             $overlay_title = "<h3>Metadata for Run ID: <strong>".$run_id."</strong></h3>" ;
             $overlay_content = "" ;
