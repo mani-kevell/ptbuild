@@ -13,6 +13,7 @@ class BuildList {
     public static $last_data = array() ;
     public static $buildUpdater ;
     public static $queueUpdater ;
+    public static $buildsExecuting ;
 
     public function bindFilter() {
         $jQuery = \js_core::$jQuery ;
@@ -63,7 +64,7 @@ class BuildList {
         $success = function($data) {
             \js_core::$console->log("success in update page");
             self::setRunningBuildList($data) ;
-//            self::calcuate_running_build_differences($data) ;
+            self::calcuate_running_build_differences($data) ;
             self::$updateBuildRunning = false ;
         } ;
         $complete = function() {
@@ -206,21 +207,119 @@ class BuildList {
     }
 
     public static function calcuate_running_build_differences($data) {
-        $last_data = '' ;
+
+        $last_data = self::$buildsExecuting ;
+
         $data = \js_core::$php->json_decode($data);
+        self::$buildsExecuting = $data ;
         \js_core::$console->log('last data', $last_data);
         \js_core::$console->log('current data', $data);
-        $data_count = \js_core::$php->count($data) ;
+        $data_count = \js_core::$php->count($last_data) ;
         for ($index = 0; $index < $data_count; $index++) {
-//            \js_core::$console->log('cur lst data entry', $last_data[$index]) ;
-            self::find_current_matching_data($last_data[$index]->runid, $last_data[$index]->item) ;
+            $current_matches = false ;
+            foreach ($data as $one_item) {
+                if ($one_item->runid == $last_data[$index]->runid &&
+                    $one_item->item == $last_data[$index]->item) {
+                    $current_matches = true ;
+                }
+            }
+            $finished_builds = array() ;
+            if ($current_matches == false) {
+                $finished_builds[] = array(
+                    $last_data[$index]->item,
+                    $last_data[$index]->runid
+                ) ;
+            }
+            self::update_finished_builds($finished_builds) ;
         }
     }
 
-    public static function find_current_matching_data($one, $two) {
-        \js_core::$console->log('find current matching data');
-        \js_core::$console->log('one data', $one);
-        \js_core::$console->log('two data', $two);
+    public static function update_finished_builds($finished_builds) {
+        \js_core::$console->log('updating finished builds');
+        foreach ($finished_builds as $paramKey => $paramValue) {
+            \WindowMessage::showMessage('Build Completed: '.$paramValue[0].', '.$paramValue[1], 'good') ;
+
+            $url = "/index.php?control=BuildList&action=buildstatus&item=" .
+                $paramValue[0] . "&run-id=" . $paramValue[1] . "&output-format=SERVICE";
+
+            \js_core::$console->log("url is $url");
+
+            $config = array(
+                'url' => $url
+            ) ;
+
+            $jQuery = \js_core::$jQuery ;
+
+            $done = function ($data) use ($jQuery, $paramValue) {
+                \js_core::$console->log("done function");
+                $data = \js_core::$php->json_decode($data);
+                \js_core::$console->log($data);
+                $status_cell = '#blRow_'.$paramValue[0]. ' .cellRowStatus' ;
+                $cell = $jQuery($status_cell) ;
+                \js_core::$console->log("cell is : " . $status_cell);
+                $num = '<p>#'.$paramValue[1].'</p>' ;
+                \js_core::$console->log("num : $num");
+                $cell->html($num);
+                \js_core::$console->log("cell updated") ;
+                \js_core::$console->log("updating cell background colour data");
+                \js_core::$console->log("unknown background colour data");
+                $cell->css("background-color", "#808080;") ;
+                if ($data->build_status == 'SUCCESS') {
+                    \js_core::$console->log("success background colour data");
+                    $cell->css("background-color", "#0DC12A") ;
+                    \js_core::$console->log("success time") ;
+
+                    $now = \js_core::$php->time();
+                    $time = $data->last_fail;
+                    $time = \js_core::$php->time();
+                    $time_string = \js_core::$php->date('Y-m-d',$time).' 00:00:00' ;
+                    $midnight = \js_core::$php->strtotime($time_string);
+                    $success_date = \js_core::$php->date('g:ia d/m/Y', $data->last_success) ;
+                    if ($now - $midnight < 172800) {
+                        $success_date = \js_core::$php->date('g:ia ', $data->last_success). 'Yesterday' ;
+                    }
+                    if ($now - $midnight < 86400) {
+                        $success_date = \js_core::$php->date('g:ia ', $data->last_success). 'Today' ;
+                    }
+
+                    $last_success_cell = '#blRow_'.$paramValue[0]. ' .cellRowSuccess' ;
+                    $cell = $jQuery($last_success_cell) ;
+                    $cell->html($success_date.' #('.$paramValue[1].')');
+                }
+                if ($data->build_status == 'FAIL') {
+                    \js_core::$console->log("fail background colour data");
+                    $cell->css("background-color", "#D32B2B") ;
+                    \js_core::$console->log("failure time") ;
+                    $now = \js_core::$php->time();
+                    $time = $data->last_fail;
+                    \js_core::$console->log("time is", $time) ;
+                    $time_string = \js_core::$php->date('Y-m-d',$time).' 00:00:00' ;
+                    \js_core::$console->log("time string is", $time_string) ;
+                    $midnight = \js_core::$php->strtotime($time_string);
+                    \js_core::$console->log("midnight is", $midnight) ;
+                    $failure_date = \js_core::$php->date('g:ia d/m/Y', $data->last_fail) ;
+                    if ($now - $midnight < 172800) {
+                        $failure_date = \js_core::$php->date('g:ia ', $data->last_fail). 'Yesterday' ;
+                    }
+                    if ($now - $midnight < 86400) {
+                        $failure_date = \js_core::$php->date('g:ia ', $data->last_fail). 'Today' ;
+                    }
+                    $last_failure_cell = '#blRow_'.$paramValue[0]. ' .cellRowFailure' ;
+                    $cell = $jQuery($last_failure_cell) ;
+                    $cell->html($failure_date.' #('.$paramValue[1].')');
+                }
+                //duration
+                $duration_cell = '#blRow_'.$paramValue[0]. ' .cellRowDuration' ;
+                $cell = $jQuery($duration_cell) ;
+                $duration = $data->end - $data->start ;
+                $cell->html($duration.' seconds');
+
+            } ;
+
+            $ajax_object = $jQuery->ajax($config);
+            $ajax_object->done($done) ;
+        }
+
     }
 
     public static function setQueuedBuildList($data) {
