@@ -65,11 +65,7 @@ class TriggerRemoteLinuxUnix extends Base {
                     "type" => "textarea",
                     "name" => "Parameter Set",
                     "slug" => "parameter_raw" ),
-            ),
-            "trigger_remote_script" => array(
-                "type" => "text",
-                "name" => "Trigger Remote Shell Script",
-                "slug" => "script" ),
+            )
         );
         return $ff ;
     }
