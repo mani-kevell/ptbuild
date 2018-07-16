@@ -1,4 +1,4 @@
-<div class="container" id="wrapper">
+<div class="col-sm-12" id="wrapper">
     <div class="fullRow">
         <h2>
             <?php
