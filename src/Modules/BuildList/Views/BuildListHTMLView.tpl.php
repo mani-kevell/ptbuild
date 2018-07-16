@@ -53,7 +53,7 @@
                             <br />
 
                             <li>
-                                <div class="alert alert-info">
+                                <div class="alert alert-info updatable_menu_list">
                                     <h4>Running Builds </h4>
                                     <div class="runningBuilds">
                                         <p>
@@ -62,7 +62,7 @@
 
                                     </div>
                                 </div>
-                                <div class="alert alert-info">
+                                <div class="alert alert-info updatable_menu_list">
                                     <h4>Queued Builds</h4>
                                     <div class="queuedBuilds">
                                         <p>
@@ -83,16 +83,16 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active allRowsTab">
-                            <a onclick="showFilteredRows('all'); return false ;">All</a>
+                            <a class="build_list_filter" id='build_list_filter_all' data-filter='all'>All</a>
                         </li>
                         <li role="presentation" class="successRowsTab">
-                            <a onclick="showFilteredRows('success'); return false ;">All Success</a>
+                            <a class="build_list_filter" id='build_list_filter_success' data-filter='success'>All Success</a>
                         </li>
                         <li role="presentation" class="failedRowsTab">
-                            <a onclick="showFilteredRows('failure'); return false ;">All Failed</a>
+                            <a class="build_list_filter" id='build_list_filter_failed' data-filter='failure'>All Failed</a>
                         </li>
                         <li role="presentation"class="unstableRowsTab">
-                            <a onclick="showFilteredRows('unstable'); return false ;">All Unstable</a>
+                            <a class="build_list_filter" id='build_list_filter_unstable' data-filter='unstable'>All Unstable</a>
                         </li>
                     </ul>
 
@@ -256,7 +256,13 @@
 
         <div class="col-lg-12">
             <div class="col-lg-6">
-                <div class="alert alert-info">
+
+                <script type='text/javascript'>
+                    var build_run_params = [] ;
+                    var build_run_metadata = [] ;
+                </script>
+
+                <div class="updatable_footer_list alert alert-info fullWidth">
                     <h4>Running Builds </h4>
                     <div class="runningBuilds">
                         <p>
@@ -266,7 +272,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="alert alert-info">
+                <div class="updatable_footer_list alert alert-info fullWidth">
                     <h4>Queued Builds</h4>
                     <div class="queuedBuilds">
                         <p>
@@ -284,4 +290,3 @@
 	</div>
 </div><!-- /.container -->
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildList/css/buildlist.css">
-<script type="text/javascript" src="/Assets/Modules/BuildList/js/buildlist.js"></script>
