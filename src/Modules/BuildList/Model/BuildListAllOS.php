@@ -19,10 +19,27 @@ class BuildListAllOS extends Base {
         return $ret ;
     }
 
+    public function getBuildStatus() {
+        $pipeline = $this->getPipeline();
+        $ret["build_status"] = $pipeline["history_index"][$this->params['run-id']]["status"] ;
+        $ret["start"] = $pipeline["history_index"][$this->params['run-id']]["start"] ;
+        $ret["end"] = $pipeline["history_index"][$this->params['run-id']]["end"] ;
+        $ret["last_fail"] = $pipeline["last_fail"] ;
+        $ret["last_success"] = $pipeline["last_success"] ;
+        return $ret ;
+    }
+
     public function getPipelines() {
         $pipelineFactory = new \Model\Pipeline() ;
         $pipeline = $pipelineFactory->getModel($this->params);
-        return $pipeline->getPipelines();
+        $pipelines = $pipeline->getPipelines() ;
+        return $pipelines ;
+    }
+
+    public function getPipeline() {
+        $pipelineFactory = new \Model\Pipeline() ;
+        $pipeline = $pipelineFactory->getModel($this->params);
+        return $pipeline->getPipeline($this->params['item']);
     }
 
 }

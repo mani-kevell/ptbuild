@@ -42,10 +42,10 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="/index.php?control=BuildConfigure&action=new"class=" hvr-bounce-in"><i class="fa fa-edit fa-fw hvr-bounce-in"></i> New Pipeline</a>
+                                <a href="/index.php?control=BuildConfigure&action=new" class="hvr-bounce-in"><i class="fa fa-edit fa-fw hvr-bounce-in"></i> New Pipeline</a>
                             </li>
                             <li>
-                                <a href="/index.php?control=BuildConfigure&action=copy"class=" hvr-bounce-in"><i class="fa fa-edit fa-fw hvr-bounce-in"></i> Copy Pipeline</a>
+                                <a href="/index.php?control=BuildConfigure&action=copy" class="hvr-bounce-in"><i class="fa fa-edit fa-fw hvr-bounce-in"></i> Copy Pipeline</a>
                             </li>
                             <li>
                                 <a href="/index.php?control=BuildList&action=show " class="active  hvr-bounce-in"><i class="fa fa-bars fa-fw hvr-bounce-in"></i> All Pipelines</a>
@@ -91,7 +91,7 @@
                         <li role="presentation" class="failedRowsTab">
                             <a class="build_list_filter" id='build_list_filter_failed' data-filter='failure'>All Failed</a>
                         </li>
-                        <li role="presentation"class="unstableRowsTab">
+                        <li role="presentation" class="unstableRowsTab">
                             <a class="build_list_filter" id='build_list_filter_unstable' data-filter='unstable'>All Unstable</a>
                         </li>
                     </ul>
@@ -99,7 +99,7 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane active" id="all">
-							<div class="table-responsive" ">
+							<div class="table-responsive">
                                 <div class="table table-striped table-bordered table-condensed">
                                     <div>
                                         <div class="blCell cellRowIndex">#</div>
@@ -153,24 +153,19 @@
                                         echo '</div>' ;
                                         ?>
                                     </div>
-                                    <div  class="blCell cellRowStatus"
-                                        <?php
 
-                                        if ($pipelineDetails["last_status"] === true) {
-                                            echo ' style="background-color:rgb(13, 193, 42);" '; }
-                                        else if ($pipelineDetails["last_status"] === false) {
-                                            echo ' style="background-color:#D32B2B" '; }
-                                        else {
-                                            echo ' style="background-color:gray" '; }
-                                        ?>
+                                    <?php
 
-                                        >
-
-                                        <?php
-
-                                        echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ;
-
+                                    if ($pipelineDetails["last_status"] === true) {
+                                        $sty = ' style="background-color:rgb(13, 193, 42);" '; }
+                                    else if ($pipelineDetails["last_status"] === false) {
+                                        $sty = ' style="background-color:#D32B2B" '; }
+                                    else {
+                                        $sty = ' style="background-color:gray" '; }
                                     ?>
+                                    <div class="blCell cellRowStatus" <?php echo $sty ; ?> >
+
+                                        <?php echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ; ?>
 
                                     </div>
 

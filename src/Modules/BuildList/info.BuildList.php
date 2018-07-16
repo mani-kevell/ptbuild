@@ -13,7 +13,7 @@ class BuildListInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-      return array( "BuildList" => array("show") );
+      return array( "BuildList" => array("show", 'buildstatus') );
     }
 
     public function routeAliases() {

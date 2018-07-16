@@ -1,3 +1,1 @@
-<pre>
-<?php echo $pageVars["data"]["build_status"] ; ?>
-</pre>
+<?php echo json_encode($pageVars['data']) ; ?>
