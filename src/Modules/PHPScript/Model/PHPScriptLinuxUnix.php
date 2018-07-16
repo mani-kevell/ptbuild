@@ -58,13 +58,13 @@ class PHPScriptLinuxUnix extends Base {
         $logging = $loggingFactory->getModel($this->params);
         $phpc = ''  ;
 //        var_dump('this pars', $this->params) ;
+        $phpc .= '<?'.'php'."\n" ;
+        $phpc .= '  '."\n" ;
         if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
             $loggingFactory = new \Model\Logging();
             $logging = $loggingFactory->getModel($this->params);
             $logging->log("PHP Extracting Environment Variables...", $this->getModuleName()) ;
             $ext_vars = json_encode($this->params["env-vars"], JSON_PRETTY_PRINT) ;
-            $phpc .= '<?'.'php'."\n" ;
-            $phpc .= '  '."\n" ;
             $phpc .= '  error_reporting(E_ALL);'."\n" ;
             $phpc .= '  $extract_vars = \''.$ext_vars.'\';'."\n" ;
             $phpc .= '  $extract_vars_array = json_decode($extract_vars, true);'."\n" ;
