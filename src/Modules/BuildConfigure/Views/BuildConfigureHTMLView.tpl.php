@@ -299,7 +299,7 @@
                                             echo '</select>';
                                             echo '    </div>' ;
                                         }
-                                        if ($data["type"] == "radio") {
+                                        if ($data["type"] == "radio" || $data["type"] == "options") {
                                             echo '    <div class="fullWidth">' ;
                                             $selected = ($one_build_step[$data['slug']] == "on")? 'checked="checked"' : '';
                                             echo ' <input type="'.$data["type"].'" id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$key.'" '.$selected.' class="form-control" />'.$value;
