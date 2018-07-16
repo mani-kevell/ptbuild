@@ -149,3 +149,12 @@ ul#side-menu {
         right: 10%;
     }
 }
+
+.build_running_widget {
+    width: 100%;
+    max-height: 10px;
+}
+
+.updatable_footer_list {
+    display: inline-block;
+}
