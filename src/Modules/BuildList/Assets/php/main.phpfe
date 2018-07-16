@@ -1,5 +1,9 @@
 <?php
 
+$buildlist = new \BuildList();
+$buildlist->startUpdater() ;
+$buildlist->bindFilter() ;
+
 class BuildList {
 
     public static $done = false ;
