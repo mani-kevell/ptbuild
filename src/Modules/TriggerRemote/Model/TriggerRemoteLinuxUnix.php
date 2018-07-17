@@ -70,7 +70,7 @@ class TriggerRemoteLinuxUnix extends Base {
                     "name" => "Custom timeout in seconds - defaults to 1 week",
                     "slug" => "timeout"),
                 array(
-                    "type" => "text",
+                    "type" => "boolean",
                     "name" => "Quiet Progress?",
                     "slug" => "quiet_progress"),
             )
