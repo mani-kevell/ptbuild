@@ -65,6 +65,14 @@ class TriggerRemoteLinuxUnix extends Base {
                     "type" => "textarea",
                     "name" => "Parameter Set",
                     "slug" => "parameter_raw" ),
+                array(
+                    "type" => "text",
+                    "name" => "Custom timeout in seconds - defaults to 1 week",
+                    "slug" => "timeout"),
+                array(
+                    "type" => "text",
+                    "name" => "Quiet Progress?",
+                    "slug" => "quiet_progress"),
             )
         );
         return $ff ;
@@ -100,18 +108,30 @@ class TriggerRemoteLinuxUnix extends Base {
                 $logging->log("Build Job {$params["item"]} failed...", $this->getModuleName()) ;
             }
 
+            $default_timeout = 604800 ; // one week
+            $timeout = (isset($step["timeout"]) && strlen($step["timeout"]) > 0) ? $step["timeout"] : $default_timeout ; // one week
+
+            $loop_max = $timeout / 5 ;
+
             $finder = $prFactory->getModel($params, 'FindRunning') ;
-            for ($i=0; $i<10; $i++) {
+            for ($i=0; $i<=$loop_max; $i++) {
                 $current_running = $finder->getData();
                 $is_running = $this->findInRunning($current_running['running_builds'], $params["item"], $started_run) ;
                 if ($is_running) {
-                    $logging->log("Build Job {$params["item"]} is running...", $this->getModuleName()) ;
+                    if ($step['quiet_progress'] !== 'on') {
+                        $logging->log("Build Job {$params["item"]} is running...", $this->getModuleName()) ;
+                    }
                 } else {
+                    $logging->log("Build Job {$params["item"]} is no longer running...", $this->getModuleName()) ;
                     break ;
+                }
+                if ($i == $loop_max) {
+                    $timeout = true ;
+                    $logging->log("Build Job {$params["item"]} has exceeded timeout of {$timeout} seconds...", $this->getModuleName()) ;
                 }
                 sleep(5);
             }
-            $logging->log("Build Job {$params["item"]} is no longer running, finding execution status...", $this->getModuleName()) ;
+            $logging->log("Build Job {$params["item"]} monitoring complete, finding execution status...", $this->getModuleName()) ;
 
 
             $pipelineParentFactory = new \Model\Pipeline() ;
