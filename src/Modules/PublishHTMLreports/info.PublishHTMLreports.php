@@ -13,7 +13,7 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     }
 
     public function routesAvailable() {
-        return array( "PublishHTMLreports" => array_merge(parent::routesAvailable(), array("help", "report", "report-list") ) );
+        return array( "PublishHTMLreports" => array_merge(parent::routesAvailable(), array("help", "report") ) );
     }
 
     public function routeAliases() {
@@ -33,7 +33,8 @@ class PublishHTMLreportsInfo extends PTConfigureBase {
     }
 
     public function ignoredAuthenticationRoutes() {
-        return array( "PublishHTMLreports" => array("report", "report-list") );
+        return array( "PublishHTMLreports" => array("report") );
+//        return array( "PublishHTMLreports" => array("report", "report-list") );
     }
 
     public function helpDefinition() {

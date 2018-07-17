@@ -2,21 +2,20 @@
     <div class="col-lg-12">
         <?php
 
-            $mn = $this->getModuleName() ;
-            if (isset($steps[$mn]["enabled"]) && $steps[$mn]["enabled"] == "on") {
-                foreach ($pageVars["data"]["report_list"]["reports"] as $reportHash => $reportDetail) {
+            $mn = 'PublishHTMLreports' ;
+            foreach ($pageVars["data"]["report_list"]["reports"] as $reportHash => $reportDetail) {
 
-                    $dir = $reportDetail["Report_Directory"];
-                    if (substr($dir, -1) != DS) { $dir = $dir . DS ; }
-                    $indexFile = $reportDetail["Index_Page"];
-                    $reportTitle = $reportDetail["Report_Title"];
+                $dir = $reportDetail["Report_Directory"];
+                if (substr($dir, -1) != DS) { $dir = $dir . DS ; }
+                $indexFile = $reportDetail["Index_Page"];
+                $reportTitle = $reportDetail["Report_Title"];
 
-                    echo '<a href="index.php?control=PublishHTMLreports&action=report&item=' ;
-                    echo $pageVars["data"]["pipe"]["project-slug"].'">' ;
-                    echo '  '.$reportTitle ;
-                    echo '</a>' ;
+                echo '<a href="index.php?control=PublishHTMLreports&action=report&item=' ;
+                echo $pageVars["data"]["pipe"]["project-slug"].'">' ;
+                echo '  '.$reportTitle ;
+                echo '</a>' ;
 
-                } }
+            }
 
         ?>
     </div>
