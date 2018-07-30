@@ -29,6 +29,9 @@ class StepRunnerAllOS extends BaseLinuxApp {
         if ($modx == false) {
             $logging->log ("No Module {$stepModule} is installed", $this->getModuleName() ) ;
             return false ;  }
+        if (isset($step["step_label"]) && strlen($step["step_label"])>0) {
+            $logging->log ("Label: {$step["step_label"]}", $this->getModuleName() ) ;
+        }
         // fire up the model for it
         $stepFactoryClass = '\Model\\'.$stepModule;
         $stepFactory = new $stepFactoryClass() ;
