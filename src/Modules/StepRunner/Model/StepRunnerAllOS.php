@@ -26,6 +26,7 @@ class StepRunnerAllOS extends BaseLinuxApp {
         // get build step module from step
         $stepModule = $step["module"] ;
         $modx = \Core\AutoLoader::moduleExists($stepModule) ;
+        echo "\n" ;
         if ($modx == false) {
             $logging->log ("No Module {$stepModule} is installed", $this->getModuleName() ) ;
             return false ;  }
