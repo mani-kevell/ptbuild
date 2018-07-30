@@ -13,12 +13,9 @@ class Virtufile extends VirtufileBase {
     private function setConfig() {
         $variables = array() ;
         require (__DIR__.DIRECTORY_SEPARATOR.'vars'.DIRECTORY_SEPARATOR.'vm.php') ;
-        require (__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Constants.php') ;
-//        var_dump('vfile vars', __DIR__.DIRECTORY_SEPARATOR.'vars'.DIRECTORY_SEPARATOR.'vm.php', $variables) ;
 
         $this->setDefaultConfig();
-        $this->config["vm"]["name"] = 'iso_php_example_application' ;
-//        $this->config["vm"]["name"] = strtolower(basename(dirname(__FILE__))) ;
+        $this->config["vm"]["name"] = PHARAOH_APP ;
         $this->config["vm"]["gui_mode"] = "gui" ;
 
         $bu = 'https://repositories.internal.pharaohtools.com/index.php?control=BinaryServer&action=serve&item=iso_php_virtualize_boxes_-_ubuntu_16.04_server' ;
@@ -32,8 +29,6 @@ class Virtufile extends VirtufileBase {
         $this->config["vm"]["ssh_halt_timeout"] = 2 ;
         $this->config["network"]["natpf1"][] = "{$this->config["vm"]["name"]}_guestssh,tcp,,22{$random_port_suffix},,22";
         $this->config["network"]["natpf1"][] = "{$this->config["vm"]["name"]}_guestweb,tcp,,80{$random_port_suffix},,80";
-        $this->config["network"]["natpf1"][] = "{$this->config["vm"]["name"]}_guestmobile,tcp,,88{$random_port_suffix},,8000";
-        $this->config["network"]["natpf1"][] = "{$this->config["vm"]["name"]}_guestsocket,tcp,,3000,,3000";
 
         $this->config["ssh"]["driver"] = "native" ;
         $this->config["ssh"]["user"] = "ptv" ;
@@ -45,9 +40,9 @@ class Virtufile extends VirtufileBase {
         # Shared folder - This should map to the workstation environment vhost path parent...
         $this->config["vm"]["shared_folders"][] =
             array(
-                "name" => "host_www",
-                "host_path" => getcwd().DIRECTORY_SEPARATOR,
-                "guest_path" => "/var/www/hostshare/",
+                "name" => "host_tool",
+                "host_path" => getcwd().DS,
+                "guest_path" => DS.'opt'.DS.'ptbuild'.DS.'ptbuild'.DS,
             ) ;
         # Provisioning
         $this->config["vm"]["provision"][] =
@@ -72,44 +67,41 @@ class Virtufile extends VirtufileBase {
                 "script" => $i_path.'build'.DS.'ptd'.DS.'add-hostfile-entry.dsl.php',
                 "params" => array("vars" => $i_path.'vars'.DS.'vm.php'), ] ;
 
-        $this->config["vm"]["provision_destroy_post"][] =
-            [   "provisioner" => "PharaohTools", "tool" => "ptdeploy", "target" => "host",
-                "script" => $i_path.'build'.DS.'ptd'.DS.'remove-hostfile-entry.dsl.php',
-                "params" => array("vars" => $i_path.'vars'.DS.'vm.php') ] ;
-
-        $dsl_params = array('start-dir' => "/var/www/hostshare",
-                            'vars' => '/var/www/hostshare/vars/vm.php',
-                            'step-times' => 'true',
-                            'step-numbers' => 'true') ;
-
-        $this->config["vm"]["provision"][] =
-            [   "provisioner" => "PharaohTools",
-                "tool" => "ptconfigure",
-                "target" => "guest",
-                "script" => "/var/www/hostshare/build/ptc/development.dsl.php",
-                "params" => $dsl_params ] ;
-
-        $this->config["vm"]["provision"][] =
-            [   "provisioner" => "PharaohTools",
-                "tool" => "ptconfigure",
-                "target" => "guest",
-                "script" => "/var/www/hostshare/build/ptc/build-web-client-application.dsl.php",
-                "params" => array_merge($dsl_params, ['uniter_build_level' => 'development']) ] ;
-
-        $this->config["vm"]["provision"][] =
-            [   "provisioner" => "PharaohTools",
-                "tool" => "ptconfigure",
-                "target" => "guest",
-                "script" => "/var/www/hostshare/build/ptc/build-web-server-application.dsl.php",
-                "params" => $dsl_params ] ;
+//        $this->config["vm"]["provision_destroy_post"][] =
+//            [   "provisioner" => "PharaohTools", "tool" => "ptdeploy", "target" => "host",
+//                "script" => $i_path.'build'.DS.'ptd'.DS.'remove-hostfile-entry.dsl.php',
+//                "params" => array("vars" => $i_path.'vars'.DS.'vm.php') ] ;
+//
+//        $dsl_params = array('start-dir' => "/var/www/hostshare",
+//                            'vars' => '/var/www/hostshare/vars/vm.php',
+//                            'step-times' => 'true',
+//                            'step-numbers' => 'true') ;
+//
+//        $this->config["vm"]["provision"][] =
+//            [   "provisioner" => "PharaohTools",
+//                "tool" => "ptconfigure",
+//                "target" => "guest",
+//                "script" => "/var/www/hostshare/build/ptc/development.dsl.php",
+//                "params" => $dsl_params ] ;
+//
+//        $this->config["vm"]["provision"][] =
+//            [   "provisioner" => "PharaohTools",
+//                "tool" => "ptconfigure",
+//                "target" => "guest",
+//                "script" => "/var/www/hostshare/build/ptc/build-web-client-application.dsl.php",
+//                "params" => array_merge($dsl_params, ['uniter_build_level' => 'development']) ] ;
+//
+//        $this->config["vm"]["provision"][] =
+//            [   "provisioner" => "PharaohTools",
+//                "tool" => "ptconfigure",
+//                "target" => "guest",
+//                "script" => "/var/www/hostshare/build/ptc/build-web-server-application.dsl.php",
+//                "params" => $dsl_params ] ;
 
         $description = (isset($variables['description'])) ? "\n\n{$variables['description']}\n\n" : '' ;
         $this->config["vm"]["post_up_message"] = "Your ISOPHP Virtualize Box has been brought up. $description
   You now have the following urls:\n\n
     http://build.{$variables['domain']}:80{$random_port_suffix}/ - Build Server\n
-    http://www.{$variables['domain']}:80{$random_port_suffix}/ - Web Client Application\n
-    http://www.{$variables['domain']}:88{$random_port_suffix}/ - Mobile Application Web Emulator \n
-    http://server.{$variables['domain']}:80{$random_port_suffix}/ - Web Server Application\n
     http://server.{$variables['domain']}:80{$random_port_suffix}/php_lite_admin/phpliteadmin.php - DB Admin Application\n\n
         You can SSH into the VM with this:\n\n
             ssh {$this->config['ssh']['user']}@127.0.0.1 -p22{$random_port_suffix} - SSH Connection\n
