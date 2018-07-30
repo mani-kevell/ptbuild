@@ -398,7 +398,7 @@ class PipeRunnerAllOS extends Base {
             if (in_array(false, $ev)) { return $this->failBuild() ; }
             $stepRunnerFactory = new \Model\StepRunner() ;
             $stepRunner = $stepRunnerFactory->getModel($this->params) ;
-            $logging->log("Executing step id $hash", $this->getModuleName()) ;
+//            $logging->log("Executing step id $hash", $this->getModuleName()) ;
             $res = $stepRunner->stepRunner($stepDetails, $this->params["item"], $hash) ;
             if (is_array($res)) {
                 if (isset($res['meta'])) {
