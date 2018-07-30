@@ -19,11 +19,15 @@ if (window.location.pathname !== '/') {
     var current_page_module = getParameterByName('control') ;
     var mainpath = '/opt/ptbuild/ptbuild/src/Modules/'+current_page_module+'/Assets/php/main.phpfe' ;
     console.log("this main", mainpath) ;
-    if (mainFiles.indexOf(mainpath) != -1) {
+    if (mainFiles.indexOf(mainpath) !== -1) {
         var relative_url = '/Assets/Modules/'+current_page_module+'/php/main.phpfe' ;
         console.log("relative url: " + relative_url) ;
         file_require_string += 'require("'+relative_url+'") ; ';
     }
+} else {
+    var index_url = '/Assets/Modules/Index/php/main.phpfe' ;
+    console.log("relative url: " + index_url) ;
+    file_require_string += 'require("'+index_url+'") ; ';
 
 }
 
