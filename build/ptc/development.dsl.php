@@ -7,11 +7,12 @@ Composer ensure
 NodeJS install
 
 PTBuild install
-  guess
   label "Lets ensure Pharaoh Build"
   vhe-url "$$subdomain.{{{ var::domain }}}"
   vhe-ip-port "0.0.0.0:80"
   version latest
+  no-clone
+  no-permissions
   guess
 
 SudoNoPass install
