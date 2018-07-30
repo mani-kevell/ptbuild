@@ -21,13 +21,26 @@ class ShellLinuxUnix extends Base {
     public function getFormFields() {
         $ff = array(
             "shelldata" => array(
-                "type" => "textarea",
-                "name" => "Shell Data",
-                "slug" => "data" ),
+                array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
+                    "type" => "textarea",
+                    "name" => "Shell Data",
+                    "slug" => "data"),
+                ),
             "shellscript" => array(
-                "type" => "text",
-                "name" => "Shell Script",
-                "slug" => "script" ), );
+                array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
+                    "type" => "text",
+                    "name" => "Shell Script",
+                    "slug" => "script"),
+                 ),
+            );
         return $ff ;
     }
 
