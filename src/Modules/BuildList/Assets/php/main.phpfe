@@ -14,6 +14,7 @@ class BuildList {
     public static $buildUpdater ;
     public static $queueUpdater ;
     public static $buildsExecuting ;
+    public static $build_run_parameters = array() ;
 
     public function bindFilter() {
         $jQuery = \js_core::$jQuery ;
@@ -36,6 +37,10 @@ class BuildList {
                 if ($has_focus !== false) {
                     self::updatePage() ;
                 }
+                if ($has_focus !== false) {
+                    self::updatePage() ;
+                    \js_core::$console->log("No Queue Focus");
+                }
             }
             if (self::$updateBuildRunning == true) {
                 \js_core::$console->log("not calling update page php method, updateBuildRunning variable is set to true");
@@ -46,6 +51,9 @@ class BuildList {
                 \js_core::$console->log("calling update queue php method, updateQueueRunning variable is set to false");
                 if ($has_focus !== false) {
                     self::updatePageQueue() ;
+                }
+                if ($has_focus == false) {
+                    \js_core::$console->log("No Queue Focus");
                 }
             }
             if (self::$updateQueueRunning == true) {
@@ -156,13 +164,14 @@ class BuildList {
 
                 if (isset($this_index->params)) {
                     \js_core::$console->log('params is:', $this_index->params) ;
-                    $params_string = \js_core::$php->json_encode($this_index->params) ;
-                    \js_core::$console->log('$params_string is:', $params_string) ;
-                    $ht3 = $ht3 .  "<script type='text/javascript'>" ;
-                    $ht3 = $ht3 .
-                        " build_run_params['" . $run_id . "'] = '" .
-                        $params_string . "' ;\n" ;
-                    $ht3 = $ht3 .  "</script>";
+
+                    $build_run_parameters = self::$build_run_parameters ;
+                    $build_run_parameters["$run_id"] = \js_core::$php->unserialize($this_index->params) ;
+                    self::$build_run_parameters = $build_run_parameters ;
+
+                    \js_core::$console->log('1 brp is:', self::$build_run_parameters) ;
+                    \js_core::$console->log('1 brp x is:', self::$build_run_parameters[$run_id]) ;
+
                     $ht3 = $ht3 .  "<span id='params_display_button_" . $run_id . "' " ;
                     $ht3 = $ht3 .  " data-run_id='" . $run_id . "'" ;
                     $ht3 = $ht3 .  " class='params_display_button btn btn-info'>" ;
@@ -203,6 +212,7 @@ class BuildList {
 
             $jQuery('.updatable_menu_list .runningBuilds')->html($ht_menu);
             $jQuery('.updatable_footer_list .runningBuilds')->html($ht_footer);
+            self::setPageTriggers() ;
         }
     }
 
@@ -366,16 +376,23 @@ class BuildList {
                 $ht2 = $ht2 .  '  <div class="col-sm-' ;
 
                 $ht3 = '">' ;
-                $ht3 = $ht3 .  "<span id='params_display_button_" . $entry_id . "' ";
-                $ht3 = $ht3 .  " data-run_id='" . $entry_id . "'";
-                $ht3 = $ht3 .  " class='params_display_button btn btn-info'>";
-                $ht3 = $ht3 .  "Show Params";
-                $ht3 = $ht3 .  "</span>";
-                $ht3 = $ht3 .  "<span id='metadata_display_button_" . $entry_id . "' ";
-                $ht3 = $ht3 .  " data-run_id='" . $entry_id . "'";
-                $ht3 = $ht3 .  " class='metadata_display_button btn btn-info'>";
-                $ht3 = $ht3 .  "Show Metadata";
-                $ht3 = $ht3 .  "</span>";
+
+                if (isset($this_index->params)) {
+                    $ht3 = $ht3 . "<span id='params_display_button_" . $entry_id . "' ";
+                    $ht3 = $ht3 . " data-run_id='" . $entry_id . "'";
+                    $ht3 = $ht3 . " class='params_display_button btn btn-info'>";
+                    $ht3 = $ht3 . "Show Params";
+                    $ht3 = $ht3 . "</span>";
+                }
+                
+                if (isset($this_index->meta)) {
+                    $ht3 = $ht3 . "<span id='metadata_display_button_" . $entry_id . "' ";
+                    $ht3 = $ht3 . " data-run_id='" . $entry_id . "'";
+                    $ht3 = $ht3 . " class='metadata_display_button btn btn-info'>";
+                    $ht3 = $ht3 . "Show Metadata";
+                    $ht3 = $ht3 . "</span>";
+                }
+
                 $ht3 = $ht3 .  "<a href='" . $terminate_href . "' type='submit' class='btn btn-danger hvr-float-shadow terminate-build'>";
                 $ht3 = $ht3 .  " Remove";
                 $ht3 = $ht3 .  "</a>";
@@ -390,6 +407,7 @@ class BuildList {
             }
             $jQuery('.updatable_menu_list .queuedBuilds')->html($ht_menu);
             $jQuery('.updatable_footer_list .queuedBuilds')->html($ht_footer);
+            self::setPageTriggers() ;
 
         }
     }
@@ -434,6 +452,48 @@ class BuildList {
             $jQuery('.failedRowsTab')->removeClass("active") ;
             $jQuery('.allRowsTab')->removeClass("active") ;
             $jQuery('.unstableRowsTab')->addClass("active") ;  }
+
+    }
+
+
+    public static function setPageTriggers() {
+
+        $jQuery = \js_core::$jQuery ;
+
+        $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
+            $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+            \js_core::$console->log('clicked params button') ;
+            $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
+            $overlay_content = "" ;
+            $build_run_parameters = self::$build_run_parameters ;
+            \js_core::$console->log('brp is') ;
+            \js_core::$console->log($build_run_parameters) ;
+            \js_core::$console->log('brp run is') ;
+            \js_core::$console->log($build_run_parameters[$run_id]) ;
+            foreach ($build_run_parameters[$run_id] as $paramKey => $paramValue) {
+                $overlay_content = $overlay_content . "<p>".$paramKey.":<strong>".$paramValue."</strong></p>" ;
+            }
+            \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
+        });
+
+
+        $jQuery('.metadata_display_button')->on('click', function($jqthis) use ($jQuery)  {
+            \js_core::$console->log('clicked meta button') ;
+            $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
+            $overlay_title = "<h3>Metadata for Run ID: <strong>".$run_id."</strong></h3>" ;
+            $overlay_content = "" ;
+            $meta = \js_core::$window->build_run_metadata ;
+            \js_core::$console->log('meta', $meta) ;
+            if ($meta[$run_id] !== null) {
+                \js_core::$console->log('mri', $meta[$run_id]) ;
+                $decoded = \js_core::$php->json_decode($meta[$run_id], true) ;
+                \js_core::$console->log('dcd', $decoded) ;
+                $overlay_content = self::objectToHTML($decoded);
+            } else {
+                $overlay_content = $overlay_content . "<p>No Metadata available</p>" ;
+            }
+            \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
+        });
 
     }
 
