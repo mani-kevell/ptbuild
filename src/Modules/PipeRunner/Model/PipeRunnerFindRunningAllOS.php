@@ -98,15 +98,21 @@ class PipeRunnerFindRunningAllOS extends Base {
         $thisPipe = $pipe->getPipeline($items) ;
         $thisPipeName =  $thisPipe["project-name"] ;
 
-        return array(
+        $ret =  array(
             "runuser" => $users,
             "pipedir" => $pds,
             "pipename" => $thisPipeName,
             "brs" => $brss,
             "item" => $items,
             "runid" => $rids,
-            "starttime" => $time
+            "starttime" => $time,
         ) ;
+
+        if (isset($thisPipe["history_index"][$rids]['params']) && is_array($thisPipe["history_index"][$rids]['params'])) {
+            $ret["params"] = serialize($thisPipe["history_index"][$rids]['params']) ;
+        }
+
+        return $ret ;
     }
 
 }
