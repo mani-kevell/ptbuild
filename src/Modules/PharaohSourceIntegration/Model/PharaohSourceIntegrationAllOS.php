@@ -53,6 +53,10 @@ class PharaohSourceIntegrationAllOS extends Base {
         $ff = array(
             "create_repository" => array(
                 array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
                     "type" => "dropdown",
                     "name" => "Server URL",
                     "data" => $source_servers,
@@ -71,9 +75,15 @@ class PharaohSourceIntegrationAllOS extends Base {
                     "slug" => "repository_description"),
                 ) ,
             "delete_repository" => array(
-                "type" => "textarea",
-                "name" => "Delete Source Code Repository",
-                "slug" => "delete_repository" ) ,
+                array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
+                    "type" => "textarea",
+                    "name" => "Delete Source Code Repository",
+                    "slug" => "delete_repository"),
+                 ) ,
         );
         return $ff ;
     }
