@@ -55,9 +55,15 @@ class ClearWorkspaceLinuxUnix extends Base {
     public function getFormFields() {
         $ff = array(
             "clearworkspace" => array(
-                "type" => "boolean",
-                "name" => "Clear Workspace",
-                "slug" => "boolean" ),
+                array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
+                    "type" => "boolean",
+                    "name" => "Clear Workspace",
+                    "slug" => "boolean"),
+            ),
         );
 
         return $ff ;
