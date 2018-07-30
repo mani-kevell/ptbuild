@@ -12,9 +12,6 @@ class Virtufile extends VirtufileBase {
 
     private function setConfig() {
         $variables = array() ;
-        if (!defined(PHARAOH_APP_FRIENDLY)) {
-            require (__DIR__.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'Constants.php') ;
-        }
         require (__DIR__.DIRECTORY_SEPARATOR.'vars'.DIRECTORY_SEPARATOR.'vm.php') ;
 
         $this->setDefaultConfig();
@@ -77,7 +74,7 @@ class Virtufile extends VirtufileBase {
                 "params" => array("vars" => $i_path.'vars'.DS.'vm.php') ] ;
 
         $dsl_params = array('start-dir' => "{$guest_path}",
-                            'vars' => '{$guest_path}/vars/vm.php',
+                            'vars' => "{$guest_path}vars/vm.php",
                             'step-times' => 'true',
                             'step-numbers' => 'true') ;
 
