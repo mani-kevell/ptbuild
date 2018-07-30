@@ -96,6 +96,12 @@
                         </li>
                     </ul>
 
+
+                    <script type='text/javascript'>
+                        var build_run_params = [] ;
+                        var build_run_metadata = [] ;
+                    </script>
+
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane active" id="all">
@@ -251,11 +257,6 @@
 
         <div class="col-lg-12">
             <div class="col-lg-6">
-
-                <script type='text/javascript'>
-                    var build_run_params = [] ;
-                    var build_run_metadata = [] ;
-                </script>
 
                 <div class="updatable_footer_list alert alert-info fullWidth">
                     <h4>Running Builds </h4>
