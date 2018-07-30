@@ -21,15 +21,24 @@ class PHPScriptLinuxUnix extends Base {
     public function getFormFields() {
         $ff = array(
             "phpscriptdata" => array(
-                "type" => "textarea",
-                "name" => "PHPScript Data",
-                "slug" => "data" ),
+                array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
+                    "type" => "textarea",
+                    "name" => "PHPScript Data",
+                    "slug" => "data" ),),
             "phpscriptscript" => array(
-                "type" => "text",
-                "name" => "PHPScript Script",
-                "slug" => "script" ),
+                array(
+                    "type" => "text",
+                    "name" => "Step Label",
+                    "slug" => "step_label"),
+                array(
+                    "type" => "text",
+                    "name" => "PHPScript Script",
+                    "slug" => "script" ),),
         );
-
         return $ff ;
     }
 
