@@ -20,11 +20,10 @@ class Virtufile extends VirtufileBase {
 
         $bu = 'https://repositories.internal.pharaohtools.com/index.php?control=BinaryServer&action=serve&item=iso_php_virtualize_boxes_-_ubuntu_16.04_server' ;
         $this->config["vm"]["box_url"] = $bu ;
-        $this->config["vm"]["box"] = "isophpexampleapp" ;
+        $this->config["vm"]["box"] = "vanillaubuntu1604264bitserver" ;
 
-        $random_port_suffix = '78' ;
-        $this->config["vm"]["cpus"] = "2" ;
-        $this->config["vm"]["memory"] = "8192" ;
+        $random_port_suffix = '57' ;
+        $this->config["vm"]["memory"] = "4096" ;
         $this->config["vm"]["graceful_halt_timeout"] = 15 ;
         $this->config["vm"]["ssh_halt_timeout"] = 2 ;
         $this->config["network"]["natpf1"][] = "{$this->config["vm"]["name"]}_guestssh,tcp,,22{$random_port_suffix},,22";
@@ -84,26 +83,11 @@ class Virtufile extends VirtufileBase {
                 "target" => "guest",
                 "script" => "{$guest_path}/build/ptc/development.dsl.php",
                 "params" => $dsl_params ] ;
-//
-//        $this->config["vm"]["provision"][] =
-//            [   "provisioner" => "PharaohTools",
-//                "tool" => "ptconfigure",
-//                "target" => "guest",
-//                "script" => "{$guest_path}/build/ptc/build-web-client-application.dsl.php",
-//                "params" => array_merge($dsl_params, ['uniter_build_level' => 'development']) ] ;
-//
-//        $this->config["vm"]["provision"][] =
-//            [   "provisioner" => "PharaohTools",
-//                "tool" => "ptconfigure",
-//                "target" => "guest",
-//                "script" => "{$guest_path}/build/ptc/build-web-server-application.dsl.php",
-//                "params" => $dsl_params ] ;
 
         $description = (isset($variables['description'])) ? "\n\n{$variables['description']}\n\n" : '' ;
         $this->config["vm"]["post_up_message"] = "Your ISOPHP Virtualize Box has been brought up. $description
   You now have the following urls:\n\n
-    http://build.{$variables['domain']}:80{$random_port_suffix}/ - Build Server\n
-    http://server.{$variables['domain']}:80{$random_port_suffix}/php_lite_admin/phpliteadmin.php - DB Admin Application\n\n
+    http://build.{$variables['domain']}:80{$random_port_suffix}/ - Build Server\n\n
         You can SSH into the VM with this:\n\n
             ssh {$this->config['ssh']['user']}@127.0.0.1 -p22{$random_port_suffix} - SSH Connection\n
             The password is {$this->config['ssh']['password']} \n";
