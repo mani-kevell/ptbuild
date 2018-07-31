@@ -25,7 +25,7 @@ Logging log
 
 RunCommand execute
   label "Get the names of the Build pipes"
-  command 'cd /var/www/hostshare/build/ptbuild/pipes/ && ls -1 | paste -sd "," -'
+  command 'cd /opt/ptbuild/ptbuild/build/ptbuild/pipes/ && ls -1 | paste -sd "," -'
   guess
   register "build_pipe_names"
 
@@ -35,7 +35,7 @@ Logging log
 
 RunCommand execute
   label "Import the Development Build pipes"
-  command "ptbuild importexport import -yg --source=/var/www/hostshare/build/ptbuild/pipes/{{ loop }}"
+  command "ptbuild importexport import -yg --source=/opt/ptbuild/ptbuild/build/ptbuild/pipes/{{ loop }}"
   loop "{{{ param::build_pipe_names }}}"
   guess
 
@@ -46,7 +46,7 @@ RunCommand execute
 
 Copy put
   label "Import the Pharaoh Build Config"
-  source "/var/www/hostshare/build/ptbuild/ptbuildvars"
+  source "/opt/ptbuild/ptbuild/build/ptbuild/ptbuildvars"
   target /opt/ptbuild/ptbuild/
   recursive
 
