@@ -7,7 +7,7 @@ Composer ensure
 NodeJS install
 
 PTBuild install
-  label "Lets ensure Pharaoh Build"
+  label "Lets configure Pharaoh Build without installing, as we are using files from the host"
   vhe-url "$$subdomain.{{{ var::domain }}}"
   vhe-ip-port "0.0.0.0:80"
   version latest
