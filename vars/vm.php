@@ -1,8 +1,7 @@
 <?php
 
 require(__DIR__.DIRECTORY_SEPARATOR.'default.php') ;
-$variables['vmname'] = $variables['application_slug'] ;
-$variables['domain'] = $variables['vmname'].'.vm' ;
+$variables['vmname'] = 'pharaoh_'.$variables['application_slug'] ;
 $variables['desktop_app_slug'] = $variables['vmname'] ;
 $variables['android_shell_script'] = 'vm-android-shell.bash' ;
 $variables['custom_branch'] = 'development' ;
