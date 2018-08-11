@@ -1,7 +1,7 @@
 {
-    "project-name": "Rebuild Track Assets",
-    "project-slug": "rebuild_track_assets",
-    "project-description": "Use this build job to rebuild the Assets that are available in your VM of Pharaoh Track",
+    "project-name": "Rebuild Pharaoh Build Assets",
+    "project-slug": "rebuild_build_assets",
+    "project-description": "Use this build job to rebuild the Assets that are available in your VM of Pharaoh Build",
     "default-scm-url": null,
     "email-id": null,
     "parameter-status": null,
