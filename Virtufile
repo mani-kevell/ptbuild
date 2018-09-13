@@ -36,7 +36,7 @@ class Virtufile extends VirtufileBase {
         $this->config["ssh"]["port"] = "22{$random_port_suffix}" ;
         $this->config["ssh"]["retries"] = "1000" ;
 
-        $guest_path = DS.'opt'.DS.$variables['full_slug'].DS.$variables['full_slug'].DS ;
+        $guest_path = '/opt/'.$variables['full_slug'].'/'.$variables['full_slug'].'/' ;
         # Shared folder - This should map to the workstation environment vhost path parent...
         $this->config["vm"]["shared_folders"][] =
             array(
