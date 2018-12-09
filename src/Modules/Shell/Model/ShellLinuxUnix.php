@@ -61,7 +61,7 @@ class ShellLinuxUnix extends Base {
             $data = $step["data"] ;
             $data = $this->addSetter($data) ;
             $data = $env_var_string.$data ;
-            $rc = $this->executeAsShell($data);
+            $rc = $this->executeAsShell($data, null, true);
             $res = ($rc == 0) ? true : false ;
 //            var_dump("rc dump in shell is: ", $rc, $res) ;
             return $res ; }
@@ -79,7 +79,7 @@ class ShellLinuxUnix extends Base {
             $data = $step["data"] ;
             $data = $this->addSetter($data) ;
             $data = $env_var_string.$data ;
-            $rc = $this->executeAsShell("bash {$data}") ;
+            $rc = $this->executeAsShell("bash {$data}", null, true) ;
             $res = ($rc == 0) ? true : false ;
             return $res ; }
         else {

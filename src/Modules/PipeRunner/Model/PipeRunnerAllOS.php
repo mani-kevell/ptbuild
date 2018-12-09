@@ -298,7 +298,7 @@ class PipeRunnerAllOS extends Base {
         if ($param_loc !=null) {
             $str .= " --build-parameter-location=$param_loc" ; }
 
-        $cmd .= '--item="'.$this->params["item"].'" '.$str.' --run-id="'.$run.'" > '.PIPEDIR.DS.$this->params["item"].DS ;
+        $cmd .= '--item="'.$this->params["item"].'" '.$str.' --run-id="'.$run.'" 2>&1 | tee '.PIPEDIR.DS.$this->params["item"].DS ;
         $cmd .= 'tmp'.DS.'tmpfile_'.$run.' &';
         if ($switch != false) { $cmd .= "'" ; }
 

@@ -81,7 +81,7 @@ COMPLETION;
                 $this->$property = $step[$property] ; } }
     }
 
-    protected function executeAsShell($multiLineCommand, $message=null) {
+    protected function executeAsShell($multiLineCommand, $message=null, $contents_on_error=false) {
         $loggingFactory = new \Model\Logging();
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
@@ -103,11 +103,17 @@ COMPLETION;
         $logging->log("Executing $tempFile", $this->getModuleName());
         // @todo this should refer to the actual shell we are running
         $commy = "{$tempFile}" ;
-        $rc = $this->executeAndGetReturnCode($commy, true) ;
+//        $rc = $this->executeAndGetReturnCode($commy, true) ;
+        system ( $commy , $rc ) ;
         if ($message !== null) { echo $message."\n"; }
+        if ( ($contents_on_error == true) && ($rc != 0) ) {
+            $logging->log("Displaying Errored Script: $tempFile", $this->getModuleName());
+            echo $fileVar ;
+        }
         shell_exec("rm $tempFile");
         $logging->log("Temp File $tempFile Removed", $this->getModuleName());
-        return $rc["rc"] ;
+//        return $rc["rc"] ;
+        return $rc ;
     }
 
     protected function tempfileFromCommand($multiLineCommand) {
