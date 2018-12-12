@@ -102,7 +102,7 @@ COMPLETION;
 //        $logging->log("Changing $tempFile Permissions", $this->getModuleName());
         $logging->log("Executing $tempFile", $this->getModuleName());
         // @todo this should refer to the actual shell we are running
-        $commy = "{$tempFile}" ;
+        $commy = "bash {$tempFile}" ;
 //        $rc = $this->executeAndGetReturnCode($commy, true) ;
         system ( $commy , $rc ) ;
         if ($message !== null) { echo $message."\n"; }
