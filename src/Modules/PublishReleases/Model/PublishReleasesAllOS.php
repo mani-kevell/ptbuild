@@ -236,7 +236,7 @@ class PublishReleasesAllOS extends Base {
 
         if (isset($one_release_details['publish_as_remote_url']) &&
             $one_release_details['publish_as_remote_url'] == 'on') {
-            
+
             $publish_url = $this->parseEnvVarString($one_release_details['remote_file_url']) ;
             $logging->log ("Publishing Remote URL {$publish_url} to build metadata...", $this->getModuleName() ) ;
             $this->saveRemoteURLToMetadata($publish_url, $one_release_hash);
