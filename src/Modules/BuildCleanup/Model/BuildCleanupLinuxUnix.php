@@ -75,7 +75,11 @@ class BuildCleanupLinuxUnix extends Base {
 
     private function checkBuildCleanupsEnabled() {
         $mn = $this->getModuleName() ;
-        return ($this->params["build-settings"][$mn]["build_cleanup_enabled"] == "on") ? true : false ;
+        if (isset($this->params["build-settings"][$mn]["build_cleanup_enabled"])){
+            return ($this->params["build-settings"][$mn]["build_cleanup_enabled"] == "on") ? true : false ;
+        } else {
+            return false ;
+        }
     }
 
     private function doBuildCleanupsDisabled() {
