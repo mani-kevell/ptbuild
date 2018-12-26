@@ -72,7 +72,8 @@ class SendEmailLinuxUnix extends Base {
 
         $mn = $this->getModuleName() ;
 
-        if ($this->params["build-settings"][$mn]["send_postbuild_email"] == "on" &&
+        if (isset($this->params["build-settings"][$mn]["send_postbuild_email"]) &&
+            $this->params["build-settings"][$mn]["send_postbuild_email"] == "on" &&
             $this->params["build-settings"][$mn]["send_postbuild_email_stability"]=="on" &&
             $completion ==true ) {
             $logging->log ("Only Sending alert mail if poor stability", $this->getModuleName() ) ;
