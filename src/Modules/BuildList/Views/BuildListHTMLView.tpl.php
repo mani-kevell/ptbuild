@@ -198,7 +198,7 @@
                                                 echo date_format($match_date, 'g:ia')." Yesterday"; }
                                             else {
                                                 echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
-                                            echo ' #(' . $pipelineDetails["last_success_build"] . ')'; }
+                                            echo ' (#' . $pipelineDetails["last_success_build"] . ')'; }
                                         else {
                                             echo 'N/A'; }
                                         ?>
@@ -220,7 +220,7 @@
                                                 echo date_format($match_date, 'g:ia')." Yesterday"; }
                                             else {
                                                 echo date_format($match_date, 'g:ia \o\n D jS M Y'); }
-                                            echo ' #(' . $pipelineDetails["last_fail_build"] . ')';}
+                                            echo ' (#' . $pipelineDetails["last_fail_build"] . ')';}
                                         else {
                                             echo 'N/A'; }
 
@@ -229,7 +229,7 @@
                                     <div class="blCell cellRowDuration">
                                         <?php
                                         if ($pipelineDetails["duration"] != false) {
-                                            echo $pipelineDetails["duration"] . ' seconds';
+                                            echo gmdate("H:i:s", $pipelineDetails["duration"]).' ('.$pipelineDetails["duration"] . ' s)';
                                         } else {
                                             echo 'N/A';
                                         }
