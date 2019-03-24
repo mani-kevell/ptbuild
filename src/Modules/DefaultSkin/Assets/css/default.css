@@ -158,3 +158,96 @@ ul#side-menu {
 .updatable_footer_list {
     display: inline-block;
 }
+
+div.app-wrapper h1,
+div.app-wrapper h2,
+div.app-wrapper h3,
+div.app-wrapper h4 {
+    text-align: center;
+}
+
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 100;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip_trigger:hover .tooltiptext {
+    visibility: visible;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.large_button {
+    font-size: 2em;
+}
+
+#menu_visibility_switch {
+    font-size: 2.25em;
+    text-align: right;
+    float: right;
+    display: block;
+}
+
+.hidden_file_input {
+    color: transparent ;
+    opacity: 0 ;
+}
+
+.directory_choice_panel {
+    max-height: 450px;
+    overflow-y: scroll;
+}
+
+.directory_choice_panel.common_panel {
+    width: 48% ;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 1px solid black;
+    height: 100%;
+    min-height: 200px;
+    float: left;
+    display: block;
+}
+
+.directory_choice_panel.directory_panel {
+    width: 48% ;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 1px solid black;
+    height: 100%;
+    min-height: 200px;
+    float: left;
+    display: block;
+}
+
+.directory_choice_panel .panel_item {
+    width: 100% ;
+    float: left ;
+}
+
+.directory_choice_panel .panel_item.selected-panel-item {
+    background-color: #5cb85c ;
+}
+
+.directory_choice_panel .panel_item:hover {
+    background-color: #888a85 ;
+    cursor: pointer ;
+}
+
+.button_std {
+  display: block;
+  margin: 0 auto;
+}
