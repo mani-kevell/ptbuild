@@ -6,7 +6,7 @@
 
 			<div class="row clearfix no-margin">
 
-				<h4 class="text-uppercase text-light">All Build Jobs</h4>
+				<h2>Build Jobs</h2>
 
                 <div id="page_sidebar" class="col-sm-2 sidebar" role="navigation">
                     <div class="sidebar-nav ">
@@ -279,10 +279,6 @@
             </div>
         </div>
 
-        <hr />
-        <p class="text-center">
-            Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
-        </p>
 	</div>
 </div><!-- /.container -->
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildList/css/buildlist.css">

@@ -1,10 +1,6 @@
 <div class="col-sm-12" id="wrapper">
     <div class="fullRow">
-        <h2>
-            <?php
-                echo $pageVars["data"]["current_report"]["feature_data"]["Report_Title"] ;
-            ?>
-        </h2>
+        <h2> Build Report: <?php echo $pageVars["data"]["current_report"]["feature_data"]["Report_Title"] ; ?> </h2>
         <h4>
             Return To Build Home :
             <a href="index.php?control=BuildHome&action=show&item=<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>">

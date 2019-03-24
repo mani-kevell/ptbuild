@@ -18,11 +18,5 @@
             echo $pageVars["data"]["current_status"]["status_data"] ;
         ?>
     </div>
-    <div class="fullRow">
-        <hr />
-        <p class="text-center">
-            Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
-        </p>
-    </div>
 </div>
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/PublishReleases/css/publishstatus.css">

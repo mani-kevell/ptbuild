@@ -77,7 +77,7 @@
                         <?php echo $this->renderLogs() ; ?>
 
                         <div class="row clearfix no-margin">
-           <h4 class="text-uppercase text-primary"><i class="fa fa-users hvr-grow-rotate"></i>User Profile</h4>
+           <h2>User Profile</h2>
 
                 <?php
 

@@ -7,7 +7,7 @@
                         <?php echo $this->renderLogs() ; ?>
 
                         <div class="row clearfix no-margin">
-                           <h4 class="text-uppercase text-primary"><i class="fa fa-users hvr-grow-rotate"></i>Users</h4>
+                           <h2>User Permission Manager</h2>
 
                             <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
                                 <div class="sidebar-nav ">
@@ -147,12 +147,7 @@
                   </div>
                </div>
 			</div> 
-		  </div> 
-     
-        <hr>
-                <p class="text-center">
-                Visit <a href="http://www.pharaohtools.com">www.pharaohtools.com</a> for more
-            </p>
+		  </div>
     </div>
 </div><!-- container -->
 <link rel="stylesheet" href="/Assets/Modules/UserManager/css/usermanager.css">

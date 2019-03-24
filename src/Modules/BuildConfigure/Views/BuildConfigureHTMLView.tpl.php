@@ -212,7 +212,7 @@
                         if (is_array($pageVars["data"]["pipeline"]["steps"]) && count($pageVars["data"]["pipeline"]["steps"])>0) {
 
                             foreach ($pageVars["data"]["pipeline"]["steps"] as $hash => $one_build_step) {
-                                echo '<li class="form-group  bg-primary singleBuildStep" id="step'.$hash.'">'."\n" ;
+                                echo '<li class="form-group  bg-primary singleBuildStep step_'.$one_build_step["steptype"].'" id="step'.$hash.'">'."\n" ;
                                 echo '  <div class="form-group col-sm-12">'."\n" ;
                                 echo '    <div class="form-group col-sm-6">'."\n" ;
                                 echo '      <h3>'.$one_build_step["module"].'</h3>'."\n" ;
@@ -385,6 +385,41 @@
 </script>
 
 
+<link rel="stylesheet" href="/Assets/Modules/BuildConfigure/js/CodeMirror/lib/codemirror.css" />
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/lib/codemirror.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/htmlembedded/htmlembedded.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/javascript/javascript.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/xml/xml.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/css/css.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/clike/clike.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/php/php.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/mode/shell/shell.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/CodeMirror/addon/display/autorefresh.js"></script>
+
+<script type="text/javascript">
+
+    function applyCodeMirror() {
+
+        var highlighted_shell = $('.step_shelldata textarea') ;
+        console.log('highlighted_shell', highlighted_shell) ;
+        var myCodeMirror = [];
+        var settings = {
+                mode:  "shell"
+        } ;
+        $.each(highlighted_shell, function() {
+            CodeMirror.fromTextArea(this, settings) ;
+        }) ;
+    }
+
+    $(document).ready(function(){
+        console.log('apply codemirror') ;
+        applyCodeMirror() ;
+        console.log('applied codemirror') ;
+    });
+
+</script>
+
 <?php
 
 function displaySingleField($one_config_slug, $one_conf_tails, $fieldSlug, $fieldInfo, $settings=null, $val=null, $field_hash=null, $fieldset=null) {
@@ -441,7 +476,7 @@ function displaySingleField($one_config_slug, $one_conf_tails, $fieldSlug, $fiel
                 if (!isset($val)) {
                     $val = $one_conf_tails["default"] ; } }
             echo '  <div class="col-sm-12 field_textarea'.$hash_score_string.'">'."\n" ;
-            echo '      <label for="settings['.$one_config_slug.']'.$field_slug_hash_string.'['.$fieldSlug.']" class="control-label text-left">'.$fieldInfo["name"].':</label>'."\n" ;
+            echo '      <label for="settings['.$one_config_slug.']'.$field_slug_hash_string.'['.$fieldSlug.']" class="highlighted_code control-label text-left">'.$fieldInfo["name"].':</label>'."\n" ;
             echo '      <textarea name="settings['.$one_config_slug.']'.$field_slug_hash_string.'['.$fieldSlug.']" id="settings['.$one_config_slug.']'.$field_slug_hash_string.'['.$fieldSlug.']" type="text" class="form-control '.$fieldSlug.'" placeholder="'.
                 $one_conf_tails["label"].'" >'.$val.'</textarea>'."\n" ;
             echo '  </div>'."\n" ;

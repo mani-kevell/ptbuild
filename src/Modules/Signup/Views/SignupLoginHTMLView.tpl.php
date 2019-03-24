@@ -8,7 +8,7 @@
 			<div class="login-panel panel panel-default">
 
 				<div class="col-md-12">
-					<h3 class="hero-unit"><strong>Log in</strong> </h3>
+					<h3 class="hero-unit"><strong>Log In</strong> </h3>
 
                     <?php echo $this->renderLogs() ; ?>
 

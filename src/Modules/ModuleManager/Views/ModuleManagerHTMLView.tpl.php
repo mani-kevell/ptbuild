@@ -34,7 +34,7 @@
 
                 </div>
 
-                <h3>Module and Extension Manager</h3>
+                <h2>Module and Extension Manager</h2>
 
                 <div id="page_sidebar" class="navbar-default col-sm-2 sidebar" role="navigation">
                     <div class="sidebar-nav ">

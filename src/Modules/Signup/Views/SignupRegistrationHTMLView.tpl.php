@@ -13,7 +13,6 @@
 				
 					
 				<div class="row clearfix no-margin">
-                    <h5 class="text-uppercase text-light" style="margin-top: 15px;margin-left: 51px;">  </h5>
                     <p style="color: #7CFC00; margin-left: 100px;" id="registration_error_msg"></p>
                     <form class="form-horizontal custom-form">
                         <div class="form-group">
