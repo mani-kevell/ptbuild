@@ -73,3 +73,8 @@ nav.navbar-default {
     font-family: monospace;
     color: black ;
 }
+
+.CodeMirror {
+    resize: vertical;
+    overflow: auto !important;
+}
