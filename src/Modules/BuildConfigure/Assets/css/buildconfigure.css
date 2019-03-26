@@ -52,6 +52,8 @@
 
 .buildStepTextArea {
     min-height: 100px;
+    resize: vertical;
+    overflow: auto !important;
 }
 
 .slideysWrapper .title {
@@ -72,9 +74,4 @@ nav.navbar-default {
 .step-label {
     font-family: monospace;
     color: black ;
-}
-
-.CodeMirror {
-    resize: vertical;
-    overflow: auto !important;
 }
