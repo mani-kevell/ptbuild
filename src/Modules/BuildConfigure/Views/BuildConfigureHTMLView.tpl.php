@@ -281,7 +281,7 @@
 
                                         if ($data['type'] == 'text' || $data['type'] == 'time' || $data['type'] == 'number') {
                                             echo '    <div class="fullWidth">' ;
-                                            echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$one_build_step[$data['slug']].'" class="form-control" type="'.$data['type'].'" />';
+                                            echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$one_build_step[$data['slug']].'" class="form-control step-label" type="'.$data['type'].'" />';
                                             echo '    </div>' ;
                                         }
 
