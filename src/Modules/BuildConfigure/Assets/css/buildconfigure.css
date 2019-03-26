@@ -68,3 +68,8 @@ nav.navbar-default {
     width: 100% ;
     max-width: 100% ;
 }
+
+.step-label {
+    font-family: monospace;
+    color: black ;
+}
