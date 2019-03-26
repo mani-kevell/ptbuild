@@ -16,14 +16,13 @@ class Virtufile extends VirtufileBase {
 
         $this->setDefaultConfig();
         $this->config["vm"]["name"] = 'pharaoh_'.$variables['friendly_app_slug'] ;
-        $this->config["vm"]["gui_mode"] = "gui" ;
-
+        $this->config["vm"]["gui_mode"] = "headless" ;
         $bu = 'https://repositories.internal.pharaohtools.com/index.php?control=BinaryServer&action=serve&item=iso_php_virtualize_boxes_-_ubuntu_16.04_server' ;
         $this->config["vm"]["box_url"] = $bu ;
-        $this->config["vm"]["box"] = "vanillaubuntu16042bitserver" ;
+        $this->config["vm"]["box"] = "isophpexampleapp" ;
 
         $random_port_suffix = $variables['random_port_suffix'] ;
-        $this->config["vm"]["memory"] = "2048" ;
+        $this->config["vm"]["memory"] = "512" ;
         $this->config["vm"]["graceful_halt_timeout"] = 15 ;
         $this->config["vm"]["ssh_halt_timeout"] = 2 ;
         $this->config["network"]["natpf1"][] = "{$this->config["vm"]["name"]}_guestssh,tcp,,22{$random_port_suffix},,22";
