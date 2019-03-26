@@ -104,7 +104,7 @@
                     <div class="form-group">
                         <label for="project-name" class="col-sm-2 control-label text-left">Project Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="project-name" id="project-name" placeholder="Project Name" value="<?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>" />
+                            <input type="text" class="form-control step-label" name="project-name" id="project-name" placeholder="Project Name" value="<?php echo $pageVars["data"]["pipeline"]["project-name"] ; ?>" />
                         </div>
                     </div>
 
@@ -115,11 +115,11 @@
 
                             if ($pageVars["route"]["action"] !== "new" && $pageVars["route"]["action"] !== "copy") {
                                 ?>
-                                <input type="text" readonly="readonly" class="form-control" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
+                                <input type="text" readonly="readonly" class="form-control step-label" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
                             <?php
                             } else {
                                 ?>
-                                <input type="text" class="form-control" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
+                                <input type="text" class="form-control step-label" name="project-slug" id="project-slug" placeholder="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" value="<?php echo $pageVars["data"]["pipeline"]["project-slug"] ; ?>" />
                             <?php }  ?>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                     <div class="form-group">
                         <label for="project-description" class="col-sm-2 control-label text-left">Description</label>
                         <div class="col-sm-10">
-                            <textarea id="project-description" name="project-description" class="form-control"><?php echo $pageVars["data"]["pipeline"]["project-description"] ; ?></textarea>
+                            <textarea id="project-description" name="project-description" class="form-control step-label"><?php echo $pageVars["data"]["pipeline"]["project-description"] ; ?></textarea>
                         </div>
                     </div>
                     <hr>
@@ -241,7 +241,7 @@
                                             if (isset($data['action'])) { $action = $data['action'].'="'.$data['funName'].'(\''.$hash.'\')"'; }
 
                                             if ($data['type'] == 'text' || $data['type'] == 'time' || $data['type'] == 'number') {
-                                                echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$one_build_step[$data['slug']].'" class="form-control" type="'.$data['type'].'" />';
+                                                echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$one_build_step[$data['slug']].'" class="form-control step-label" type="'.$data['type'].'" />';
                                             }
                                             if ($data['type'] == 'password') {
                                                 echo '      <input id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" class="form-control" type="password" class="form-control"/>';
