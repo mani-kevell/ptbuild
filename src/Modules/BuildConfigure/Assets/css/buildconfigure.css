@@ -1,7 +1,7 @@
 .ui-state-default:hover {
-     background-color: lightgray;
-     cursor: pointer;
- }
+    background-color: lightgray;
+    cursor: pointer;
+}
 
 #sortableSteps { list-style-type: none; margin: 0; padding: 0; }
 #sortableSteps li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; }
@@ -58,8 +58,8 @@
 
 .CodeMirror {
     min-height: 100px;
-    resize: vertical;
-    overflow: auto !important;
+    /*resize: vertical;*/
+    /*overflow: auto !important;*/
 }
 
 .slideysWrapper .title {
@@ -80,4 +80,35 @@ nav.navbar-default {
 .step-label {
     font-family: monospace;
     color: black ;
+}
+
+.textarea_wrap {
+    margin-bottom: 0px;
+}
+
+.textarea_handle {
+    background: #f7f7f7;
+    height: 20px;
+    user-select: none;
+    cursor: row-resize;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    -webkit-user-drag: none;
+    user-drag: none ;
+    margin-top: 0px;
+}
+
+.textarea_handle:before {
+    content: '\2261'; /* https://en.wikipedia.org/wiki/Triple_bar */
+    color: #999;
+    position: absolute;
+    left: 50%;
+}
+
+.textarea_handle:hover {
+    background: #f0f0f0;
+}
+
+.textarea_handle:hover:before {
+    color: #000;
 }

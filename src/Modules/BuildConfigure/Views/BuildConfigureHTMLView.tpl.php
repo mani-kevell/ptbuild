@@ -287,8 +287,14 @@
 
                                         if ($data['type'] == 'textarea') {
                                             echo '    <div class="fullWidth">' ;
-                                            echo '      <textarea id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" class="form-control buildStepTextArea">'.$one_build_step[$data['slug']].'</textarea>';
+                                            echo '      <div class="fullWidth textarea_wrap">' ;
+                                            echo '        <textarea id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" class="form-control buildStepTextArea">'.$one_build_step[$data['slug']].'</textarea>';
+                                            echo '      </div>' ;
+                                            echo '      <div class="fullWidth textarea_handle" data-resize_target="steps['.$hash.']['.$data['slug'].']">' ;
+                                            echo '      </div>' ;
+                                            echo '    </div>' ;
                                         }
+
                                         if ($data["type"] == "dropdown") {
                                             echo '    <div class="fullWidth">' ;
                                             echo '<select id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" '.$action.' class="form-control">';
@@ -299,18 +305,21 @@
                                             echo '</select>';
                                             echo '    </div>' ;
                                         }
+
                                         if ($data["type"] == "radio" || $data["type"] == "options") {
                                             echo '    <div class="fullWidth">' ;
                                             $selected = ($one_build_step[$data['slug']] == "on")? 'checked="checked"' : '';
                                             echo ' <input type="'.$data["type"].'" id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" value="'.$key.'" '.$selected.' class="form-control" />'.$value;
                                             echo '    </div>' ;
                                         }
+
                                         if ($data["type"] == "boolean" || $data["type"] == "checkbox") {
                                             echo '    <div class="fullWidth">' ;
                                             $selected = ($one_build_step[$data['slug']] == "on")? 'checked="checked"' : '';
                                             echo ' <input type="checkbox" id="steps['.$hash.']['.$data['slug'].']" name="steps['.$hash.']['.$data['slug'].']" '.$selected.' class="form-control">' ;
                                             echo '    </div>' ;
                                         }
+
                                     }
                                 }
 
@@ -368,9 +377,9 @@
         </div>
     </div><!-- container -->
 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/Assets/Modules/BuildConfigure/js/jquery-ui.js"></script>
 <!--<script src="/Assets/Modules/BuildConfigure/js/jquery-ui.min.js"></script>-->
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="/Assets/Modules/BuildConfigure/css/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="/Assets/Modules/BuildConfigure/css/buildconfigure.css">
 <script type="text/javascript">
 	savedSteps = <?php echo json_encode($pageVars["data"]["pipeline"]["steps"]) ; ?> ;
@@ -408,7 +417,10 @@
                 mode:  "shell"
         } ;
         $.each(highlighted_shell, function() {
-            CodeMirror.fromTextArea(this, settings) ;
+            editor = CodeMirror.fromTextArea(this, settings) ;
+            editor.ondragstart = function() {return false} ;
+            $(editor).attr( 'draggable', 'false' ) ;
+            console.log('applied looped drag stop') ;
         }) ;
     }
 
@@ -416,6 +428,11 @@
         console.log('apply codemirror') ;
         applyCodeMirror() ;
         console.log('applied codemirror') ;
+        target_el = $('.CodeMirror') ;
+        target_el.attr( 'draggable', 'false' ) ;
+        target_dom_element = window.document.getElementsByClassName('CodeMirror') ;
+        target_dom_element.ondragstart = function() {return false} ;
+        console.log('applied drag stop') ;
     });
 
 </script>

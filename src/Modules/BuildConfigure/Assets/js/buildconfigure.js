@@ -184,6 +184,11 @@ function displayStepField() {
 
     $("#sortableSteps").append(html);
     // $('#new_step_wrap').html(html);
+    target_id = '#steps['+hash+']['+allFields[field].slug+']' ;
+    target_el = $(target_id) ;
+    target_el.attr( 'draggable', 'false' ) ;
+    target_dom_element = window.document.getElementById(target_id) ;
+    target_dom_element.ondragstart = function() {return false}
 }
 
 function deleteStepField(hash) {
@@ -193,23 +198,23 @@ function deleteStepField(hash) {
 }
 
 function CONDaysOfWeekDays(hash) {
-	savedSteps = window.savedSteps ;
-	//if (typeof savedsteps[hash] != 'undefined') {}
-	value = $("#steps\\["+hash+"\\]\\[days\\]").find(":selected").val() ;
-	dayofweek = { 1:"Monday", 2:"Tuesday", 3:"Wednesday", 4:"Thursday", 5:"Friday", 6:"Saturday", 0:"Sunday" };
+    savedSteps = window.savedSteps ;
+    //if (typeof savedsteps[hash] != 'undefined') {}
+    value = $("#steps\\["+hash+"\\]\\[days\\]").find(":selected").val() ;
+    dayofweek = { 1:"Monday", 2:"Tuesday", 3:"Wednesday", 4:"Thursday", 5:"Friday", 6:"Saturday", 0:"Sunday" };
     html = '';
-	if (value == 'days') {
-		$.each(dayofweek, function(index, value) {
-			checked = '';
-			if ( savedSteps != null)
-				if ( hash in savedSteps )
-					if ( 'exactdays' in savedSteps[hash] )
-						if( index in savedSteps[hash]['exactdays'] )
-							checked = "checked";
-			html += '<input class="col-sm-2 control-label text-left" type="checkbox" name="steps['+hash+'][exactdays]['+index+']" value="true" '+checked+'><li>'+value+'</li>';
-		});
-	}
-	$("#CONDaysOfWeekDays"+hash).html(html);
+    if (value == 'days') {
+        $.each(dayofweek, function(index, value) {
+            checked = '';
+            if ( savedSteps != null)
+                if ( hash in savedSteps )
+                    if ( 'exactdays' in savedSteps[hash] )
+                        if( index in savedSteps[hash]['exactdays'] )
+                            checked = "checked";
+            html += '<input class="col-sm-2 control-label text-left" type="checkbox" name="steps['+hash+'][exactdays]['+index+']" value="true" '+checked+'><li>'+value+'</li>';
+        });
+    }
+    $("#CONDaysOfWeekDays"+hash).html(html);
 }
 
 function modsDown() {
@@ -227,3 +232,43 @@ function getNewHash() {
     hash = hash.toString().replace(".", "") ;
     return hash ;
 }
+
+
+
+
+
+var handle = document.querySelector(".handle");
+function height_of($el) {
+    return parseInt(window.getComputedStyle($el).height.replace(/px$/, ""));
+}
+
+const MIN_HEIGHT = 200;
+
+var start_x;
+var start_y;
+var start_h;
+
+function on_drag(e) {
+    console.log(e) ;
+    console.log(this) ;
+    cm.setSize(null, Math.max(MIN_HEIGHT, (start_h + e.y - start_y)) + "px");
+}
+
+function on_release(e) {
+    console.log("end");
+    document.body.removeEventListener("mousemove", on_drag);
+    window.removeEventListener("mouseup", on_release);
+}
+
+handle.addEventListener("mousedown", function (e) {
+    console.log("start");
+    start_x = e.x;
+    start_y = e.y;
+    console.log(e) ;
+    console.log(this) ;
+    // console.log(e) ;
+    start_h = height_of($container);
+
+    document.body.addEventListener("mousemove", on_drag);
+    window.addEventListener("mouseup", on_release);
+});
