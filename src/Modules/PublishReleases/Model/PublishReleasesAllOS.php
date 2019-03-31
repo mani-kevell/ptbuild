@@ -212,7 +212,7 @@ class PublishReleasesAllOS extends Base {
         $pipe = $this->getPipeline() ;
         $pipe_settings = $pipe['settings'];
         $mn = $this->getModuleName() ;
-        if ($pipe_settings[$mn]["enabled"] === "on") {
+        if (isset($pipe_settings[$mn]["enabled"]) && $pipe_settings[$mn]["enabled"] === "on") {
             $logging->log("Release publishing is enabled, executing", $this->getModuleName());
             $results = array() ;
             foreach ($pipe_settings[$mn]['custom_release'] as $release_hash => $release_details) {
@@ -222,7 +222,7 @@ class PublishReleasesAllOS extends Base {
         }
         else {
             $logging->log ("Release Publishing disabled...", $this->getModuleName() ) ;
-            return false ;
+            return true ;
         }
     }
 

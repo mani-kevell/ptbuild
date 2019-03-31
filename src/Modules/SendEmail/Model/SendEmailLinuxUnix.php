@@ -83,7 +83,8 @@ class SendEmailLinuxUnix extends Base {
             else {
                 $logging->log ("Build unstable, emailing", $this->getModuleName() ) ; } }
 
-        if ($this->params["build-settings"][$mn]["send_postbuild_email"] == "on") {
+        if (isset($this->params["build-settings"][$mn]["send_postbuild_email"]) &&
+            $this->params["build-settings"][$mn]["send_postbuild_email"] == "on") {
             // error_log(serialize($defaults)) ;
             $subject = "Pharaoh Build Result - ". $defaults["project-name"]." ".", Run ID -".$run;
             $message = "";

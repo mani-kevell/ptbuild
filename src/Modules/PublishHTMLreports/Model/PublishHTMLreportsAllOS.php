@@ -197,17 +197,15 @@ class PublishHTMLreportsAllOS extends Base {
         $pipe_settings = $pipe['settings'];
         $mn = $this->getModuleName() ;
 //        var_dump('my settings: ', $pipe_settings) ;
-        if ($pipe_settings[$mn]["enabled"] == "on") {
+        if (isset($pipe_settings[$mn]["enabled"]) && $pipe_settings[$mn]["enabled"] == "on") {
             $logging->log("HTML Report publishing is enabled, executing", $this->getModuleName());
 //            var_dump($pipe_settings[$mn]) ;
             foreach ($pipe_settings[$mn]['reports'] as $report_hash => $report_details) {
                 $results = $this->publishOneReport($report_hash, $report_details) ;
             }
             return (in_array(false, $results)) ? true : false ;
-        }
-        else {
-            $logging->log ("Unable to write generated report to file...", $this->getModuleName() ) ;
-            return false ;
+        } else {
+            return true ;
         }
     }
 
