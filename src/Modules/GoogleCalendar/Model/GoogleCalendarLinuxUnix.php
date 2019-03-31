@@ -66,25 +66,28 @@ class GoogleCalendarLinuxUnix extends Base {
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
 
-        $run = $this->params["run-id"];
-        $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
-        $defaults = file_get_contents($file) ;
-        $defaults = new \ArrayObject(json_decode($defaults));
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
-        $settings = file_get_contents($file) ;
-        $settings = json_decode($settings, true);
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-        $tmpfile = file_get_contents($file) ;
-        //$tmpfile = json_decode($tmpfile, true);
-           
         $pipeline = $this->getPipeline() ;
         //$buildsettings = $pipeline->getData();
 
         $mn = $this->getModuleName() ;
 	    if (isset($pipeline["settings"][$mn]["googlecalendar_enabled"]) && $pipeline["settings"][$mn]["googlecalendar_enabled"] == "on") {
-        require __DIR__ . '/../Libraries/vendor/autoload.php';
+
+
+
+            $run = $this->params["run-id"];
+            $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
+            $defaults = file_get_contents($file) ;
+            $defaults = new \ArrayObject(json_decode($defaults));
+
+            $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
+            $settings = file_get_contents($file) ;
+            $settings = json_decode($settings, true);
+
+            $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+            $tmpfile = file_get_contents($file) ;
+            //$tmpfile = json_decode($tmpfile, true);
+
+            require __DIR__ . '/../Libraries/vendor/autoload.php';
 
 	       //require_once 'Google/Client.php';
            //require_once 'Google/Service/Calendar.php';

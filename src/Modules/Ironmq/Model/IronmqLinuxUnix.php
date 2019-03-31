@@ -57,23 +57,6 @@ class IronmqLinuxUnix extends Base {
     }
 
      public function sendMessage() {
-
-        $loggingFactory = new \Model\Logging();
-        $this->params["echo-log"] = true ;
-        $logging = $loggingFactory->getModel($this->params);
-
-        $run = $this->params["run-id"];
-        $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
-        $defaults = file_get_contents($file) ;
-        $defaults = new \ArrayObject(json_decode($defaults));
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
-        $settings = file_get_contents($file) ;
-        $settings = json_decode($settings, true);
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-        $tmpfile = file_get_contents($file) ;
-        //$tmpfile = json_decode($tmpfile, true);
            
         $pipeline = $this->getPipeline() ;
         //$buildsettings = $pipeline->getData();
@@ -82,6 +65,23 @@ class IronmqLinuxUnix extends Base {
 	    if (isset($pipeline["settings"][$mn]["ironmq_enabled"]) && $pipeline["settings"][$mn]["ironmq_enabled"] == "on") {
               
         require __DIR__ . '/../Libraries/vendor/autoload.php';
+
+            $loggingFactory = new \Model\Logging();
+            $this->params["echo-log"] = true ;
+            $logging = $loggingFactory->getModel($this->params);
+
+            $run = $this->params["run-id"];
+            $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
+            $defaults = file_get_contents($file) ;
+            $defaults = new \ArrayObject(json_decode($defaults));
+
+            $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
+            $settings = file_get_contents($file) ;
+            $settings = json_decode($settings, true);
+
+            $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+            $tmpfile = file_get_contents($file) ;
+            //$tmpfile = json_decode($tmpfile, true);
 		
 		//require 'src/HttpException.php';
 		//require 'src/IronCore.php';

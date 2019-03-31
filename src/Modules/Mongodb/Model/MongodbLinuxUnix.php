@@ -66,29 +66,29 @@ class MongodbLinuxUnix extends Base {
     }
 
      public function uploadDocument() {
-
-        $loggingFactory = new \Model\Logging();
-        $this->params["echo-log"] = true ;
-        $logging = $loggingFactory->getModel($this->params);
-
-        $run = $this->params["run-id"];
-        $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
-        $defaults = file_get_contents($file) ;
-        $defaults = new \ArrayObject(json_decode($defaults));
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
-        $settings = file_get_contents($file) ;
-        $settings = json_decode($settings, true);
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-        $tmpfile = file_get_contents($file) ;
-        //$tmpfile = json_decode($tmpfile, true);
            
         $pipeline = $this->getPipeline() ;
         //$buildsettings = $pipeline->getData();
 
         $mn = $this->getModuleName() ;
         if (isset($pipeline["settings"][$mn]["Mongodb_enabled"]) && $pipeline["settings"][$mn]["Mongodb_enabled"] == "on") {
+
+            $loggingFactory = new \Model\Logging();
+            $this->params["echo-log"] = true ;
+            $logging = $loggingFactory->getModel($this->params);
+
+            $run = $this->params["run-id"];
+            $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
+            $defaults = file_get_contents($file) ;
+            $defaults = new \ArrayObject(json_decode($defaults));
+
+            $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
+            $settings = file_get_contents($file) ;
+            $settings = json_decode($settings, true);
+
+            $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+            $tmpfile = file_get_contents($file) ;
+            //$tmpfile = json_decode($tmpfile, true);
             $m = new \MongoClient($pipeline["settings"][$mn]["host"]);
             //$m = new MongoClient(mongodb://$host);
             

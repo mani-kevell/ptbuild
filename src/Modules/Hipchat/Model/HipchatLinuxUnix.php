@@ -63,28 +63,28 @@ class HipchatLinuxUnix extends Base {
     }
     public function sendNotify() {
 
-        $loggingFactory = new \Model\Logging();
-        $this->params["echo-log"] = true ;
-        $logging = $loggingFactory->getModel($this->params);
-
-        $run = $this->params["run-id"];
-        $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
-        $defaults = file_get_contents($file) ;
-        //$appdefaults = json_decode($defaults, true);
-        $defaults = new \ArrayObject(json_decode($defaults));
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
-        $settings = file_get_contents($file) ;
-        $appsettings = json_decode($settings, true);
-
-        $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
-        $tmpfile = file_get_contents($file) ;
-
         $pipeline = $this->getPipeline() ;
         //$buildsettings = $pipeline->getData();
 
         $mn = $this->getModuleName() ;
  if (isset($pipeline["settings"][$mn]["hipchat_enabled"]) && $pipeline["settings"][$mn]["hipchat_enabled"] == "on") {
+
+     $loggingFactory = new \Model\Logging();
+     $this->params["echo-log"] = true ;
+     $logging = $loggingFactory->getModel($this->params);
+
+     $run = $this->params["run-id"];
+     $file = PIPEDIR.DS.$this->params["item"].DS.'defaults';
+     $defaults = file_get_contents($file) ;
+     //$appdefaults = json_decode($defaults, true);
+     $defaults = new \ArrayObject(json_decode($defaults));
+
+     $file = PIPEDIR.DS.$this->params["item"].DS.'settings';
+     $settings = file_get_contents($file) ;
+     $appsettings = json_decode($settings, true);
+
+     $file = PIPEDIR.DS.$this->params["item"].DS.'tmpfile';
+     $tmpfile = file_get_contents($file) ;
         //require_once dirname(dirname(__FILE__)).DS.'vendor'.DS.'autoload.php';
         //require_once dirname(dirname(__FILE__)).DS.'vendor'.DS.'gorkalaucirica/hipchat-v2-api-client/GorkaLaucirica/HipchatAPIv2Client/Auth/OAuth2.
         require __DIR__ . '/../Libraries/vendor/autoload.php';
