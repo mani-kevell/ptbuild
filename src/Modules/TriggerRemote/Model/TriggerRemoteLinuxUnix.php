@@ -86,7 +86,7 @@ class TriggerRemoteLinuxUnix extends Base {
         foreach ($pipelines as $pipeline) {
             $pipe_options[$pipeline['project-slug']] = $pipeline['project-name'] ;
         }
-        file_put_contents('/tmp/opts', var_export($pipe_options, true)) ;
+//        file_put_contents('/tmp/opts', var_export($pipe_options, true)) ;
         return $pipe_options ;
     }
 
@@ -118,7 +118,7 @@ class TriggerRemoteLinuxUnix extends Base {
                 $current_running = $finder->getData();
                 $is_running = $this->findInRunning($current_running['running_builds'], $params["item"], $started_run) ;
                 if ($is_running) {
-                    if ($step['quiet_progress'] !== 'on') {
+                    if (!isset($step['quiet_progress']) || $step['quiet_progress'] !== 'on') {
                         $logging->log("Build Job {$params["item"]} is running...", $this->getModuleName()) ;
                     }
                 } else {
