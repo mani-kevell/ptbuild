@@ -88,7 +88,8 @@ class ClearWorkspaceLinuxUnix extends Base {
         $this->params["echo-log"] = true ;
         $logging = $loggingFactory->getModel($this->params);
         $mn = $this->getModuleName() ;
-        if ($this->params["build-settings"][$mn]["enable_clear_workspace_before_build"]=="on") {
+        if (isset($this->params["build-settings"][$mn]["enable_clear_workspace_before_build"]) &&
+            $this->params["build-settings"][$mn]["enable_clear_workspace_before_build"]=="on") {
             $logging->log("Clear Workspace Before build Execution flag is on, executing...", $this->getModuleName()) ;
             $this->clearTheWorkspaceForItem($item);
             return true ; }
