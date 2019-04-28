@@ -76,7 +76,7 @@ class PipeRunnerAllOS extends Base {
 
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
-        file_put_contents('/tmp/pharaoh.log', "Checking if this build should be queued\n", FILE_APPEND) ;
+//        file_put_contents('/tmp/pharaoh.log', "Checking if this build should be queued\n", FILE_APPEND) ;
 
         $eventRunnerFactory = new \Model\EventRunner() ;
         $pipeline = $this->getPipeline();
