@@ -64,8 +64,7 @@ class ImportExportAllOS extends Base {
             $logging->log("Touching $file_to_touch", $this->getModuleName());
             $filename = $dir.$file_to_touch ;
             $res = touch($filename) ;
-            if ($res !== false) {
-                $last = count($rc["output"])-1 ;
+            if ($res == false) {
                 $logging->log("File Touch unsuccessful for ", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
                 return false ;
             }
