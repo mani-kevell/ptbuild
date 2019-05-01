@@ -58,6 +58,19 @@ class ImportExportAllOS extends Base {
             }
         }
 
+
+        $files_to_touch = array("historyIndex");
+        foreach ($files_to_touch as $file_to_touch) {
+            $logging->log("Touching $file_to_touch", $this->getModuleName());
+            $filename = $dir.$file_to_touch ;
+            $res = touch($filename) ;
+            if ($res !== false) {
+                $last = count($rc["output"])-1 ;
+                $logging->log("File Touch unsuccessful for ", $this->getModuleName(), LOG_FAILURE_EXIT_CODE);
+                return false ;
+            }
+        }
+
         $dirs_to_ensure = array("history", "tmp", "workspace");
         foreach ($dirs_to_ensure as $dir_to_ensure) {
             $target = $target_dir.$dir_to_ensure ;
