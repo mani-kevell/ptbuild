@@ -1,0 +1,12 @@
+{
+    "project-name": "Downstream Dummy Job",
+    "project-slug": "downstream_dummy_job",
+    "project-description": "Downstream Dummy Job. This is the Job that will be called by the Downstream Builds Example",
+    "default-scm-url": null,
+    "email-id": null,
+    "parameter-status": null,
+    "parameter-name": null,
+    "parameter-dvalue": null,
+    "parameter-input": "",
+    "parameter-description": null
+}

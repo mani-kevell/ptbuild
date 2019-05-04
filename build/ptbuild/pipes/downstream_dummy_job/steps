@@ -1,0 +1,8 @@
+{
+    "6877402497564309": {
+        "module": "PHPScript",
+        "steptype": "phpscriptdata",
+        "step_label": "A Simple Echo and Wait",
+        "data": "echo \"\\nThe value of FOO is: $FOO\\n\" ;\r\nsleep(5);"
+    }
+}

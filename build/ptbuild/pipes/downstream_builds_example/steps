@@ -1,0 +1,18 @@
+{
+    "7130239094107847": {
+        "module": "TriggerRemote",
+        "steptype": "trigger_remote_data",
+        "step_label": "Trigger A Downstream Build, setting the downstream Parameter FOO to value BAR",
+        "trigger_job": "downstream_dummy_job",
+        "parameter_raw": "FOO=BAR",
+        "timeout": ""
+    },
+    "881380976687496": {
+        "module": "TriggerRemote",
+        "steptype": "trigger_remote_data",
+        "step_label": "Trigger A Downstream Build, Setting the downstream Parameter FOO to value of Parameter DOWNSTREAM_FOO to this Build",
+        "trigger_job": "downstream_dummy_job",
+        "parameter_raw": "FOO=$DOWNSTREAM_FOO",
+        "timeout": ""
+    }
+}

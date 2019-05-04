@@ -1,0 +1,12 @@
+{
+    "project-name": "Downstream Builds Example",
+    "project-slug": "downstream_builds_example",
+    "project-description": "Downstream Builds Example",
+    "default-scm-url": null,
+    "email-id": null,
+    "parameter-status": null,
+    "parameter-name": null,
+    "parameter-dvalue": null,
+    "parameter-input": "",
+    "parameter-description": null
+}
