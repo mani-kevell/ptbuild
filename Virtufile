@@ -17,9 +17,8 @@ class Virtufile extends VirtufileBase {
         $this->setDefaultConfig();
         $this->config["vm"]["name"] = 'pharaoh_'.$variables['friendly_app_slug'] ;
         $this->config["vm"]["gui_mode"] = "headless" ;
-        $bu = 'https://repositories.internal.pharaohtools.com/index.php?control=BinaryServer&action=serve&item=iso_php_virtualize_boxes_-_ubuntu_16.04_server' ;
-        $this->config["vm"]["box_url"] = $bu ;
-        $this->config["vm"]["box"] = "isophpexampleapp" ;
+        $this->config["vm"]["box"] = "ubuntu16046server-64bit" ;
+        $this->config["vm"]["box_url"] = "https://repositories.internal.pharaohtools.com/index.php?control=BinaryServer&action=serve&item=ubuntu_ptv&version=18.04.02&group=server-64bit" ;
 
         $random_port_suffix = $variables['random_port_suffix'] ;
         $this->config["vm"]["memory"] = "512" ;
@@ -80,7 +79,7 @@ class Virtufile extends VirtufileBase {
             [   "provisioner" => "PharaohTools",
                 "tool" => "ptconfigure",
                 "target" => "guest",
-                "script" => "{$guest_path}/build/ptc/development.dsl.php",
+                "script" => "{$guest_path}build/ptc/development.dsl.php",
                 "params" => $dsl_params ] ;
 
         $description = (isset($variables['description'])) ? "\n\nPharaoh Tools: {$variables['description']}\n\n" : '' ;
@@ -88,7 +87,7 @@ class Virtufile extends VirtufileBase {
   You now have the following urls:\n\n
     http://build.{$variables['domain']}:80{$random_port_suffix}/ - Build Server\n\n
         You can SSH into the VM with this:\n\n
-            ssh {$this->config['ssh']['user']}@127.0.0.1 -p22{$random_port_suffix} - SSH Connection\n
+            ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no {$this->config['ssh']['user']}@127.0.0.1 -p 22{$random_port_suffix}\n
             The password is {$this->config['ssh']['password']} \n";
     }
 
