@@ -35,13 +35,17 @@ class PipeRunner {
 
         $jQuery('.params_display_button')->on('click', function($jqthis) use ($jQuery)  {
             $run_id = $jQuery('#'.$jqthis->target->id)->attr('data-run_id') ;
-            \js_core::$console->log('clicked params button') ;
+            \js_core::$console->log('piperunner ') ;
+            \js_core::$console->log('clicked params button .params_display_button') ;
             $overlay_title = "<h3>Parameters for Run ID: <strong>".$run_id."</strong></h3>" ;
             $overlay_content = "" ;
+            \js_core::$console->log('clicked params button brp') ;
             $history_index = \js_core::$window->build_run_params ;
+            \js_core::$console->log('clicked params history index') ;
             $decoded = \js_core::$php->json_decode($history_index[$run_id]) ;
             foreach ($decoded as $paramKey => $paramValue) {
                 $overlay_content = $overlay_content . "<p>".$paramKey.":<strong>".$paramValue."</strong></p>" ;
+                \js_core::$console->log('one key') ;
             }
             \WindowMessage::showOverlay($overlay_title, $overlay_content) ;
         });
