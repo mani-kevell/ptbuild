@@ -117,7 +117,7 @@
                                                 $successFailureClass = "unstableRow" ; }
 
                                                 $summary_link_open_tag = '<a href="/index.php?control=PipeRunner&action=summary&item='.
-                                                    $pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb_id.'">'
+                                                    $pageVars["data"]["pipeline"]["project-slug"].'&run-id='.$hb_id.'">' ;
                                             ?>
 
                                             <div class="buildRow <?php echo $successFailureClass ?>"
