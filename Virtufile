@@ -47,6 +47,12 @@ class Virtufile extends VirtufileBase {
             [   "provisioner" => "Shell",
                 "tool" => "shell",
                 "target" => "guest",
+                "default" => "GuestAdditions" ];
+
+        $this->config["vm"]["provision"][] =
+            [   "provisioner" => "Shell",
+                "tool" => "shell",
+                "target" => "guest",
                 "default" => "MountShares" ];
 
         $this->config["vm"]["provision"][] =
