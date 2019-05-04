@@ -93,20 +93,22 @@ class TriggerRemoteLinuxUnix extends Base {
     public function executeStep($step) {
         $loggingFactory = new \Model\Logging();
         $logging = $loggingFactory->getModel($this->params);
+        // For a normal remote trigger job
         if ( $step["steptype"] == "trigger_remote_data") {
             $logging->log("Running Trigger of Build Job...", $this->getModuleName()) ;
             $prFactory = new \Model\PipeRunner() ;
             $params = $this->params ;
             $params["item"] = $step["trigger_job"] ;
-            
+
+            //
             if (isset($this->params["env-vars"]) && is_array($this->params["env-vars"])) {
                 $logging->log("Remote Trigger Extracting Environment Variables...", $this->getModuleName()) ;
                 $ext_vars = implode(", ", array_keys($this->params["env-vars"])) ;
                 $count = 0 ;
                 foreach ($this->params["env-vars"] as $env_var_key => $env_var_val) {
-                    $step["parameter_raw"] = str_replace($env_var_key, $env_var_val, $step["parameter_raw"]) ;
+                    $step["parameter_raw"] = str_replace('$'.$env_var_key, $env_var_val, $step["parameter_raw"]) ;
                     $count++ ; }
-                $logging->log("Successfully Extracted {$count} Environment Variables into Parameters...", $this->getModuleName()) ; }
+                $logging->log("Successfully Extracted {$count} Environment Variables into Parameters {$ext_vars}...", $this->getModuleName()) ; }
 
             $params["build-parameters"] = $this->params_from_raw($step["parameter_raw"]) ;
             $pr = $prFactory->getModel($params) ;
