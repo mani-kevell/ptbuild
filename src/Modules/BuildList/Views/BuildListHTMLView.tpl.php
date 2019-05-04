@@ -91,7 +91,7 @@
                         <li role="presentation" class="failedRowsTab">
                             <a class="build_list_filter" id='build_list_filter_failed' data-filter='failure'>All Failed</a>
                         </li>
-                        <li role="presentation" class="unstableRowsTab">
+                        <li role="presentation"  class="unstableRowsTab">
                             <a class="build_list_filter" id='build_list_filter_unstable' data-filter='unstable'>All Unstable</a>
                         </li>
                     </ul>
@@ -171,7 +171,17 @@
                                     ?>
                                     <div class="blCell cellRowStatus" <?php echo $sty ; ?> >
 
-                                        <?php echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ; ?>
+                                        <?php
+
+                                        if ($pipelineDetails["last_run_build"] > 0) {
+                                            $summary_link_open_tag = '<a href="/index.php?control=PipeRunner&action=summary&item='.
+                                                $pipelineDetails["project-slug"].'&run-id='.$pipelineDetails["last_run_build"].'">' ;
+                                            echo $summary_link_open_tag.'<p> #'.$pipelineDetails["last_run_build"].'</p></a>' ;
+                                        } else {
+                                            echo '<p> #'.$pipelineDetails["last_run_build"].'</p>' ;
+                                        }
+
+                                        ?>
 
                                     </div>
 
