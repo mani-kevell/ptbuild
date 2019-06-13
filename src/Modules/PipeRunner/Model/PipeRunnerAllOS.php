@@ -220,8 +220,10 @@ class PipeRunnerAllOS extends Base {
 
 	private function setRunStartTime($run) {
 		$file = PIPEDIR . DS . $this -> params["item"] . DS . 'historyIndex';
-		if ($historyIndex = file_get_contents($file))
-			$historyIndex = json_decode($historyIndex, true);
+		if ($historyIndex = file_get_contents($file)) {
+            $historyIndex = json_decode($historyIndex, true); }
+		if ($historyIndex === '') {
+            $historyIndex = array() ; }
 		$historyIndex[intval($run)]['start'] = time();
 		$historyIndex = json_encode($historyIndex, JSON_PRETTY_PRINT);
 		file_put_contents($file, $historyIndex);
