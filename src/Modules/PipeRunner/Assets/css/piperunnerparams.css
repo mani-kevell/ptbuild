@@ -4,6 +4,7 @@
     vertical-align: middle;
     position: relative;
     bottom: 1px;
+    transform: scale(1.5) !important;
 }
 
 .checkbox-wrap {

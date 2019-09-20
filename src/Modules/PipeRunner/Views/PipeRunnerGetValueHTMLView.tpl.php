@@ -91,11 +91,11 @@
                                 if ($parameter["param_type"]=="text") {
                                     ?>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-5">
                                     <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
                                 </div>
 
-                                <div class="col-sm-9">
+                                <div class="col-sm-7">
                                     <input type="text" class="form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_default"] ; ?>" />
                                 </div>
 
@@ -105,11 +105,11 @@
                                 else if ($parameter["param_type"]=="textarea") {
                                     ?>
 
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-5">
                                         <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
                                     </div>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         <textarea class="form-control col-sm-7" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]"><?php echo $parameter["param_default"] ; ?></textarea>
                                     </div>
 
@@ -122,11 +122,11 @@
 
                                     ?>
 
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-5">
                                         <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-left"><?php echo $parameter["param_name"] ; ?></label>
                                     </div>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
 
                                         <select name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]">
                                             <?php
@@ -148,11 +148,11 @@
                                 else if ($parameter["param_type"]=="boolean") {
                                     ?>
 
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-5">
                                         <label for="build-parameters[<?php echo $parameter["param_name"] ; ?>]" class="control-label text-right"><?php echo $parameter["param_name"] ; ?></label>
                                     </div>
 
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-7">
                                         <span class="checkbox-wrap">
                                             <input type="checkbox" class="checkbox-float-left text-left form-control" name="build-parameters[<?php echo $parameter["param_name"] ; ?>]" id="build-parameters[<?php echo $parameter["param_name"] ; ?>]" value="<?php echo $parameter["param_boolean_default"] ; ?>" />
                                         </span>
