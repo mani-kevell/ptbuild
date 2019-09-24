@@ -12,7 +12,7 @@ class PublishReleases extends Base {
 
          if ($thisModel->userIsAllowedAccess() !== true) {
              $override = $this->getIndexControllerForOverride() ;
-             return $override->execute() ; }
+             return $override->execute($pageVars) ; }
 
          if ($pageVars["route"]["action"] === "image") {
              $this->content["params"]["output-format"] = 'image';
